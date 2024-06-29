@@ -1,36 +1,57 @@
 <?php
+// Start session
+session_start();
 
-if  (isset($_POST['username']) && isset($_POST['password'])) {
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
+// Database connection
+require_once 'db_connection.php'; // Adjust this based on your database connection setup
 
-    // Prepare and bind
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
-    $stmt->bind_param("s", $user);
-    $stmt->execute();
-    $stmt->store_result();
+// Check if form is submitted
+if ((isset($_POST['username']) && $_POST['password'] && $_POST['role'])) {
+    // Retrieve form data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $username, $hashed_password);
-        $stmt->fetch();
+    // SQL query to retrieve user details
+    $sql = "SELECT `ur_id`, `ur_name`, `ur_username`, `ur_password`, `ur_role` 
+            FROM `jeno_users` 
+            WHERE `ur_username` = ? AND `ur_password` = ? AND `ur_role` = ?";
 
-        // Verify password
-        if (password_verify($pass, $hashed_password)) {
-            // Password is correct, start a session
-            $_SESSION['loggedin'] = true;
-            $_SESSION['id'] = $id;
-            $_SESSION['username'] = $username;
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
 
-            echo "Login successful! Welcome " . $_SESSION['username'];
+    // Bind parameters
+    $stmt->bind_param("sss", $username, $password, $role);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Bind result variables
+        $stmt->bind_result($ur_id, $ur_name, $ur_username, $ur_password, $ur_role);
+
+        // Fetch the data
+        if ($stmt->fetch()) {
+            // User found, set session variables
+            $_SESSION['ur_id'] = $ur_id;
+            $_SESSION['ur_name'] = $ur_name;
+            $_SESSION['ur_role'] = $ur_role;
+
+            // Redirect to dashboard.php
+            header("Location: dashboard.php");
+            exit();
         } else {
-            echo "Invalid password.";
+            // Invalid credentials
+            echo "Invalid username, password, or role.";
         }
     } else {
-        echo "No account found with that username.";
+        // Query execution error
+        echo "Error: " . $stmt->error;
     }
 
+    // Close the statement
     $stmt->close();
+} else {
+    // Redirect to login page if accessed directly (optional)
+    header("Location: index.php");
+    exit();
 }
-
-$conn->close();
 ?>
