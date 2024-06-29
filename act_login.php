@@ -3,7 +3,14 @@
 session_start();
 
 // Database connection
-require_once 'db_connection.php'; // Adjust this based on your database connection setup
+require_once 'db_config.php'; // Adjust this based on your database connection setup
+
+
+    if(isset($_REQUEST['logout'])){
+        session_destroy();
+        header("location:login.php");
+    }
+
 
 // Check if form is submitted
 if ((isset($_POST['username']) && $_POST['password'] && $_POST['role'])) {
@@ -49,9 +56,5 @@ if ((isset($_POST['username']) && $_POST['password'] && $_POST['role'])) {
 
     // Close the statement
     $stmt->close();
-} else {
-    // Redirect to login page if accessed directly (optional)
-    header("Location: index.php");
-    exit();
-}
+} 
 ?>

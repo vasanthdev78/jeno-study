@@ -1,3 +1,12 @@
+
+<?php
+session_start();
+if (isset($_SESSION['ur_id']) != '') {
+    // User is not logged in, redirect to login page
+    header("Location: dashboard.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +36,7 @@
     <div class="container">
         <div class="login-container mx-auto">
             <h3 class="text-center">Login</h3>
-            <form action="login.php" method="POST">
+            <form action="act_login.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
