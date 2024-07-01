@@ -7,6 +7,7 @@ include "db_config.php";
             // Retrieve form data
             $uni_name = $_POST['uni_name'];
             $uni_description = $_POST['uni_description'];
+            $uni_uni_id = $_POST['uni_uni_id'];
             
 
             // Handle file upload
@@ -56,14 +57,16 @@ include "db_config.php";
                     echo "The file ". htmlspecialchars($original_filename). " has been uploaded.";
                     $uni_image = htmlspecialchars($new_img_name);
 
-                   
+           
+
                     // Prepare and bind
-                    $uni_add_query = $conn->prepare("INSERT INTO jeno_university (uni_name, uni_image, uni_description) VALUES (?, ?, ?)");
-                    $uni_add_query->bind_param("sss", $uni_name, $uni_image, $uni_description);
+                    $uni_add_query = $conn->prepare("INSERT INTO jeno_university (uni_uni_id, uni_name, uni_image, uni_description) VALUES (?, ?, ?, ?)");
+                    $uni_add_query->bind_param("ssss", $uni_uni_id, $uni_name, $uni_image, $uni_description);
 
                     // Execute the statement
                     if ($uni_add_query->execute()) {
                         echo "New university created successfully";
+                        exit();
                     } else {
                         echo "Error: " . $uni_add_query->error;
                     }
@@ -72,6 +75,7 @@ include "db_config.php";
                     $uni_add_query->close();
                 } else {
                     echo "Sorry, there was an error uploading your file.";
+                    exit();
                 }
             }
         }
@@ -112,6 +116,7 @@ include "db_config.php";
         $conn->close();
     } else {
         echo json_encode(["error" => "Error: Missing edit ID."]);
+        exit();
     }
 
     //-----------------edit responce end-----------------------------
@@ -133,8 +138,10 @@ include "db_config.php";
     // Execute the statement
     if ($uni_edit_add_query->execute()) {
         echo "New university created successfully";
+        exit();
     } else {
         echo "Error: " . $uni_edit_add_query->error;
+        
     }
   
     // Close the statement and connection
@@ -217,6 +224,7 @@ include "db_config.php";
                 // Execute the statement
                 if ($uni_update_query->execute()) {
                     echo json_encode(["success" => "University updated successfully"]);
+                    exit();
                 } else {
                     echo json_encode(["error" => "Error: " . $uni_update_query->error]);
                 }
@@ -248,6 +256,7 @@ include "db_config.php";
                 // Execute the statement
                 if ($uni_update_query->execute()) {
                     echo json_encode(["success" => "University status updated to Inactive successfully"]);
+                    exit();
                 } else {
                     echo json_encode(["error" => "Error: " . $uni_update_query->error]);
                 }
