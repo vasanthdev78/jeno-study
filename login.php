@@ -10,56 +10,53 @@ if (isset($_SESSION['ur_id']) != '') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            margin-top: 100px;
-            max-width: 400px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .login-container h3 {
-            margin-bottom: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<link rel="stylesheet" href="css/singnup.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <div class="container">
-        <div class="login-container mx-auto">
-            <h3 class="text-center">Login</h3>
+<div class="container">
+    <div class="left">
+        <div class="header">
+            <button class="login-tab">Login</button>
+        </div>
+        <div class="welcome-message">
+            <h1>Welcome Back!</h1>
+            <p>Glad to see you again</p>
+        </div>
+        <div class="login-form">
+            <h2>Login With Your Account Below</h2>
             <form action="act_login.php" method="POST">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter username..." required style="background-color: rgb(212, 212, 212);">
+                
+                <label for="password">Password</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" placeholder="Enter password..." required style="background-color: rgb(212, 212, 212);">
+                    <span class="show-password"><i class='bx bx-show'></i></span>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
-                </div>
-                <div class="form-group">
-                    <label for="role">Role</label>
-                    <select class="form-control" id="role" name="role" required>
-                        <option value="admin">Admin</option>
-                        <option value="staff">Staff</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+                <label for="privilege">Privilege</label>
+                <select id="privilege" name="role">
+                    <option value="Admin">Admin</option>
+                    <option value="Staff">Staff</option>
+                </select>
+                
+                <button type="submit">Login</button>
             </form>
         </div>
     </div>
+    <div class="right">
+        <div class="image-container">
+            <h1>JENO</h1>
+            <p><b>EDUCATIONAL ORGANIZATION</b></p>
+            <img src="assets/images/logo/Lock1.png" alt="Illustration">
+        </div>
+    </div>
+</div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
