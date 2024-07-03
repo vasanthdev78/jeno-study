@@ -30,16 +30,6 @@
                         <button class="button-toggle-menu">
                             <i class="ri-menu-2-fill"></i>
                         </button>
-
-                        <!-- Topbar Search Form -->
-                        <div class="app-search dropdown d-none d-lg-block">
-                            <form>
-                                <div class="input-group">
-                                    <input type="search" class="form-control dropdown-toggle" placeholder="Search..." id="top-search">
-                                    <span class="ri-search-line search-icon"></span>
-                                </div>
-                            </form>                           
-                        </div>
                     </div>
 
                     <ul class="topbar-menu d-flex align-items-center gap-3">
@@ -52,13 +42,7 @@
                                     <input type="search" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
                                 </form>
                             </div>
-                        </li>
-
-                        <li class="d-none d-sm-inline-block">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
-                                <i class="ri-settings-3-line fs-22"></i>
-                            </a>
-                        </li>  
+                        </li> 
 
                         <li class="d-none d-sm-inline-block">
                             <div class="nav-link" id="light-dark-mode">

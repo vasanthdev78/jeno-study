@@ -51,7 +51,7 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addClientBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <button type="button" id="addClientBtn" class="btn addEnqury" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             Add New Client
                                         </button>
                                     </div>

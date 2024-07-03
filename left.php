@@ -1,7 +1,7 @@
 
 
                 <!-- Brand Logo Light -->
-                <a href="index.html" class="logo logo-light">
+                <a href="index.php" class="logo logo-light">
                     <span class="logo-lg">
                         <img src="assets/images/logo.png" alt="logo">
                     </span>
@@ -11,9 +11,9 @@
                 </a>
 
                 <!-- Brand Logo Dark -->
-                <a href="index.html" class="logo logo-dark">
+                <a href="index.php" class="logo logo-dark">
                     <span class="logo-lg">
-                        <img src="assets/images/logo.png" alt="dark logo">
+                        <img src="assets/images/logo.png"  alt="dark logo"  width="100%" height="70px">
                     </span>
                     <span class="logo-sm">
                         <img src="assets/images/logo-sm.png" alt="small logo">
@@ -38,7 +38,7 @@
                     <ul class="side-nav">
 
 <li class="side-nav-item">
-    <a href="DASHBOARD.php" class="side-nav-link">
+    <a href="dashboard.php" class="side-nav-link">
         <i class="ri-bar-chart-2-fill"></i>
         <span> Dashboard</span>
     </a>
@@ -46,8 +46,8 @@
 
 <li class="side-nav-item">
     <a href="clients.php" class="side-nav-link">
-        <i class="ri-group-fill"></i>
-        <span> Clients</span>
+    <i class="bi bi-ui-checks"></i>
+        <span> Enquiry</span>
     </a>
 </li>
 
