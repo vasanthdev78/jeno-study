@@ -20,7 +20,7 @@ if (!isset($_SESSION['ur_id'])) {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         body {
-            background-color: rgb(247, 233, 235);
+            background-color: #C6B9CA;
         }
 
         .container-fluid {
@@ -29,10 +29,10 @@ if (!isset($_SESSION['ur_id'])) {
         }
         .container-fluid{
             
-            margin-left: 280px; /* Adjust as per your sidebar width */
+            margin-left: 30px; /* Adjust as per your sidebar width */
         }
         .container-active {
-            margin-left: 200px;
+            margin-left: -50px;
         }
         
     </style>
@@ -42,67 +42,51 @@ if (!isset($_SESSION['ur_id'])) {
 
     <?php include "top_bar.php"; ?>
 
-    <div class="wrapper">
+    <div class="container wrapper">
         <!-- Sidebar -->
         <?php include "side_bar.php"; ?>
 
       <!-- Page Content -->
       <div class="container-fluid" id="content">
-        <div class="row">
-
-
-                <div class="row">
-                    <!-- Card 1 -->
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Card 1</h5>
-                                <p class="card-text">This is a description for card 1.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image 2">
-                            <div class="card-body">
-                                <h5 class="card-title">Card 2</h5>
-                                <p class="card-text">This is a description for card 2.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image 3">
-                            <div class="card-body">
-                                <h5 class="card-title">Card 3</h5>
-                                <p class="card-text">This is a description for card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 4 -->
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image 4">
-                            <div class="card-body">
-                                <h5 class="card-title">Card 4</h5>
-                                <p class="card-text">This is a description for card 4.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 5 -->
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image 5">
-                            <div class="card-body">
-                                <h5 class="card-title">Card 5</h5>
-                                <p class="card-text">This is a description for card 5.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="row mt-3">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
             </div>
         </div>
