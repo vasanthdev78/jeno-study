@@ -26,6 +26,10 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"> -->
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="css/boostrap452.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+
 
     <!-- Theme Config Js -->
     <script src="assets/js/config.js"></script>
@@ -49,6 +53,21 @@
     #addClientBtn:hover {
     background-color: #553263;
     color: white;
+    }
+   
+    .color{
+        color: #D6A9E8;
+        font-size: 18px;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+    }
+    .color:hover{
+        color: #B863DA;
+        font-size: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
+    .back{
+        background-color: #F3E4F9 ;
     }
     
 </style>

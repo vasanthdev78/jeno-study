@@ -13,7 +13,7 @@ session_start();
 <?php include "head.php"?>
 <body>
     <!-- Begin page -->
-    <div class="wrapper">
+    <div class="wrapper back ">
 
         
         <!-- ========== Topbar Start ========== -->
@@ -21,7 +21,7 @@ session_start();
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="leftside-menu">
+        <div class="leftside-menu side ">
 
         <?php include("left.php"); ?>
         </div>
@@ -31,8 +31,8 @@ session_start();
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
         
-        <div class="content-page">
-            <div class="content">
+        <div class="content-page ">
+            <div class="content back">
 
                 <!-- Start Content-->
                 <div class="container-fluid">
@@ -52,11 +52,11 @@ session_start();
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
                                         <button type="button" id="addClientBtn" class="btn addEnqury" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Client
+                                            Add New Enquiry
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Clients</h4>   
+                                <h4 class="page-title">Enquirys</h4>   
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ session_start();
              <div id="clientDetail"></div>
 
                
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap bg-white">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>

@@ -11,8 +11,8 @@
                 </a>
 
                 <!-- Brand Logo Dark -->
-                <a href="index.php" class="logo logo-dark">
-                    <span class="logo-lg">
+                <a href="index.php" class="logo logo-dark bg-white">
+                    <span class="logo-lg bg-white">
                         <img src="assets/images/logo.png"  alt="dark logo"  width="100%" height="70px">
                     </span>
                     <span class="logo-sm">
@@ -25,7 +25,7 @@
                 </div>
 
                 <!-- Sidebar -left -->
-                <div class="h-100" id="leftside-menu-container" data-simplebar>
+                <div class="h-100 bg-white" id="leftside-menu-container" data-simplebar>
                     <!-- Leftbar User -->
                     <div class="leftbar-user">
                         <a href="pages-profile.html">
@@ -35,57 +35,57 @@
                     </div>
 
                     <!--- Sidemenu -->
-                    <ul class="side-nav">
+    <ul class="side-nav sidebar">
 
 <li class="side-nav-item">
     <a href="dashboard.php" class="side-nav-link">
         <i class="ri-bar-chart-2-fill"></i>
-        <span> Dashboard</span>
+        <span class="color"> Dashboard</span>
     </a>
 </li> 
 
 <li class="side-nav-item">
     <a href="clients.php" class="side-nav-link">
     <i class="bi bi-ui-checks"></i>
-        <span> Enquiry</span>
+        <span class="color"> Enquiry</span>
     </a>
 </li>
 
 <li class="side-nav-item">
     <a href="employee.php" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
-        <span> Employees </span>
+        <span class="color"> Employees </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="student.php" class="side-nav-link">
     <i class="bi bi-file-earmark-person"></i>
-        <span> Student </span>
+        <span class="color"> Student </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="users.php" class="side-nav-link">
         <i class="ri-user-fill"></i>
-        <span> Projects </span>
+        <span class="color"> Projects </span>
     </a>
 </li>
 
 <li class="side-nav-item">
     <a href="attendance1.php" class="side-nav-link">
     <i class="bi bi-calendar2-date"></i>
-        <span> Attendance </span>
+        <span class="color"> Attendance </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="invoice1.php" class="side-nav-link">
     <i class="bi bi-file-earmark-text"></i>
-        <span> Invoice </span>
+        <span class="color"> Invoice </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="payment.php" class="side-nav-link">
         <i class="bi bi-currency-dollar"></i>
-        <span> Payment </span>
+        <span class="color"> Payment </span>
     </a>
 </li>
 
@@ -96,6 +96,7 @@
                     <!--- End Sidemenu -->
 
                     <div class="clearfix"></div>
+                    
                 </div>
         
             <!-- ========== Left Sidebar End ========== -->
