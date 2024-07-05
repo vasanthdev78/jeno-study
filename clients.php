@@ -13,7 +13,7 @@ session_start();
 <?php include "head.php"?>
 <body>
     <!-- Begin page -->
-    <div class="wrapper back ">
+    <div class="wrapper back">
 
         
         <!-- ========== Topbar Start ========== -->
@@ -21,7 +21,7 @@ session_start();
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="leftside-menu side ">
+        <div class="leftside-menu">
 
         <?php include("left.php"); ?>
         </div>
@@ -31,11 +31,11 @@ session_start();
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
         
-        <div class="content-page ">
-            <div class="content back">
+        <div class="content-page">
+            <div class="content ">
 
                 <!-- Start Content-->
-                <div class="container-fluid">
+                <div class="container-fluid back">
 
                     <!-- start page title -->
                     <div class="row">
@@ -51,12 +51,12 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addClientBtn" class="btn addEnqury" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Enquiry
+                                        <button type="button" id="addClientBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Add New Client
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Enquirys</h4>   
+                                <h4 class="page-title">Clients</h4>   
                             </div>
                         </div>
                     </div>

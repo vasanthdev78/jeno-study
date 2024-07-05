@@ -88,7 +88,32 @@
         <span class="color"> Payment </span>
     </a>
 </li>
-
+<li class="side-nav-item">
+    <a href="#masterSubmenu" class="side-nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="masterSubmenu">
+      <i class="bi bi-collection"></i>
+      <span class="color">Master <i class="bi bi-arrow-right-circle-fill"></i></span>
+    </a>
+    <ul class="collapse list-group" id="masterSubmenu">
+    <li class="side-nav-item">
+    <a href="payment.php" class="side-nav-link">
+        <i class="bi bi-currency-dollar"></i>
+        <span class="color"> Course </span>
+    </a>
+    </li>
+    <li class="side-nav-item">
+    <a href="payment.php" class="side-nav-link">
+        <i class="bi bi-currency-dollar"></i>
+        <span class="color"> University </span>
+    </a>
+    </li>
+    <li class="side-nav-item">
+    <a href="payment.php" class="side-nav-link">
+        <i class="bi bi-currency-dollar"></i>
+        <span class="color"> Staff </span>
+    </a>
+    </li>
+    </ul>
+  </li>
 
 
     
