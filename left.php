@@ -56,19 +56,19 @@
                 <a href="masterStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
             </li>
             <li>
-                <a href="masterUniversity.php" class="side-nav-link">University</a>
+                <a href="masterUniversity.php" class="side-nav-link"><i class="bi bi-buildings"></i>University</a>
             </li>
             <li>
-                <a href="masterCourse.php" class="side-nav-link">Course</a>
+                <a href="masterCourse.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i>Course</a>
             </li>
             <li>
-                <a href="masterSubject.php" class="side-nav-link">Subject</a>
+                <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
             <li>
-                <a href="masterBooks.php" class="side-nav-link">Books</a>
+                <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
             </li>
             <li>
-                <a href="masterLedger.php" class="side-nav-link">Ledger</a>
+                <a href="masterLedger.php" class="side-nav-link"><i class="bi bi-journals"></i>Ledger</a>
             </li>
         </ul>
     </div>
@@ -81,7 +81,7 @@
 </li>
 <li class="side-nav-item">
     <a href="listUniversity.php" class="side-nav-link">
-    <i class="bi bi-layout-text-sidebar-reverse"></i>
+    <i class="bi bi-buildings"></i>
         <span> University </span>
     </a>
 </li>
@@ -123,7 +123,7 @@
 </li>
 <li class="side-nav-item">
     <a href="schedule.php" class="side-nav-link">
-    <i class="bi bi-table"></i>
+    <i class="bi bi-calendar2-week"></i>
         <span> Schedule </span>
     </a>
 </li>
@@ -136,25 +136,25 @@
     <div class="collapse" id="sidebarReport">
         <ul class="side-nav-second-level">
             <li>
-                <a href="reportBook.php" class="side-nav-link">Book Stock</a>
+                <a href="reportBook.php" class="side-nav-link"><i class="bi bi-truck"></i>Book Stock</a>
             </li>
             <li>
-                <a href="reportPending.php" class="side-nav-link">Book Pending</a>
+                <a href="reportPending.php" class="side-nav-link"><i class="bi bi-sliders"></i>Book Pending</a>
             </li>
             <li>
-                <a href="reportSchedule.php" class="side-nav-link">Schedule</a>
+                <a href="reportSchedule.php" class="side-nav-link"><i class="bi bi-calendar2-week"></i>Schedule</a>
             </li>
             <li>
-                <a href="reportIncome.php" class="side-nav-link">Income</a>
+                <a href="reportIncome.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Income</a>
             </li>
             <li>
-                <a href="reportExpense.php" class="side-nav-link">Expense</a>
+                <a href="reportExpense.php" class="side-nav-link"><i class="bi bi-wallet2"></i>Expense</a>
             </li>
             <li>
-                <a href="reportStaff.php" class="side-nav-link">Staff</a>
+                <a href="reportStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
             </li>
             <li>
-                <a href="reportFaculty.php" class="side-nav-link">Faculty</a>
+                <a href="reportFaculty.php" class="side-nav-link"><i class="bi bi-person-video3"></i>Faculty</a>
             </li>
         </ul>
     </div>
