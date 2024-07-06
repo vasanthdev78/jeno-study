@@ -26,9 +26,9 @@ File: Main Css File
 
 html[data-menu-color=light] {
   --ct-menu-bg: linear-gradient( 45deg, hsl(240deg 20% 99%) 0%, hsl(253deg 39% 98%) 24%, hsl(256deg 47% 98%) 35%, hsl(257deg 53% 97%) 45%, hsl(258deg 56% 97%) 55%, hsl(258deg 58% 96%) 65%, hsl(258deg 60% 96%) 76%, hsl(259deg 62% 95%) 100% );
-  --ct-menu-item-color: #495057;
-  --ct-menu-item-hover-color: #6da09c;
-  --ct-menu-item-active-color: #6da09c;
+  --ct-menu-item-color: #0d1116;
+  --ct-menu-item-hover-color: #7c0d80;
+  --ct-menu-item-active-color: #7c0d80;
   --ct-menu-condensed-link-bg: #313a46;
 }
 
@@ -51,8 +51,8 @@ html[data-menu-color=brand] {
 
 html[data-topbar-color=light] {
   --ct-topbar-bg: transparent;
-  --ct-topbar-item-color: #495057;
-  --ct-topbar-item-hover-color: #6da09c;
+  --ct-topbar-item-color: #141c24;
+  --ct-topbar-item-hover-color: #7c0d80;
   --ct-topbar-search-bg: transparent;
   --ct-topbar-user-bg: #fbfcfc;
   --ct-topbar-user-border: #eef2f7;

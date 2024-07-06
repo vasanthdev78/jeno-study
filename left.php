@@ -89,31 +89,31 @@
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="#masterSubmenu" class="side-nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="masterSubmenu">
-      <i class="bi bi-collection"></i>
-      <span class="color">Master <i class="bi bi-arrow-right-circle-fill"></i></span>
-    </a>
-    <ul class="collapse list-group" id="masterSubmenu">
-    <li class="side-nav-item">
-    <a href="payment.php" class="side-nav-link">
-        <i class="bi bi-currency-dollar"></i>
-        <span class="color"> Course </span>
-    </a>
+        <a href="#masterSubmenu" class="side-nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="masterSubmenu">
+            <i class="bi bi-collection"></i>
+            <span class="color">Master <i class="bi bi-arrow-right-circle-fill"></i></span>
+        </a>
+        <ul class="collapse list-unstyled side-nav" id="masterSubmenu">
+            <li class="side-nav-item">
+                <a href="course.php" class="side-nav-link">
+                    <i class="bi bi-book"></i>
+                    <span class="color"> Course </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="university.php" class="side-nav-link">
+                    <i class="bi bi-building"></i>
+                    <span class="color"> University </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="staff.php" class="side-nav-link">
+                    <i class="bi bi-people"></i>
+                    <span class="color"> Staff </span>
+                </a>
+            </li>
+        </ul>
     </li>
-    <li class="side-nav-item">
-    <a href="payment.php" class="side-nav-link">
-        <i class="bi bi-currency-dollar"></i>
-        <span class="color"> University </span>
-    </a>
-    </li>
-    <li class="side-nav-item">
-    <a href="payment.php" class="side-nav-link">
-        <i class="bi bi-currency-dollar"></i>
-        <span class="color"> Staff </span>
-    </a>
-    </li>
-    </ul>
-  </li>
 
 
     

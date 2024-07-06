@@ -28,6 +28,11 @@
     <link rel="stylesheet" href="css/boostrap452.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
     
 
 
@@ -47,34 +52,7 @@
     .content {
         background-color: #fcf5ff;
     }
-    .addEnqury{
-        background-color: #A912E4;
-        color: white;
-    }
-    #addClientBtn:hover {
-    background-color: #553263;
-    color: white;
-    }
    
-    .color{
-        
-        font-size: 18px;
-        font-weight: 500;
-        font-family: 'Poppins', sans-serif;
-    }
-    .color:hover{
-        color: #B863DA;
-        font-size: 20px;
-        font-family: 'Poppins', sans-serif;
-    }
-    .side-nav .menuitem-active>a {
-    color: #B863DA ;
-    font-weight: 500;
-    }
-
-    .back{
-        background-color: #F3E4F9 ;
-    }
     .side-nav-link {
       display: flex;
       align-items: center;
