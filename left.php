@@ -25,7 +25,7 @@
                 </div>
 
                 <!-- Sidebar -left -->
-                <div class="h-100 bg-white" id="leftside-menu-container" data-simplebar>
+                <div class="h-100" id="leftside-menu-container" data-simplebar>
                     <!-- Leftbar User -->
                     <div class="leftbar-user">
                         <a href="pages-profile.html">
@@ -45,50 +45,66 @@
 </li> 
 
 <li class="side-nav-item">
-    <a href="clients.php" class="side-nav-link">
-    <i class="bi bi-ui-checks"></i>
-        <span class="color"> Enquiry</span>
-    </a>
-</li>
-
-<li class="side-nav-item">
     <a href="employee.php" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
-        <span class="color"> Employees </span>
+        <span class="color"> Master </span>
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="student.php" class="side-nav-link">
+    <a href="enquiry.php" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span class="color"> Enquiry </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="admission.php" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span class="color"> Admission </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="course.php" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span class="color"> Courses </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="fees.php" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span class="color"> Fees </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="book.php" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span class="color"> Books </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="subject.php" class="side-nav-link">
     <i class="bi bi-file-earmark-person"></i>
-        <span class="color"> Student </span>
+        <span class="color"> Subjects </span>
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="users.php" class="side-nav-link">
-        <i class="ri-user-fill"></i>
-        <span class="color"> Projects </span>
-    </a>
-</li>
-
-<li class="side-nav-item">
-    <a href="attendance1.php" class="side-nav-link">
+    <a href="faculty.php" class="side-nav-link">
     <i class="bi bi-calendar2-date"></i>
-        <span class="color"> Attendance </span>
+        <span class="color"> Faculty </span>
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="invoice1.php" class="side-nav-link">
+    <a href="schedule.php" class="side-nav-link">
     <i class="bi bi-file-earmark-text"></i>
-        <span class="color"> Invoice </span>
+        <span class="color"> Schedule </span>
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="payment.php" class="side-nav-link">
+    <a href="report.php" class="side-nav-link">
         <i class="bi bi-currency-dollar"></i>
-        <span class="color"> Payment </span>
+        <span class="color"> Report </span>
     </a>
 </li>
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
         <a href="#masterSubmenu" class="side-nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="masterSubmenu">
             <i class="bi bi-collection"></i>
             <span class="color">Master <i class="bi bi-arrow-right-circle-fill"></i></span>
@@ -113,7 +129,7 @@
                 </a>
             </li>
         </ul>
-    </li>
+</li> -->
 
 
     

@@ -1,5 +1,5 @@
 
-<div class="navbar-custom bg-white">
+<div class="navbar-custom">
                 <div class="topbar container-fluid">
                     <div class="d-flex align-items-center gap-lg-2 gap-1">
 

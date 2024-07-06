@@ -49,10 +49,7 @@
     .modal-lg-custom {
     max-width: 90%; /* Adjust the width as needed, e.g., 70%, 80%, 900px, etc. */
     }
-    .content {
-        background-color: #fcf5ff;
-    }
-   
+    
     .side-nav-link {
       display: flex;
       align-items: center;
