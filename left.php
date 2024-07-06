@@ -112,10 +112,10 @@
     <div class="collapse" id="sidebarBook">
         <ul class="side-nav-second-level">
             <li>
-                <a href="bookStock.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Stock</a>
+                <a href="bookStock.php" class="side-nav-link"><i class="bi bi-stack"></i>Stock</a>
             </li>
             <li>
-                <a href="bookIssue.php" class="side-nav-link">Issue</a>
+                <a href="bookIssue.php" class="side-nav-link"><i class="bi bi-journal-check"></i>Issue</a>
             </li>
         </ul>
     </div>
