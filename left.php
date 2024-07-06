@@ -53,7 +53,7 @@
     <div class="collapse" id="sidebarEmail">
         <ul class="side-nav-second-level">
             <li>
-                <a href="masterStaff.php" class="side-nav-link">Staff</a>
+                <a href="masterStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
             </li>
             <li>
                 <a href="masterUniversity.php" class="side-nav-link">University</a>
