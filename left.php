@@ -52,55 +52,55 @@
 </li>
 <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
-        <i class="bi bi-person-vcard"></i>
+    <i class="bi bi-layout-three-columns"></i>
         <span class="color"> Enquiry </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="admission.php" class="side-nav-link">
-        <i class="bi bi-person-vcard"></i>
+    <i class="bi bi-ui-checks"></i>
         <span class="color"> Admission </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="course.php" class="side-nav-link">
-        <i class="bi bi-person-vcard"></i>
+    <i class="bi bi-ui-radios-grid"></i>
         <span class="color"> Courses </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="fees.php" class="side-nav-link">
-        <i class="bi bi-person-vcard"></i>
+    <i class="bi bi-currency-rupee"></i>
         <span class="color"> Fees </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="book.php" class="side-nav-link">
-        <i class="bi bi-person-vcard"></i>
+    <i class="bi bi-book"></i>
         <span class="color"> Books </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="subject.php" class="side-nav-link">
-    <i class="bi bi-file-earmark-person"></i>
+    <i class="bi bi-list-columns-reverse"></i>
         <span class="color"> Subjects </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="faculty.php" class="side-nav-link">
-    <i class="bi bi-calendar2-date"></i>
+    <i class="bi bi-person-video3"></i>
         <span class="color"> Faculty </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="schedule.php" class="side-nav-link">
-    <i class="bi bi-file-earmark-text"></i>
+    <i class="bi bi-table"></i>
         <span class="color"> Schedule </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="report.php" class="side-nav-link">
-        <i class="bi bi-currency-dollar"></i>
+    <i class="bi bi-columns"></i>
         <span class="color"> Report </span>
     </a>
 </li>
