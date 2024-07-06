@@ -53,16 +53,22 @@
     <div class="collapse" id="sidebarEmail">
         <ul class="side-nav-second-level">
             <li>
-                <a href="dyjyj.php" class="side-nav-link">fgjfg</a>
+                <a href="masterStaff.php" class="side-nav-link">Staff</a>
             </li>
             <li>
-                <a href="fgkd.php" class="side-nav-link">dgkd</a>
+                <a href="masterUniversity.php" class="side-nav-link">University</a>
             </li>
             <li>
-                <a href="dyjyj.php" class="side-nav-link">fgjfg</a>
+                <a href="masterCourse.php" class="side-nav-link">Course</a>
             </li>
             <li>
-                <a href="fgkd.php" class="side-nav-link">dgkd</a>
+                <a href="masterSubject.php" class="side-nav-link">Subject</a>
+            </li>
+            <li>
+                <a href="masterBooks.php" class="side-nav-link">Books</a>
+            </li>
+            <li>
+                <a href="masterLedger.php" class="side-nav-link">Ledger</a>
             </li>
         </ul>
     </div>
@@ -122,10 +128,36 @@
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="report.php" class="side-nav-link">
-    <i class="bi bi-columns"></i>
+    <a data-bs-toggle="collapse" href="#sidebarReport" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
         <span> Report </span>
+        <span class="menu-arrow"></span>
     </a>
+    <div class="collapse" id="sidebarReport">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="reportBook.php" class="side-nav-link">Book Stock</a>
+            </li>
+            <li>
+                <a href="reportPending.php" class="side-nav-link">Book Pending</a>
+            </li>
+            <li>
+                <a href="reportSchedule.php" class="side-nav-link">Schedule</a>
+            </li>
+            <li>
+                <a href="reportIncome.php" class="side-nav-link">Income</a>
+            </li>
+            <li>
+                <a href="reportExpense.php" class="side-nav-link">Expense</a>
+            </li>
+            <li>
+                <a href="reportStaff.php" class="side-nav-link">Staff</a>
+            </li>
+            <li>
+                <a href="reportFaculty.php" class="side-nav-link">Faculty</a>
+            </li>
+        </ul>
+    </div>
 </li>
    
 </ul>
