@@ -104,10 +104,21 @@
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="book.php" class="side-nav-link">
-    <i class="bi bi-book"></i>
+    <a data-bs-toggle="collapse" href="#sidebarBook" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
         <span> Books </span>
+        <span class="menu-arrow"></span>
     </a>
+    <div class="collapse" id="sidebarBook">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="bookStock.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Stock</a>
+            </li>
+            <li>
+                <a href="bookIssue.php" class="side-nav-link">Issue</a>
+            </li>
+        </ul>
+    </div>
 </li>
 <li class="side-nav-item">
     <a href="subject.php" class="side-nav-link">
