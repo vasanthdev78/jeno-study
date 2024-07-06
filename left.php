@@ -57,6 +57,12 @@
     </a>
 </li>
 <li class="side-nav-item">
+    <a href="listUniversity.php" class="side-nav-link">
+    <i class="bi bi-layout-text-sidebar-reverse"></i>
+        <span class="color"> University </span>
+    </a>
+</li>
+<li class="side-nav-item">
     <a href="admission.php" class="side-nav-link">
     <i class="bi bi-ui-checks"></i>
         <span class="color"> Admission </span>
