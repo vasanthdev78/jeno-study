@@ -40,105 +40,94 @@
 <li class="side-nav-item">
     <a href="dashboard.php" class="side-nav-link">
         <i class="ri-bar-chart-2-fill"></i>
-        <span class="color"> Dashboard</span>
+        <span> Dashboard</span>
     </a>
 </li> 
 
 <li class="side-nav-item">
-    <a href="employee.php" class="side-nav-link">
+    <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
-        <span class="color"> Master </span>
+        <span> Master </span>
+        <span class="menu-arrow"></span>
     </a>
+    <div class="collapse" id="sidebarEmail">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="dyjyj.php" class="side-nav-link">fgjfg</a>
+            </li>
+            <li>
+                <a href="fgkd.php" class="side-nav-link">dgkd</a>
+            </li>
+            <li>
+                <a href="dyjyj.php" class="side-nav-link">fgjfg</a>
+            </li>
+            <li>
+                <a href="fgkd.php" class="side-nav-link">dgkd</a>
+            </li>
+        </ul>
+    </div>
 </li>
 <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
     <i class="bi bi-layout-three-columns"></i>
-        <span class="color"> Enquiry </span>
+        <span> Enquiry </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="listUniversity.php" class="side-nav-link">
     <i class="bi bi-layout-text-sidebar-reverse"></i>
-        <span class="color"> University </span>
+        <span> University </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="admission.php" class="side-nav-link">
     <i class="bi bi-ui-checks"></i>
-        <span class="color"> Admission </span>
+        <span> Admission </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="course.php" class="side-nav-link">
     <i class="bi bi-ui-radios-grid"></i>
-        <span class="color"> Courses </span>
+        <span> Courses </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="fees.php" class="side-nav-link">
     <i class="bi bi-currency-rupee"></i>
-        <span class="color"> Fees </span>
+        <span> Fees </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="book.php" class="side-nav-link">
     <i class="bi bi-book"></i>
-        <span class="color"> Books </span>
+        <span> Books </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="subject.php" class="side-nav-link">
     <i class="bi bi-list-columns-reverse"></i>
-        <span class="color"> Subjects </span>
+        <span> Subjects </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="faculty.php" class="side-nav-link">
     <i class="bi bi-person-video3"></i>
-        <span class="color"> Faculty </span>
+        <span> Faculty </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="schedule.php" class="side-nav-link">
     <i class="bi bi-table"></i>
-        <span class="color"> Schedule </span>
+        <span> Schedule </span>
     </a>
 </li>
 <li class="side-nav-item">
     <a href="report.php" class="side-nav-link">
     <i class="bi bi-columns"></i>
-        <span class="color"> Report </span>
+        <span> Report </span>
     </a>
 </li>
-<!-- <li class="side-nav-item">
-        <a href="#masterSubmenu" class="side-nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="masterSubmenu">
-            <i class="bi bi-collection"></i>
-            <span class="color">Master <i class="bi bi-arrow-right-circle-fill"></i></span>
-        </a>
-        <ul class="collapse list-unstyled side-nav" id="masterSubmenu">
-            <li class="side-nav-item">
-                <a href="course.php" class="side-nav-link">
-                    <i class="bi bi-book"></i>
-                    <span class="color"> Course </span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="university.php" class="side-nav-link">
-                    <i class="bi bi-building"></i>
-                    <span class="color"> University </span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="staff.php" class="side-nav-link">
-                    <i class="bi bi-people"></i>
-                    <span class="color"> Staff </span>
-                </a>
-            </li>
-        </ul>
-</li> -->
-
-
-    
+   
 </ul>
                     <!--- End Sidemenu -->
 
