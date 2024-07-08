@@ -56,7 +56,7 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addSubjectBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <button type="button" id="addSubjectBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
                                             Add New Subject
                                         </button>
                                     </div>
@@ -72,11 +72,9 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Subject Code</th>
+                                    <th scope="col">Subject Name</th>
+                                    <th scope="col">Year</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -92,14 +90,10 @@ session_start();
                         <td><?php echo $name; ?></td>
                         <td><?php echo $course; ?></td>
                         <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
                         </td>
                       </tr>
                       <?php } ?>
@@ -158,7 +152,7 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
-    <script>
+    <!-- <script>
 
 $(document).ready(function () {
   $('#addStudentBtn').click(function () {
@@ -471,7 +465,7 @@ function goDocStu(id)
         }
     });
 }
-</script>
+</script> -->
 
     
 
