@@ -48,6 +48,9 @@
                                 </div>
                             </div>
                         </div><hr>
+                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
+                        <div id="additionalInputs"></div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
