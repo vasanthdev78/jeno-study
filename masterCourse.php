@@ -38,7 +38,6 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
