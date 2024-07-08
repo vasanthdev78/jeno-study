@@ -11,7 +11,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="course" class="form-label"><b>Course Name</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course Name" name="course" id="course" required="required">
@@ -43,7 +43,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="editCourseName" class="form-label"><b>Course Name</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course Name" name="editCourseName" id="editCourseName" required="required">
