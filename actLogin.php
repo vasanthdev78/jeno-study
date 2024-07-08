@@ -25,5 +25,5 @@ if (isset($_POST['username']) && isset($_POST['username']) != '') {
         $_SESSION['message'] = "Invalid Credential!";
         header("Location: index.php");
     }
-}
+    }
 ?>

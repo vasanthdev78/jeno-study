@@ -37,14 +37,14 @@
                     <!--- Sidemenu -->
     <ul class="side-nav sidebar">
 
-<li class="side-nav-item">
+    <li class="side-nav-item">
     <a href="dashboard.php" class="side-nav-link">
         <i class="ri-bar-chart-2-fill"></i>
         <span> Dashboard</span>
     </a>
-</li> 
-
-<li class="side-nav-item">
+    </li> 
+    <?php if ($user_role == 'Admin') { ?>
+    <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
         <span> Master </span>
@@ -72,13 +72,15 @@
             </li>
         </ul>
     </div>
-</li>
-<li class="side-nav-item">
+    </li>
+    <?php } ?>
+
+    <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
     <i class="bi bi-layout-three-columns"></i>
         <span> Enquiry </span>
     </a>
-</li>
+    </li>
 <li class="side-nav-item">
     <a href="listUniversity.php" class="side-nav-link">
     <i class="bi bi-buildings"></i>
@@ -138,7 +140,8 @@
         <span> Schedule </span>
     </a>
 </li>
-<li class="side-nav-item">
+<?php if ($user_role == 'Admin') { ?>
+    <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarReport" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
         <span> Report </span>
@@ -169,8 +172,8 @@
             </li>
         </ul>
     </div>
-</li>
-   
+    </li>
+    <?php } ?>
 </ul>
                     <!--- End Sidemenu -->
 
