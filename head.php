@@ -1,5 +1,8 @@
 
 <?php
+    $username = $_SESSION['user'];
+     $userId = $_SESSION['userId'];
+    $user_role = $_SESSION['role'];
        if(!isset($_SESSION['user']))
     {
         header("Location:index.php");
