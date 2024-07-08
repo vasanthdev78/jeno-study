@@ -75,28 +75,166 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             </div>
 
                                             <div class="tab-pane active show" id="account-2">
+                                            <div class="row">
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="firstname" class="form-label"><b>First Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="firstname" id="firstname" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="lastname" class="form-label"><b>Last Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="lastname" id="lastname" required="required">
+                                            </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="editDob" class="form-label"><b>Date of Birth</b></label>
+                                            <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                        <div class="form-group pb-1">
+                                            <label for="editGender" class="form-label"><b>Gender</b></label>
+                                            <select class="form-control" id="editGender" name="editGender" required="required">
+                                                <option>----select----</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                               </div>
+                                           </div>
+
+                                             <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="fathername" class="form-label"><b>Father Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="mothername" class="form-label"><b>Mother Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="mothername" id="mothername" required="required">
+                                            </div>
+                                            </div>
+
+                                            
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="nationality" class="form-label"><b>Nationality</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Nationality" name="nationality" id="nationality" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="motherTongue" class="form-label"><b>Mother Tongue</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mother Tongue" name="motherTongue" id="motherTongue" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="religion" class="form-label"><b>Religion</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Religion" name="religion" id="religion" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="caste" class="form-label"><b>Caste</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Caste" name="caste" id="caste" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="community" class="form-label"><b>Community</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="aatharNumber" class="form-label"><b>Aathar Number</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aathar Number" name="aatharNumber" id="aatharNumber" required="required">
+                                            </div>
+                                            </div> 
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                         <label class="form-label"><b>Marital Status</b></label><br>
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="row mb-3">
-                                                            <label class="col-md-3 col-form-label" for="userName1">User name</label>
-                                                            <div class="col-md-9">
-                                                                <input type="text" class="form-control" id="userName1" name="userName1" value="Powerx">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <label class="col-md-3 col-form-label" for="password1">Password</label>
-                                                            <div class="col-md-9">
-                                                                <input type="password" id="password1" name="password1" class="form-control" value="123456789">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <label class="col-md-3 col-form-label" for="confirm1">Re Password</label>
-                                                            <div class="col-md-9">
-                                                                <input type="password" id="confirm1" name="confirm1" class="form-control" value="123456789">
-                                                            </div>
-                                                        </div>
-                                                    </div> <!-- end col -->
-                                                </div> <!-- end row -->
+                                                 <div class="col-sm-3">
+                                                  <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="maritalStatus" id="single" value="Single" required>
+                                                 <label class="form-check-label" for="single">
+                                                 Single
+                                                 </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="maritalStatus" id="married" value="Married" required>
+                                                    <label class="form-check-label" for="married">
+                                                        Married
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="paymentMode" class="form-label"><b>Payment Mode</b></label>
+                                            <select class="form-control" id="paymentMode" name="paymentMode" required="required">
+                                            <option>----select----</option>
+                                            <option value="Online">Online</option>
+                                            <option value="Cash">Cash</option>
+                                            </select>
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="transactionId" class="form-label"><b>Transaction Id</b></label>
+                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Transaction Id" name="transactionId" id="transactionId" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="name" class="form-label"><b>Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Name" name="name" id="name" required="required">
+                                            </div>
+                                            </div>
+
+
+                                            
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="universityFees" class="form-label"><b>University Fees</b></label>
+                                            <input type="number" class="form-control" placeholder="Enter University Fees" name="universityFees" id="universityFees" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="studyCenterFees" class="form-label"><b>Study Center Fees</b></label>
+                                            <input type="number" class="form-control" placeholder="Enter Study Center Fees" name="studyCenterFees" id="studyCenterFees" required="required">
+                                            </div>
+                                            </div>
+
+                                            </div> <!-- end row -->
 
                                                 <ul class="list-inline wizard mb-0">
                                                     <li class="next list-inline-item float-end">
