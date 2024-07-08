@@ -191,6 +191,44 @@ $resQuery = mysqli_query($conn, $selQuery);
                                     </div>
 
 
+                                    <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                         <label class="form-label"><b>Employed</b></label><br>
+                                                <div class="row">
+                                                 <div class="col-sm-3">
+                                                  <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="maritalStatus" id="yes" value="yes" required>
+                                                 <label class="form-check-label" for="yes">
+                                                 Yes
+                                                 </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="maritalStatus" id="no" value="v" required>
+                                                    <label class="form-check-label" for="no">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="email" class="form-label"><b>Email</b></label>
+                                            <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Your Email" name="email" id="email" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="mobileNo" class="form-label"><b>Moble No</b></label>
+                                            <input type="number" class="form-control" pattern="" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
+                                            </div>
+                                            </div>
 
                                             <div class="col-sm-6">
                                             <div class="form-group pb-1">
