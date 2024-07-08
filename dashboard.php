@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+$user_role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
