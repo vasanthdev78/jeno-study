@@ -1,12 +1,12 @@
     
     <!-- Modal -->
-    <div class="modal fade" id="addSubjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="addBookModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="frmAddSubject" id="addSubject" enctype="multipart/form-data">
-                    <input type="hidden" name="hdnAction" value="addSubject">
+                <form name="frmAddBook" id="addBook" enctype="multipart/form-data">
+                    <input type="hidden" name="hdnAction" value="addBook">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Add Subject</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Add Book</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">

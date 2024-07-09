@@ -10,31 +10,49 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="universityName" class="form-label"><b>University Code</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="universityName" class="form-label"><b>University Name</b></label>
                                     <input type="text" class="form-control" placeholder="Enter University Name" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="universityImage" class="form-label"><b>University Image</b></label>
                                     <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Image" name="universityImage" id="universityImage">
                                 </div>
                             </div>
                           
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Destination</b></label>
+                                    <label for="destination" class="form-label"><b>Description</b></label>
                                     <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
                                 </div>
                             </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Location</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Phone No.</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Email</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div>
                             
                         </div>
                     </div>
@@ -62,30 +80,48 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editUniversityCode" class="form-label"><b>University Code</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="editUniversityCode" id="editUniversityCode" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editUniversityName" class="form-label"><b>University Name</b></label>
                                     <input type="text" class="form-control" placeholder="Enter University Name" name="editUniversityName" id="editUniversityName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editUniversityImage" class="form-label"><b>University Image</b></label>
                                     <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Image" name="editUniversityImage" id="editUniversityImage">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Destination</b></label>
+                                    <label for="editDestination" class="form-label"><b>Description</b></label>
                                     <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Location</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Phone No.</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Email</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                </div>
+                            </div>
                             
                         </div>
                     </div>
