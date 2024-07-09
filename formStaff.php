@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Destination</b></label>
+                                    <label for="destination" class="form-label"><b>Designation</b></label>
                                     <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
                                 </div>
                             </div>
@@ -85,8 +85,8 @@
 
     <!-- ------------------------------------------------------------------------------------------------------------------ -->
 
-        <!-- Modal -->
-             <div class="modal fade" id="editStaffModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="editStaffModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form name="frmEditStudent" id="editStudent">
@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editdestination" class="form-label"><b>Destination</b></label>
+                                    <label for="editdestination" class="form-label"><b>Designation</b></label>
                                     <input type="text" class="form-control"  placeholder="Enter destination" name="editdestination" id="editdestination">
                                 </div>
                             </div>

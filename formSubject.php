@@ -75,14 +75,46 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="row p-3">
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="editCourseName" class="form-label"><b>Course Name</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course Name" name="editCourseName" id="editCourseName" required="required">
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label for="university" class="form-label"><b>University Name</b></label>
+                                    <select class="form-control" name="university" id="university" required="required">
+                                        <option value="">--Select the University--</option>
+                                        <option value=""></option>
+                                    </select>
                                 </div>
-                            </div>  
-                        </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <select class="form-control" name="course" id="course" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="year" class="form-label"><b>Year</b></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Year--</option>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Medium</b></label>
+                                    <select class="form-control" name="medium" id="medium" required="required">
+                                        <option value="">--Select the Medium--</option>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div><hr>
+                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
+                        <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
