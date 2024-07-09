@@ -62,7 +62,23 @@ session_start();
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Student</h4> 
+                                <div class="row mt-3 mb-3">
+                      <div class="col-3">
+                          <label for="startDate" class="form-label">Start Date:</label>
+                          <input type="date" class="form-control" id="startDate">
+                      </div>
+                      <div class="col-3">
+                          <label for="endDate" class="form-label">End Date:</label>
+                          <input type="date" class="form-control" id="endDate">
+                      </div>
+                      <div class="col-2">
+                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                      </div>
+                      <div class="col-3">
+                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
+                      </div>
+                  </div>  
                             </div>
                         </div>
                     </div>
