@@ -75,11 +75,11 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
+                                    <th scope="col">University</th>
                                     <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Roll No</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -93,17 +93,66 @@ session_start();
                         ?>
                      <tr>
                         <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>Vasanth</td>
+                        <td>MCA</td>
+                        <td>MS University</td>
+                        <td>9894688091</td>
+                        <td>20191291516</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
+                           
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>2</td>
+                        <td>Raj</td>
+                        <td>MCA</td>
+                        <td>MS University</td>
+                        <td>9894688091</td>
+                        <td>20191291516</td>
+                    
+                        <td>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
+                            
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>3</td>
+                        <td>Santhuru</td>
+                        <td>MCA</td>
+                        <td>MS University</td>
+                        <td>9894688091</td>
+                        <td>20191291516</td>
+                    
+                        <td>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
+                           
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>4</td>
+                        <td>kaviya</td>
+                        <td>MCA</td>
+                        <td>MS University</td>
+                        <td>9894688091</td>
+                        <td>20191291516</td>
+                    
+                        <td>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
+                           
                         </td>
                       </tr>
                       <?php 
