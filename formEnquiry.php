@@ -1,6 +1,7 @@
-                           <!-- Modal -->
-                           <div class="modal fade" id="addEnquiryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+
+<!-- Modal -->
+    <div class="modal fade" id="addEnquiryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <form name="frmAddEnquiry" id="addEnquiry" enctype="multipart/form-data">
                     <input type="hidden" name="hdnAction" value="addEnquiry">

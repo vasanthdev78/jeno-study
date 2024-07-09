@@ -79,26 +79,18 @@ session_start();
                                     
                       </tr>
                     </thead>
-                    <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
-                     <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
+                    <tbody> 
+                      <tr>
+                        <td>1</td>
+                        <td>Anna University</td>
+                        <td>MBA</td>
+                        <td>2 Years</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
-                      </tr>
-                      <?php } ?>
-                        
+                      </tr>                        
                     </tbody>
                   </table>
 
@@ -468,7 +460,38 @@ function goDocStu(id)
 }
 </script> -->
 
-    
+<script>
+    $(document).ready(function() {
+        $('#addInputButton').click(function() {
+            var newInputDiv = $('<div class="row m-2"></div>');
+
+            var input1Div = $('<div class="col-sm-5"></div>');
+            var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
+            input1Div.append(input1Label);
+            input1Div.append(input1);
+
+            var input2Div = $('<div class="col-sm-5"></div>');
+            var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
+            input2Div.append(input2Label);
+            input2Div.append(input2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#additionalInputs').append(newInputDiv);
+        });
+    });
+</script>   
 
 </body>
 

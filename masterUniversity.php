@@ -99,6 +99,35 @@ session_start();
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
+
+                      <tr>
+                        <td scope="row">2</td>
+                        <td>8304</td>
+                        <td>MS University</td>
+                        <td></td>
+                        <td>Chennai</td>
+                        <td>msuniversity@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">1</td>
+                        <td>8306</td>
+                        <td>Alagappa University</td>
+                        <td></td>
+                        <td>Chennai</td>
+                        <td>alagappa@example.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
                         
                     </tbody>
                   </table>

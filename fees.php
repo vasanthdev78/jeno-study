@@ -54,7 +54,7 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Fees</h4>   
                             </div>
                         </div>
                     </div>
@@ -75,25 +75,20 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
+                    
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                        <td>1</td>
+                        <td>Rajkumar</td>
+                        <td>BBA</td>
+                        <td>9875463210</td>
+                        <td>5000</td>
+                        <td>Pending</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFeesModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
                       </tr>
-                      <?php } ?>
                         
                     </tbody>
                   </table>
