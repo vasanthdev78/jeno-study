@@ -58,11 +58,11 @@ session_start();
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
                                         <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                            Add New Book
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Books</h4>   
                             </div>
                         </div>
                     </div>
