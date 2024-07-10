@@ -31,10 +31,11 @@
                           
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Description</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
+                                    <label for="editDestination" class="form-label"><b>Email</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
                                 </div>
-                            </div> 
+                            </div>
+                            
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editDestination" class="form-label"><b>Location</b></label>
@@ -47,12 +48,12 @@
                                     <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Email</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="destination" class="form-label"><b>Description</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
                                 </div>
-                            </div>
+                            </div> 
                             
                         </div>
                     </div>
