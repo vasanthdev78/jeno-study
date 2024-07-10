@@ -87,7 +87,7 @@ session_start();
                                     <th scope="col">Method</th>
                                     <th scope="col">Paid Date</th>
                                     <th scope="col">Transaction Id</th> 
-                                    <th scope="col">Action</th>
+                                    
                                     
                       </tr>
                     </thead>
@@ -105,10 +105,7 @@ session_start();
                         <td>Online</td>
                         <td>9-7-2024</td>
                         <td>TIS465768754</td>
-                    
-                        <td>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                        </td>
+                                            
                       </tr>
 
                       <tr>
@@ -119,9 +116,7 @@ session_start();
                         <td>9-7-2024</td>
                         <td>TIS465768754</td>
                     
-                        <td>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                        </td>
+                       
                       </tr>
 
                       <tr>
@@ -131,9 +126,7 @@ session_start();
                         <td>Cash</td>
                         <td>9-7-2024</td>
                         <td>TIS465768754</td>
-                        <td>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                        </td>
+                        
                       </tr>
 
 
