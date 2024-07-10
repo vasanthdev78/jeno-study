@@ -56,23 +56,22 @@ session_start();
                             <div class="page-title-box">
                                 <h4 class="page-title">Expense</h4> 
                                 <div class="row mt-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="startDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" id="startDate">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="endDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" id="endDate">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
-                            <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
-                        </div>
-                    </div>
-
+                                <div class="col-md-3">
+                                    <label for="startDate" class="form-label">Start Date:</label>
+                                    <input type="date" class="form-control" id="startDate">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="endDate" class="form-label">End Date:</label>
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                                    <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>

@@ -56,7 +56,7 @@ session_start();
         
                             <div class="page-title-box">
                                
-                                <h4 class="page-title">faculies</h4>   
+                                <h4 class="page-title">Faculties</h4>   
                             </div>
                         </div>
                     </div>
