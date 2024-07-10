@@ -54,6 +54,13 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
+                            <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                                            Add New Expense
+                                        </button>
+                                    </div>
+                                </div>
                                 <h4 class="page-title">Expense</h4> 
                                 <div class="row mt-3 mb-3">
                                 <div class="col-md-3">
