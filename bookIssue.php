@@ -38,8 +38,6 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
-
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -57,55 +55,46 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                        <button type="button" id="addIssueBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addIssueModal">
+                                            Add New Book Issue
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Book Issue</h4>   
                             </div>
                         </div>
                     </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
+             <?php include("formBookIssue.php");?>
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">University Name</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Book Name</th>
+                                    <th scope="col">Issue Date</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
+                    
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                        <td>1</td>
+                        <td>Sathish</td>
+                        <td>Anna University</td>
+                        <td>Course Name</td>
+                        <td>Maths, English, POM</td>
+                        <td>10/07/2024</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editIssueModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
                         </td>
                       </tr>
-                      <?php } ?>
                         
                     </tbody>
                   </table>
@@ -161,7 +150,7 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
-    <script>
+    <!-- <script>
 
 $(document).ready(function () {
   $('#addStudentBtn').click(function () {
@@ -474,7 +463,7 @@ function goDocStu(id)
         }
     });
 }
-</script>
+</script> -->
 
     
 
