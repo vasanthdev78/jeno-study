@@ -133,8 +133,6 @@ session_start();
                         <td>10-7-2024</td>
                         <td>Morning</td>
                         <td>Web Development</td>
-
-
                     
                         <td>
                         <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
