@@ -69,7 +69,11 @@
                                     <label for="university" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the Ledger Type--</option>
-                                        <option value=""></option>
+                                        <option value="as">Application Fees</option>
+                                        <option value="as">University Fees</option>
+                                        <option value="as">University OUS Fees</option>
+                                        <option value="as">Study Center Fees</option>
+                                        <option value="as">Study Center OUS Fees</option>
                                     </select>
                                 </div>
                             </div>
