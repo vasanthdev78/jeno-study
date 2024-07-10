@@ -150,11 +150,11 @@
     <div class="collapse" id="sidebarReport">
         <ul class="side-nav-second-level">
             <li>
-                <a href="reportBook.php" class="side-nav-link"><i class="bi bi-truck"></i>Book Stock</a>
+                <a href="reportBook.php" class="side-nav-link"><i class="bi bi-sliders"></i>Book Reports</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="reportPending.php" class="side-nav-link"><i class="bi bi-sliders"></i>Book Pending</a>
-            </li>
+            </li> -->
             <li>
                 <a href="reportSchedule.php" class="side-nav-link"><i class="bi bi-calendar2-week"></i>Schedule</a>
             </li>
