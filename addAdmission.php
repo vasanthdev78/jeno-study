@@ -442,7 +442,7 @@ $resQuery = mysqli_query($conn, $selQuery);
                     <!-- //------------------------------------------payment ---------------------------------------------------------->
                                             <div class="tab-pane" id="payment">
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group pb-1">
                                                         <label for="paymentMode"><b>Payment Mode</b></label>
                                                         <select class="form-control" id="paymentMode" name="paymentMode" required>
@@ -453,23 +453,16 @@ $resQuery = mysqli_query($conn, $selQuery);
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group pb-1">
                                                         <label for="transactionId"><b>Transaction Id</b></label>
                                                         <input type="number" class="form-control" id="transactionId" name="transactionId" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Transaction Id" required>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group pb-1">
-                                                        <label for="name"><b>Name</b></label>
-                                                        <input type="text" class="form-control" id="name" name="name" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Name" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group pb-1">
-                                                        <label for="editDob"><b>Date of Birth</b></label>
+                                                        <label for="editDob"><b>Paid Date</b></label>
                                                         <input type="date" class="form-control" id="editDob" name="editDob" placeholder="Enter Date of Birth" required>
                                                     </div>
                                                 </div>

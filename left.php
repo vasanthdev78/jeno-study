@@ -122,12 +122,12 @@
         </ul>
     </div>
 </li>
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
     <a href="subject.php" class="side-nav-link">
     <i class="bi bi-list-columns-reverse"></i>
         <span> Subjects </span>
     </a>
-</li>
+</li> -->
 <li class="side-nav-item">
     <a href="faculty.php" class="side-nav-link">
     <i class="bi bi-person-video3"></i>
