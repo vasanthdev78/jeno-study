@@ -13,25 +13,32 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b></label>
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the University--</option>
-                                        <option value=""></option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
                                         <option value="">--Select the Course--</option>
-                                        <option value=""></option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
+
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="duration" class="form-label"><b>Course Duration</b></label>
+                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
                                 </div>
                             </div>
@@ -65,25 +72,32 @@
                         <div class="row">
                         <div class="col-sm-12">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b></label>
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the University--</option>
-                                        <option value=""></option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
                                         <option value="">--Select the Course--</option>
-                                        <option value=""></option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
+
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="duration" class="form-label"><b>Course Duration</b></label>
+                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
                                 </div>
                             </div> 

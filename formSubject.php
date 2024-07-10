@@ -13,37 +13,47 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b></label>
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the University--</option>
-                                        <option value=""></option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
                                         <option value="">--Select the Course--</option>
-                                        <option value=""></option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
+
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b></label>
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
                                         <option value="">--Select the Year--</option>
-                                        <option value=""></option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b></label>
+                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="medium" id="medium" required="required">
                                         <option value="">--Select the Medium--</option>
-                                        <option value=""></option>
+                                        <option value="tamil">Tamil</option>
+                                        <option value="tamil">English</option>
                                     </select>
                                 </div>
                             </div>
@@ -78,37 +88,47 @@
                     <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b></label>
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the University--</option>
-                                        <option value=""></option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
                                         <option value="">--Select the Course--</option>
-                                        <option value=""></option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
+
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b></label>
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
                                         <option value="">--Select the Year--</option>
-                                        <option value=""></option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b></label>
+                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="medium" id="medium" required="required">
                                         <option value="">--Select the Medium--</option>
-                                        <option value=""></option>
+                                        <option value="tamil">Tamil</option>
+                                        <option value="tamil">English</option>
                                     </select>
                                 </div>
                             </div>

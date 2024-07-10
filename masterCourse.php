@@ -88,6 +88,42 @@ session_start();
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>BBA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>BCA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>MBA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>MCA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
                         
                     </tbody>
                   </table>

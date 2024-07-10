@@ -79,27 +79,27 @@ $resQuery = mysqli_query($conn, $selQuery);
 
                                             <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                            <label for="firstname" class="form-label"><b>First Name</b></label>
+                                            <label for="firstname" class="form-label"><b>First Name</b><span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="firstname" id="firstname" required="required">
                                             </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                            <label for="lastname" class="form-label"><b>Last Name</b></label>
+                                            <label for="lastname" class="form-label"><b>Last Name</b><span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="lastname" id="lastname" required="required">
                                             </div>
                                             </div>
                                             <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                            <label for="editDob" class="form-label"><b>Date of Birth</b></label>
+                                            <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
                                             <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
                                             </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                         <div class="form-group pb-1">
-                                            <label for="editGender" class="form-label"><b>Gender</b></label>
+                                            <label for="editGender" class="form-label"><b>Gender</b><span class="text-danger">*</span></label>
                                             <select class="form-control" id="editGender" name="editGender" required="required">
                                                 <option>----select----</option>
                                                 <option value="Male">Male</option>
@@ -111,7 +111,7 @@ $resQuery = mysqli_query($conn, $selQuery);
 
                                              <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                            <label for="fathername" class="form-label"><b>Father Name</b></label>
+                                            <label for="fathername" class="form-label"><b>Father Name</b><span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername" required="required">
                                             </div>
                                             </div>
@@ -219,7 +219,7 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             
                                          <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                                <label for="email" class="form-label"><b>Email</b></label>
+                                                <label for="email" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email" name="email" id="email" required="required">
                                             </div>
                                         </div>
@@ -227,60 +227,61 @@ $resQuery = mysqli_query($conn, $selQuery);
 
                                             <div class="col-sm-6">
                                             <div class="form-group pb-1">
-                                            <label for="mobileNo" class="form-label"><b>Mobile No</b></label>
+                                            <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
                                             </div>
                                             </div>
 
                                             <div class="col-sm-12">
                                             <div class="form-group pb-1">
-                                            <label for="address" class="form-label"><b>Address</b></label>
+                                            <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Address" name="address" id="address" required="required">
                                             </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                           <div class="form-group pb-1">
-                                        <label for="pincode" class="form-label"><b>Pincode</b></label>
+                                        <label for="pincode" class="form-label"><b>Pincode</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" required="required">
                                           </div>
                                           </div>
 
                                           <div class="col-sm-6">
-                                        <div class="form-group pb-1">
-                                            <label for="university" class="form-label"><b>University</b></label>
-                                            <select class="form-control" id="university" name="university" required="required">
-                                                <option>----select----</option>
-                                                <option value="a">A university</option>
-                                                <option value="b">B university</option>
-                                                <option value="c">C university</option>
-                                            </select>
-                                               </div>
-                                           </div>
+                                <div class="form-group ">
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="university" id="university" required="required">
+                                        <option value="">--Select the University--</option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="course" id="course" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
 
-                                           <div class="col-sm-6">
-                                        <div class="form-group pb-1">
-                                            <label for="course" class="form-label"><b>Course</b></label>
-                                            <select class="form-control" id="course" name="course" required="required">
-                                                <option>----select----</option>
-                                                <option value="a">A course</option>
-                                                <option value="b">B course</option>
-                                                <option value="c">C course</option>
-                                            </select>
-                                               </div>
-                                           </div>
-
-                                           <div class="col-sm-6">
-                                        <div class="form-group pb-1">
-                                            <label for="branch" class="form-label"><b>Branch</b></label>
-                                            <select class="form-control" id="branch" name="branch" required="required">
-                                                <option>----select----</option>
-                                                <option value="a">A branch</option>
-                                                <option value="b">B branch</option>
-                                                <option value="c">C branch</option>
-                                            </select>
-                                               </div>
-                                           </div>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Year--</option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
+                                    </select>
+                                </div>
+                            </div>  
 
 
                                             </div> <!-- end row -->

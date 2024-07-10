@@ -79,7 +79,7 @@ session_start();
                                     <th scope="col">Course</th>
                                     <th scope="col">Location</th>
                                     <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Status</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -92,7 +92,7 @@ session_start();
                         <td>BBA</td>
                         <td>Kalakad</td>
                         <td>7896541230</td>
-                        <td>rajkumar@gmail.com</td>
+                        <td>Completed</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
@@ -106,7 +106,7 @@ session_start();
                         <td>MBA</td>
                         <td>Tirunelveli</td>
                         <td>7896541230</td>
-                        <td>sankar@gmail.com</td>
+                        <td>Pending</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
@@ -120,7 +120,7 @@ session_start();
                         <td>MCA</td>
                         <td>Kerala</td>
                         <td>7896541230</td>
-                        <td>vasanth@gmail.com</td>
+                        <td>Completed</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>

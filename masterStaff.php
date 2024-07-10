@@ -88,10 +88,10 @@ session_start();
                      <tr>
                         <td scope="row">1</td>
                         <td>John Doe</td>
-                        <td>+1234567890</td>
-                        <td>Software Engineer</td>
-                        <td>2023-01-15</td>
-                        <td>john.doe@example.com</td>
+                        <td>9876541320</td>
+                        <td>System Admin</td>
+                        <td>01/02/2023</td>
+                        <td>johndoe@gmail.com</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
@@ -100,6 +100,67 @@ session_start();
                             <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
                         </td>
                       </tr>
+                      <tr>
+                        <td scope="row">2</td>
+                        <td>HariHaran</td>
+                        <td>6547962145</td>
+                        <td>Receptionist</td>
+                        <td>01/05/2023</td>
+                        <td>hariharan@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">3</td>
+                        <td>Ajay</td>
+                        <td>9876352410</td>
+                        <td>Accountant</td>
+                        <td>01/06/2023</td>
+                        <td>ajayprasad@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">4</td>
+                        <td>Srinivas</td>
+                        <td>7896541230</td>
+                        <td>Cashier</td>
+                        <td>01/08/2023</td>
+                        <td>srinivas@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">5</td>
+                        <td>Mari Raj</td>
+                        <td>8974563210</td>
+                        <td>Software Engineer</td>
+                        <td>01/10/2023</td>
+                        <td>mariraj@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+
                      
                         
                     </tbody>

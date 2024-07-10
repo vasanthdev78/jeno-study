@@ -13,25 +13,41 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Student Name</b></label>
+                                    <label for="year" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
                                         <option value="">--Select the Student Name--</option>
-                                        <option value=""></option>
+                                        <option value="rajkumar">Rajkumar</option>
+                                        <option value="rajkumar">Vasanth</option>
+                                        <option value="rajkumar">Anushiya</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Book Name</b></label>
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Year--</option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Book Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="medium" id="medium" required="required">
                                         <option value="">--Select the Book Name--</option>
-                                        <option value=""></option>
+                                        <option value="cc">Cloud Computing</option>
+                                        <option value="cc">Internet Protocol</option>
+                                        <option value="cc">Artificial Inteligence</option>
+                                        <option value="cc">POM</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Issue Date</b></label>
+                                    <label for="medium" class="form-label"><b>Issue Date</b><span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Book Count" name="course" id="course" required="required">
                                 </div>
                             </div>
@@ -61,27 +77,43 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
-                        <div class="col-sm-12">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Student Name</b></label>
+                                    <label for="year" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
                                         <option value="">--Select the Student Name--</option>
-                                        <option value=""></option>
+                                        <option value="rajkumar">Rajkumar</option>
+                                        <option value="rajkumar">Vasanth</option>
+                                        <option value="rajkumar">Anushiya</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Book Name</b></label>
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Year--</option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Book Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="medium" id="medium" required="required">
                                         <option value="">--Select the Book Name--</option>
-                                        <option value=""></option>
+                                        <option value="cc">Cloud Computing</option>
+                                        <option value="cc">Internet Protocol</option>
+                                        <option value="cc">Artificial Inteligence</option>
+                                        <option value="cc">POM</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Issue Date</b></label>
+                                    <label for="medium" class="form-label"><b>Issue Date</b><span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Book Count" name="course" id="course" required="required">
                                 </div>
                             </div>

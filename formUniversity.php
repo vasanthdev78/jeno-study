@@ -12,46 +12,46 @@
                         <div class="row p-3">
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="universityName" class="form-label"><b>University Code</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University" name="universityName" id="universityName" required="required">
+                                    <label for="universityName" class="form-label"><b>University Code</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="universityName" class="form-label"><b>University Name</b></label>
+                                    <label for="universityName" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Enter University Name" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="universityImage" class="form-label"><b>University Image</b></label>
-                                    <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Image" name="universityImage" id="universityImage">
-                                </div>
-                            </div>
-                          
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Email</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="universityImage" class="form-label"><b>University Image</b><span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
                             
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Location</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="editDestination" class="form-label"><b>Address</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Phone No.</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"  placeholder="Enter Phone.No" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Email</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
+                                </div>
+                            </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Description</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
+                                    <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
+                                    <textarea class="form-control" name="editDestination" id="editDestination" placeholder="Enter Description"></textarea>
                                 </div>
                             </div> 
                             
@@ -81,48 +81,50 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                        <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editUniversityCode" class="form-label"><b>University Code</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="editUniversityCode" id="editUniversityCode" required="required">
+                                    <label for="universityName" class="form-label"><b>University Code</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editUniversityName" class="form-label"><b>University Name</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter University Name" name="editUniversityName" id="editUniversityName" required="required">
+                                    <label for="universityName" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter University Name" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editUniversityImage" class="form-label"><b>University Image</b></label>
-                                    <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Image" name="editUniversityImage" id="editUniversityImage">
+                                    <label for="universityImage" class="form-label"><b>University Image</b><span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
+                            
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Description</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="editDestination" class="form-label"><b>Address</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Location</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"  placeholder="Enter Phone.No" name="editDestination" id="editDestination">
                                 </div>
                             </div> 
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Phone No.</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
-                                </div>
-                            </div> 
+                            
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editDestination" class="form-label"><b>Email</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="editDestination" id="editDestination">
+                                    <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
+                                    <textarea class="form-control" name="editDestination" id="editDestination" placeholder="Enter Description"></textarea>
+                                </div>
+                            </div> 
                             
                         </div>
                     </div>

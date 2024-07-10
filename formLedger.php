@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>Ledger Type</b></label>
+                                    <label for="university" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the Ledger Type--</option>
                                         <option value=""></option>
@@ -22,20 +22,20 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Ledger Id</b></label>
+                                    <label for="course" class="form-label"><b>Ledger Id</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Ledger Id" name="editCourseName" id="editCourseName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Ledger Name</b></label>
+                                    <label for="year" class="form-label"><b>Ledger Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Ledger Name" name="editCourseName" id="editCourseName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="medium" class="form-label"><b>Description</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Description" name="editCourseName" id="editCourseName" required="required">
+                                    <textarea class="form-control" name="medium" id="medium"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -64,9 +64,9 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
-                            <div class="col-sm-6">
+                        <div class="col-sm-6">
                                 <div class="form-group ">
-                                    <label for="university" class="form-label"><b>Ledger Type</b></label>
+                                    <label for="university" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
                                         <option value="">--Select the Ledger Type--</option>
                                         <option value=""></option>
@@ -75,20 +75,20 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="course" class="form-label"><b>Ledger Id</b></label>
+                                    <label for="course" class="form-label"><b>Ledger Id</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Ledger Id" name="editCourseName" id="editCourseName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Ledger Name</b></label>
+                                    <label for="year" class="form-label"><b>Ledger Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Ledger Name" name="editCourseName" id="editCourseName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="medium" class="form-label"><b>Description</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Description" name="editCourseName" id="editCourseName" required="required">
+                                    <textarea class="form-control" name="medium" id="medium"></textarea>
                                 </div>
                             </div>
                         </div>

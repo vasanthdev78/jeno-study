@@ -13,49 +13,49 @@
                         <div class="row p-3">
                             <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editFirstName" class="form-label"><b>Student Name</b></label>
+                                        <label for="editFirstName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="editFirstName" id="edtiFirstName" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editLastName" class="form-label"><b>University Name</b></label>
+                                        <label for="editLastName" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Name" name="editLastName" id="editLastName" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editEmail" class="form-label"><b>Course Name</b></label>
+                                        <label for="editEmail" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" placeholder="Enter Course Name" name="editEmail" id="editEmail" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editDob" class="form-label"><b>Email</b></label>
+                                        <label for="editDob" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" placeholder="Enter Email" name="editDob" id="editDob" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editMobile" class="form-label"><b>Mobile No</b></label>
+                                        <label for="editMobile" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
                                         <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="editMobile" id="editMobile" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editAddress" class="form-label"><b>Amount Paid</b></label>
+                                        <label for="editAddress" class="form-label"><b>Amount Paid</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="editAddress" id="editAddress" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editAddress" class="form-label"><b>Paid Method</b></label>
+                                        <label for="editAddress" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="editAddress" id="editAddress" required="required">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group pb-1">
-                                        <label for="editAddress" class="form-label"><b>Paid Date</b></label>
+                                        <label for="editAddress" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="editAddress" id="editAddress" required="required">
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@
                         <div class="row p-3">
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
-                                    <label for="course" class="form-label"><b>Course Name</b></label>
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course Name" name="course" id="course" required="required">
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                         <div class="row p-3">
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
-                                    <label for="editCourseName" class="form-label"><b>Course Name</b></label>
+                                    <label for="editCourseName" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course Name" name="editCourseName" id="editCourseName" required="required">
                                 </div>
                             </div>  

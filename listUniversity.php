@@ -59,7 +59,7 @@ session_start();
         <img src="assets/university/u2.png" class="card-img-top card-img" alt="Card Image">
         <div class="card-body">
           <h5 class="card-title">MS University</h5>
-          <p class="card-text">Manonmaniam Sundaranar University (MSU) is a dynamic institution of higher learning, set in a rural milieu of southern Tamil Nadu, with a campus spread of 550 acres.</p>
+          <p class="card-text">Manonmaniam Sundaranar University (MSU) is a dynamic institution, set in a rural milieu of southern Tamil Nadu, with a campus spread of 550 acres.</p>
         </a>
         </div>
       </div>
@@ -70,8 +70,8 @@ session_start();
       <a href="university.php">
         <img src="assets/university/u3.png" class="card-img-top card-img" alt="Card Image">
         <div class="card-body">
-          <h5 class="card-title">BHARATHIAR UNIVERSITY</h5>
-          <p class="card-text">The Bharathiar University was established at Coimbatore by the Government of Tamilnadu in February 1982 under the Bharathiar University Act, 1981 (Act 1 of 1982)..</p>
+          <h5 class="card-title">ANNA UNIVERSITY</h5>
+          <p class="card-text">The Bharathiar University was established at Coimbatore by the Government of Tamilnadu in February 1982 under the Bharathiar University Act, 1981 </p>
         </a>
         </div>
       </div>
