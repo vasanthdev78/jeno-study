@@ -80,23 +80,63 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
+                    
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
+                        <td>1</td>
+                        <td>CS705</td>
+                        <td>Cloud Computing</td>
+                        <td>1 st Year</td>
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
-                      <?php } ?>
+                      <tr>
+                        <td>2</td>
+                        <td>CS709</td>
+                        <td>Internet Protocol</td>
+                        <td>1 st Year</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>CS745</td>
+                        <td>Artificial Inteligence</td>
+                        <td>1 st Year</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>CS805</td>
+                        <td>Python</td>
+                        <td>1 st Year</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>CS205</td>
+                        <td>Maths 1 </td>
+                        <td>1 st Year</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+
                         
                     </tbody>
                   </table>

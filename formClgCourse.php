@@ -1,17 +1,17 @@
     
     <!-- Modal -->
-    <div class="modal fade" id="addSubjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="addCourseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="frmAddSubject" id="addSubject" enctype="multipart/form-data">
-                    <input type="hidden" name="hdnAction" value="addSubject">
+                <form name="frmAddCourse" id="addCourse" enctype="multipart/form-data">
+                    <input type="hidden" name="hdnAction" value="addCourse">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Add Subject</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Add Course</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -23,7 +23,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
@@ -36,31 +36,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="year" id="year" required="required">
-                                        <option value="">--Select the Year--</option>
-                                        <option value="1">1 st Year</option>
-                                        <option value="2">2 nd Year</option>
-                                        <option value="3">3 rd Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="medium" id="medium" required="required">
-                                        <option value="">--Select the Medium--</option>
-                                        <option value="tamil">Tamil</option>
-                                        <option value="tamil">English</option>
-                                    </select>
+                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
                                 </div>
                             </div>
                         </div><hr>
                         <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>
-                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -74,19 +58,19 @@
     <!-- ------------------------------------------------------------------------------------------------------------------ -->
 
     <!-- Modal -->
-    <div class="modal fade" id="editSubjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="editCourseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="frmEditSubject" id="editSubject">
-                    <input type="hidden" name="hdnAction" value="editSubject">
+                <form name="frmEditCourse" id="editCourse">
+                    <input type="hidden" name="hdnAction" value="editCourse">
                     <input type="hidden" name="editid" id="editid">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Edit Subject</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Edit Course</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                    <div class="row">
-                            <div class="col-sm-6">
+                        <div class="row">
+                        <div class="col-sm-12">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -98,7 +82,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
@@ -111,27 +95,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="year" id="year" required="required">
-                                        <option value="">--Select the Year--</option>
-                                        <option value="1">1 st Year</option>
-                                        <option value="2">2 nd Year</option>
-                                        <option value="3">3 rd Year</option>
-                                    </select>
+                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="medium" id="medium" required="required">
-                                        <option value="">--Select the Medium--</option>
-                                        <option value="tamil">Tamil</option>
-                                        <option value="tamil">English</option>
-                                    </select>
-                                </div>
-                            </div>
+                            </div> 
                         </div><hr>
                         <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>

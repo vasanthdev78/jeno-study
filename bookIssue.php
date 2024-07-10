@@ -38,8 +38,6 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
-
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -55,103 +53,48 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                              
-                                <h4 class="page-title">Books</h4>   
+                                <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="addIssueBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addIssueModal">
+                                            Add New Book Issue
+                                        </button>
+                                    </div>
+                                </div>
+                                <h4 class="page-title">Book Issue</h4>   
                             </div>
                         </div>
                     </div>
-      <!-- Filters -->
-      <div class="row mb-3">
-                    <div class="col-md-3">
-                        <label for="universityFilter">University</label>
-                        <select id="universityFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="University1">University 1</option>
-                            <option value="University2">University 2</option>
-                            <option value="University3">University 3</option>
-                            <option value="University4">University 4</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="courseFilter">Course</label>
-                        <select id="courseFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="Course1">Course 1</option>
-                            <option value="Course2">Course 2</option>
-                            <option value="Course3">Course 3</option>
-                            <option value="Course4">Course 4</option>
-                            <option value="Course5">Course 5</option>
-                            <option value="Course6">Course 6</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="statusFilter">Status</label>
-                        <select id="statusFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Complete">Complete</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 text-right mt-4">
-                        <button id="exportPdf" class="btn btn-danger">Export to PDF</button>
-                        <button id="exportExcel" class="btn btn-success">Export to Excel</button>
-                    </div>
-                </div>
 
-
+             <?php include("formBookIssue.php");?>
+             
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
-                                   <th scope="col-1">S.No.</th>
-                                    <th scope="col">Student Roll NO</th>
+                                    <th scope="col-1">S.No.</th>
                                     <th scope="col">Student Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Year</th>
-                                    <th scope="col">Stutas</th>
-                                    
+                                    <th scope="col">University Name</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Book Name</th>
+                                    <th scope="col">Issue Date</th> 
+                                    <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    //  $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
-                        ?>
+                    
                      <tr>
-                     <td>1</td>
-                        <td>CS705654</td>
-                        <td>Vasanth</td>
-                        <td>MCA</td>
-                        <td>1 st Year</td>
-                        <td>Issue</td>
+                        <td>1</td>
+                        <td>Sathish</td>
+                        <td>Anna University</td>
+                        <td>Course Name</td>
+                        <td>Maths, English, POM</td>
+                        <td>10/07/2024</td>
                     
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editIssueModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
                       </tr>
-
-                      <tr>
-                     <td>2</td>
-                        <td>CS7055498</td>
-                        <td>Raj</td>
-                        <td>MSC</td>
-                        <td>1 st Year</td>
-                        <td>Pending</td>
-                    
-                      </tr>
-
-                      <tr>
-                     <td>3</td>
-                        <td>CS7059848</td>
-                        <td>hari</td>
-                        <td>MCA</td>
-                        <td>1 st Year</td>
-                        <td>Issue</td>
-                      </tr>
-                      <?php 
-                    // }
-                     ?>
                         
                     </tbody>
                   </table>
@@ -200,13 +143,6 @@ session_start();
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-  <!-- Include jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-<!-- Include SheetJS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
-
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
@@ -214,7 +150,7 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
-    <script>
+    <!-- <script>
 
 $(document).ready(function () {
   $('#addStudentBtn').click(function () {
@@ -527,7 +463,7 @@ function goDocStu(id)
         }
     });
 }
-</script>
+</script> -->
 
     
 

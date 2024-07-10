@@ -76,35 +76,92 @@ session_start();
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Mobile</th>
-                                    <th scope="col">Destination</th>
-                                    <th scope="col">Date of Join</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Date of Joining</th>
                                     <th scope="col">Email ID</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
+                    
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                        <td scope="row">1</td>
+                        <td>John Doe</td>
+                        <td>9876541320</td>
+                        <td>System Admin</td>
+                        <td>01/02/2023</td>
+                        <td>johndoe@gmail.com</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
                             <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
                         </td>
                       </tr>
-                      <?php } ?>
+                      <tr>
+                        <td scope="row">2</td>
+                        <td>HariHaran</td>
+                        <td>6547962145</td>
+                        <td>Receptionist</td>
+                        <td>01/05/2023</td>
+                        <td>hariharan@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">3</td>
+                        <td>Ajay</td>
+                        <td>9876352410</td>
+                        <td>Accountant</td>
+                        <td>01/06/2023</td>
+                        <td>ajayprasad@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">4</td>
+                        <td>Srinivas</td>
+                        <td>7896541230</td>
+                        <td>Cashier</td>
+                        <td>01/08/2023</td>
+                        <td>srinivas@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">5</td>
+                        <td>Mari Raj</td>
+                        <td>8974563210</td>
+                        <td>Software Engineer</td>
+                        <td>01/10/2023</td>
+                        <td>mariraj@gmail.com</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
+                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        </td>
+                      </tr>
+
+                     
                         
                     </tbody>
                   </table>
