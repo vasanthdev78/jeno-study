@@ -465,11 +465,10 @@ function goDocStu(id)
         $('#duration').on('input', function() {
             $('#additionalInputs').empty(); // Clear previous inputs
             var duration = $(this).val();
-            var yearCounter = 1;
 
             for (var i = 1; i <= duration; i++) {
                 var yearText;
-                switch(i) {
+                switch (i) {
                     case 1:
                         yearText = '1st Year';
                         break;
@@ -487,28 +486,47 @@ function goDocStu(id)
                 var newInputDiv = $('<div class="row m-2"></div>');
 
                 var yearDiv = $('<div class="col-sm-12"><label class="form-label"><b>' + yearText + '</b></label></div>');
-                
-                var input1Div = $('<div class="col-sm-6"></div>');
+
+                var input1Div = $('<div class="col-sm-4"></div>');
                 var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
-                var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
+                var input1 = $('<input type="number" class="form-control university-fees" name="universityFees[]" placeholder="Enter University Fees" required>');
                 input1Div.append(input1Label);
                 input1Div.append(input1);
 
-                var input2Div = $('<div class="col-sm-6"></div>');
+                var input2Div = $('<div class="col-sm-4"></div>');
                 var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
-                var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
+                var input2 = $('<input type="number" class="form-control study-center-fees" name="studyCenterFees[]" placeholder="Enter Study Center Fees" required>');
                 input2Div.append(input2Label);
                 input2Div.append(input2);
+
+                var input3Div = $('<div class="col-sm-4"></div>');
+                var input3Label = $('<label class="form-label"><b>Total Fees</b></label>');
+                var input3 = $('<input type="number" class="form-control total-fees" name="totalFees[]" readonly placeholder="Total Fees">');
+                input3Div.append(input3Label);
+                input3Div.append(input3);
 
                 newInputDiv.append(yearDiv);
                 newInputDiv.append(input1Div);
                 newInputDiv.append(input2Div);
+                newInputDiv.append(input3Div);
 
                 $('#additionalInputs').append(newInputDiv);
+
+                // Add event listeners to update total fees
+                (function(input1, input2, input3) {
+                    input1.add(input2).on('input', function() {
+                        var universityFees = parseFloat(input1.val()) || 0;
+                        var studyCenterFees = parseFloat(input2.val()) || 0;
+                        input3.val(universityFees + studyCenterFees);
+                    });
+                })(input1, input2, input3);
             }
         });
     });
-</script> 
+</script>
+
+
+
 
 </body>
 
