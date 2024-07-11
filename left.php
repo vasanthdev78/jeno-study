@@ -62,6 +62,9 @@
                 <a href="masterCourse.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i>Course</a>
             </li>
             <li>
+                <a href="course.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i><span>Courses Details</span></a>
+            </li>
+            <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
             <li>
@@ -92,12 +95,7 @@
         <span> Admission </span>
     </a>
 </li>
-<li class="side-nav-item">
-    <a href="course.php" class="side-nav-link">
-    <i class="bi bi-ui-radios-grid"></i>
-        <span> Courses </span>
-    </a>
-</li>
+
 <li class="side-nav-item">
     <a href="fees.php" class="side-nav-link">
     <i class="bi bi-currency-rupee"></i>
@@ -139,7 +137,7 @@
         <span> Schedule </span>
     </a>
 </li>
-<li>
+<li class="side-nav-item">
     <a href="masterLedger.php" class="side-nav-link">
     <i class="bi bi-journals"></i>
         <span>Ledger</span>
