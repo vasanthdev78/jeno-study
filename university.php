@@ -38,7 +38,6 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
@@ -55,48 +54,86 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">University</h4>   
                             </div>
                         </div>
                     </div>
-
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
              
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
-                    <thead>
-                        <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
-                                    <th scope="col">Action</th>
-                                    
-                      </tr>
-                    </thead>
-                    <tbody>
-                    
-                     <tr>
-                        <td>1</td>
-                        <td>Karthik</td>
-                        <td>BSC</td>
-                        <td>Trichy</td>
-                        <td>6547893210</td>
-                        <td>karthik@gmail.com</td>
-                    
-                        <td>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                        </td>
-                      </tr>                        
-                    </tbody>
-                  </table>
+                    <div class="row">
+                            <div class="col-12">
+                                <div class="bg-flower">
+                                    <img src="assets/images/flowers/img-3.png">
+                                </div>
 
-                            </div> <!-- end card -->
-                        </div><!-- end col-->
-                    </div> <!-- end row-->
+                                <div class="bg-flower-2">
+                                    <img src="assets/images/flowers/img-1.png">
+                                </div>
+
+                                <div class="page-title-box">                                    
+                                     
+                                    <h4 class="page-title">Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
+                                                <h3 class="my-1 py-1">9,184</h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Enquiries </h5>
+                                                <h3 class="my-1 py-1">3,254</h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Courses</h5>
+                                                <h3 class="my-1 py-1">861</h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card ">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Admission</h5>
+                                                <h3 class="my-1 py-1">259</h3>                                               
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div>
 
                 </div> <!-- container -->
 
