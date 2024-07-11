@@ -66,7 +66,7 @@ session_start();
                         </div>
                     </div>
 
-                    <?php include("formClgCourse.php");?>
+                    <?php include "formClgCourse.php" ;?>
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -462,36 +462,53 @@ function goDocStu(id)
 
 <script>
     $(document).ready(function() {
-        $('#addInputButton').click(function() {
-            var newInputDiv = $('<div class="row m-2"></div>');
+        $('#duration').on('input', function() {
+            $('#additionalInputs').empty(); // Clear previous inputs
+            var duration = $(this).val();
+            var yearCounter = 1;
 
-            var input1Div = $('<div class="col-sm-5"></div>');
-            var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
-            input1Div.append(input1Label);
-            input1Div.append(input1);
+            for (var i = 1; i <= duration; i++) {
+                var yearText;
+                switch(i) {
+                    case 1:
+                        yearText = '1st Year';
+                        break;
+                    case 2:
+                        yearText = '2nd Year';
+                        break;
+                    case 3:
+                        yearText = '3rd Year';
+                        break;
+                    default:
+                        yearText = i + 'th Year';
+                        break;
+                }
 
-            var input2Div = $('<div class="col-sm-5"></div>');
-            var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
-            input2Div.append(input2Label);
-            input2Div.append(input2);
+                var newInputDiv = $('<div class="row m-2"></div>');
 
-            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-            deleteButton.click(function() {
-                newInputDiv.remove();
-            });
-            deleteButtonDiv.append(deleteButton);
+                var yearDiv = $('<div class="col-sm-12"><label class="form-label"><b>' + yearText + '</b></label></div>');
+                
+                var input1Div = $('<div class="col-sm-6"></div>');
+                var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
+                var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
+                input1Div.append(input1Label);
+                input1Div.append(input1);
 
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-            newInputDiv.append(deleteButtonDiv);
+                var input2Div = $('<div class="col-sm-6"></div>');
+                var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
+                var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
+                input2Div.append(input2Label);
+                input2Div.append(input2);
 
-            $('#additionalInputs').append(newInputDiv);
+                newInputDiv.append(yearDiv);
+                newInputDiv.append(input1Div);
+                newInputDiv.append(input2Div);
+
+                $('#additionalInputs').append(newInputDiv);
+            }
         });
     });
-</script>   
+</script> 
 
 </body>
 
