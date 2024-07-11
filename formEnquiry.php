@@ -55,7 +55,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
                                     <label for="editAddress" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="editAddress" id="editAddress" required="required">
+                                    <textarea class="form-control" placeholder="Enter address" name="editAddress" id="editAddress" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -163,7 +163,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
                                     <label for="editAddress" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="editAddress" id="editAddress" required="required">
+                                    <textarea class="form-control" placeholder="Enter address" name="editAddress" id="editAddress" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">
