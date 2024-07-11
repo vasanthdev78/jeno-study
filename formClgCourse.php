@@ -38,12 +38,11 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
+                                    <label for="duration" class="form-label"><b>Duration (Years)</b></label>
+                                    <input type="number" class="form-control" name="duration" id="duration" required="required" placeholder="Enter Course duration" min="1" max="10">
                                 </div>
-                            </div>
+                            </div> 
                         </div><hr>
-                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
@@ -97,12 +96,11 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="duration" class="form-label"><b>Course Duration</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Course duration" name="duration" id="duration" required="required">
+                                    <label for="duration" class="form-label"><b>Duration (Years)</b></label>
+                                    <input type="number" class="form-control" name="duration" id="duration" required="required" placeholder="Enter Course duration" min="1" max="10">
                                 </div>
                             </div> 
                         </div><hr>
-                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
