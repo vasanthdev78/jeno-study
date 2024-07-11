@@ -63,6 +63,20 @@
                                     <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
                                 </div>
                             </div>
+
+                            <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="subject" id="subject" required="required">
+                                    <option value="">--Select Subject--</option>
+                                    <option value="online">Networking</option>
+                                    <option value="cash">php</option>
+                                    <option value="cash">java</option>
+                                    <option value="cash">Web development</option>
+                                    <option value="cash">python</option>
+                                </select>
+                            </div>
+                        </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="address" class="form-label"><b>Address</b></label>
@@ -151,6 +165,19 @@
                                     <input type="email" class="form-control" placeholder="Enter Email" name="editemail" id="editemail" required="required">
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="subject" id="subject" required="required">
+                                    <option value="">--Select Subject--</option>
+                                    <option value="online">Networking</option>
+                                    <option value="cash">php</option>
+                                    <option value="cash">java</option>
+                                    <option value="cash">Web development</option>
+                                    <option value="cash">python</option>
+                                </select>
+                            </div>
+                        </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="editaddress" class="form-label"><b>Address</b></label>

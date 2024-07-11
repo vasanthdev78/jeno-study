@@ -54,7 +54,14 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <h4 class="page-title">Fees</h4>   
+                                <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="addBookBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addFeesModal">
+                                            Add New Payment
+                                        </button>
+                                    </div>
+                                </div>
+                                <h4 class="page-title">List Fees</h4>   
                             </div>
                         </div>
                     </div>
