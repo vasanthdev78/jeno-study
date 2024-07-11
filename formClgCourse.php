@@ -11,7 +11,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -23,7 +23,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
@@ -36,7 +36,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="medium" id="medium" required="required">
+                                        <option value="">--Select the Medium--</option>
+                                        <option value="tamil">Tamil</option>
+                                        <option value="tamil">English</option>
+                                        <option value="tamil">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="duration" class="form-label"><b>Duration (Years)</b></label>
                                     <input type="number" class="form-control" name="duration" id="duration" required="required" placeholder="Enter Course duration" min="1" max="10">
@@ -69,7 +80,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
-                        <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -81,7 +92,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="course" id="course" required="required">
@@ -94,7 +105,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="medium" id="medium" required="required">
+                                        <option value="">--Select the Medium--</option>
+                                        <option value="tamil">Tamil</option>
+                                        <option value="tamil">English</option>
+                                        <option value="tamil">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="duration" class="form-label"><b>Duration (Years)</b></label>
                                     <input type="number" class="form-control" name="duration" id="duration" required="required" placeholder="Enter Course duration" min="1" max="10">

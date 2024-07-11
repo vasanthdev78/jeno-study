@@ -25,6 +25,18 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
+                                    <label for="course" class="form-label"><b>Method</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="course" class="form-label"><b>Transaction Id</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
                                     <label for="course" class="form-label"><b>Ex.Date</b></label>
                                     <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Date" name="course" id="course" required="required">
                                 </div>

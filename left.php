@@ -67,9 +67,6 @@
             <li>
                 <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
             </li>
-            <li>
-                <a href="masterLedger.php" class="side-nav-link"><i class="bi bi-journals"></i>Ledger</a>
-            </li>
         </ul>
     </div>
     </li>
@@ -124,12 +121,6 @@
         </ul>
     </div>
 </li>
-<!-- <li class="side-nav-item">
-    <a href="subject.php" class="side-nav-link">
-    <i class="bi bi-list-columns-reverse"></i>
-        <span> Subjects </span>
-    </a>
-</li> -->
 <li class="side-nav-item">
     <a href="faculty.php" class="side-nav-link">
     <i class="bi bi-person-video3"></i>
@@ -140,6 +131,12 @@
     <a href="schedule.php" class="side-nav-link">
     <i class="bi bi-calendar2-week"></i>
         <span> Schedule </span>
+    </a>
+</li>
+<li>
+    <a href="masterLedger.php" class="side-nav-link">
+    <i class="bi bi-journals"></i>
+        <span>Ledger</span>
     </a>
 </li>
     <?php } ?>

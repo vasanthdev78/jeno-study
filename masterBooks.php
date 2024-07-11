@@ -468,7 +468,7 @@ function goDocStu(id)
             var newInputDiv = $('<div class="row m-2"></div>');
 
             var input1Div = $('<div class="col-sm-5"></div>');
-            var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
+            var input1Label = $('<label class="form-label"><b>Book Code</b></label>');
             var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
             input1Div.append(input1Label);
             input1Div.append(input1);

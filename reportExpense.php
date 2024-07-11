@@ -54,11 +54,10 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                            <div class="page-title-right">
+                                <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
-                                            Add New Expense
-                                        </button>
+                                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
                                     </div>
                                 </div>
                                 <h4 class="page-title">Expense</h4> 
@@ -73,10 +72,6 @@ session_start();
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
-                                    <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
                                 </div>
                             </div>
                             </div>

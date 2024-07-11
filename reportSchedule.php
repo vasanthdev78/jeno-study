@@ -55,24 +55,47 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                
+                                <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
+                                    </div>
+                                </div>
                                 <h4 class="page-title">Schedule</h4>  
                                 <div class="row mt-3 mb-3">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="startDate" class="form-label">Start Date:</label>
                             <input type="date" class="form-control" id="startDate">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="endDate" class="form-label">End Date:</label>
                             <input type="date" class="form-control" id="endDate">
                         </div>
                         <div class="col-md-2">
+                            <label for="startDate" class="form-label">Faculty</label>
+                            <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">Vasanth</option>
+                            <option value="University2">Rajkumar</option>
+                            <option value="University3">Anushiya</option>
+                            <option value="University4">Subash</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="endDate" class="form-label">Subject</label>
+                            <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">Cloud Computing</option>
+                            <option value="University2">Internet Protocol</option>
+                            <option value="University3">Artificial Inteligence</option>
+                            <option value="University4">POM</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                        </div>
+                        <div class="col-md-2">
                             <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
-                            <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
-                        </div>
+                        </div>                        
                     </div> 
                             </div>
                         </div>
