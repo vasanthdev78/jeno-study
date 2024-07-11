@@ -73,15 +73,8 @@ $user_role = $_SESSION['role'];
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
                                                 <h3 class="my-1 py-1">9,184</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 3.27%</span>
-                                                </p>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="campaign-sent-chart" data-colors="#6da09c"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
@@ -94,15 +87,8 @@ $user_role = $_SESSION['role'];
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Enquiries </h5>
                                                 <h3 class="my-1 py-1">3,254</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 5.38%</span>
-                                                </p>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="new-leads-chart" data-colors="#87bf8a"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
@@ -115,19 +101,62 @@ $user_role = $_SESSION['role'];
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Books</h5>
                                                 <h3 class="my-1 py-1">861</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 4.87%</span>
-                                                </p>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="deals-chart" data-colors="#e7607b"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card ">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Admission</h5>
+                                                <h3 class="my-1 py-1">259</h3>                                               
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div>
+                        
+                <!-- ------------------------admin view ----------------- -->
+                <?php if ($user_role == 'Admin') { ?>
+
+                <div class="row">
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
+                                                <h3 class="my-1 py-1">124</h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Staff </h5>
+                                                <h3 class="my-1 py-1">30</h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            
 
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card text-bg-primary border-primary">
@@ -135,22 +164,31 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Income</h5>
-                                                <h3 class="my-1 py-1">$253k</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-white text-opacity-75 me-2"><i class="ri-arrow-up-line"></i> 11.7%</span>
-                                                </p>
+                                                <h3 class="my-1 py-1">₹50,00,000</h3>
                                             </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card text-bg-primary border-primary">
+                                    <div class="card-body bg-danger">
+                                        <div class="row align-items-center">
                                             <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="booked-revenue-chart" data-colors="#d89e70"></div>
-                                                </div>
+                                                <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Expense</h5>
+                                                <h3 class="my-1 py-1">₹25,00,000</h3>
                                             </div>
+                                           
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
                         </div>
-                        
+                        <?php } ?>
+                        <!-- -----------------------admin view end -------------------- -->
+
                     </div>
                     <!-- container -->
 
