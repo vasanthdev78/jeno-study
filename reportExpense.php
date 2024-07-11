@@ -130,8 +130,6 @@ session_start();
     </div>
     <!-- END wrapper -->
 
-    <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
