@@ -11,6 +11,13 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row">
+                        <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Student Roll No</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Book Count" name="course" id="course" required="required">
+                                </div>
+                            </div>
+                            
                             <div class="col-sm-6">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b></label>
@@ -47,6 +54,7 @@
                                     </select>
                                 </div>
                             </div>
+                          
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="medium" class="form-label"><b>Book Count</b></label>
