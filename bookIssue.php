@@ -67,48 +67,48 @@ session_start();
                     </div>
 
                       <!-- Filters -->
-      <div class="row mb-3">
-                    <div class="col-md-3">
-                        <label for="universityFilter">University</label>
-                        <select id="universityFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="University1">University Of Madras</option>
-                            <option value="University2">Anna University</option>
-                            <option value="University3">MS University</option>
-                            <option value="University4">Alagappa University</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="courseFilter">Course</label>
-                        <select id="courseFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="Course1">BBA</option>
-                            <option value="Course2">BCA</option>
-                            <option value="Course3">MBA</option>
-                            <option value="Course4">MCA</option>
-                            <option value="Course5">BSc</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="courseFilter">Year</label>
-                        <select id="courseFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="Course1">1st Year</option>
-                            <option value="Course2">2nd Year</option>
-                            <option value="Course3">3srd Year</option>
-                            <option value="Course4">4th Year</option>
-                            <option value="Course5">5th Year</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                   
-                    <div class="col-md-4 text-right mt-4">
-                        <button id="exportPdf" class="btn btn-danger">Export to PDF</button>
-                        <button id="exportExcel" class="btn btn-success">Export to Excel</button>
-                    </div>
-                </div>
+                      <div class="row mb-3">
+    <div class="col-md-3">
+        <label for="universityFilter">University</label>
+        <select id="universityFilter" class="form-control">
+            <option value="">All</option>
+            <option value="University1">University Of Madras</option>
+            <option value="University2">Anna University</option>
+            <option value="University3">MS University</option>
+            <option value="University4">Alagappa University</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="courseFilter">Course</label>
+        <select id="courseFilter" class="form-control">
+            <option value="">All</option>
+            <option value="Course1">BBA</option>
+            <option value="Course2">BCA</option>
+            <option value="Course3">MBA</option>
+            <option value="Course4">MCA</option>
+            <option value="Course5">BSc</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label for="yearFilter">Year</label>
+        <select id="yearFilter" class="form-control">
+            <option value="">All</option>
+            <option value="1stYear">1st Year</option>
+            <option value="2ndYear">2nd Year</option>
+            <option value="3rdYear">3rd Year</option>
+            <option value="4thYear">4th Year</option>
+            <option value="5thYear">5th Year</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <div class="col-md-2 mt-4">
+        <button id="searchButton" class="btn btn-primary">Search</button>
+        </div>  
+    
+</div>
+
 
              <?php include("formBookIssue.php");?>
              
