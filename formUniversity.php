@@ -28,13 +28,6 @@
                                     <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Address</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination">
-                                </div>
-                            </div> 
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
@@ -48,6 +41,12 @@
                                     <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Address</b></label>
+                                    <textarea class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination"></textarea>
+                                </div>
+                            </div> 
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
@@ -99,13 +98,6 @@
                                     <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Address</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination">
-                                </div>
-                            </div> 
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
@@ -119,6 +111,12 @@
                                     <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="editDestination" class="form-label"><b>Address</b></label>
+                                    <textarea class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination"></textarea>
+                                </div>
+                            </div> 
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
