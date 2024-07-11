@@ -348,6 +348,7 @@ $('#docStudent').off('submit').on('submit', function(e) {
     ga('send', 'pageview');
   </script>
 <script> -->
+  <!-- <script>
     function goEditStudent(editId)
 { 
       $.ajax({
@@ -464,7 +465,7 @@ function goDocStu(id)
         }
     });
 }
-</script>
+</script> -->
 
     
 
