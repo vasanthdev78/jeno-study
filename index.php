@@ -220,6 +220,7 @@
 
                 <label for="privilege">Privilege</label>
                 <select id="privilege" name="role">
+                <option value="">----select----</option>
                     <option value="Admin">Admin</option>
                     <option value="Staff">Staff</option>
                 </select>

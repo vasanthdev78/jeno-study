@@ -75,6 +75,8 @@
     </li>
     <?php } ?>
 
+    <?php if ($user_role == 'Staff') { ?>
+
     <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
     <i class="bi bi-layout-three-columns"></i>
@@ -140,6 +142,8 @@
         <span> Schedule </span>
     </a>
 </li>
+    <?php } ?>
+
 <?php if ($user_role == 'Admin') { ?>
     <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarReport" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
