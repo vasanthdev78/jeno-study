@@ -10,9 +10,10 @@ if (isset($_REQUEST['logout'])) {
 if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);
+    $role = htmlspecialchars($_POST['role']);
 
-    $stmt = mysqli_prepare($conn, "SELECT * FROM admin_tbl WHERE username = ? AND pass = ?");
-    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    $stmt = mysqli_prepare($conn, "SELECT * FROM admin_tbl WHERE username = ? AND pass = ? AND role = ?");
+    mysqli_stmt_bind_param($stmt, "sss", $username, $password,$role);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
 
