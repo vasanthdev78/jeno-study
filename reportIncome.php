@@ -96,10 +96,10 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">Paid Date</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Method</th>
-                                    <th scope="col">Paid Date</th>
                                     <th scope="col">Transaction Id</th> 
                                     
                                     
@@ -114,20 +114,20 @@ session_start();
                         ?>
                      <tr>
                         <td>1</td>
+                        <td>9-7-2024</td>
                         <td>Admision</td>
                         <td>50000</td>
                         <td>Online</td>
-                        <td>9-7-2024</td>
                         <td>TIS465768754</td>
                                             
                       </tr>
 
                       <tr>
                         <td>2</td>
+                        <td>9-7-2024</td>
                         <td>Admision</td>
                         <td>30000</td>
                         <td>Online</td>
-                        <td>9-7-2024</td>
                         <td>TIS465768754</td>
                     
                        
@@ -135,10 +135,10 @@ session_start();
 
                       <tr>
                         <td>1</td>
+                        <td>9-7-2024</td>
                         <td>Admision</td>
                         <td>40000</td>
                         <td>Cash</td>
-                        <td>9-7-2024</td>
                         <td>TIS465768754</td>
                         
                       </tr>

@@ -84,9 +84,9 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">Ex. Date</th>
                                     <th scope="col">Expense</th>
                                     <th scope="col">Amount</th>
-                                    <th scope="col">Ex. Date</th>
                                     <th scope="col">Bill Img</th>
                                     <th scope="col">Action</th>
                                     
@@ -95,9 +95,9 @@ session_start();
                     <tbody>
                      <tr>
                         <td>1</td>
+                        <td>10/07/2024</td>
                         <td>Current Bill</td>
                         <td>6000</td>
-                        <td>10/07/2024</td>
                         <td></td>
                     
                         <td>

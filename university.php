@@ -58,24 +58,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-             
-                    <div class="row">
-                            <div class="col-12">
-                                <div class="bg-flower">
-                                    <img src="assets/images/flowers/img-3.png">
-                                </div>
-
-                                <div class="bg-flower-2">
-                                    <img src="assets/images/flowers/img-1.png">
-                                </div>
-
-                                <div class="page-title-box">                                    
-                                     
-                                    <h4 class="page-title">Dashboard</h4>
-                                </div>
-                            </div>
-                        </div>
-
+                    
                         <div class="row">
         
                             <div class="col-sm-6 col-xxl-3">
