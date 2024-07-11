@@ -62,27 +62,38 @@ session_start();
                     </div>
       <!-- Filters -->
       <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="universityFilter">University</label>
                         <select id="universityFilter" class="form-control">
                             <option value="">All</option>
-                            <option value="University1">University 1</option>
-                            <option value="University2">University 2</option>
-                            <option value="University3">University 3</option>
-                            <option value="University4">University 4</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
                             <!-- Add more options as needed -->
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="courseFilter">Course</label>
                         <select id="courseFilter" class="form-control">
                             <option value="">All</option>
-                            <option value="Course1">Course 1</option>
-                            <option value="Course2">Course 2</option>
-                            <option value="Course3">Course 3</option>
-                            <option value="Course4">Course 4</option>
-                            <option value="Course5">Course 5</option>
-                            <option value="Course6">Course 6</option>
+                            <option value="Course1">BBA</option>
+                            <option value="Course2">BCA</option>
+                            <option value="Course3">MBA</option>
+                            <option value="Course4">MCA</option>
+                            <option value="Course5">BSc</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="courseFilter">Year</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Course1">1st Year</option>
+                            <option value="Course2">2nd Year</option>
+                            <option value="Course3">3srd Year</option>
+                            <option value="Course4">4th Year</option>
+                            <option value="Course5">5th Year</option>
                             <!-- Add more options as needed -->
                         </select>
                     </div>
@@ -90,8 +101,10 @@ session_start();
                         <label for="statusFilter">Status</label>
                         <select id="statusFilter" class="form-control">
                             <option value="">All</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Complete">Complete</option>
+                            <option value="Pending">Received</option>
+                            <option value="Complete">Not Received</option>
+                            <option value="Pending">Issued</option>
+                            <option value="Complete">Not Issued</option>
                         </select>
                     </div>
                     <div class="col-md-4 text-right mt-4">
@@ -109,7 +122,8 @@ session_start();
                                     <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Year</th>
-                                    <th scope="col">Stutas</th>
+                                    <th scope="col">Contact</th>
+                                    <th scope="col">Status</th>
                                     
                                     
                       </tr>
@@ -127,6 +141,7 @@ session_start();
                         <td>Vasanth</td>
                         <td>MCA</td>
                         <td>1 st Year</td>
+                        <td>987456320</td>
                         <td>Issue</td>
                     
                       </tr>
@@ -137,16 +152,18 @@ session_start();
                         <td>Raj</td>
                         <td>MSC</td>
                         <td>1 st Year</td>
+                        <td>654789321</td>
                         <td>Pending</td>
                     
                       </tr>
 
                       <tr>
-                     <td>3</td>
+                        <td>3</td>
                         <td>CS7059848</td>
                         <td>hari</td>
                         <td>MCA</td>
                         <td>1 st Year</td>
+                        <td>4567891235</td>
                         <td>Issue</td>
                       </tr>
                       <?php 

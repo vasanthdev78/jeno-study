@@ -55,6 +55,12 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
+                                    </div>
+                                </div>
                                 <h4 class="page-title">Student</h4> 
                                 <div class="row mt-3 mb-3">
                         <div class="col-md-3">
@@ -65,12 +71,20 @@ session_start();
                             <label for="endDate" class="form-label">End Date:</label>
                             <input type="date" class="form-control" id="endDate">
                         </div>
+                        <div class="col-sm-3">
+                                <div class="form-group ">
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="university" id="university" required="required">
+                                        <option value="">--Select the University--</option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
+                                    </select>
+                                </div>
+                            </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
-                            <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
                         </div>
                     </div>
 

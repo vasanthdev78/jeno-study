@@ -47,16 +47,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="medium" id="medium" required="required">
-                                        <option value="">--Select the Medium--</option>
-                                        <option value="tamil">Tamil</option>
-                                        <option value="tamil">English</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div><hr>
                         <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>
@@ -119,16 +109,6 @@
                                         <option value="1">1 st Year</option>
                                         <option value="2">2 nd Year</option>
                                         <option value="3">3 rd Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="medium" id="medium" required="required">
-                                        <option value="">--Select the Medium--</option>
-                                        <option value="tamil">Tamil</option>
-                                        <option value="tamil">English</option>
                                     </select>
                                 </div>
                             </div>
