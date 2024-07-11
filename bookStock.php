@@ -66,27 +66,80 @@ session_start();
                         </div>
                     </div>
 
+                      <!-- Filters -->
+      <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="universityFilter">University</label>
+                        <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="courseFilter">Course</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Course1">BBA</option>
+                            <option value="Course2">BCA</option>
+                            <option value="Course3">MBA</option>
+                            <option value="Course4">MCA</option>
+                            <option value="Course5">BSc</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="courseFilter">Year</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Course1">1st Year</option>
+                            <option value="Course2">2nd Year</option>
+                            <option value="Course3">3srd Year</option>
+                            <option value="Course4">4th Year</option>
+                            <option value="Course5">5th Year</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                   
+                    <div class="col-md-4 text-right mt-4">
+                        <button id="exportPdf" class="btn btn-danger">Export to PDF</button>
+                        <button id="exportExcel" class="btn btn-success">Export to Excel</button>
+                    </div>
+                </div>
+
              <?php include("formBookStock.php");?>
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
-                        <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">University Name</th>
-                                    <th scope="col">Course Name</th>
-                                    <th scope="col">Book Name</th>
-                                    <th scope="col">Stock</th> 
+                    <tr class="bg-light">
+                                   <th scope="col-1">S.No.</th>
+                                    <th scope="col">Student Roll NO</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Book</th>
+                                    <th scope="col">ID Card</th>
+                                    <th scope="col">Contact</th>
                                     <th scope="col">Action</th>
+                                    
                                     
                       </tr>
                     </thead>
                     <tbody>
                      <tr>
-                        <td>1</td>
-                        <td>Anna University</td>
-                        <td>BBA</td>
-                        <td>Principles Of Management</td>
-                        <td>8</td>
+                     
+                     <td>1</td>
+                        <td>CS705654</td>
+                        <td>Vasanth</td>
+                        <td>MCA</td>
+                        <td>1 st Year</td>
+                        <td>Received</td>
+                        <td>Not Received</td>
+                        <td>987456320</td>
+                    
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStockModal"><i class='bi bi-pencil-square'></i></button>
