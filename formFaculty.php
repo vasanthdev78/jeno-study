@@ -1,29 +1,29 @@
-                           <!-- Modal -->
-                           <div class="modal fade" id="addFacultyfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal -->
+    <div class="modal fade" id="addFacultyfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form name="frmAddStaff" id="addFaculty" enctype="multipart/form-data">
                     <input type="hidden" name="hdnAction" value="addFaculty">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Add addFaculty</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Add Faculty</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="staffName" class="form-label"><b>Name</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Name" name="staffName" id="staffName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="dob" class="form-label"><b>Date of Birth</b></label>
                                     <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" id="dob" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="gender" class="form-label"><b>Gender</b></label>
                                     <select class="form-control" id="gender" name="gender" required="required">
                                          <option>----select----</option>
@@ -34,53 +34,80 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="mobile" class="form-label"><b>Mobile No</b></label>
                                     <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="mobile" id="mobile" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="dateofjoin" class="form-label"><b>Date of Join</b></label>
                                     <input type="date" class="form-control" placeholder="Enter Date of Join" name="dateofjoin" id="dateofjoin" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="salary" class="form-label"><b>Salary</b></label>
                                     <input type="number" class="form-control" pattern="[0-9]{12}" placeholder="Enter Salary" name="salary" id="salary">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Designation</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter destination" name="destination" id="destination">
+                                <div class="form-group">
+                                    <label for="destination" class="form-label"><b>Qualification</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter Qualification" name="destination" id="destination">
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
+                                    <label for="destination" class="form-label"><b>College Name</b></label>
+                                    <input type="text" class="form-control"  placeholder="Enter College Name" name="destination" id="destination">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label for="email" class="form-label"><b>Email</b></label>
                                     <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label"><b>Aadhar Card</b></label>
+                                    <input type="file" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
+                                </div>
+                            </div>
 
                             <div class="col-sm-12">
-                            <div class="form-group pb-1">
-                                <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
-                                <select class="form-control" name="subject" id="subject" required="required">
-                                    <option value="">--Select Subject--</option>
-                                    <option value="online">Networking</option>
-                                    <option value="cash">php</option>
-                                    <option value="cash">java</option>
-                                    <option value="cash">Web development</option>
-                                    <option value="cash">python</option>
-                                </select>
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value="online">BBA</option>
+                                        <option value="cash">BCA</option>
+                                        <option value="cash">MBA</option>
+                                        <option value="cash">MCA</option>
+                                        <option value="cash">BSc</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select Subject--</option>
+                                        <option value="online">Networking</option>
+                                        <option value="cash">php</option>
+                                        <option value="cash">java</option>
+                                        <option value="cash">Web development</option>
+                                        <option value="cash">python</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-sm-12">
                                 <div class="form-group pb-3">
                                     <label for="address" class="form-label"><b>Address</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="address" id="address" required="required">
+                                    <textarea class="form-control" placeholder="Enter address" name="address" id="address" required="required"></textarea>
                                 </div>
                             </div>
                             

@@ -10,7 +10,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="facultiesName" class="form-label"><b>Faculties Name</b></label>
                                     <select class="form-control" id="facultiesName" name="facultiesName" required="required">
@@ -24,32 +24,52 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="fromDate" class="form-label"><b>From Date</b></label>
+                                    <label for="fromDate" class="form-label"><b>Schedule Date</b></label>
                                     <input type="date" class="form-control" placeholder="Enter From Date" name="fromDate" id="fromDate" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="endDate" class="form-label"><b>End Date</b></label>
-                                    <input type="date" class="form-control" placeholder="Enter End Date" name="endDate" id="endDate" required="required">
-                                </div>
-                            </div>
-                           
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
                                     <label for="session" class="form-label"><b>Session</b></label>
                                     <select class="form-control" id="session" name="session" required="required">
-                                         <option>----select----</option>
+                                         <option>--Select the Session--</option>
                                         <option value="Morning">Morning</option>
-                                        <option value="Evening">Evening</option>
-                                        <option value="Full time">Full time</option>
+                                        <option value="Evening">Afternoon</option>
+                                        <option value="Full time">Full Day</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="Subject" class="form-label"><b>Subject</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter Subject" name="Subject" id="Subject">
+                                    <label for="Subject" class="form-label"><b>Timing</b></label>
+                                    <input type="text" class="form-control"  placeholder="Ex : 10-12, 1-5, 2-5" name="Subject" id="Subject">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value="online">BBA</option>
+                                        <option value="cash">BCA</option>
+                                        <option value="cash">MBA</option>
+                                        <option value="cash">MCA</option>
+                                        <option value="cash">BSc</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select Subject--</option>
+                                        <option value="online">Networking</option>
+                                        <option value="cash">php</option>
+                                        <option value="cash">java</option>
+                                        <option value="cash">Web development</option>
+                                        <option value="cash">python</option>
+                                    </select>
                                 </div>
                             </div>
                             
@@ -79,7 +99,7 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group pb-3">
                                     <label for="facultiesName" class="form-label"><b>Faculties Name</b></label>
                                     <select class="form-control" id="facultiesName" name="facultiesName" required="required">
@@ -93,32 +113,52 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="fromDate" class="form-label"><b>From Date</b></label>
+                                    <label for="fromDate" class="form-label"><b>Schedule Date</b></label>
                                     <input type="date" class="form-control" placeholder="Enter From Date" name="fromDate" id="fromDate" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="endDate" class="form-label"><b>End Date</b></label>
-                                    <input type="date" class="form-control" placeholder="Enter End Date" name="endDate" id="endDate" required="required">
-                                </div>
-                            </div>
-                           
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
                                     <label for="session" class="form-label"><b>Session</b></label>
                                     <select class="form-control" id="session" name="session" required="required">
-                                         <option>----select----</option>
+                                         <option>--Select the Session--</option>
                                         <option value="Morning">Morning</option>
-                                        <option value="Evening">Evening</option>
-                                        <option value="Full time">Full time</option>
+                                        <option value="Evening">Afternoon</option>
+                                        <option value="Full time">Full Day</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="Subject" class="form-label"><b>Subject</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter Subject" name="Subject" id="Subject">
+                                    <label for="Subject" class="form-label"><b>Timing</b></label>
+                                    <input type="text" class="form-control"  placeholder="Ex : 10-12, 1-5, 2-5" name="Subject" id="Subject">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value="online">BBA</option>
+                                        <option value="cash">BCA</option>
+                                        <option value="cash">MBA</option>
+                                        <option value="cash">MCA</option>
+                                        <option value="cash">BSc</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="subject" class="form-label"><b>Subject</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="subject" id="subject" required="required">
+                                        <option value="">--Select Subject--</option>
+                                        <option value="online">Networking</option>
+                                        <option value="cash">php</option>
+                                        <option value="cash">java</option>
+                                        <option value="cash">Web development</option>
+                                        <option value="cash">python</option>
+                                    </select>
                                 </div>
                             </div>
                             
