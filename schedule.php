@@ -199,7 +199,7 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
-    <script>
+    <!-- <script>
 
 $(document).ready(function () {
   $('#addStudentBtn').click(function () {
@@ -512,7 +512,7 @@ function goDocStu(id)
         }
     });
 }
-</script>
+</script> -->
 
     
 
