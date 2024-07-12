@@ -1,45 +1,15 @@
-<?php
-session_start();
-include("db/dbConnection.php");
 
-$selQuery = "SELECT student_tbl.*, additional_details_tbl.*, course_tbl.* FROM student_tbl
-LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-$resQuery = mysqli_query($conn, $selQuery); 
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<?php include("head.php"); ?>
-
-<body>
-    <!-- Begin page -->
-    <div class="wrapper">
-
-        <!-- ========== Topbar Start ========== -->
-        <?php include("top.php"); ?>
-        <!-- ========== Topbar End ========== -->
-
-        <!-- ========== Left Sidebar Start ========== -->
-        <div class="leftside-menu">
-            <?php include("left.php"); ?>
-        </div>
-        <!-- ========== Left Sidebar End ========== -->
-
-        <!-- ============================================================== -->
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
-        
-        <div class="content-page">
-            <div class="content">
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid d-none" id="addAdmissionModal">
                     <div class="col-12">
                         <div class="card overflow-hidden">
                             <div class="card-body">
-                                <h4 class="header-title mb-3">Admission Progress </h4>
-
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="header-title">Admission Progress</h4>
+                                    <button type="button" id="backToMainBtn" class="btn btn-secondary">
+                                        Back to Main
+                                    </button>
+                                </div>
                                 <form>
                                     <div id="progressbarwizard">
                                         <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
@@ -170,11 +140,11 @@ $resQuery = mysqli_query($conn, $selQuery);
                             <div class="col-sm-12">
                                             <div class="form-group pb-1">
                                             <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Address" name="address" id="address" required="required">
+                                            <textarea class="form-control" placeholder="Enter Address" name="address" id="address" required="required"></textarea>
                                             </div>
                                             </div>
                                             
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                           <div class="form-group pb-1">
                                         <label for="pincode" class="form-label"><b>Pincode</b><span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" required="required">
@@ -246,7 +216,19 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             </div>
                                             </div> 
 
-                                            <div class="col-sm-6">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Year Type</b></label>
+                                    <select class="form-control" name="Empoloyed" id="Empoloyed" required="required">
+                                        <option value="">--Select the Type--</option>
+                                        <option value="Single">Academic Year</option>
+                                        <option value="Married">Calander Year</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Marital Status</b></label>
                                     <select class="form-control" name="course" id="course" required="required">
@@ -331,7 +313,7 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4"> 
+                                        <div class="col-sm-6"> 
                                         <div class="form-group pb-1">
                                                 <label for="community" class="form-label"><b>Community Certificate</b></label>
                                                 <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" required="required">
@@ -393,69 +375,5 @@ $resQuery = mysqli_query($conn, $selQuery);
                 </div> <!-- container -->
             </div> <!-- content -->
 
-            <!-- Footer Start -->
-            <?php include("footer.php"); ?>
-            <!-- end Footer -->
-
-        </div>
-
-        <!-- ============================================================== -->
-        <!-- End Page content -->
-        <!-- ============================================================== -->
-
-    </div>
-    <!-- END wrapper -->
-
-    <!-- Theme Settings -->
-    
-
-    <!-- Vendor js -->
-    <script src="assets/js/vendor.min.js"></script>
-
-    <!-- Bootstrap JS (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-
-    <!-- Datatables js -->
-    <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-
-    <!-- Datatable Demo App js -->
-    <script src="assets/js/pages/demo.datatable-init.js"></script>
-
-    <!-- App js -->
-    <script src="assets/js/app.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            // Update progress bar width on tab change
-            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var step = $(e.target).closest('.nav-item').index();
-                var totalSteps = $('.nav-item').length;
-                var percent = (step + 1) / totalSteps * 100;
-                $('.progress-bar').css({width: percent + '%'});
-            });
-
-            // Handle next and previous buttons
-            $('button[data-bs-target]').on('click', function() {
-                var target = $(this).data('bs-target');
-                $('a[href="' + target + '"]').tab('show');
-            });
-        });
-    </script>
-
-</body>
-</html>
+            
+  
