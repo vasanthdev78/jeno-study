@@ -10,39 +10,39 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="row p-3">
+                        <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Expense</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Reason" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Amount</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Method</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Transaction Id</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Ex.Date</b></label>
                                     <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Date" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Bill Img</b></label>
                                     <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" name="course" id="course" required="required">
                                 </div>
@@ -72,31 +72,43 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="row p-3">
+                        <div class="row">
                         <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Expense</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Reason" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Amount</b></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Method</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Transaction Id</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Amount" name="course" id="course" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Ex.Date</b></label>
                                     <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Expense Date" name="course" id="course" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group pb-3">
+                                <div class="form-group">
                                     <label for="course" class="form-label"><b>Bill Img</b></label>
                                     <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" name="course" id="course" required="required">
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

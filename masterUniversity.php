@@ -175,7 +175,39 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
-    
+  
+    <script>
+    $(document).ready(function() {
+        $('#addInputButton').click(function() {
+            var newInputDiv = $('<div class="row"></div>');
+
+            var input1Div = $('<div class="col-sm-5"></div>');
+            var input1Label = $('<label class="form-label"><b>Department</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
+            input1Div.append(input1Label);
+            input1Div.append(input1);
+
+            var input2Div = $('<div class="col-sm-5"></div>');
+            var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
+            input2Div.append(input2Label);
+            input2Div.append(input2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#additionalInputs').append(newInputDiv);
+        });
+    });
+</script>
 
 </body>
 
