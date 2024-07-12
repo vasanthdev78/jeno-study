@@ -13,34 +13,24 @@
                         <div class="row">
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Student Roll No</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Book Count" name="course" id="course" required="required">
+                                    <label for="medium" class="form-label"><b>Student Name</b></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="course" id="course" required="required">
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                            <div class="form-group pb-1">
-                                         <label class="form-label"><b>Books</b></label><br>
-                                                <div class="row">
-                                                 <div class="col-sm-4 ">
-                                                  <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="books" id="notIssue" value="notIssue" checked required>
-                                                 <label class="form-check-label" for="notIssue">
-                                                 Not Issue
-                                                 </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="books" id="Issue" value="Issue" required>
-                                                    <label class="form-check-label" for="Issue">
-                                                    Issue
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                        <div class="col-sm-12">
+                <div class="form-group pb-1">
+                    <label for="subjects" class="form-label"><b>Subjects</b></label>
+                    <select class="form-control" name="subjects[]" id="subjects" multiple required>
+                        <option value="Math">Math</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                        <option value="English">English</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <!-- Add more subjects as needed -->
+                    </select>
+                </div>
+            </div>
 
 
                                     <div class="col-sm-12">

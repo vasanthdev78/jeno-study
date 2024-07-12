@@ -115,7 +115,7 @@
         <span> Expense </span>
     </a>
 </li>
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarBook" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
         <span> Books </span>
@@ -131,6 +131,12 @@
             </li>
         </ul>
     </div>
+</li> -->
+<li class="side-nav-item">
+    <a href="bookIssue.php" class="side-nav-link">
+    <i class="bi bi-stack"></i>
+        <span> Books </span>
+    </a>
 </li>
 <li class="side-nav-item">
     <a href="faculty.php" class="side-nav-link">

@@ -54,13 +54,7 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <div class="page-title-right">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStockBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addStockModal">
-                                            Add Book Issue
-                                        </button>
-                                    </div>
-                                </div>
+                               
                                 <h4 class="page-title">Books Issue</h4>   
                             </div>
                         </div>
@@ -142,9 +136,14 @@ session_start();
                     
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStockModal"><i class='bi bi-pencil-square'></i></button>
+                        <?php if ($user_role == 'Admin') { ?>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <?php } else { ?>
+                              <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                           <?php } ?>
                         </td>
                       </tr>
                         
@@ -200,7 +199,8 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
-
+    
+  
     <!-------Start Add Student--->
     <!-- <script>
 
