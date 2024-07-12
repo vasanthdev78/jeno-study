@@ -191,6 +191,10 @@
         .image-container p {
             font-size: 16px;
         }
+        .footer {
+        text-align: center;
+        top: 1010px;
+        }
     }
         </style>
     </head>
