@@ -1,5 +1,5 @@
-                           <!-- Modal -->
-            <div class="modal fade" id="addUniversityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal -->
+    <div class="modal fade" id="addUniversityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form name="addUniversity" id="addUniversity" enctype="multipart/form-data">
@@ -9,52 +9,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="row p-3">
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="universityName" class="form-label"><b>University Code</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                        <div class="row ">
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label for="universityName" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Enter University Name" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="universityName" class="form-label"><b>Study Center Code</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label for="universityImage" class="form-label"><b>University Image</b><span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control"  placeholder="Enter Phone.No" name="editDestination" id="editDestination">
-                                </div>
-                            </div> 
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Email</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Address</b></label>
-                                    <textarea class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination"></textarea>
-                                </div>
-                            </div> 
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="editDestination" id="editDestination" placeholder="Enter Description"></textarea>
-                                </div>
-                            </div> 
-                            
-                        </div>
+                        </div><hr>
+                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
+                        <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -79,52 +55,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
-                        <div class="row p-3">
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="universityName" class="form-label"><b>University Code</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                        <div class="row ">
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label for="universityName" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Enter University Name" name="universityName" id="universityName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="universityName" class="form-label"><b>Study Center Code</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label for="universityImage" class="form-label"><b>University Image</b><span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="universityImage" id="universityImage">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Phone No.</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control"  placeholder="Enter Phone.No" name="editDestination" id="editDestination">
-                                </div>
-                            </div> 
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Email</b></label>
-                                    <input type="text" class="form-control"  placeholder="Enter University Email" name="editDestination" id="editDestination">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="editDestination" class="form-label"><b>Address</b></label>
-                                    <textarea class="form-control"  placeholder="Enter University Address" name="editDestination" id="editDestination"></textarea>
-                                </div>
-                            </div> 
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="destination" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="editDestination" id="editDestination" placeholder="Enter Description"></textarea>
-                                </div>
-                            </div> 
-                            
-                        </div>
+                        </div><hr>
+                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
+                        <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

@@ -80,6 +80,7 @@ session_start();
                                         <option value="Anna">Anna University</option>
                                         <option value="Alagappa">Alagappa University</option>
                                         <option value="UM">University Of Madras</option>
+                                        <option value="SC">Study Center</option>
                                     </select>
                                 </div>
                             </div>
