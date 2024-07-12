@@ -46,24 +46,12 @@
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="totalAmount" class="form-label"><b>Total Fees</b></label>
+                                <label for="totalAmount" class="form-label"><b>Amount Paid</b></label>
                                 <input type="number" class="form-control" name="totalAmount" id="totalAmount" readonly>
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
-                            <div class="form-group pb-1">
-                                <label for="amountPaid" class="form-label"><b>Amount Paid</b><span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="amountPaid" id="amountPaid" required="required">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group pb-1">
-                                <label for="balance" class="form-label"><b>Balance</b></label>
-                                <input type="number" class="form-control" name="balance" id="balance" readonly>
-                            </div>
-                        </div>
+                    
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
@@ -72,7 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group pb-1">
                                 <label for="transactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Transaction ID" name="transactionId" id="transactionId" required="required">
