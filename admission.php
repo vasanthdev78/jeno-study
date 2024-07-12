@@ -38,8 +38,8 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
-
+                
+            <?php include "addAdmission.php"; ?>
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -57,15 +57,17 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <a href="addAdmission.php"><button type="button" id="addStudentBtn" class="btn btn-info">
+                                        <button type="button" id="addAdmissionBtn" class="btn btn-info">
                                             Add New Admission
-                                        </button></a>
+                                        </button>
                                     </div>
                                 </div>
                                 <h3 class="page-title">Admission</h3>   
                             </div>
                         </div>
                     </div>
+
+       
 
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -208,7 +210,16 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-
+    <script>
+    document.getElementById('addAdmissionBtn').addEventListener('click', function() {
+        document.getElementById('StuContent').classList.add('d-none');
+        document.getElementById('addAdmissionModal').classList.remove('d-none');
+    });
+    document.getElementById('backToMainBtn').addEventListener('click', function() {
+            document.getElementById('StuContent').classList.remove('d-none');
+            document.getElementById('addAdmissionModal').classList.add('d-none');
+        });
+</script>
     
 
 </body>
