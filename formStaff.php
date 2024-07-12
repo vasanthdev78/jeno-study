@@ -69,7 +69,15 @@
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="address" id="address" required="required">
                                 </div>
                             </div>
-                            
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="aathar" class="form-label"><b>Aathar card</b><span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control"  title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="address" id="address" required="required">
+                                </div>
+                            </div>
+
+
+                           
                            
                             
                         </div>
@@ -157,7 +165,12 @@
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="editaddress" id="editaddress" required="required">
                                 </div>
                             </div>
-                            
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="aathar" class="form-label"><b>Aathar card</b><span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control"  title="Please enter a value with no leading or trailing spaces" placeholder="Enter address" name="address" id="address" required="required">
+                                </div>
+                            </div>
                           
                         </div>
                     </div>

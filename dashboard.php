@@ -51,6 +51,21 @@ $user_role = $_SESSION['role'];
                             </div>
                         </div>
 
+                        <!-- Filters -->
+      <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="universityFilter">University</label>
+                        <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>                 
+                </div>
+
                         <div class="row">
         
                             <div class="col-sm-6 col-xxl-3">

@@ -67,6 +67,20 @@ session_start();
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="universityFilter">University</label>
+                        <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>                 
+                </div>
+
              <?php include("formEnquiry.php");?> <!---add Student popup--->
              
              
