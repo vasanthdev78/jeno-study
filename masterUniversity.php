@@ -74,11 +74,9 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">University Code</th>
+                                    <th scope="col">Study Center Code</th>
                                     <th scope="col">University Name</th>
                                     <th scope="col">University Image</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Email ID</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -90,8 +88,6 @@ session_start();
                         <td>8301</td>
                         <td>Anna University</td>
                         <td></td>
-                        <td>Chennai</td>
-                        <td>john.doe@example.com</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
@@ -105,8 +101,6 @@ session_start();
                         <td>8304</td>
                         <td>MS University</td>
                         <td></td>
-                        <td>Chennai</td>
-                        <td>msuniversity@gmail.com</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
@@ -119,8 +113,6 @@ session_start();
                         <td>8306</td>
                         <td>Alagappa University</td>
                         <td></td>
-                        <td>Chennai</td>
-                        <td>alagappa@example.com</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
