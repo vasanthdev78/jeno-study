@@ -88,6 +88,7 @@ session_start();
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>                        
@@ -462,25 +463,32 @@ function goDocStu(id)
 
 <script>
     $(document).ready(function() {
-        $('#duration').on('input', function() {
+        $('#duration, #GraduationType').on('input change', function() {
             $('#additionalInputs').empty(); // Clear previous inputs
-            var duration = $(this).val();
+            var duration = parseInt($('#duration').val()) || 0;
+            var graduationType = $('#GraduationType').val();
+            
+            var totalSemesters = (graduationType === 'Semester') ? duration * 2 : duration;
 
-            for (var i = 1; i <= duration; i++) {
+            for (var i = 1; i <= totalSemesters; i++) {
                 var yearText;
-                switch (i) {
-                    case 1:
-                        yearText = '1st Year';
-                        break;
-                    case 2:
-                        yearText = '2nd Year';
-                        break;
-                    case 3:
-                        yearText = '3rd Year';
-                        break;
-                    default:
-                        yearText = i + 'th Year';
-                        break;
+                if (graduationType === 'Semester') {
+                    yearText = 'Semester ' + i;
+                } else {
+                    switch (i) {
+                        case 1:
+                            yearText = '1st Year';
+                            break;
+                        case 2:
+                            yearText = '2nd Year';
+                            break;
+                        case 3:
+                            yearText = '3rd Year';
+                            break;
+                        default:
+                            yearText = i + 'th Year';
+                            break;
+                    }
                 }
 
                 var newInputDiv = $('<div class="row m-2"></div>');
