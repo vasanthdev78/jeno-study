@@ -67,9 +67,9 @@
             <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
-            </li>
+            </li> -->
         </ul>
     </div>
     </li>
@@ -93,6 +93,13 @@
     <a href="admission.php" class="side-nav-link">
     <i class="bi bi-ui-checks"></i>
         <span> Admission </span>
+    </a>
+</li>
+
+<li class="side-nav-item">
+    <a href="course.php" class="side-nav-link">
+    <i class="bi bi-ui-radios-grid"></i>
+        <span> Courses Details </span>
     </a>
 </li>
 

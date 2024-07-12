@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                    <label for="year" class="form-label"><b>Year / Semester</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
                                         <option value="">--Select the Year--</option>
                                         <option value="1">1 st Year</option>
