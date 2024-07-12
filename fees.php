@@ -54,13 +54,7 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <div class="page-title-right">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addBookBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addFeesModal">
-                                            Add New Payment
-                                        </button>
-                                    </div>
-                                </div>
+                               
                                 <h4 class="page-title">List Fees</h4>   
                             </div>
                         </div>
@@ -92,8 +86,13 @@ session_start();
                         <td>Pending</td>
                     
                         <td>
+                        <?php if ($user_role == 'Admin') { ?>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFeesModal"><i class='bi bi-pencil-square'></i></button>
+                            <?php } ?>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+                            
+
                         </td>
                       </tr>
                         
@@ -149,6 +148,23 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        function calculateTotalAndBalance() {
+            var universityPaid = parseFloat($('#universityPaid').val()) || 0;
+            var studyPaid = parseFloat($('#studyPaid').val()) || 0;
+            var totalAmount = universityPaid + studyPaid;
+            $('#totalAmount').val(totalAmount);
+
+            var amountPaid = parseFloat($('#amountPaid').val()) || 0;
+            var balance = totalAmount - amountPaid;
+            $('#balance').val(balance);
+        }
+
+        $('#universityPaid, #studyPaid, #amountPaid').on('input', calculateTotalAndBalance);
+    });
+</script>
 
     <!-------Start Add Student--->
     <!-- <script>

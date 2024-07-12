@@ -11,18 +11,13 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="row p-3">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                                 <div class="form-group pb-1">
-                                    <label for="editFirstName" class="form-label"><b>First Name</b><span class="text-danger">*</span></label>
+                                    <label for="editFirstName" class="form-label"><b> Name</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="editFirstName" id="edtiFirstName" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-1">
-                                    <label for="editLastName" class="form-label"><b>last Name</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Last Name" name="editLastName" id="editLastName" required="required">
-                                </div>
-                            </div>
+                            
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
                                     <label for="editEmail" class="form-label"><b>Email</b><span class="text-danger">*</span></label>

@@ -46,7 +46,7 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             <li class="nav-item">
                                                 <a href="#Basic" data-bs-toggle="tab" class="nav-link rounded-0 py-1 active">
                                                     <i class="ri-account-circle-line fw-normal fs-18 align-middle me-1"></i>
-                                                    <span class="d-none d-sm-inline">Basic Info</span>
+                                                    <span class="d-none d-sm-inline">Primary Info</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -66,14 +66,122 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             <div class="tab-pane active show" id="Basic">
                                             <div class="row">
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                             <label for="tname" class="form-label"><b> Name</b><span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="firstname" id="tname" required="required">
                                             </div>
                                             </div>
 
+                                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="university" id="university" required="required">
+                                        <option value="">--Select the University--</option>
+                                        <option value="MS">MS University</option>
+                                        <option value="Anna">Anna University</option>
+                                        <option value="Alagappa">Alagappa University</option>
+                                        <option value="UM">University Of Madras</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="course" id="course" required="required">
+                                        <option value="">--Select the Course--</option>
+                                        <option value="BBA">BBA</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MCA">MCA</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="medium" class="form-label"><b>Medium </b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="medium" id="medium" required="required">
+                                        <option value="">--Select the Medium--</option>
+                                        <option value="BBA">Tamil</option>
+                                        <option value="MBA">English</option>
+                                        <option value="BCA">Others</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                                    <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                                <label for="email" class="form-label"><b>Email</b></label>
+                                                <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email" name="email" id="email" required="required">
+                                            </div>
+                                        </div>
+
+
+                                            </div> <!-- end row -->
+
+                                                <ul class="list-inline wizard mb-0">
+                                                    <li class="next list-inline-item float-end">
+                                                        <button type="button" class="btn btn-info" data-bs-target="#Education" data-bs-toggle="tab">Add More Info <i class="ri-arrow-right-line ms-1"></i></button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                            <!-- ---------------------------tab pane 2--------------------------------------------- -->
+                                            <div class="tab-pane" id="Education">
+                                                <div class="row">
+
+                                                <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="fathername" class="form-label"><b>Father Name</b><span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="mothername" class="form-label"><b>Mother Name</b><span class="text-danger">*</span> </label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="mothername" id="mothername" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Year--</option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                            <div class="form-group pb-1">
+                                            <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Address" name="address" id="address" required="required">
+                                            </div>
+                                            </div>
                                             
+                                            <div class="col-sm-3">
+                                          <div class="form-group pb-1">
+                                        <label for="pincode" class="form-label"><b>Pincode</b><span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" required="required">
+                                          </div>
+                                          </div>
+
+                                                
                                             <div class="col-sm-4">
                                             <div class="form-group pb-1">
                                             <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
@@ -93,96 +201,6 @@ $resQuery = mysqli_query($conn, $selQuery);
                                                </div>
                                            </div>
 
-                                             <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="fathername" class="form-label"><b>Father Name</b><span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="mothername" class="form-label"><b>Mother Name</b><span class="text-danger">*</span> </label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="mothername" id="mothername" required="required">
-                                            </div>
-                                            </div>
-
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="university" id="university" required="required">
-                                        <option value="">--Select the University--</option>
-                                        <option value="MS">MS University</option>
-                                        <option value="Anna">Anna University</option>
-                                        <option value="Alagappa">Alagappa University</option>
-                                        <option value="UM">University Of Madras</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="course" id="course" required="required">
-                                        <option value="">--Select the Course--</option>
-                                        <option value="BBA">BBA</option>
-                                        <option value="MBA">MBA</option>
-                                        <option value="BCA">BCA</option>
-                                        <option value="MCA">MCA</option>
-
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="year" id="year" required="required">
-                                        <option value="">--Select the Year--</option>
-                                        <option value="1">1 st Year</option>
-                                        <option value="2">2 nd Year</option>
-                                        <option value="3">3 rd Year</option>
-                                    </select>
-                                </div>
-                            </div>  
-
-                                            <div class="col-sm-12">
-                                            <div class="form-group pb-1">
-                                            <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Address" name="address" id="address" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                          <div class="form-group pb-1">
-                                        <label for="pincode" class="form-label"><b>Pincode</b><span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" required="required">
-                                          </div>
-                                          </div>
-
-                            
-
-                                            </div> <!-- end row -->
-
-                                                <ul class="list-inline wizard mb-0">
-                                                    <li class="next list-inline-item float-end">
-                                                        <button type="button" class="btn btn-info" data-bs-target="#Education" data-bs-toggle="tab">Add More Info <i class="ri-arrow-right-line ms-1"></i></button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                            <!-- ---------------------------tab pane 2--------------------------------------------- -->
-                                            <div class="tab-pane" id="Education">
-                                                <div class="row">
 
                                                 <div class="col-sm-4">
                                             <div class="form-group pb-1">
@@ -229,95 +247,32 @@ $resQuery = mysqli_query($conn, $selQuery);
                                             </div> 
 
                                             <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                         <label class="form-label"><b>Marital Status</b></label><br>
-                                                <div class="row">
-                                                 <div class="col-sm-3">
-                                                  <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="maritalStatus" id="single" value="Single" required>
-                                                 <label class="form-check-label" for="single">
-                                                 Single
-                                                 </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="maritalStatus" id="married" value="Married" required>
-                                                    <label class="form-check-label" for="married">
-                                                        Married
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
-                                    
-                                    
-                                    <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                         <label class="form-label"><b>Empoloyed</b></label><br>
-                                                <div class="row">
-                                                 <div class="col-sm-3">
-                                                  <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="employed" id="yes" value="yes" required>
-                                                 <label class="form-check-label" for="yes">
-                                                 Yes
-                                                 </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="employed" id="no" value="no" required>
-                                                    <label class="form-check-label" for="no">
-                                                        No
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Marital Status</b></label>
+                                    <select class="form-control" name="course" id="course" required="required">
+                                        <option value="">--Select the Marital Status--</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
                                         
-                                    <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                                <label for="email" class="form-label"><b>Email</b></label>
-                                                <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email" name="email" id="email" required="required">
-                                            </div>
-                                        </div>
 
+                                    </select>
+                                </div>
+                            </div>
 
-                                        <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                             <label class="form-label"><b>Medium Of Instuction</b></label><br>
-                                                <div class="row">
-                                                 <div class="col-sm-3">
-                                                  <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="medium" id="tamil" value="tamil" required>
-                                                 <label class="form-check-label" for="tamil">
-                                                 Tamil
-                                                 </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="medium" id="english" value="english" required>
-                                                    <label class="form-check-label" for="english">
-                                                        English
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="medium" id="others" value="others" required>
-                                                    <label class="form-check-label" for="others">
-                                                        Others
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Empoloyed</b></label>
+                                    <select class="form-control" name="Empoloyed" id="Empoloyed" required="required">
+                                        <option value="">--Select the Empoloyed--</option>
+                                        <option value="Single">Yes</option>
+                                        <option value="Married">No</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                        
+
+                                          
 
                                     <div class="col-sm-6">
                                         <div class="form-group pb-1">
