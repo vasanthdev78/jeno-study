@@ -17,19 +17,7 @@
                                     <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="editFirstName" id="edtiFirstName" required="required">
                                 </div>
                             </div>
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group pb-1">
-                                    <label for="editEmail" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" placeholder="Enter Email" name="editEmail" id="editEmail" required="required">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group pb-1">
-                                    <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
-                                </div>
-                            </div>
+
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
                                     <label for="editGender" class="form-label"><b>Gender</b><span class="text-danger">*</span></label>
@@ -37,16 +25,33 @@
                                          <option>----select----</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
+                                        <option value="Transgender">Transgender</option>
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group pb-1">
+                                    <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
+                                </div>
+                            </div>
+
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
                                     <label for="editMobile" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="editMobile" id="editMobile" required="required">
                                 </div>
                             </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group pb-1">
+                                    <label for="editEmail" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" placeholder="Enter Email" name="editEmail" id="editEmail" required="required">
+                                </div>
+                            </div>
+                           
+                            
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
                                     <label for="editAddress" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
@@ -78,7 +83,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="year" id="year" required="required">
@@ -88,7 +93,19 @@
                                         <option value="3">3 rd Year</option>
                                     </select>
                                 </div>
-                            </div>                            
+                            </div>    -->
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="year" class="form-label"><b>Medium</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="year" id="year" required="required">
+                                        <option value="">--Select the Medium--</option>
+                                        <option value="Tamil">Tamil</option>
+                                        <option value="English">English</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -44,6 +44,27 @@
                                             </div>
 
                                             <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                                <label for="email" class="form-label"><b>Email</b></label>
+                                                <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email" name="email" id="email" required="required">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                                <label for="Digilocker" class="form-label"><b>Digilocker</b></label>
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Digilocker Id" name="Digilocker" id="Digilocker" required="required">
+                                            </div>
+                                        </div>
+
+                                            <div class="col-sm-12">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -83,20 +104,7 @@
                                 </div>
                             </div>
 
-                                    <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                            <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                                <label for="email" class="form-label"><b>Email</b></label>
-                                                <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email" name="email" id="email" required="required">
-                                            </div>
-                                        </div>
-
+                                    
 
                                             </div> <!-- end row -->
 

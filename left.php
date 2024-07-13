@@ -85,10 +85,10 @@
     </a>
     <div class="collapse" id="StaffMaster">
         <ul class="side-nav-second-level">
-            <!-- <li>
+             <!-- <li>
                 <a href="masterStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
-            </li>
-            <li> -->
+            </li> -->
+            <li> 
                 <a href="masterUniversity.php" class="side-nav-link"><i class="bi bi-buildings"></i>University</a>
             </li>
             <!-- <li>
@@ -143,6 +143,12 @@
     <a href="fees.php" class="side-nav-link">
     <i class="bi bi-currency-rupee"></i>
         <span> Fees </span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="income.php" class="side-nav-link">
+    <i class="bi bi-currency-exchange"></i>
+        <span> Income </span>
     </a>
 </li>
 <li class="side-nav-item">
