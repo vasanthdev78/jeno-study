@@ -54,45 +54,44 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
+                            <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                                            Add New Income
+                                        </button>
+                                    </div>
+                                </div>
+                                <h4 class="page-title">Income</h4> 
                                
-                                <h4 class="page-title">List Fees</h4>   
                             </div>
                         </div>
                     </div>
 
-                    <?php include("formFees.php");?>
+             <?php include("formIncome.php");?>
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Student Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Balance</th>
-                                    <th scope="col">Payment Status</th> 
+                                    <th scope="col">Income</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Ex. Date</th>
+                                    <th scope="col">Bill Img</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    
                      <tr>
                         <td>1</td>
-                        <td>Rajkumar</td>
-                        <td>BBA</td>
-                        <td>9875463210</td>
-                        <td>5000</td>
-                        <td>Pending</td>
+                        <td>Book Transaction</td>
+                        <td>6000</td>
+                        <td>10/07/2024</td>
+                        <td></td>
                     
                         <td>
-                        <?php if ($user_role == 'Admin') { ?>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFeesModal"><i class='bi bi-pencil-square'></i></button>
-                            <?php } ?>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editExpenseModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
-                            
-
                         </td>
                       </tr>
                         
@@ -148,38 +147,6 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
-
-    <script>
-    $(document).ready(function() {
-        function calculateTotalAndBalance() {
-            var universityPaid = parseFloat($('#universityPaid').val()) || 0;
-            var studyPaid = parseFloat($('#studyPaid').val()) || 0;
-            var totalAmount = universityPaid + studyPaid;
-            $('#totalAmount').val(totalAmount);
-
-            var amountPaid = parseFloat($('#amountPaid').val()) || 0;
-            var balance = totalAmount - amountPaid;
-            $('#balance').val(balance);
-        }
-
-        $('#universityPaid, #studyPaid, #amountPaid').on('input', calculateTotalAndBalance);
-    });
-</script>
-
-<script>
-    document.getElementById('paidMethod').addEventListener('change', function() {
-        var paymentMethod = this.value;
-        var onlinePaymentDetails = document.getElementById('onlinePaymentDetails');
-        
-        if (paymentMethod === 'online') {
-            onlinePaymentDetails.style.display = 'block';
-            document.getElementById('onlineTransactionId').setAttribute('required', 'required');
-        } else {
-            onlinePaymentDetails.style.display = 'none';
-            document.getElementById('onlineTransactionId').removeAttribute('required');
-        }
-    });
-</script>
 
     <!-------Start Add Student--->
     <!-- <script>
@@ -378,8 +345,7 @@ $('#docStudent').off('submit').on('submit', function(e) {
     ga('create', 'UA-104952515-1', 'auto');
     ga('send', 'pageview');
   </script>
-<script> -->
-  <!-- <script>
+<script>
     function goEditStudent(editId)
 { 
       $.ajax({

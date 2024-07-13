@@ -98,7 +98,7 @@ session_start();
                         <td>20191291516</td>
                     
                         <td>
-                        <a href="addAdmission.php"  rel="noopener noreferrer"><button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button></a>
+                         <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
                         <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                            
@@ -114,7 +114,7 @@ session_start();
                         <td>20191291516</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
                         <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                             
@@ -131,7 +131,7 @@ session_start();
                         <td>20191291516</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
                         <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                            
@@ -147,7 +147,7 @@ session_start();
                         <td>20191291516</td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
+                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
                         <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                            
@@ -212,6 +212,15 @@ session_start();
 
     <script>
     document.getElementById('addAdmissionBtn').addEventListener('click', function() {
+        document.getElementById('StuContent').classList.add('d-none');
+        document.getElementById('addAdmissionModal').classList.remove('d-none');
+    });
+    document.getElementById('backToMainBtn').addEventListener('click', function() {
+            document.getElementById('StuContent').classList.remove('d-none');
+            document.getElementById('addAdmissionModal').classList.add('d-none');
+        });
+
+        document.getElementsByClassName('editAdmissionBtn').addEventListener('click', function() {
         document.getElementById('StuContent').classList.add('d-none');
         document.getElementById('addAdmissionModal').classList.remove('d-none');
     });
