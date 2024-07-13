@@ -520,26 +520,128 @@ function goDocStu(id)
 </script> -->
 
 <script>
-        $(document).ready(function() {
-            $('#addInputButton').click(function() {
-                addInputRow('#additionalInputs', 2);
-            });
+    $(document).ready(function() {
+        // Function to show or hide the category field based on the selected course
+        function toggleCategoryField() {
+            var selectedCourse = $('#course').val();
+            if (selectedCourse === 'MBA') {
+                $('#categoryField').show();
+            } else {
+                $('#categoryField').hide();
+            }
+            updateLanguageButtonLabel(); // Call to update the button label
+        }
 
-            $('#addElectiveButton').click(function() {
-                addInputRow('#electiveInputs', 3);
-            });
+        // Function to update the label and inputs of the "Add Language Subject" button
+        function updateLanguageButtonLabel() {
+            var selectedCourse = $('#course').val();
+            var selectedCategory = $('#category').val();
+            var addButton = $('#addElectiveButton');
 
-            function addInputRow(target, numInputs) {
+            if (selectedCourse === 'MBA' && selectedCategory !== '') {
+                addButton.text('Add Elective Subject').attr('data-type', 'elective');
+                $('#languageSubjectsHeader').text('Elective Subjects');
+            } else {
+                addButton.text('Add Language Subject').attr('data-type', 'language');
+                $('#languageSubjectsHeader').text('Language Subjects');
+            }
+        }
+
+        // Initial state on document ready
+        toggleCategoryField();
+
+        // Event listener for course select change
+        $('#course').change(function() {
+            toggleCategoryField();
+        });
+
+        // Event listener for category select change
+        $('#category').change(function() {
+            updateLanguageButtonLabel();
+        });
+
+        $('#addInputButton').click(function() {
+            var newInputDiv = $('<div class="row mt-3"></div>');
+
+            var inputDiv1 = $('<div class="col-sm-5"></div>');
+            var inputLabel1 = $('<label class="form-label"><b>Subject Code</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInputSubjectCode[]">');
+            inputDiv1.append(inputLabel1);
+            inputDiv1.append(input1);
+            newInputDiv.append(inputDiv1);
+
+            var inputDiv2 = $('<div class="col-sm-5"></div>');
+            var inputLabel2 = $('<label class="form-label"><b>Subject Name</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInputSubjectName[]">');
+            inputDiv2.append(inputLabel2);
+            inputDiv2.append(input2);
+            newInputDiv.append(inputDiv2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#additionalInputs').append(newInputDiv);
+        });
+
+        $('#addElectiveButton').click(function() {
+            var buttonType = $(this).attr('data-type');
+
+            if (buttonType === 'language') {
                 var newInputDiv = $('<div class="row mt-3"></div>');
 
-                for (var i = 0; i < numInputs; i++) {
-                    var inputDiv = $('<div class="col-sm-4"></div>');
-                    var inputLabel = $('<label class="form-label"><b>Subject ' + (i + 1) + '</b></label>');
-                    var input = $('<input type="text" class="form-control" name="newInput' + (i + 1) + '[]">');
-                    inputDiv.append(inputLabel);
-                    inputDiv.append(input);
-                    newInputDiv.append(inputDiv);
-                }
+                var inputDiv1 = $('<div class="col-sm-3"></div>');
+                var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
+                var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
+                inputDiv1.append(inputLabel1);
+                inputDiv1.append(input1);
+                newInputDiv.append(inputDiv1);
+
+                var inputDiv2 = $('<div class="col-sm-4"></div>');
+                var inputLabel2 = $('<label class="form-label"><b>Language Subject Code</b></label>');
+                var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
+                inputDiv2.append(inputLabel2);
+                inputDiv2.append(input2);
+                newInputDiv.append(inputDiv2);
+
+                var inputDiv3 = $('<div class="col-sm-4"></div>');
+                var inputLabel3 = $('<label class="form-label"><b>Language Subject Name</b></label>');
+                var input3 = $('<input type="text" class="form-control" name="newInputElectiveSubjectType[]">');
+                inputDiv3.append(inputLabel3);
+                inputDiv3.append(input3);
+                newInputDiv.append(inputDiv3);
+
+                var deleteButtonDiv = $('<div class="col-sm-1 d-flex align-items-end"></div>');
+                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+                deleteButton.click(function() {
+                    newInputDiv.remove();
+                });
+                deleteButtonDiv.append(deleteButton);
+
+                newInputDiv.append(deleteButtonDiv);
+
+                $('#electiveInputs').append(newInputDiv);
+            } else if (buttonType === 'elective') {
+                var newInputDiv = $('<div class="row mt-3"></div>');
+
+                var inputDiv1 = $('<div class="col-sm-5"></div>');
+                var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
+                var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
+                inputDiv1.append(inputLabel1);
+                inputDiv1.append(input1);
+                newInputDiv.append(inputDiv1);
+
+                var inputDiv2 = $('<div class="col-sm-5"></div>');
+                var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
+                var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
+                inputDiv2.append(inputLabel2);
+                inputDiv2.append(input2);
+                newInputDiv.append(inputDiv2);
 
                 var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
                 var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
@@ -550,10 +652,18 @@ function goDocStu(id)
 
                 newInputDiv.append(deleteButtonDiv);
 
-                $(target).append(newInputDiv);
+                $('#electiveInputs').append(newInputDiv);
             }
         });
-    </script>
+    });
+</script>
+
+
+
+
+
+
+
 <script>
     document.getElementById('addSubjectBtn').addEventListener('click', function() {
         document.getElementById('StuContent').classList.add('d-none');
