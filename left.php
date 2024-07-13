@@ -193,12 +193,6 @@
         <span> Schedule </span>
     </a>
 </li>
-<li class="side-nav-item">
-    <a href="masterLedger.php" class="side-nav-link">
-    <i class="bi bi-journals"></i>
-        <span>Ledger</span>
-    </a>
-</li>
   
 
 <?php if ($user_role == 'Admin') { ?>
