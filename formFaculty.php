@@ -29,7 +29,7 @@
                                          <option>----select----</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
+                                        <option value="transgender">Transgender</option>
                                     </select>
                                 </div>
                             </div>
@@ -37,6 +37,18 @@
                                 <div class="form-group">
                                     <label for="mobile" class="form-label"><b>Mobile No</b></label>
                                     <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="mobile" id="mobile" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="email" class="form-label"><b>Email</b></label>
+                                    <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-3">
+                                    <label for="address" class="form-label"><b>Address</b></label>
+                                    <textarea class="form-control" placeholder="Enter address" name="address" id="address" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -63,13 +75,8 @@
                                     <input type="text" class="form-control"  placeholder="Enter College Name" name="destination" id="destination">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-label"><b>Email</b></label>
-                                    <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
+                            
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="email" class="form-label"><b>Aadhar Card</b></label>
                                     <input type="file" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
@@ -104,12 +111,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                <div class="form-group pb-3">
-                                    <label for="address" class="form-label"><b>Address</b></label>
-                                    <textarea class="form-control" placeholder="Enter address" name="address" id="address" required="required"></textarea>
-                                </div>
-                            </div>
+                            
                             
                            
                             

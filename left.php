@@ -106,7 +106,7 @@
         </ul>
     </div>
     </li>
-    <?php } ?>
+    
 
     <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
@@ -193,7 +193,7 @@
         <span> Schedule </span>
     </a>
 </li>
-  
+<?php } ?>
 
 <?php if ($user_role == 'Admin') { ?>
     <li class="side-nav-item">

@@ -12,7 +12,7 @@
                         <div class="row p-3">
                         <div class="col-sm-6">
                                 <div class="form-group pb-3">
-                                    <label for="facultiesName" class="form-label"><b>Faculties Name</b></label>
+                                    <label for="facultiesName" class="form-label"><b>Faculty Name</b></label>
                                     <select class="form-control" id="facultiesName" name="facultiesName" required="required">
                                          <option>----select----</option>
                                         <option value="vasanth">Vasanth</option>

@@ -148,6 +148,21 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
+    <script>
+    document.getElementById('paidMethod').addEventListener('change', function() {
+        var paymentMethod = this.value;
+        var onlinePaymentDetails = document.getElementById('onlinePaymentDetails');
+        
+        if (paymentMethod === 'online') {
+            onlinePaymentDetails.style.display = 'block';
+            document.getElementById('onlineTransactionId').setAttribute('required', 'required');
+        } else {
+            onlinePaymentDetails.style.display = 'none';
+            document.getElementById('onlineTransactionId').removeAttribute('required');
+        }
+    });
+</script>
+
     <!-------Start Add Student--->
     <!-- <script>
 

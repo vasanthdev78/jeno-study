@@ -57,14 +57,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
-                                            <div class="form-group pb-1">
-                                                <label for="Digilocker" class="form-label"><b>Digilocker</b></label>
-                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Digilocker Id" name="Digilocker" id="Digilocker" required="required">
-                                            </div>
-                                        </div>
 
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
@@ -120,114 +114,9 @@
                                                 <div class="row">
 
                                                 <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="fathername" class="form-label"><b>Father Name</b><span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="mothername" class="form-label"><b>Mother Name</b><span class="text-danger">*</span> </label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="mothername" id="mothername" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="year" id="year" required="required">
-                                        <option value="">--Select the Year--</option>
-                                        <option value="1">1 st Year</option>
-                                        <option value="2">2 nd Year</option>
-                                        <option value="3">3 rd Year</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                            <div class="form-group pb-1">
-                                            <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                            <textarea class="form-control" placeholder="Enter Address" name="address" id="address" required="required"></textarea>
-                                            </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-4">
-                                          <div class="form-group pb-1">
-                                        <label for="pincode" class="form-label"><b>Pincode</b><span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" required="required">
-                                          </div>
-                                          </div>
-
-                                                
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                        <div class="form-group pb-1">
-                                            <label for="editGender" class="form-label"><b>Gender</b><span class="text-danger">*</span></label>
-                                            <select class="form-control" id="editGender" name="editGender" required="required">
-                                                <option>----select----</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                               </div>
-                                           </div>
-
-
-                                                <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="nationality" class="form-label"><b>Nationality</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Nationality" name="nationality" id="nationality" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="motherTongue" class="form-label"><b>Mother Tongue</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mother Tongue" name="motherTongue" id="motherTongue" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="religion" class="form-label"><b>Religion</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Religion" name="religion" id="religion" required="required">
-                                            </div>
-                                            </div>
-
-                                            
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="caste" class="form-label"><b>Caste</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Caste" name="caste" id="caste" required="required">
-                                            </div>
-                                            </div>
-
-                                            
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="community" class="form-label"><b>Community</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" required="required">
-                                            </div>
-                                            </div>
-
-                                            <div class="col-sm-4">
-                                            <div class="form-group pb-1">
-                                            <label for="aatharNumber" class="form-label"><b>Aathar Number</b></label>
-                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aathar Number" name="aatharNumber" id="aatharNumber" required="required">
-                                            </div>
-                                            </div> 
-
-                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Year Type</b></label>
-                                    <select class="form-control" name="Empoloyed" id="Empoloyed" required="required">
+                                    <select class="form-control" name="Empoloyed" id="Empoloyed" >
                                         <option value="">--Select the Type--</option>
                                         <option value="Single">Academic Year</option>
                                         <option value="Married">Calander Year</option>
@@ -236,10 +125,154 @@
                                 </div>
                             </div>
 
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="course" class="form-label"><b>Language / Elective </b></label>
+                                    <select class="form-control" name="Empoloyed" id="Empoloyed" >
+                                        <option value="">--Select the Pepar--</option>
+                                        <option value="Tamil">Tamil</option>
+                                        <option value="English">English</option>
+                                        <option value="English">Malayalam</option>
+                                        <option value="arabic">Arabic</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                                <label for="Digilocker" class="form-label"><b>Digilocker</b></label>
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Digilocker Id" name="Digilocker" id="Digilocker" >
+                                            </div>
+                                        </div>
+
+                                                <div class="col-sm-6">
+                                            <div class="form-group pb-1">
+                                            <label for="editDob" class="form-label"><b>Date of Birth</b></label>
+                                            <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" >
+                                            </div>
+                                            </div>
+
+                                                  <div class="col-sm-6">
+                                        <div class="form-group pb-1">
+                                            <label for="editGender" class="form-label"><b>Gender</b></label>
+                                            <select class="form-control" id="editGender" name="editGender" >
+                                                <option>----select----</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="transgender">transgender</option>
+                                            </select>
+                                               </div>
+                                           </div>
+
+                                           <div class="col-sm-12">
+                                            <div class="form-group pb-1">
+                                            <label for="address" class="form-label"><b>Address</b></label>
+                                            <textarea class="form-control" placeholder="Enter Address" name="address" id="address" ></textarea>
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                          <div class="form-group pb-1">
+                                        <label for="pincode" class="form-label"><b>Pincode</b></label>
+                                        <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" >
+                                          </div>
+                                          </div>
+
+                                          <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="fathername" class="form-label"><b>Father Name</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="fathername" id="fathername">
+                                            </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="mothername" class="form-label"><b>Mother Name</b> </label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Father Name" name="mothername" id="mothername" >
+                                            </div>
+                                            </div>
+
+                                                
+                                        
+
+                                        <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="aatharNumber" class="form-label"><b>Aathar Number</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aathar Number" name="aatharNumber" id="aatharNumber" >
+                                            </div>
+                                            </div>
+
+                                              
+
+
+                                 <!-- <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="year" class="form-label"><b>Year</b></label>
+                                    <select class="form-control" name="year" id="year" >
+                                        <option value="">--Select the Year--</option>
+                                        <option value="1">1 st Year</option>
+                                        <option value="2">2 nd Year</option>
+                                        <option value="3">3 rd Year</option>
+                                    </select>
+                                </div>
+                            </div> -->
+
+                            
+                                            
+                                            
+
+                                                
+                                           
+
+                                      
+
+
+                                                <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="nationality" class="form-label"><b>Nationality</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Nationality" name="nationality" id="nationality" >
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="motherTongue" class="form-label"><b>Mother Tongue</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mother Tongue" name="motherTongue" id="motherTongue" >
+                                            </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="religion" class="form-label"><b>Religion</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Religion" name="religion" id="religion" >
+                                            </div>
+                                            </div>
+
+                                            
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="caste" class="form-label"><b>Caste</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Caste" name="caste" id="caste">
+                                            </div>
+                                            </div>
+
+                                            
+                                            <div class="col-sm-4">
+                                            <div class="form-group pb-1">
+                                            <label for="community" class="form-label"><b>Community</b></label>
+                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" >
+                                            </div>
+                                            </div>
+
+                                          
+
+                            
+
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Marital Status</b></label>
-                                    <select class="form-control" name="course" id="course" required="required">
+                                    <select class="form-control" name="course" id="course">
                                         <option value="">--Select the Marital Status--</option>
                                         <option value="Single">Single</option>
                                         <option value="Married">Married</option>
@@ -252,7 +285,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="course" class="form-label"><b>Empoloyed</b></label>
-                                    <select class="form-control" name="Empoloyed" id="Empoloyed" required="required">
+                                    <select class="form-control" name="Empoloyed" id="Empoloyed" >
                                         <option value="">--Select the Empoloyed--</option>
                                         <option value="Single">Yes</option>
                                         <option value="Married">No</option>
@@ -267,7 +300,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group pb-1">
                                             <label for="qualifiaction" class="form-label"><b>Highest Qualifiaction</b></label>
-                                            <select class="form-control" id="qualifiaction" name="qualifiaction" required="required">
+                                            <select class="form-control" id="qualifiaction" name="qualifiaction" >
                                                 <option>----select----</option>
                                                 <option value="12">12TH</option>
                                                 <option value="ug">UG</option>
@@ -279,28 +312,28 @@
                                         <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                                 <label for="Previous" class="form-label"><b>Previous College / school Studied</b></label>
-                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Previous College / school Studied" name="Previous" id="Previous" required="required">
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Previous College / school Studied" name="Previous" id="Previous" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                                 <label for="completed" class="form-label"><b>Year Of Completed</b></label>
-                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Year Of Completed" name="completed" id="completed" required="required">
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Year Of Completed" name="completed" id="completed" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                                 <label for="study" class="form-label"><b>Major Field Of Study</b></label>
-                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Major Field Of Study" name="study" id="study" required="required">
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Major Field Of Study" name="study" id="study" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                                 <label for="grade" class="form-label"><b>CGPA / Grade</b></label>
-                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter CGPA / Grade" name="grade" id="grade" required="required">
+                                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter CGPA / Grade" name="grade" id="grade" >
                                             </div>
                                         </div>
 
@@ -308,7 +341,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group pb-1">
                                                 <label for="sslc" class="form-label"><b>SSLC Marksheet</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslc" id="sslc" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslc" id="sslc">
                                             </div>
                                         </div>
 
@@ -317,21 +350,21 @@
                                         <div class="col-sm-6">
                                         <div class="form-group pb-1">
                                                 <label for="hsc" class="form-label"><b>HSC Marksheet</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hsc" id="hsc" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hsc" id="hsc" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6"> 
                                         <div class="form-group pb-1">
                                                 <label for="community" class="form-label"><b>Community Certificate</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                         <div class="form-group pb-1">
                                                 <label for="tc" class="form-label"><b>Transfer Certificate</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tc" id="tc" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tc" id="tc" >
                                             </div>
                                         </div>
 
@@ -339,14 +372,14 @@
                                         <div class="col-sm-6">
                                         <div class="form-group pb-1">
                                                 <label for="aathar" class="form-label"><b>Aathar Card</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aathar" name="aathar" id="aathar" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aathar" name="aathar" id="aathar">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                         <div class="form-group pb-1">
                                                 <label for="photo" class="form-label"><b>Passposrt Size Photo</b></label>
-                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" required="required">
+                                                <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" >
                                             </div>
                                         </div>
 
