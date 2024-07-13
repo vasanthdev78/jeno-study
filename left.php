@@ -102,6 +102,12 @@
         <span> Courses Details </span>
     </a>
 </li>
+<li class="side-nav-item">
+    <a href="masterSubject.php" class="side-nav-link">
+    <i class="bi bi-list-columns-reverse"></i>
+        <span>Subject </span>
+    </a>
+</li>
 
 <li class="side-nav-item">
     <a href="fees.php" class="side-nav-link">

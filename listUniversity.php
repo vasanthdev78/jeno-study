@@ -38,6 +38,23 @@ session_start();
         
         <div class="content-page">
             <div class="content">
+                <!-- start page title -->
+                <div class="row">
+                        <div class="col-12">
+                            <div class="bg-flower">
+                                <img src="assets/images/flowers/img-3.png">
+                            </div>
+
+                            <div class="bg-flower-2">
+                                <img src="assets/images/flowers/img-1.png">
+                            </div>
+        
+                            <div class="page-title-box">
+                               
+                                <h4 class="page-title">List University</h4>   
+                            </div>
+                        </div>
+                    </div>
            
             <div class="container">
   <div class="row">
