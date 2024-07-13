@@ -75,7 +75,37 @@
     </li>
     <?php } ?>
 
-    <?php if ($user_role == 'Staff') { ?>
+    
+
+        <li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#StaffMaster" aria-expanded="false" aria-controls="StaffMaster" class="side-nav-link">
+        <i class="bi bi-person-vcard"></i>
+        <span> Master </span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="StaffMaster">
+        <ul class="side-nav-second-level">
+            <!-- <li>
+                <a href="masterStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
+            </li>
+            <li> -->
+                <a href="masterUniversity.php" class="side-nav-link"><i class="bi bi-buildings"></i>University</a>
+            </li>
+            <!-- <li>
+                <a href="masterCourse.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i>Course</a>
+            </li> -->
+            <li>
+                <a href="course.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i><span>Courses Details</span></a>
+            </li>
+            <li>
+                <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
+            </li>
+            <!-- <li>
+                <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
+            </li> -->
+        </ul>
+    </div>
+    </li>
 
     <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
@@ -83,12 +113,12 @@
         <span> Enquiry </span>
     </a>
     </li>
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
     <a href="listUniversity.php" class="side-nav-link">
     <i class="bi bi-buildings"></i>
         <span> University </span>
     </a>
-</li>
+</li> -->
 <li class="side-nav-item">
     <a href="admission.php" class="side-nav-link">
     <i class="bi bi-ui-checks"></i>
@@ -96,18 +126,18 @@
     </a>
 </li>
 
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
     <a href="course.php" class="side-nav-link">
     <i class="bi bi-ui-radios-grid"></i>
         <span> Courses Details </span>
     </a>
-</li>
-<li class="side-nav-item">
+</li> -->
+<!-- <li class="side-nav-item">
     <a href="masterSubject.php" class="side-nav-link">
     <i class="bi bi-list-columns-reverse"></i>
         <span>Subject </span>
     </a>
-</li>
+</li> -->
 
 <li class="side-nav-item">
     <a href="fees.php" class="side-nav-link">
@@ -162,7 +192,7 @@
         <span>Ledger</span>
     </a>
 </li>
-    <?php } ?>
+  
 
 <?php if ($user_role == 'Admin') { ?>
     <li class="side-nav-item">

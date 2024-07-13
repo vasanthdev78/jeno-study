@@ -75,7 +75,10 @@ session_start();
                                     <th scope="col">Subject Code</th>
                                     <th scope="col">Subject Name</th>
                                     <th scope="col">Year</th>
-                                    <th scope="col">Action</th>
+                                    <?php if ($user_role == 'Admin') { ?>
+                                      <th scope="col">Action</th>
+                                     <?php } ?>
+                                    
                                     
                       </tr>
                     </thead>
@@ -86,11 +89,12 @@ session_start();
                         <td>CS705</td>
                         <td>Cloud Computing</td>
                         <td>1 st Year</td>
-                    
+                        <?php if ($user_role == 'Admin') { ?>
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
+                        <?php } ?>
                       </tr>
                       <tr>
                         <td>2</td>
@@ -98,10 +102,12 @@ session_start();
                         <td>Internet Protocol</td>
                         <td>1 st Year</td>
                     
+                        <?php if ($user_role == 'Admin') { ?>
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
+                        <?php } ?>
                       </tr>
                       <tr>
                         <td>3</td>
@@ -109,10 +115,12 @@ session_start();
                         <td>Artificial Inteligence</td>
                         <td>1 st Year</td>
                     
+                        <?php if ($user_role == 'Admin') { ?>
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
+                        <?php } ?>
                       </tr>
                       <tr>
                         <td>4</td>
@@ -120,10 +128,12 @@ session_start();
                         <td>Python</td>
                         <td>1 st Year</td>
                     
+                        <?php if ($user_role == 'Admin') { ?>
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
+                        <?php } ?>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -131,10 +141,12 @@ session_start();
                         <td>Maths 1 </td>
                         <td>1 st Year</td>
                     
+                        <?php if ($user_role == 'Admin') { ?>
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
+                        <?php } ?>
                       </tr>
 
                         
