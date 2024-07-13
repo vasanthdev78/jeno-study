@@ -61,6 +61,7 @@ session_start();
                     </div>
 
                     <?php include("formFees.php");?>
+                    <div id="tableFees">
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -89,7 +90,7 @@ session_start();
                         <?php if ($user_role == 'Admin') { ?>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFeesModal"><i class='bi bi-pencil-square'></i></button>
                             <?php } ?>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment();"><i class="bi bi-eye-fill"></i></button>
                             <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                             
 
@@ -98,6 +99,7 @@ session_start();
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -167,6 +169,40 @@ session_start();
 </script>
 
 <script>
+
+function toggleDivs() {
+    // Hide the client detail div
+    document.getElementById('clientDetail').classList.add('d-none');
+    $('#tableFees').show();
+}
+
+
+function goViewPayment() {
+  $('#tableFees').hide();
+    $('#clientDetail').removeClass('d-none');
+
+    var number = 5; // Number of rows to generate
+    var html = '';
+    var paymentIds = [101, 102, 103, 104, 105]; // Example payment IDs for demonstration
+
+    for (var i = 0; i < number; i++) {
+        var paymentId = paymentIds[i]; // Assuming you have payment IDs in an array
+        html += '<tr>';
+        html += '<td>' + (i + 1) + '</td>'; // S.No.
+        html += '<td> 13-7-2024 </td>'; // Payment Date
+        html += '<td> 5000 </td>'; // Amount Received
+        html += '<td> Online </td>'; // Payment Method
+        html += '<td><input type="button" value="Download" class="btn btn-primary" onclick="gotoDetailPayment(' + paymentId + ')"></td>'; // Action button
+        html += '</tr>';
+    }
+    $('#paymentHistoryBody').html(html); // Append HTML to table body
+}
+
+
+
+
+
+
     document.getElementById('paidMethod').addEventListener('change', function() {
         var paymentMethod = this.value;
         var onlinePaymentDetails = document.getElementById('onlinePaymentDetails');

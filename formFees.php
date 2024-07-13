@@ -173,3 +173,82 @@
             </div> <!-- end modal content-->
         </div> <!-- end modal dialog-->
     </div> <!-- end modal-->
+
+
+    <!-- <-- ---------------------------------------------------------------------> 
+
+
+    <div class="table-responsive d-none" id="clientDetail">
+    <button type="button" class="btn btn-danger float-end "  onclick="toggleDivs()">Back</button>
+                <form name="frm" method="post">
+                    <input type="hidden" name="hdnAction" value="">
+                    <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Payment Details</h4>
+                    </div>  
+                <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="card p-3">
+                                        <h4>Name</h4> 
+                                        <span class="detail" id="name"></span>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-3 ">
+                                    <div class="card p-3">
+                                        <h4>Course Name</h4>
+                                        <span class="detail" id="course_name"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 ">
+                                    <div class="card p-3">
+                                        <h4>Charge</h4>
+                                        <span class="detail" id="charge"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="card p-3">
+                                        <h4>Course Duration</h4>
+                                        <span class="detail" id="course_duration"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="card p-3">
+                                        <h4>Amount Received</h4>
+                                        <span class="detail" id="amount_received"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="card p-3">
+                                        <h4>Balance</h4>
+                                        <span class="detail" id="balance"></span>
+                                    </div>
+                                </div>
+                                
+                                
+                                </div>
+                            </div>
+                            <h3 class="modal-title" id="myModalLabel">Payment History</h3>
+                            <table id="scroll-horizontal-datatable1" class="table table-striped w-100 nowrap">
+                            <thead>
+                                <tr class="bg-light">
+                                            <th scope="col-1">S.No.</th>
+                                            <th scope="col">Payment Date</th>
+                                            <th scope="col">Amount Received</th>
+                                            <th scope="col">Payment Method</th>
+                                            <th scope="col">Download</th>
+                                            
+                            </tr>
+                            </thead>
+                            <tbody id="paymentHistoryBody">                                
+                                
+                            </tbody>
+                        </table>
+
+                    
+                    
+                    
+                    
+                    
+                    </form>  
+
+            </div>

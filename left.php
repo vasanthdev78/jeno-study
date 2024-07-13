@@ -76,7 +76,7 @@
     <?php } ?>
 
     
-
+    <?php if ($user_role == 'Staff') { ?>
         <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#StaffMaster" aria-expanded="false" aria-controls="StaffMaster" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
@@ -106,6 +106,7 @@
         </ul>
     </div>
     </li>
+    
 
     <li class="side-nav-item">
     <a href="enquiry.php" class="side-nav-link">
@@ -192,7 +193,7 @@
         <span> Schedule </span>
     </a>
 </li>
-  
+<?php } ?>
 
 <?php if ($user_role == 'Admin') { ?>
     <li class="side-nav-item">
