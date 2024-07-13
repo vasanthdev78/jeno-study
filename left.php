@@ -58,9 +58,9 @@
             <li>
                 <a href="masterUniversity.php" class="side-nav-link"><i class="bi bi-buildings"></i>University</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="masterCourse.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i>Course</a>
-            </li>
+            </li> -->
             <li>
                 <a href="course.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i><span>Courses Details</span></a>
             </li>
