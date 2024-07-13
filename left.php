@@ -58,14 +58,15 @@
             <li>
                 <a href="masterUniversity.php" class="side-nav-link"><i class="bi bi-buildings"></i>University</a>
             </li>
-            <!-- <li>
-                <a href="masterCourse.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i>Course</a>
-            </li> -->
+            
             <li>
                 <a href="course.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i><span>Courses Details</span></a>
             </li>
             <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
+            </li>
+            <li>
+                <a href="fees.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Fees</a>
             </li>
             <!-- <li>
                 <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
