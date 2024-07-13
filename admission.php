@@ -229,6 +229,8 @@ session_start();
             document.getElementById('addAdmissionModal').classList.add('d-none');
         });
 </script>
+
+
     
 
 </body>
