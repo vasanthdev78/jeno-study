@@ -38,7 +38,7 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-
+            <?php include("formSubject.php");?>
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -56,7 +56,7 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addSubjectBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+                                        <button type="button" id="addSubjectBtn" class="btn btn-info">
                                             Add New Subject
                                         </button>
                                     </div>
@@ -66,7 +66,7 @@ session_start();
                         </div>
                     </div>
 
-                    <?php include("formSubject.php");?>
+                   
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -508,38 +508,51 @@ function goDocStu(id)
 </script> -->
 
 <script>
-    $(document).ready(function() {
-        $('#addInputButton').click(function() {
-            var newInputDiv = $('<div class="row m-2"></div>');
-
-            var input1Div = $('<div class="col-sm-5"></div>');
-            var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
-            input1Div.append(input1Label);
-            input1Div.append(input1);
-
-            var input2Div = $('<div class="col-sm-5"></div>');
-            var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
-            input2Div.append(input2Label);
-            input2Div.append(input2);
-
-            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-            var deleteButton = $('<button type="button" class="btn btn-danger">Delete</button>');
-            deleteButton.click(function() {
-                newInputDiv.remove();
+        $(document).ready(function() {
+            $('#addInputButton').click(function() {
+                addInputRow('#additionalInputs', 2);
             });
-            deleteButtonDiv.append(deleteButton);
 
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-            newInputDiv.append(deleteButtonDiv);
+            $('#addElectiveButton').click(function() {
+                addInputRow('#electiveInputs', 3);
+            });
 
-            $('#additionalInputs').append(newInputDiv);
+            function addInputRow(target, numInputs) {
+                var newInputDiv = $('<div class="row mt-3"></div>');
+
+                for (var i = 0; i < numInputs; i++) {
+                    var inputDiv = $('<div class="col-sm-4"></div>');
+                    var inputLabel = $('<label class="form-label"><b>Subject ' + (i + 1) + '</b></label>');
+                    var input = $('<input type="text" class="form-control" name="newInput' + (i + 1) + '[]">');
+                    inputDiv.append(inputLabel);
+                    inputDiv.append(input);
+                    newInputDiv.append(inputDiv);
+                }
+
+                var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+                deleteButton.click(function() {
+                    newInputDiv.remove();
+                });
+                deleteButtonDiv.append(deleteButton);
+
+                newInputDiv.append(deleteButtonDiv);
+
+                $(target).append(newInputDiv);
+            }
         });
+    </script>
+<script>
+    document.getElementById('addSubjectBtn').addEventListener('click', function() {
+        document.getElementById('StuContent').classList.add('d-none');
+        document.getElementById('addSubjectModal').classList.remove('d-none');
     });
+    document.getElementById('backToMainBtn').addEventListener('click', function() {
+            document.getElementById('StuContent').classList.remove('d-none');
+            document.getElementById('addSubjectModal').classList.add('d-none');
+        });
 </script>
-    
+     
 
 </body>
 
