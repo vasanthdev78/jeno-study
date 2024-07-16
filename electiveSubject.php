@@ -3,7 +3,7 @@ session_start();
     
     include("class.php");
 
-    $university_result = universityTable(); // Call the function to fetch universities 
+    $elective_result = electiveTable(); // Call the function to fetch universities 
     
     
 ?>
@@ -26,7 +26,6 @@ session_start();
         <?php include("left.php"); ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
-
         <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
@@ -34,7 +33,7 @@ session_start();
         <div class="content-page">
             <div class="content">
             <div id="studentDetail"></div>
-            <?php include("formUniversity.php");?> <!---add Student popup--->
+            <?php include("formElectiveSubject.php");?> <!---add Student popup--->
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent" >
@@ -53,12 +52,12 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addUniversityBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addUniversityModal">
-                                            Add New University
+                                        <button type="button" id="addElectiveBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addElectiveModal">
+                                            Add New Elective Subject
                                         </button>
                                     </div>
                                 </div>
-                                <h3 class="page-title">University List</h3>   
+                                <h3 class="page-title">Elective Subject List</h3>   
                             </div>
                         </div>
                     </div>
@@ -70,8 +69,8 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Study Center Code</th>
-                                    <th scope="col">University Name</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Elective Subject</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -81,23 +80,22 @@ session_start();
 
                     $i =0;
 
-                    while ($row = $university_result->fetch_assoc()) {
-                        $id = $row['uni_id'];
+                    while ($row = $elective_result->fetch_assoc()) {
+                        $id = $row['ele_id'];
                         
 
             ?>
 
             <tr>
                         <td scope="row"><?php echo $i ; $i++ ?></td>
-                        <td><?php echo $row['uni_study_code'] ?></td>
-                        <td><?php echo $row['uni_name'] ?></td>
+                        <td><?php echo $row['ele_cou_id'] ?></td>
+                        <td><?php echo $row['ele_elective'] ?></td>
                         <td>
                         <?php if ($user_role == 'Admin') { ?>
-                            <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editUiversity(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
-                               <button onclick="goViewUniversity(<?php echo $row['uni_id']; ?>);" class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteUniversity(<?php echo $row['uni_id']; ?>);"><i class="bi bi-trash"></i></button>
+                            <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editElectiveModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteElective(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                             <?php } else { ?>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewUniversity(<?php echo $row['uni_id']; ?>);"><i class="bi bi-eye-fill"></i></button>
+                                <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
                             <?php } ?>
 
                         </td>
@@ -165,39 +163,10 @@ session_start();
     <!-------Start Add Student--->
   
     <script>
-    $(document).ready(function() {
-        $('#addInputButton').click(function() {
-            var newInputDiv = $('<div class="row"></div>');
-
-            var input1Div = $('<div class="col-sm-5"></div>');
-            var input1Label = $('<label class="form-label"><b>Department</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="department[]" required>');
-            input1Div.append(input1Label);
-            input1Div.append(input1);
-
-            var input2Div = $('<div class="col-sm-5"></div>');
-            var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="contact[]" required>');
-            input2Div.append(input2Label);
-            input2Div.append(input2);
-
-            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-            deleteButton.click(function() {
-                newInputDiv.remove();
-            });
-            deleteButtonDiv.append(deleteButton);
-
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-            newInputDiv.append(deleteButtonDiv);
-
-            $('#additionalInputs').append(newInputDiv);
-        });
-    });
-
-    $('#addUniversityBtn').click(function() {
-        $('#addUniversity')[0].reset(); // Reset the form
+    
+                        
+    $('#addElectiveBtn').click(function() {
+        $('#addElective')[0].reset(); // Reset the form
         
     });
 
@@ -209,59 +178,22 @@ session_start();
 
 
     // edit function -------------------------
-function editUiversity(editId) {
-    alert("afa");
+function editelective(editId) {
+   
 
     $.ajax({
-        url: 'action/actUniversity.php',
+        url: 'action/actElective.php',
         method: 'POST',
         data: {
             editId: editId
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-            $('#editid').val(response.uni_id);
-            $('#editUniversityName').val(response.uni_name);
-            $('#editStudyCode').val(response.uni_study_code);
+            $('#editid').val(response.ele_id);
+            $('#editElectiveName').val(response.ele_elective);
+            $('#editCourseName').val(response.ele_cou_id);
             
-            // Clear previous input fields
-        $('#editItionalInputs').empty();
 
-            // Assuming uni_department and uni_contact arrays are of equal length and matched by index
-            if (Array.isArray(response.uni_department) && Array.isArray(response.uni_contact)) {
-                response.uni_department.forEach(function(department, index) {
-                    var contact = response.uni_contact[index];
-                    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
-
-                    var input1Div = $('<div class="col-sm-5"></div>');
-                    var input1Label = $('<label class="form-label"><b>Department</b></label>');
-                    var input1 = $('<input type="text" class="form-control" name="editdepartment[]" required>').val(department);
-                    input1Div.append(input1Label);
-                    input1Div.append(input1);
-
-                    var input2Div = $('<div class="col-sm-5"></div>');
-                    var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
-                    var input2 = $('<input type="text" class="form-control" name="editcontact[]" required>').val(contact);
-                    input2Div.append(input2Label);
-                    input2Div.append(input2);
-
-                    var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-                    var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-                    deleteButton.click(function() {
-                        newInputDiv.remove();
-                    });
-                    deleteButtonDiv.append(deleteButton);
-
-                    newInputDiv.append(input1Div);
-                    newInputDiv.append(input2Div);
-                    newInputDiv.append(deleteButtonDiv);
-
-                    $('#editItionalInputs').append(newInputDiv);
-                });
-            } else {
-                // If not arrays or lengths do not match, handle the error accordingly
-                console.error('Department and contact arrays are not properly matched.');
-            }
                     },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -274,13 +206,13 @@ function editUiversity(editId) {
 
 
        // Ajax form submission
-       $('#addUniversity').submit(function(event) {
+       $('#addElective').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
 
             var formData = new FormData(this);
 
             $.ajax({
-                url: 'action/actUniversity.php',
+                url: 'action/actElective.php',
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -297,7 +229,7 @@ function editUiversity(editId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            $('#addUniversityModal').modal('hide');
+            $('#addElectiveModal').modal('hide');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -330,12 +262,12 @@ function editUiversity(editId) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    $('#editUniversity').off('submit').on('submit', function(e) {
+    $('#editElective').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var formData = new FormData(this);
         $.ajax({
-            url: "action/actUniversity.php",
+            url: "action/actElective.php",
             method: 'POST',
             data: formData,
             contentType: false,
@@ -352,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editUniversityModal').modal('hide'); // Close the modal
+                      $('#editElectiveModal').modal('hide'); // Close the modal
                         
                         $('.modal-backdrop').remove(); // Remove the backdrop   
                           $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
@@ -380,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit student data.'
+                    text: 'An error occurred while Edit Elective data.'
                 });
                 // Re-enable the submit button on error
                 $('#updateBtn').prop('disabled', false);
@@ -390,13 +322,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    function goDeleteUniversity(id)
+    function goDeleteElective(id)
         {
     //alert(id);
-    if(confirm("Are you sure you want to delete university?"))
+    if(confirm("Are you sure you want to delete Elective Subject?"))
     {
       $.ajax({
-        url: 'action/actUniversity.php',
+        url: 'action/actElective.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -423,73 +355,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     }
     }
-
-
-
-    function goViewUniversity(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'action/actUniversity.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          
-          $('#StuContent').hide();
-          $('#universityView').removeClass('d-none');
-        
-          $('#viewUniversityName').text(response.uni_name);
-          $('#viewStudyCenterCode').text(response.uni_study_code);
-
-     // Clear previous input fields
-     $('#viewuniversity').empty();
-
-            // Assuming uni_department and uni_contact arrays are of equal length and matched by index
-            if (Array.isArray(response.uni_department) && Array.isArray(response.uni_contact)) {
-                response.uni_department.forEach(function(department, index) {
-                    var contact = response.uni_contact[index];
-                    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
-
-                    var input1Div = $('<div class="col-sm-6"></div>');
-                    var input1Card = $('<div class="card p-3"></div>');
-                    var input1Label = $('<h4>Department</h4>');
-                    var input1 = $('<span class="detail"></span>').text(department);
-                    input1Card.append(input1Label);
-                    input1Card.append(input1);
-                    input1Div.append(input1Card);
-
-                    var input2Div = $('<div class="col-sm-6"></div>');
-                    var input2Card = $('<div class="card p-3"></div>');
-                    var input2Label = $('<h4>Contact</h4>');
-                    var input2 = $('<span class="detail"></span>').text(contact);
-                    input2Card.append(input2Label);
-                    input2Card.append(input2);
-                    input2Div.append(input2Card);
-
-                    newInputDiv.append(input1Div);
-                    newInputDiv.append(input2Div);
-
-                    $('#viewuniversity').append(newInputDiv);
-                });
-            } else {
-                // If not arrays or lengths do not match, handle the error accordingly
-                console.error('Department and contact arrays are not properly matched.');
-            }
-
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
-
-
-
-
 
     
 </script>

@@ -63,6 +63,9 @@
                 <a href="course.php" class="side-nav-link"><i class="bi bi-ui-radios-grid"></i><span>Courses Details</span></a>
             </li>
             <li>
+                <a href="electiveSubject.php" class="side-nav-link"><i class="bi bi-list-stars"></i><span>Elective Subject </span></a>
+            </li>
+            <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
             <li>
