@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2024 at 09:16 AM
+-- Generation Time: Jul 16, 2024 at 02:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -110,6 +110,67 @@ CREATE TABLE `entity_tbl` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jeno_staff`
+--
+
+CREATE TABLE `jeno_staff` (
+  `stf_id` int(11) NOT NULL,
+  `stf_name` varchar(50) NOT NULL,
+  `stf_birth` date NOT NULL,
+  `stf_mobile` varchar(20) NOT NULL,
+  `stf_email` varchar(50) NOT NULL,
+  `stf_address` varchar(250) NOT NULL,
+  `stf_gender` enum('Male','Female','Transgender','') NOT NULL,
+  `stf_role` varchar(50) NOT NULL,
+  `stf_salary` int(11) NOT NULL,
+  `stf_joining_date` date NOT NULL,
+  `stf_image` varchar(100) NOT NULL,
+  `stf_username` varchar(50) NOT NULL,
+  `stf_password` varchar(50) NOT NULL,
+  `stf_created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `stf_created_by` int(11) NOT NULL,
+  `stf_updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `stf_updated_by` int(11) NOT NULL,
+  `stf_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jeno_university`
+--
+
+CREATE TABLE `jeno_university` (
+  `uni_id` int(11) NOT NULL,
+  `uni_study_code` int(11) NOT NULL,
+  `uni_name` varchar(100) NOT NULL,
+  `uni_department` varchar(200) NOT NULL,
+  `uni_contact` varchar(200) NOT NULL,
+  `uni_center_id` int(11) NOT NULL,
+  `uni_created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `uni_created_by` int(11) NOT NULL,
+  `uni_updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `uni_updated_by` int(11) NOT NULL,
+  `uni_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jeno_university`
+--
+
+INSERT INTO `jeno_university` (`uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact`, `uni_center_id`, `uni_created_at`, `uni_created_by`, `uni_updated_at`, `uni_updated_by`, `uni_status`) VALUES
+(1, 5465, 'MS University v', '[\"b.sc computer \",\"b.com\",\"m.sc \"]', '[\"8789484\",\"5164478\",\"488\"]', 1, '2024-07-16 14:02:18', 1, '2024-07-16 08:32:18', 1, 'Active'),
+(4, 64654, 'vasanth university', '[\"aaa\",\"bbb\",\"ccc\"]', '[\"94984\",\"654654\",\"6565465\"]', 1, '2024-07-16 14:49:32', 1, '2024-07-16 09:19:32', 0, 'Active'),
+(5, 5465, 'raj kumar university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:53:33', 1, '2024-07-16 09:23:33', 0, 'Active'),
+(6, 5465, 'MS University', '[\"afadf\"]', '[\"654654\"]', 1, '2024-07-16 14:55:26', 1, '2024-07-16 09:25:26', 0, 'Active'),
+(7, 5465, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:56:51', 1, '2024-07-16 09:26:51', 0, 'Active'),
+(8, 5465, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:57:06', 1, '2024-07-16 09:27:06', 0, 'Active'),
+(9, 64654, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 15:16:23', 1, '2024-07-16 09:46:23', 0, 'Active'),
+(10, 5465, 'MS University', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 15:18:37', 1, '2024-07-16 09:48:37', 1, 'Active');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_tbl`
 --
 
@@ -190,6 +251,18 @@ ALTER TABLE `entity_tbl`
   ADD PRIMARY KEY (`entity_id`);
 
 --
+-- Indexes for table `jeno_staff`
+--
+ALTER TABLE `jeno_staff`
+  ADD PRIMARY KEY (`stf_id`);
+
+--
+-- Indexes for table `jeno_university`
+--
+ALTER TABLE `jeno_university`
+  ADD PRIMARY KEY (`uni_id`);
+
+--
 -- Indexes for table `student_tbl`
 --
 ALTER TABLE `student_tbl`
@@ -234,6 +307,18 @@ ALTER TABLE `course_tbl`
 --
 ALTER TABLE `entity_tbl`
   MODIFY `entity_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jeno_staff`
+--
+ALTER TABLE `jeno_staff`
+  MODIFY `stf_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jeno_university`
+--
+ALTER TABLE `jeno_university`
+  MODIFY `uni_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student_tbl`
