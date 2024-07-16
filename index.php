@@ -243,8 +243,8 @@
                         <label for="location">Location</label>
                         <select id="location" name="location">
                             <option value="">----select----</option>
-                            <option value="SMP">SMP</option>
-                            <option value="MKI">MKI</option>
+                            <option value="1">SMP</option>
+                            <option value="2">MKI</option>
                         </select>
                         <span class="error-message" id="locationError"></span>
 

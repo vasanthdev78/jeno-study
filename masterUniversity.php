@@ -196,13 +196,13 @@ session_start();
 
             var input1Div = $('<div class="col-sm-5"></div>');
             var input1Label = $('<label class="form-label"><b>Department</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="newInput1[]">');
+            var input1 = $('<input type="text" class="form-control" name="department[]">');
             input1Div.append(input1Label);
             input1Div.append(input1);
 
             var input2Div = $('<div class="col-sm-5"></div>');
             var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="newInput2[]">');
+            var input2 = $('<input type="text" class="form-control" name="contact[]">');
             input2Div.append(input2Label);
             input2Div.append(input2);
 
@@ -220,6 +220,33 @@ session_start();
             $('#additionalInputs').append(newInputDiv);
         });
     });
+
+
+       // Ajax form submission
+       $('#addUniversity').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: 'actUniversity.php',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    // Handle success response
+                    // alert('University added successfully');
+                    // Optionally close the modal
+                    $('#addUniversityModal').modal('hide');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error response
+                    alert('Error adding university: ' + textStatus);
+                }
+            });
+        });
+    
 </script>
 
 </body>

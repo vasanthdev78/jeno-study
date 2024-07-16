@@ -10,7 +10,9 @@ if (isset($_REQUEST['logout'])) {
 if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);
+    $centerId =  htmlspecialchars($_POST['location']);
     $role = htmlspecialchars($_POST['role']);
+    $_SESSION['centerId']   = $centerId;
 
     $stmt = mysqli_prepare($conn, "SELECT * FROM admin_tbl WHERE username = ? AND pass = ? AND role = ?");
     mysqli_stmt_bind_param($stmt, "sss", $username, $password,$role);
@@ -18,6 +20,7 @@ if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $res = mysqli_stmt_get_result($stmt);
 
     if ($row = mysqli_fetch_assoc($res)) {
+        
         $_SESSION['user']   = $row['name'];
         $_SESSION['userId'] = $row['user_id'];
         $_SESSION['role']   = $row['role'];

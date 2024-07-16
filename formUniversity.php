@@ -19,15 +19,10 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="universityName" class="form-label"><b>Study Center Code</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="universityName" id="universityName" required="required">
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Study Center Code" name="studyCode" id="studyCode" required="required">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="universityImage" class="form-label"><b>University Image</b><span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="universityImage" id="universityImage">
-                                </div>
-                            </div>
+                            
                         </div><hr>
                         <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
                         <div id="additionalInputs"></div>
