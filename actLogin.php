@@ -21,9 +21,11 @@ if (isset($_POST['username']) && isset($_POST['username']) != '') {
         $_SESSION['user']   = $row['name'];
         $_SESSION['userId'] = $row['user_id'];
         $_SESSION['role']   = $row['role'];
+        $_SESSION['message_type'] = "success"; // You can use this to style the message
         header("Location: dashboard.php");
     } else {
-        $_SESSION['message'] = "Invalid Credential!";
+        $_SESSION['message'] = "Invalid username or password.";
+        $_SESSION['message_type'] = "error";
         header("Location: index.php");
     }
     }

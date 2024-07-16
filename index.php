@@ -1,3 +1,5 @@
+
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,6 +176,19 @@
             font-size: 0.9em;
             display: none; /* Hide by default */
         }
+        .session-message {
+            color: red;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .session-message.success {
+            background-color: #28a745;
+        }
+        .session-message.error {
+            /* background-color: #dc3545; */
+        }
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -192,56 +207,67 @@
 </head>
 <body class="authentication-bg position-relative">
     <div class="container">
-        <div class="left">
-            <div class="header">
-                <button class="login-tab">Login</button>
+            <div class="left">
+                <div class="header">
+                    <button class="login-tab">Login</button>
+                </div>
+                <div class="welcome-message">
+                    <h1>Welcome Back!</h1>
+                    <p>Glad to see you again</p>
+                </div>
+                <div class="login-form">
+                    <h2>Login With Your Account Below</h2>
+                      <!-- Display session message -->
+                <?php
+                
+                if (isset($_SESSION['message'])) {
+                    $message_type = $_SESSION['message_type']; // success or error
+                    echo "<div class='session-message {$message_type}'>{$_SESSION['message']}</div>";
+                    // Unset session message after displaying
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                }
+                ?>
+                    <form id="loginForm" action="actLogin.php" method="POST" onsubmit="return validateForm()">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter username...">
+                        <span class="error-message" id="usernameError"></span>
+                        
+                        <label for="password">Password</label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" placeholder="Enter password...">
+                            <span class="show-password"><i class='bx bx-show'></i></span>
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+
+                        <label for="location">Location</label>
+                        <select id="location" name="location">
+                            <option value="">----select----</option>
+                            <option value="SMP">SMP</option>
+                            <option value="MKI">MKI</option>
+                        </select>
+                        <span class="error-message" id="locationError"></span>
+
+                        <label for="role">Privilege</label>
+                        <select id="role" name="role">
+                            <option value="">----select----</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                        <span class="error-message" id="privilegeError"></span>
+
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
             </div>
-            <div class="welcome-message">
-                <h1>Welcome Back!</h1>
-                <p>Glad to see you again</p>
-            </div>
-            <div class="login-form">
-                <h2>Login With Your Account Below</h2>
-                <form id="loginForm" action="actLogin.php" method="POST" onsubmit="return validateForm()">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter username...">
-                    <span class="error-message" id="usernameError"></span>
-                    
-                    <label for="password">Password</label>
-                    <div class="password-container">
-                        <input type="password" id="password" name="password" placeholder="Enter password...">
-                        <span class="show-password"><i class='bx bx-show'></i></span>
-                    </div>
-                    <span class="error-message" id="passwordError"></span>
-
-                    <label for="location">Location</label>
-                    <select id="location" name="location">
-                        <option value="">----select----</option>
-                        <option value="SMP">SMP</option>
-                        <option value="MKI">MKI</option>
-                    </select>
-                    <span class="error-message" id="locationError"></span>
-
-                    <label for="role">Privilege</label>
-                    <select id="role" name="role">
-                        <option value="">----select----</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Staff">Staff</option>
-                    </select>
-                    <span class="error-message" id="privilegeError"></span>
-
-                    <button type="submit">Login</button>
-                </form>
+            <div class="right">
+                <div class="image-container">
+                    <h1>JENO</h1>
+                    <p><b>EDUCATIONAL ORGANIZATION</b></p>
+                    <img src="assets/images/logo/Lock1.png" alt="Illustration">
+                </div>
             </div>
         </div>
-        <div class="right">
-            <div class="image-container">
-                <h1>JENO</h1>
-                <p><b>EDUCATIONAL ORGANIZATION</b></p>
-                <img src="assets/images/logo/Lock1.png" alt="Illustration">
-            </div>
-        </div>
-    </div>
 
     <footer class="footer footer-alt fw-medium">
         <span class="bg-body"><script>document.write(new Date().getFullYear())</script> © RORIRI SOFTWARE SOLUTIONS PVT. LTD.</span>
