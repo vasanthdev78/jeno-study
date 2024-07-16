@@ -1,34 +1,28 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php" ;
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
+    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'";
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -38,10 +32,8 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
-
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="StaffContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -57,7 +49,7 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStaff" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                                        <button type="button" id="addStaffBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addStaffModal">
                                             Add New Staff
                                         </button>
                                     </div>
@@ -67,7 +59,7 @@ session_start();
                         </div>
                     </div>
 
-             <?php include("formStaff.php");?> <!---add Staff popup--->
+             <?php include "formStaff.php" ;?> <!---add Staff popup--->
              
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
@@ -84,85 +76,29 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    
+                      <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['stf_id'];  
+                        $stf_name = $row['stf_name'];
+                        $stf_mobile=$row['stf_mobile']; 
+                        $stf_role = $row['stf_role'];  
+                        $stf_joining_date  = $row['stf_joining_date']; 
+                        $stf_email = $row['stf_email'];  
+                        ?>
                      <tr>
-                        <td scope="row">1</td>
-                        <td>John Doe</td>
-                        <td>9876541320</td>
-                        <td>System Admin</td>
-                        <td>01/02/2023</td>
-                        <td>johndoe@gmail.com</td>
+                        <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $stf_name; ?></td>
+                        <td><?php echo $stf_mobile; ?></td>
+                        <td><?php echo $stf_role; ?></td>
+                        <td><?php echo $stf_joining_date; ?></td>
+                        <td><?php echo $stf_email; ?></td>
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
-                            
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStaff(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
-                      <tr>
-                        <td scope="row">2</td>
-                        <td>HariHaran</td>
-                        <td>6547962145</td>
-                        <td>Receptionist</td>
-                        <td>01/05/2023</td>
-                        <td>hariharan@gmail.com</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
-                            
-                        </td>
-                      </tr>
-                      <tr>
-                        <td scope="row">3</td>
-                        <td>Ajay</td>
-                        <td>9876352410</td>
-                        <td>Accountant</td>
-                        <td>01/06/2023</td>
-                        <td>ajayprasad@gmail.com</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
-                            
-                        </td>
-                      </tr>
-                      <tr>
-                        <td scope="row">4</td>
-                        <td>Srinivas</td>
-                        <td>7896541230</td>
-                        <td>Cashier</td>
-                        <td>01/08/2023</td>
-                        <td>srinivas@gmail.com</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
-                            
-                        </td>
-                      </tr>
-                      <tr>
-                        <td scope="row">5</td>
-                        <td>Mari Raj</td>
-                        <td>8974563210</td>
-                        <td>Software Engineer</td>
-                        <td>01/10/2023</td>
-                        <td>mariraj@gmail.com</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn"  data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" ><i class="bi bi-trash"></i></button>
-                           
-                        </td>
-                      </tr>
-
-                     
-                        
+                      <?php } ?>
                     </tbody>
                   </table>
 
@@ -175,7 +111,7 @@ session_start();
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php"; ?>
             <!-- end Footer -->
 
         </div>
@@ -216,8 +152,105 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
+  <script>
+    $(document).ready(function () {
   
+  $('#addStaff').off('submit').on('submit', function(e) {
+    e.preventDefault(); // Prevent the form from submitting normally
 
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+
+    $.ajax({
+      url: "action/actStaff.php",
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: 'json',
+      success: function(response) {
+        // Handle success response
+        console.log(response);
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            timer: 2000
+          }).then(function() {
+            $('#addStaffModal').modal('hide');
+            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+              $('#scroll-horizontal-datatable').DataTable().destroy();
+              $('#scroll-horizontal-datatable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable sorting
+                "searching": true // Enable searching
+              });
+            });
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message
+          });
+        }
+      },
+      error: function(xhr, status, error) {
+        // Handle error response
+        console.error(xhr.responseText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while adding Staff data.'
+        });
+        // Re-enable the submit button on error
+        $('#submitBtn').prop('disabled', false);
+      }
+    });
+  });
+});
+
+
+function goEditStaff(editId)
+{ 
+      $.ajax({
+        url: 'action/actStaff.php',
+        method: 'POST',
+        data: {
+          editId: editId
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+
+          $('#staffId').val(response.stfId);
+          $('#staffNameEdit').val(response.name);
+          $('#dobEdit').val(response.birth);
+          $('#mobileEdit').val(response.mobile);
+          $('#emailEdit').val(response.email);
+          $('#addressEdit').val(response.address);
+          $('#genderEdit').val(response.gender);
+          $('#designationEdit').val(response.role);
+          $('#salaryEdit').val(response.salary);
+          $('#dateofjoinEdit').val(response.joining_date);
+          $('#usernameEdit').val(response.username);
+          $('#passwordEdit').val(response.password);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    
+}
+
+</script>
     
 
 </body>
