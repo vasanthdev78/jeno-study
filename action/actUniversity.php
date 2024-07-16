@@ -154,6 +154,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
         ];
 
           echo json_encode($universityDetails);
+          exit();
                       
                 } else {
                     echo "Error executing query: " . $conn->error;
@@ -164,10 +165,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
 
 
-// Default response if no action specified
-$response['message'] = "Invalid action specified.";
-echo json_encode($response);
-exit();
+            // Default response if no action specified
+            $response['message'] = "Invalid action specified.";
+            echo json_encode($response);
+            exit();
 
 
 // // Handle updating student details

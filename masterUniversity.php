@@ -34,12 +34,13 @@ session_start();
         <div class="content-page">
             <div class="content">
             <div id="studentDetail"></div>
+            <?php include("formUniversity.php");?> <!---add Student popup--->
 
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="StuContent" >
 
                     <!-- start page title -->
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-12">
                             <div class="bg-flower">
                                 <img src="assets/images/flowers/img-3.png">
@@ -62,7 +63,7 @@ session_start();
                         </div>
                     </div>
 
-             <?php include("formUniversity.php");?> <!---add Student popup--->
+             
              
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
@@ -93,7 +94,7 @@ session_start();
                         <td>
                         <?php if ($user_role == 'Admin') { ?>
                             <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editUiversity(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
-                               <button onclick="goViewStudent(<?php echo $row['uni_id']; ?>);" class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
+                               <button onclick="goViewUniversity(<?php echo $row['uni_id']; ?>);" class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteUniversity(<?php echo $row['uni_id']; ?>);"><i class="bi bi-trash"></i></button>
                             <?php } else { ?>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewUniversity(<?php echo $row['uni_id']; ?>);"><i class="bi bi-eye-fill"></i></button>
@@ -194,6 +195,12 @@ session_start();
             $('#additionalInputs').append(newInputDiv);
         });
     });
+
+    $('#backButton').click(function() {
+        $('#universityView').addClass('d-none');
+        $('#StuContent').show();
+    });
+
 
 
     // edit function -------------------------
@@ -423,10 +430,50 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             id: id
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+          
           $('#StuContent').hide();
-          $('#universityView').show();
+          $('#universityView').removeClass('d-none');
+        
+          $('#viewUniversityName').text(response.uni_name);
+          $('#viewStudyCenterCode').text(response.uni_study_code);
+
+     // Clear previous input fields
+     $('#viewuniversity').empty();
+
+            // Assuming uni_department and uni_contact arrays are of equal length and matched by index
+            if (Array.isArray(response.uni_department) && Array.isArray(response.uni_contact)) {
+                response.uni_department.forEach(function(department, index) {
+                    var contact = response.uni_contact[index];
+                    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+
+                    var input1Div = $('<div class="col-sm-6"></div>');
+                    var input1Card = $('<div class="card p-3"></div>');
+                    var input1Label = $('<h4>Department</h4>');
+                    var input1 = $('<span class="detail"></span>').text(department);
+                    input1Card.append(input1Label);
+                    input1Card.append(input1);
+                    input1Div.append(input1Card);
+
+                    var input2Div = $('<div class="col-sm-6"></div>');
+                    var input2Card = $('<div class="card p-3"></div>');
+                    var input2Label = $('<h4>Contact</h4>');
+                    var input2 = $('<span class="detail"></span>').text(contact);
+                    input2Card.append(input2Label);
+                    input2Card.append(input2);
+                    input2Div.append(input2Card);
+
+                    newInputDiv.append(input1Div);
+                    newInputDiv.append(input2Div);
+
+                    $('#viewuniversity').append(newInputDiv);
+                });
+            } else {
+                // If not arrays or lengths do not match, handle the error accordingly
+                console.error('Department and contact arrays are not properly matched.');
+            }
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
