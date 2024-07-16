@@ -220,12 +220,12 @@
             <li>
                 <a href="reportExpense.php" class="side-nav-link"><i class="bi bi-wallet2"></i>Expense</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="reportStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
             </li>
             <li>
                 <a href="reportFaculty.php" class="side-nav-link"><i class="bi bi-person-video3"></i>Faculty</a>
-            </li>
+            </li> -->
         </ul>
     </div>
     </li>
