@@ -191,6 +191,9 @@
                                 <div class="form-group">
                                     <label for="usernameEdit" class="form-label"><b>Username</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control"  placeholder="Enter Username" name="usernameEdit" id="usernameEdit" required="required">
+                                    <div class="invalid-feedback">
+                                        The username already exists.
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -212,3 +215,95 @@
 
     <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
 
+
+    <!-- View Modal -->
+
+ <div class="table-responsive d-none " id="staffView">
+        
+        <form name="frmViewStaff" method="post">
+            <div class="page-title-box">
+            <h3 class="page-title">Staff Details</h3>
+            </div>  
+            <div class="modal-footer mb-3">
+                <button type="button" class="btn btn-danger" id="backButton">Back</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Staff Name</h4> 
+                            <span class="detail" id="staffNameView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Date of Birth</h4>
+                            <span class="detail" id="dobView"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Gender</h4> 
+                            <span class="detail" id="genderView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Mobile No</h4>
+                            <span class="detail" id="mobileView"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Date of Joining</h4> 
+                            <span class="detail" id="dateofjoinView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Salary</h4>
+                            <span class="detail" id="salaryView"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Designation</h4> 
+                            <span class="detail" id="designationView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Email</h4>
+                            <span class="detail" id="emailView"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Address</h4> 
+                            <span class="detail" id="addressView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Aadhar card</h4>
+                            <span class="detail"><a id="aadharView" href="#" target="_blank">View Aadhar Card</a></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Username</h4> 
+                            <span class="detail" id="usernameView"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Password</h4>
+                            <span class="detail" id="passwordView"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>   
+    </div>
+        

@@ -134,7 +134,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     $role = $_POST['designationEdit'];
     $email = $_POST['emailEdit'];
     $address = $_POST['addressEdit'];
-    $username = $_POST['usernameEdit'];
     $password = $_POST['passwordEdit'];
     $staffId = $_POST['hdnStaffId']; // Assuming staffId is passed in the form
 
@@ -149,7 +148,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         `stf_role` = '$role',
         `stf_email` = '$email',
         `stf_address` = '$address',
-        `stf_username` = '$username',
         `stf_password` = '$password',
         `stf_updated_by` = '$userId'";
 
@@ -172,4 +170,61 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
 
     echo json_encode($response);
     exit();
+}
+
+// Handle deleting a client
+if (isset($_POST['deleteId'])) {
+    $id = $_POST['deleteId'];
+    $queryDel = "UPDATE `jeno_staff` SET
+        stf_status = 'Inactive'
+    WHERE `stf_id` = $id;";
+    $reDel = mysqli_query($conn, $queryDel);
+
+    if ($reDel) {
+        $_SESSION['message'] = "Staff details have been deleted successfully!";
+        $response['success'] = true;
+        $response['message'] = "Staff details have been deleted successfully!";
+    } else {
+        $_SESSION['message'] = "Unexpected error in deleting Staff details!";
+        $response['message'] = "Error: " . mysqli_error($conn);
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+if(isset($_POST['id']) && $_POST['id'] != '') {
+    $staffId = $_POST['id'];
+
+    // Prepare and execute the SQL query
+    $selQuery1 = "SELECT * FROM `jeno_staff` WHERE stf_id = $staffId;";
+    
+    $result1 = $conn->query($selQuery1);
+
+    if($result1) {
+        $row = mysqli_fetch_assoc($result1);
+
+    // Prepare university details array
+    $staffDetails = [
+           
+            'nameView' => $row['stf_name'],
+            'birthView' => $row['stf_birth'],
+            'mobileView' => $row['stf_mobile'],
+            'emailView' => $row['stf_email'],
+            'addressView' => $row['stf_address'],
+            'genderView' => $row['stf_gender'],
+            'roleView' => $row['stf_role'],
+            'salaryView' => $row['stf_salary'],
+            'joining_dateView' => $row['stf_joining_date'], 
+            'aadharView' => $row['stf_image'],
+            'usernameView' => $row['stf_username'],
+            'passwordView' => $row['stf_password'],
+    ];
+
+    echo json_encode($staffDetails);
+    exit();
+          
+    } else {
+        echo "Error executing query: " . $conn->error;
+    }
 }
