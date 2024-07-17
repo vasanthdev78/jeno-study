@@ -156,7 +156,13 @@ session_start();
     $(document).ready(function () {
   
   $('#addStaff').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+    if (!isUsernameValid) {
+        e.preventDefault();
+        $('#username').focus(); // Set focus to the invalid input
+        return false;
+    }
+
+    e.preventDefault(); 
 
     var form = this; // Get the form element
             if (form.checkValidity() === false) {
@@ -215,6 +221,33 @@ session_start();
       }
     });
   });
+
+
+  var isUsernameValid = true; // Flag to track username validity
+
+$('#username').on('input', function() {
+    var username = $(this).val();
+    if (username.length > 0) {
+        $.ajax({
+            url: 'check_username.php',
+            type: 'post',
+            data: { username: username },
+            success: function(response) {
+              if (response == "exists") {
+                    $('#username').removeClass('is-valid').addClass('is-invalid');
+                    isUsernameValid = false; // Set the flag to false if the username exists
+                } else {
+                    $('#username').removeClass('is-invalid').addClass('is-valid');
+                    isUsernameValid = true; // Set the flag to true if the username is valid
+                }
+            }
+        });
+    } else {
+        $('#username').removeClass('is-invalid is-valid');
+        isUsernameValid = true; // Reset the flag if the input is empty
+    }
+});
+
 });
 
 
@@ -241,6 +274,8 @@ function goEditStaff(editId)
           $('#dateofjoinEdit').val(response.joining_date);
           $('#usernameEdit').val(response.username);
           $('#passwordEdit').val(response.password);
+          // Remove the 'required' attribute from the aadhar field
+          $('#aadharEdit').removeAttr('required');
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -249,6 +284,74 @@ function goEditStaff(editId)
     });
     
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    $('#editStaff').off('submit').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+            alert(formData);
+        $.ajax({
+            url: "action/actStaff.php",
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success response
+                
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    }).then(function() {
+                      $('#editStaffModal').modal('hide'); // Close the modal
+                        
+                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                   "paging": true, // Enable pagination
+                                   "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                               });
+                            });
+                      });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Edit staff data.'
+                });
+                // Re-enable the submit button on error
+                $('#updateBtn').prop('disabled', false);
+            }
+        });
+    });
+});
+
 
 </script>
     
