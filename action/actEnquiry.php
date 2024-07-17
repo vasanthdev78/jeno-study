@@ -21,16 +21,16 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
-        $row = mysqli_fetch_assoc($courseResult);
+        while ($row = mysqli_fetch_assoc($courseResult)) {
+            // Push each course as an object into the courses array
+            $course = array(
+                'cou_id' => $row['cou_id'],
+                'cou_name' => $row['cou_name']
+            );
+            $courses[] = $course;
+        }
 
-        // Prepare university details array
-        $courseName = [
-            'cou_id' => $row['cou_id'],
-            'cou_name' => $row['cou_name'],
-            
-        ];
-
-        echo json_encode($courseName);
+        echo json_encode($courses);
     } else {
         $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
         echo json_encode($response);

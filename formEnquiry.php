@@ -195,17 +195,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="course" id="course" required="required">
-                                        <option value="">--Select the Course--</option>
-                                        <option value="BBA">BBA</option>
-                                        <option value="MBA">MBA</option>
-                                        <option value="BCA">BCA</option>
-                                        <option value="MCA">MCA</option>
-
-                                    </select>
-                                </div>
+                               
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">

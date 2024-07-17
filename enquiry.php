@@ -208,14 +208,13 @@ $enquiry_result = enquiryTable();
             data: { university: universityId },
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 
                 var options = '<option value="">--Select the Course--</option>';
                 
-                for (var i = 0; i < response.length; i++) {
-                    options += '<option value="' + response.cou_id + '">' + response.cou_name + '</option>';
-                }
-
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
                 $('#course').html(options); // Update the course dropdown
             },
             error: function(xhr, status, error) {
