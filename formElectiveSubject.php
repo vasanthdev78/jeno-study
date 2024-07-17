@@ -13,13 +13,21 @@
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="universityName" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                                    
-                                    <select class="form-control" name="courseName" id="courseName">
-                                        <option value="">--Select Course--</option>
-                                        <option value="1">MBA</option>
-                                        <option value="2">MSC</option>
-                                        <option value="3">MA</option>
-                                    </select>
+                                        <select class="form-control" name="courseName" id="courseName">
+                                            <option value="">--Select Course--</option>
+                                            <?php
+                                            $query = "SELECT * FROM jeno_course";
+                                            $result = $conn->query($query);
+                                            
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $course_id = $row['cou_id'];
+                                                    $course_name = $row['cou_name'];
+                                                    echo '<option value="' . $course_id . '">' . $course_name . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -58,12 +66,21 @@
                                 <div class="form-group">
                                     <label for="editCourseName" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
                                     
-                                    <select class="form-control" name="editCourseName" id="editCourseName">
-                                        <option value="">--Select Course--</option>
-                                        <option value="1">MBA</option>
-                                        <option value="2">MSC</option>
-                                        <option value="3">MA</option>
-                                    </select>
+                                    <select class="form-control" name="courseName" id="courseName">
+                                            <option value="">--Select Course--</option>
+                                            <?php
+                                            $query = "SELECT * FROM jeno_course";
+                                            $result = $conn->query($query);
+                                            
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $course_id = $row['cou_id'];
+                                                    $course_name = $row['cou_name'];
+                                                    echo '<option value="' . $course_id . '">' . $course_name . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">

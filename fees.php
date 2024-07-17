@@ -2,14 +2,14 @@
 session_start();
     include("db/dbConnection.php");
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+    // $selQuery = "SELECT student_tbl.*,
+    // additional_details_tbl.*,
+    // course_tbl.*
+    //  FROM student_tbl
+    // LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
+    // LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
+    // WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
+    // $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
@@ -39,8 +39,10 @@ session_start();
         <div class="content-page">
             <div class="content">
 
+              <?php include("formFees.php");?>
+
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="feesContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -55,12 +57,11 @@ session_start();
         
                             <div class="page-title-box">
                                
-                                <h4 class="page-title">List Fees</h4>   
+                                <h4 class="page-title">Fees List</h4>   
                             </div>
                         </div>
                     </div>
-
-                    <?php include("formFees.php");?>
+                    
                     <div id="tableFees">
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
@@ -79,12 +80,12 @@ session_start();
                     <tbody>
                     
                      <tr>
-                        <td>1</td>
-                        <td>Rajkumar</td>
-                        <td>BBA</td>
-                        <td>9875463210</td>
-                        <td>5000</td>
-                        <td>Pending</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     
                         <td>
                         <?php if ($user_role == 'Admin') { ?>

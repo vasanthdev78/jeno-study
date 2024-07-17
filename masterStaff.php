@@ -158,6 +158,7 @@ session_start();
 
       $('#addStaff').removeClass('was-validated');
       $('#addStaff').addClass('needs-validation');
+      $('#username').removeClass('is-invalid is-valid');
       $('#addStaff')[0].reset(); // Reset the form
 
       });
