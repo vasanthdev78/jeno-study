@@ -32,6 +32,8 @@ session_start();
         
         <div class="content-page">
             <div class="content">
+
+            <?php include "formStaff.php" ;?> <!---add Staff popup--->
                 <!-- Start Content-->
                 <div class="container-fluid" id="StaffContent">
 
@@ -59,9 +61,6 @@ session_start();
                         </div>
                     </div>
 
-             <?php include "formStaff.php" ;?> <!---add Staff popup--->
-             
-             
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -94,8 +93,8 @@ session_start();
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStaff(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStaff(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStaff(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
                       <?php } ?>
@@ -154,6 +153,19 @@ session_start();
 
   <script>
     $(document).ready(function () {
+
+      $('#addStaffBtn').click(function() {
+
+      $('#addStaff').removeClass('was-validated');
+      $('#addStaff').addClass('needs-validation');
+      $('#addStaff')[0].reset(); // Reset the form
+
+      });
+
+      $('#backButton').click(function() {
+        $('#staffView').addClass('d-none');
+        $('#StaffContent').show();
+    });
   
   $('#addStaff').off('submit').on('submit', function(e) {
     if (!isUsernameValid) {
@@ -262,6 +274,10 @@ function goEditStaff(editId)
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
 
+          $('#editStaff').removeClass('was-validated');
+          $('#editStaff').addClass('needs-validation');
+          $('#editStaff')[0].reset(); // Reset the form
+
           $('#staffId').val(response.stfId);
           $('#staffNameEdit').val(response.name);
           $('#dobEdit').val(response.birth);
@@ -272,7 +288,7 @@ function goEditStaff(editId)
           $('#designationEdit').val(response.role);
           $('#salaryEdit').val(response.salary);
           $('#dateofjoinEdit').val(response.joining_date);
-          $('#usernameEdit').val(response.username);
+          $('#usernameEdit').val(response.username).prop('disabled', true);
           $('#passwordEdit').val(response.password);
           // Remove the 'required' attribute from the aadhar field
           $('#aadharEdit').removeAttr('required');
@@ -284,6 +300,83 @@ function goEditStaff(editId)
     });
     
 }
+
+function goDeleteStaff(id)
+{
+    if(confirm("Are you sure you want to delete Staff?"))
+    {
+      $.ajax({
+        url: 'action/actStaff.php',
+        method: 'POST',
+        data: {
+          deleteId: id
+        },
+        //dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                               $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                    "paging": true, // Enable pagination
+                                    "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                                });
+                            });
+         
+
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    }
+}
+
+function goViewStaff(id)
+{
+    $.ajax({
+        url: 'action/actStaff.php',
+        method: 'POST',
+        data: {
+            id: id
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+          
+          $('#StaffContent').hide();
+          $('#staffView').removeClass('d-none');
+        
+          $('#staffNameView').text(response.nameView);
+          $('#dobView').text(response.birthView);
+          $('#mobileView').text(response.mobileView);
+          $('#emailView').text(response.emailView);
+          $('#addressView').text(response.addressView);
+          $('#genderView').text(response.genderView);
+          $('#designationView').text(response.roleView);
+          $('#salaryView').text(response.salaryView);
+          $('#dateofjoinView').text(response.joining_dateView);
+          $('#usernameView').text(response.usernameView);
+          $('#passwordView').text(response.passwordView);
+
+          var aadharImageUrl = 'assets/images/staff/' + response.aadharView;
+
+            // Create a link for the Aadhar card
+            $('#aadharView')
+                .attr('href', aadharImageUrl)
+                .attr('target', '_blank')
+                .text('View Aadhar Card');
+
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     $('#editStaff').off('submit').on('submit', function(e) {
@@ -297,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             var formData = new FormData(form);
-            alert(formData);
         $.ajax({
             url: "action/actStaff.php",
             method: 'POST',
