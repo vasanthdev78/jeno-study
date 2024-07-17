@@ -82,6 +82,9 @@
                                 <div class="form-group">
                                     <label for="username" class="form-label"><b>Username</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control"  placeholder="Enter Username" name="username" id="username" required="required">
+                                    <div class="invalid-feedback">
+                                        The username already exists.
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
