@@ -98,8 +98,8 @@ session_start();
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewCourse(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                             <?php } else { ?>
-           <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editCourse(<?php echo $id; ?>);" d-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>               
-          <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewCourse(<?php echo $ow['cou_id']; ?>);"><i class="bi bi-eye-fill"></i></button>
+                                <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewCourse(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                            <?php } ?>
                         </td>
                       </tr> 

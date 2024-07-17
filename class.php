@@ -96,4 +96,32 @@ function electiveTable() {
         }
     }
 
+
+    //----Enquiry table ------------------
+
+        
+    function enquiryTable() {    
+        global $conn; // Assuming $conn is your database connection variable
+    
+    
+       // Query to retrieve course name based on course_id
+       $enquiry_query = "SELECT `enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_number`, `enq_stu_name`, `enq_email`, `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_adminsion_status` FROM `jeno_enquiry` WHERE enq_status ='Active'";
+    
+       // Execute the query
+       $enquiry_result = $conn->query($enquiry_query);
+    
+       // Check if query was successful
+       if ($enquiry_result) {
+           // Fetch the course name
+           
+    
+           return $enquiry_result;
+       } else {
+           // Query execution failed
+           return "Query failed: " . $conn->error;
+       }
+        }
+
+      
+
 ?>

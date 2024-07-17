@@ -1,15 +1,8 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
-    
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+include("class.php");
+
+$enquiry_result = enquiryTable();
     
 ?>
 <!DOCTYPE html>
@@ -89,9 +82,10 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">Enquiry No</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
+                                    <th scope="col">University</th>
+                                    <th scope="col">Course</th>                                    
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Status</th> 
                                     <th scope="col">Action</th>
@@ -99,14 +93,26 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
+
+                    <?php  
+
+                        $i =1;
+
+                        while ($row = $enquiry_result->fetch_assoc()) {
+                            $id = $row['enq_id'];
+                            
+
+                        ?>
+
                     
                      <tr>
-                        <td>1</td>
-                        <td>Rajkumar</td>
-                        <td>BBA</td>
-                        <td>Kalakad</td>
-                        <td>7896541230</td>
-                        <td>Completed</td>
+                        <td><?php echo $i ; $i++ ?></td>
+                        <td><?php echo $row['enq_number'] ?></td>
+                        <td><?php echo $row['enq_stu_name'] ?></td>
+                        <td><?php echo $row['enq_uni_id'] ?></td>
+                        <td><?php echo $row['enq_cou_id'] ?></td>
+                        <td><?php echo $row['enq_mobile'] ?></td>
+                        <td><?php echo $row['enq_adminsion_status'] ?></td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
@@ -114,34 +120,8 @@ session_start();
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>   
-                      <tr>
-                        <td>2</td>
-                        <td>Sankar</td>
-                        <td>MBA</td>
-                        <td>Tirunelveli</td>
-                        <td>7896541230</td>
-                        <td>Pending</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                      </tr>  
-                      <tr>
-                        <td>3</td>
-                        <td>Vasanth</td>
-                        <td>MCA</td>
-                        <td>Kerala</td>
-                        <td>7896541230</td>
-                        <td>Completed</td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                      </tr>                       
+                     <?php } ?>  
+                                             
                     </tbody>
                   </table>
 
@@ -194,6 +174,62 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script>
+        $('#addEnquiryBtn').click(function() {
+
+            $('#addEnquiry').removeClass('was-validated');
+            $('#addEnquiry').addClass('needs-validation');
+            $('#addEnquiry')[0].reset(); // Reset the form
+            // $('#fessType').val('');
+
+            });
+
+            $('#backButtoncourse').click(function() {
+            $('#CourseView').addClass('d-none');
+            $('#courseContent').show();
+
+            });
+
+
+            $(document).ready(function() {
+    $('#university').change(function() {
+        var universityId = $(this).val();
+        alert(universityId);
+        
+        if (universityId === "") {
+            $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actEnquiry.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { university: universityId },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                for (var i = 0; i < response.length; i++) {
+                    options += '<option value="' + response.cou_id + '">' + response.cou_name + '</option>';
+                }
+
+                $('#course').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+});
+
+
+
+
+
+    </script>
 
  
 

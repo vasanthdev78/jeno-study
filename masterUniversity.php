@@ -79,7 +79,7 @@ session_start();
                     <tbody>
                 <?php  
 
-                    $i =0;
+                    $i =1;
 
                     while ($row = $university_result->fetch_assoc()) {
                         $id = $row['uni_id'];
