@@ -2,7 +2,7 @@
     <div class="modal fade" id="addUniversityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="addUniversity" id="addUniversity" enctype="multipart/form-data">
+                <form class="needs-validation" novalidate name="addUniversity" id="addUniversity" enctype="multipart/form-data">
                     <input type="hidden" name="hdnAction" value="addUniversity">
                     <div class="modal-header">
                         <h4 class="modal-title" id="staticBackdropLabel">Add University</h4>

@@ -277,6 +277,13 @@ function editUiversity(editId) {
        $('#addUniversity').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
 
+            var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+            
             var formData = new FormData(this);
 
             $.ajax({
