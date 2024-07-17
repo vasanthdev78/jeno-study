@@ -149,36 +149,38 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     $staffId = $_POST['hdnStaffId']; // Assuming staffId is passed in the form
 
     // Base query
-    $editQuery = "UPDATE `jeno_staff` SET
-        `stf_name` = '$name',
-        `stf_birth` = '$dob',
-        `stf_gender` = '$gender',
-        `stf_mobile` = '$mobile',
-        `stf_joining_date` = '$dateofjoin',
-        `stf_salary` = '$salary',
-        `stf_role` = '$role',
-        `stf_email` = '$email',
-        `stf_address` = '$address',
-        `stf_password` = '$password',
-        `stf_updated_by` = '$userId'";
+    $updateQuery = "UPDATE jeno_user AS u
+    JOIN jeno_staff AS s ON u.user_id = s.stf_userId
+    SET 
+        u.user_name = '$name',
+        u.user_password = '$password',
+        u.user_role = 'Staff',
+        u.user_updated_by = '$userId',
+        s.stf_name = '$name',
+        s.stf_birth = '$dob',
+        s.stf_gender = '$gender',
+        s.stf_mobile = '$mobile',
+        s.stf_joining_date = '$dateofjoin',
+        s.stf_salary = '$salary',
+        s.stf_role = '$role',
+        s.stf_email = '$email',
+        s.stf_address = '$address',
+        s.stf_updated_by = '$userId'";
 
-    // Add aadhar to the query if a new file was uploaded
     if (!empty($newFileName)) {
-        $editQuery .= ", `stf_image` = '$newFileName'";
+        $updateQuery .= ", s.stf_image = '$newFileName'";
     }
 
-    $editQuery .= " WHERE `stf_id` = $staffId";
+    $updateQuery .= " WHERE s.stf_id = $staffId";
 
-    $editRes = mysqli_query($conn, $editQuery);
-
-    if ($editRes) {
+    if ($conn->query($updateQuery) === TRUE) {
         $_SESSION['message'] = "Staff details updated successfully!";
         $response['success'] = true;
         $response['message'] = "Staff details updated successfully!";
     } else {
-        $response['message'] = "Error: " . mysqli_error($conn);
+        $response['message'] = "Error: " . $updateQuery . "<br>" . $conn->error;
     }
-
+    
     echo json_encode($response);
     exit();
 }
