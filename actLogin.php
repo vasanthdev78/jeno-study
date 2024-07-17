@@ -14,16 +14,16 @@ if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $role = htmlspecialchars($_POST['role']);
     $_SESSION['centerId']   = $centerId;
 
-    $stmt = mysqli_prepare($conn, "SELECT * FROM admin_tbl WHERE username = ? AND pass = ? AND role = ?");
+    $stmt = mysqli_prepare($conn, "SELECT * FROM `jeno_user` WHERE `user_username` = ? AND `user_password` = ? AND `user_role` = ?");
     mysqli_stmt_bind_param($stmt, "sss", $username, $password,$role);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
 
     if ($row = mysqli_fetch_assoc($res)) {
         
-        $_SESSION['user']   = $row['name'];
+        $_SESSION['user']   = $row['user_name'];
         $_SESSION['userId'] = $row['user_id'];
-        $_SESSION['role']   = $row['role'];
+        $_SESSION['role']   = $row['user_role'];
         $_SESSION['message_type'] = "success"; // You can use this to style the message
         header("Location: dashboard.php");
     } else {
