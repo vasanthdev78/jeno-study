@@ -45,15 +45,26 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-        $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_username, stf_password, stf_created_by) 
-        VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$aadhar', '$username', '$password', '$userId')";
+        // First, insert the username and password into the jeno_user table
+        $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_by) VALUES ('$name', '$username', '$password', 'Staff', '$userId')";
+        
+        if ($conn->query($user_insert) === TRUE) {
+            // Get the last inserted ID
+            $last_user_id = $conn->insert_id;
 
-        if ($conn->query($staff_insert) === TRUE) {
-            $_SESSION['message'] = "Staff details added successfully!";
-            $response['success'] = true;
-            $response['message'] = "Staff details added successfully!";
+            // Now, insert the remaining data into the jeno_staff table
+            $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_userId, stf_created_by) 
+                VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$aadhar', '$last_user_id', '$userId')";
+            
+            if ($conn->query($staff_insert) === TRUE) {
+                $_SESSION['message'] = "Staff details added successfully!";
+                $response['success'] = true;
+                $response['message'] = "Staff details added successfully!";
+            } else {
+                $response['message'] = "Error: " . $staff_insert . "<br>" . $conn->error;
+            }
         } else {
-            $response['message'] = "Error: " . $staff_insert . "<br>" . $conn->error;
+            $response['message'] = "Error: " . $user_insert . "<br>" . $conn->error;
         }
 
     echo json_encode($response);
@@ -66,7 +77,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_id = $editId";
+    $selQuery = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -83,8 +94,8 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'role' => $row['stf_role'],
             'salary' => $row['stf_salary'],
             'joining_date' => $row['stf_joining_date'],
-            'username' => $row['stf_username'],
-            'password' => $row['stf_password'],
+            'username' => $row['user_username'],
+            'password' => $row['user_password'],
         );
 
         echo json_encode($staffDetails);
@@ -175,9 +186,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
 // Handle deleting a client
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
-    $queryDel = "UPDATE `jeno_staff` SET
-        stf_status = 'Inactive'
-    WHERE `stf_id` = $id;";
+    $queryDel = "UPDATE `jeno_staff` AS a 
+                 LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id 
+                 SET a.stf_status = 'Inactive', b.user_status = 'Inactive'
+                 WHERE `stf_id` = $id;";
     $reDel = mysqli_query($conn, $queryDel);
 
     if ($reDel) {
@@ -197,7 +209,7 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
     $staffId = $_POST['id'];
 
     // Prepare and execute the SQL query
-    $selQuery1 = "SELECT * FROM `jeno_staff` WHERE stf_id = $staffId;";
+    $selQuery1 = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $staffId";
     
     $result1 = $conn->query($selQuery1);
 
@@ -217,8 +229,8 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
             'salaryView' => $row['stf_salary'],
             'joining_dateView' => $row['stf_joining_date'], 
             'aadharView' => $row['stf_image'],
-            'usernameView' => $row['stf_username'],
-            'passwordView' => $row['stf_password'],
+            'usernameView' => $row['user_username'],
+            'passwordView' => $row['user_password'],
     ];
 
     echo json_encode($staffDetails);
