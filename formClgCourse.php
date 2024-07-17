@@ -107,7 +107,7 @@
             <div class="modal-content">
             <form class="needs-validation" novalidate name="frmEditCourse" id="editCourse" enctype="multipart/form-data">
     <input type="hidden" name="hdnAction" value="editCourse">
-    <input type="hidden" name="editCouseId" value="editCouseId">
+    <input type="hidden" name="editCouseId" id="editCouseId">
     <div class="modal-header">
         <h4 class="modal-title" id="staticBackdropLabel">Edit Course</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -190,7 +190,7 @@
                 </div>
         </div>
         <hr>
-        <div id="editItionalInputs"></div>
+        <div id="editCourseInputs"></div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -204,4 +204,61 @@
 
     <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
 
- 
+    <div class="table-responsive d-none " id="CourseView">
+        
+        <form name="frm" method="post">
+            <input type="hidden" name="hdnAction" value="">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Course Details</h4>
+            </div>  
+            <div class="modal-footer mb-3">
+                <button type="button" class="btn btn-danger" id="backButtoncourse">Back</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>University Name</h4> 
+                            <span class="detail" id="viewUniversityName"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Course Name</h4>
+                            <span class="detail" id="viewCourseName"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Medium</h4>
+                            <span class="detail" id="viewMedium"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Exam Type</h4>
+                            <span class="detail" id="viewExamType"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Fees Type</h4>
+                            <span class="detail" id="viewFeesType"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Duration </h4>
+                            <span class="detail" id="viewDuration"></span>
+                        </div>
+                    </div>
+                
+                <div id="viewCourseInputs"></div>
+                    
+                </div>
+            </div>
+            
+        </form>   
+    </div>
