@@ -1,5 +1,5 @@
 <?php
-include("../db/dbConnection.php");
+include("../class.php");
 
 
 session_start();
@@ -13,9 +13,9 @@ $response = ['success' => false, 'message' => ''];
     //---get course --------------------------
 
     // Handle fetching university details for editing
-if (isset($_POST['university']) && $_POST['university'] != '') {
+if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
-    $universityId = $_POST['university'];
+    $universityId = $_POST['universityID'];
 
     $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId;";
     $courseResult = mysqli_query($conn, $courseQuery);
@@ -42,96 +42,133 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
 
 // Handle adding a university
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addUniversity') {
-    $universityName = $_POST['universityName'];
-    $studyCode = $_POST['studyCode'];
-    $department = $_POST['department'];
-    $contact = $_POST['contact'];
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
+    $name = $_POST['name'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $mobile = $_POST['mobile'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $university = $_POST['university'];
+    $course = $_POST['course'];
+    $medium = $_POST['medium'];
     // Other fields
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
 
-    // JSON encode arrays
-    $dep = json_encode($department);
-    $con = json_encode($contact);
+    
 
-    $university_sql = "INSERT INTO `jeno_university`
-        (`uni_study_code`, `uni_name`, `uni_department`, `uni_contact`, `uni_center_id`, `uni_created_by`) 
-        VALUES 
-        ('$studyCode', '$universityName', '$dep', '$con', '$uniCenterId', '$createdBy')";
+    $university_sql = "INSERT INTO `jeno_enquiry`
+    ( `enq_uni_id`
+    , `enq_cou_id`
+    , `enq_stu_name`
+    , `enq_email`
+    , `enq_dob`
+    , `enq_gender`
+    , `enq_mobile`
+    , `enq_address`
+    , `enq_medium`
+    , `enq_center_id`
+    , `enq_created_by`) 
+    VALUES 
+    ('$university'
+    ,'$course'
+    ,'$name'
+    ,'$email'
+    ,'$dob'
+    ,'$gender'
+    ,'$mobile'
+    ,'$address'
+    ,'$medium'
+    ,'$uniCenterId'
+    ,'$createdBy')";
 
     if ($conn->query($university_sql) === TRUE) {
         $response['success'] = true;
-        $response['message'] = "University added successfully!";
+        $response['message'] = "Enquiry added successfully!";
     } else {
-        $response['message'] = "Error adding university: " . $conn->error;
+        $response['message'] = "Error adding Enquiry: " . $conn->error;
     }
 
     echo json_encode($response);
     exit();
 }
 
+
 // Handle fetching university details for editing
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
-    
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT `uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact` FROM `jeno_university` WHERE uni_id = $editId";
+    $selQuery = "SELECT `enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_stu_name`, `enq_email`, 
+        `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_medium` 
+        FROM `jeno_enquiry` WHERE enq_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
+        $courseName = courseName($row['enq_uni_id']);
 
-        // Prepare university details array
-        $universityDetails = [
-            'uni_id' => $row['uni_id'],
-            'uni_study_code' => $row['uni_study_code'],
-            'uni_name' => $row['uni_name'],
-            'uni_department' => json_decode($row['uni_department']), // Decode JSON string to array
-            'uni_contact' => json_decode($row['uni_contact']) // Decode JSON string to array
+        $courseDetails = [
+            'enq_id' => $row['enq_id'],
+            'enq_uni_id' => $row['enq_uni_id'],
+            'enq_courses' => $courseName,
+            'enq_cou_id' => $row['enq_cou_id'], // Course ID for pre-selecting the course in the dropdown
+            'enq_stu_name' => $row['enq_stu_name'],
+            'enq_email' => $row['enq_email'],
+            'enq_dob' => $row['enq_dob'],
+            'enq_gender' => $row['enq_gender'],
+            'enq_mobile' => $row['enq_mobile'],
+            'enq_address' => $row['enq_address'],
+            'enq_medium' => $row['enq_medium']
         ];
 
-        echo json_encode($universityDetails);
+        echo json_encode($courseDetails);
     } else {
-        $response['message'] = "Error fetching university details: " . mysqli_error($conn);
+        $response['message'] = "Error fetching Enquiry details: " . mysqli_error($conn);
         echo json_encode($response);
     }
 
-    exit(); 
-    }
+    exit();
+}
 
 
     // Handle updating student details
-        if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editUniversity') {
-            $editid = $_POST['editid'];
-            $editUniversityName = $_POST['editUniversityName'];
-            $editStudyCode = $_POST['editStudyCode'];
-            $editdepartment = $_POST['editdepartment'];
-            $editcontact = $_POST['editcontact'];
+        if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
+            $editEnquiryId = $_POST['editEnquiryId'];
+            $editName = $_POST['editName'];
+            $editGender = $_POST['editGender'];
+            $editDob = $_POST['editDob'];
+            $editMobile = $_POST['editMobile'];
+            $editEmail = $_POST['editEmail'];
+            $editAddress = $_POST['editAddress'];
+            $editUniversity = $_POST['editUniversity'];
+            $editCourse = $_POST['editCourse'];
+            $editMedium = $_POST['editMedium'];
             // Other fields
             
             $updatedBy = $_SESSION['userId'];
-        
-            // JSON encode arrays
-            $editdep = json_encode($editdepartment);
-            $editcon = json_encode($editcontact);
-            
-            
-            $editUniversity ="UPDATE `jeno_university`
+    
+ 
+            $editUniversity ="UPDATE `jeno_enquiry`
              SET 
-             `uni_study_code`='$editStudyCode'
-             ,`uni_name`='$editUniversityName'
-             ,`uni_department`='$editdep'
-             ,`uni_contact`='$editcon'
-             ,`uni_updated_by`='$updatedBy' 
-             WHERE uni_id = $editid";
+             `enq_uni_id`='$editUniversity'
+             ,`enq_cou_id`='$editCourse'
+             ,`enq_stu_name`='$editName'
+             ,`enq_email`='$editEmail'
+             ,`enq_dob`='$editDob'
+             ,`enq_gender`='$editGender'
+             ,`enq_mobile`='$editMobile'
+             ,`enq_address`='$editAddress'
+             ,`enq_medium`='$editMedium'
+             ,`enq_updated_by`='$updatedBy'
+              WHERE enq_id = $editEnquiryId";
             
             $universityres = mysqli_query($conn, $editUniversity);
 
                 if ($universityres) {
-                    $_SESSION['message'] = "University details Updated successfully!";
+                    $_SESSION['message'] = "Enquiry details Updated successfully!";
                     $response['success'] = true;
-                    $response['message'] = "University details Updated successfully!";
+                    $response['message'] = "Enquiry details Updated successfully!";
                 } 
                 else {
                 $response['message'] = "Error: " . mysqli_error($conn);
@@ -147,16 +184,16 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
 
-                $queryDel = "UPDATE `jeno_university` SET `uni_updated_by`='$updatedBy',`uni_status`='Inactive' WHERE uni_id = $id;";
+                $queryDel = "UPDATE `jeno_enquiry` SET `enq_updated_by`='$updatedBy',`enq_status`='Inactive' WHERE enq_id = $id;";
                 $reDel = mysqli_query($conn, $queryDel);
 
                 if ($reDel) {
                     
-                    $_SESSION['message'] = "University details have been deleted successfully!";
+                    $_SESSION['message'] = "Enquiry details have been deleted successfully!";
                     $response['success'] = true;
-                    $response['message'] = "University details have been deleted successfully!";
+                    $response['message'] = "Enquiry details have been deleted successfully!";
                 } else {
-                    $_SESSION['message'] = "Unexpected error in deleting University details!";
+                    $_SESSION['message'] = "Unexpected error in deleting Enquiry details!";
                     $response['message'] = "Error: " . mysqli_error($conn);
                 }
 
@@ -171,7 +208,19 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $uniId = $_POST['id'];
 
                 // Prepare and execute the SQL query
-                $selQuery = "SELECT `uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact` FROM `jeno_university` WHERE uni_id = $uniId;";
+                $selQuery = "SELECT  
+                `enq_uni_id`
+                , `enq_cou_id`
+                , `enq_stu_name`
+                , `enq_email`
+                , `enq_dob`
+                , `enq_gender`
+                , `enq_mobile`
+                , `enq_address`
+                , `enq_medium`
+                , `enq_adminsion_status`
+                 FROM `jeno_enquiry`
+                  WHERE enq_id = $uniId;";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -179,15 +228,21 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     $row = mysqli_fetch_assoc($result1);
 
              // Prepare university details array
-        $universityDetails = [
-            'uni_id' => $row['uni_id'],
-            'uni_study_code' => $row['uni_study_code'],
-            'uni_name' => $row['uni_name'],
-            'uni_department' => json_decode($row['uni_department']), // Decode JSON string to array
-            'uni_contact' => json_decode($row['uni_contact']) // Decode JSON string to array
+        $enquiryDetails = [
+            'enq_uni_id' => universityName($row['enq_uni_id']),
+            'enq_cou_id' => courseNameOnly($row['enq_cou_id']),
+            'enq_stu_name' => $row['enq_stu_name'],
+            'enq_email' => $row['enq_email'],
+            'enq_dob' => $row['enq_dob'],
+            'enq_gender' => $row['enq_gender'],
+            'enq_mobile' => $row['enq_mobile'],
+            'enq_address' => $row['enq_address'],
+            'enq_medium' => $row['enq_medium'],
+            'enq_adminsion_status' => $row['enq_adminsion_status'],
+            
         ];
 
-          echo json_encode($universityDetails);
+          echo json_encode($enquiryDetails);
           exit();
                       
                 } else {
@@ -204,180 +259,3 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             echo json_encode($response);
             exit();
 
-
-// // Handle updating student details
-// if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editStudent') {
-//     $editid = $_POST['editid'];
-//     $editFName = $_POST['editFname'];
-//     $editLName = $_POST['editLname'];
-//     $editCourse = $_POST['editCourse'];
-//     $editdob = $_POST['editDob'];
-//     $editLocation = $_POST['editLocation'];
-//     $editMobile = $_POST['editMobile'];
-//     $editEmail = $_POST['editEmail'];
-//     $editAadhar = $_POST['editAadhar'];
-    
-    
-//     $editQuery1 =" UPDATE `student_tbl` st
-//     JOIN `additional_details_tbl` adt ON st.`stu_id` = adt.`stu_id`
-//     SET st.`first_name` = '$editFName',
-//         st.`last_name` = '$editLName',
-//         adt.`dob` = '$editdob',
-//         adt.`email` = '$editEmail',
-//         adt.`phone` = '$editMobile',
-//         adt.`address` = '$editLocation',
-//         adt.`aadhar` = '$editAadhar'
-//     WHERE st.`stu_id` = $editid;";
-    
-//     $editRes = mysqli_query($conn, $editQuery1);
-
-//         if ($editRes) {
-//             $_SESSION['message'] = "Student details Updated successfully!";
-//             $response['success'] = true;
-//             $response['message'] = "Student details Updated successfully!";
-//         } 
-//         else {
-//          $response['message'] = "Error: " . mysqli_error($conn);
-//     }
-    
-//     echo json_encode($response);
-//     exit();
-// }
-
-// // Handle deleting a client
-// if (isset($_POST['deleteId'])) {
-//     $id = $_POST['deleteId'];
-//     $queryDel = "UPDATE `student_tbl` st
-//     LEFT JOIN `additional_details_tbl` adt ON st.`stu_id` = adt.`stu_id`
-//     LEFT JOIN `admin_tbl` ad ON st.`user_id` = ad.`user_id`
-//     LEFT JOIN `payment_tbl` pt ON st.`stu_id` = pt.`stu_id`
-//     SET st.stu_status = 'Inactive',
-//         adt.`aditional_status` = 'Inactive',
-//         ad.status = 'Inactive',
-//         pt.payment_status = 'Inactive'
-//     WHERE st.`stu_id` = $id;";
-//     $reDel = mysqli_query($conn, $queryDel);
-
-//     if ($reDel) {
-//         $_SESSION['message'] = "Student details have been deleted successfully!";
-//         $response['success'] = true;
-//         $response['message'] = "Student details have been deleted successfully!";
-//     } else {
-//         $_SESSION['message'] = "Unexpected error in deleting Student details!";
-//         $response['message'] = "Error: " . mysqli_error($conn);
-//     }
-
-//     echo json_encode($response);
-//     exit();
-// }
-
-
-// // Upload Documents
-// if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'docStudent') {
-//     if (!isset($_POST['stuDocId']) || empty($_POST['stuDocId']) || !isset($_POST['userName']) || empty($_POST['userName'])) {
-//         $response['message'] = 'Student ID and Username are required.';
-//         echo json_encode($response);
-//         exit;
-//     }
-
-//     $empId = $_POST['stuDocId'];
-//     $username = $_POST['userName'];
-//     $aadharFileName = null;
-//     $marksheetFileName = null;
-//    // $bankFileName = null;
-
-//     function uploadFile($file, $fileName) {
-//         $targetDir = "../document/students/";
-//         $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
-//         $targetFile = $targetDir . basename($fileName . '.' . $fileExt);
-
-//         if (!file_exists($targetDir)) {
-//             if (!mkdir($targetDir, 0777, true)) {
-//                 return ['success' => false, 'message' => 'Failed to create directory: ' . $targetDir];
-//             }
-//         }
-
-//         if (move_uploaded_file($file["tmp_name"], $targetFile)) {
-//             return ['success' => true, 'file' => basename($targetFile)];
-//         } else {
-//             return ['success' => false, 'message' => 'Failed to move uploaded file from ' . $file["tmp_name"] . ' to ' . $targetFile];
-//         }
-//     }
-
-//     if (isset($_FILES['aadhar']) && $_FILES['aadhar']['error'] === UPLOAD_ERR_OK) {
-//         $result = uploadFile($_FILES['aadhar'], $username . '_aadhar');
-//         if ($result['success'] === false) {
-//             $response['message'] = $result['message'];
-//             echo json_encode($response);
-//             exit;
-//         }
-//         $aadharFileName = $result['file'];
-//     }
-
-//     if (isset($_FILES['marksheet']) && $_FILES['marksheet']['error'] === UPLOAD_ERR_OK) {
-//         $result = uploadFile($_FILES['marksheet'], $username . '_marksheet');
-//         if ($result['success'] === false) {
-//             $response['message'] = $result['message'];
-//             echo json_encode($response);
-//             exit;
-//         }
-//         $marksheetFileName = $result['file'];
-//     }
-
-//     // if (isset($_FILES['bank']) && $_FILES['bank']['error'] === UPLOAD_ERR_OK) {
-//     //     $result = uploadFile($_FILES['bank'], $username . '_bank');
-//     //     if ($result['success'] === false) {
-//     //         $response['message'] = $result['message'];
-//     //         echo json_encode($response);
-//     //         exit;
-//     //     }
-//     //     $bankFileName = $result['file'];
-//     // }
-
-//     if ($aadharFileName || $marksheetFileName) {
-//         $sql = "UPDATE student_tbl SET ";
-//         $params = [];
-//         if ($aadharFileName) {
-//             $sql .= "stu_aadhar = ?, ";
-//             $params[] = $aadharFileName;
-//         }
-//         if ($marksheetFileName) {
-//             $sql .= "stu_marksheet = ?, ";
-//             $params[] = $marksheetFileName;
-//         }
-//         // if ($bankFileName) {
-//         //     $sql .= "emp_bank = ?, ";
-//         //     $params[] = $bankFileName;
-//         // }
-//         $sql = rtrim($sql, ", ");
-//         $sql .= " WHERE stu_id = ?";
-
-//         $params[] = $empId;
-
-//         if ($stmt = $conn->prepare($sql)) {
-//             $types = str_repeat('s', count($params) - 1) . 'i';
-//             $stmt->bind_param($types, ...$params);
-
-//             if ($stmt->execute()) {
-//                 $response['success'] = true;
-//                 $response['message'] = 'Student documents uploaded successfully!';
-//             } else {
-//                 $response['message'] = 'Failed to update Student documents.';
-//             }
-
-//             $stmt->close();
-//         } else {
-//             $response['message'] = 'Failed to prepare statement: ' . $conn->error;
-//         }
-//     } else {
-//         $response['message'] = 'No documents uploaded.';
-//     }
-// }
-
-
-// echo json_encode($response);
-// exit();
-
-
-    
-    

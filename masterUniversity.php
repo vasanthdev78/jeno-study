@@ -268,7 +268,7 @@ function editUiversity(editId) {
             console.error('AJAX request failed:', status, error);
         }
     });
-}
+    }
 
 
 

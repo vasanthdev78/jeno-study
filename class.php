@@ -97,6 +97,30 @@ function electiveTable() {
     }
 
 
+     //----course Name  ------------------
+
+
+     function courseNameOnly($couonlyID) {
+        global $conn; // Assuming $conn is your database connection variable
+    
+        // Query to retrieve university name based on uni_id
+        $enquiry_name = "SELECT `cou_name` FROM `jeno_course` WHERE `cou_id` = $couonlyID";
+    
+        // Execute the query
+        $enquiry_result = $conn->query($enquiry_name);
+    
+        // Check if query was successful and there is a result
+        if ($enquiry_result && $enquiry_result->num_rows > 0) {
+            // Fetch the university name
+            $enquiry_row = $enquiry_result->fetch_assoc();
+            return $enquiry_row['cou_name'];
+        } else {
+            // Query execution failed or no results found
+            return "No Course found with the given ID.";
+        }
+    }
+
+
     //----Enquiry table ------------------
 
         
@@ -122,6 +146,32 @@ function electiveTable() {
        }
         }
 
-      
+        //---course name and Id=---------------
+
+        function courseName($couID) {
+            global $conn; // Assuming $conn is your database connection variable
+        
+            // Query to retrieve courses based on uni_id
+            $cou_name = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $couID";
+            
+            // Execute the query
+            $cou_result = $conn->query($cou_name);
+            
+            $courses = []; // Initialize an array to store course details
+            
+            // Check if query was successful and there is a result
+            if ($cou_result && $cou_result->num_rows > 0) {
+                while ($row = mysqli_fetch_assoc($cou_result)) {
+                    // Push each course as an object into the courses array
+                    $course = array(
+                        'cou_id' => $row['cou_id'],
+                        'cou_name' => $row['cou_name']
+                    );
+                    $courses[] = $course;
+                }
+            }
+            
+            return $courses;
+        }
 
 ?>
