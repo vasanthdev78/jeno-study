@@ -138,6 +138,9 @@ session_start();
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
 
+        <!-- Wizard Form Demo js -->
+        <script src="assets/js/pages/demo.form-wizard.js"></script>
+
     <!-- Datatables js -->
     <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -163,23 +166,101 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
-    document.getElementById('addAdmissionBtn').addEventListener('click', function() {
-        document.getElementById('StuContent').classList.add('d-none');
-        document.getElementById('addAdmissionModal').classList.remove('d-none');
+    $(document).ready(function() {
+    // Show add admission modal on button click
+    $('#addAdmissionBtn').on('click', function() {
+        $('#StuContent').addClass('d-none');
+        $('#addAdmissionModal').removeClass('d-none');
     });
-    document.getElementById('backToMainBtn').addEventListener('click', function() {
-            document.getElementById('StuContent').classList.remove('d-none');
-            document.getElementById('addAdmissionModal').classList.add('d-none');
-        });
 
-        document.getElementsByClassName('editAdmissionBtn').addEventListener('click', function() {
-        document.getElementById('StuContent').classList.add('d-none');
-        document.getElementById('editAdmissionModal').classList.remove('d-none');
+    // Back to main content from add admission modal
+    $('#addAdmissionModal').on('click', '#backToMainBtn', function() {
+        $('#StuContent').removeClass('d-none');
+        $('#addAdmissionModal').addClass('d-none');
     });
-    document.getElementById('backToMainBtn').addEventListener('click', function() {
-            document.getElementById('StuContent').classList.remove('d-none');
-            document.getElementById('editAdmissionModal').classList.add('d-none');
-        });
+
+    // Show edit admission modal on button click
+    $('.editAdmissionBtn').on('click', function() {
+        $('#StuContent').addClass('d-none');
+        $('#editAdmissionModal').removeClass('d-none');
+    });
+
+    // Back to main content from edit admission modal
+    $('#editAdmissionModal').on('click', '#backToMainBtn', function() {
+        $('#StuContent').removeClass('d-none');
+        $('#editAdmissionModal').addClass('d-none');
+    });
+});
+
+
+// $('#addAdmission').off('submit').on('submit', function(e) {
+//     if (!isUsernameValid) {
+//         e.preventDefault();
+//         $('#username').focus(); // Set focus to the invalid input
+//         return false;
+//     }
+
+//     e.preventDefault(); 
+
+//     var form = this; // Get the form element
+//             if (form.checkValidity() === false) {
+//                 // If the form is invalid, display validation errors
+//                 form.reportValidity();
+//                 return;
+//             }
+
+//             var formData = new FormData(form);
+
+//     $.ajax({
+//       url: "action/actStaff.php",
+//       method: 'POST',
+//       data: formData,
+//       contentType: false,
+//       processData: false,
+//       dataType: 'json',
+//       success: function(response) {
+//         // Handle success response
+//         console.log(response);
+//         if (response.success) {
+//           Swal.fire({
+//             icon: 'success',
+//             title: 'Success',
+//             text: response.message,
+//             timer: 2000
+//           }).then(function() {
+//             $('#addStaffModal').modal('hide');
+//             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+//               $('#scroll-horizontal-datatable').DataTable().destroy();
+//               $('#scroll-horizontal-datatable').DataTable({
+//                 "paging": true, // Enable pagination
+//                 "ordering": true, // Enable sorting
+//                 "searching": true // Enable searching
+//               });
+//             });
+//           });
+//         } else {
+//           Swal.fire({
+//             icon: 'error',
+//             title: 'Error',
+//             text: response.message
+//           });
+//         }
+//       },
+//       error: function(xhr, status, error) {
+//         // Handle error response
+//         console.error(xhr.responseText);
+//         Swal.fire({
+//           icon: 'error',
+//           title: 'Error',
+//           text: 'An error occurred while adding Staff data.'
+//         });
+//         // Re-enable the submit button on error
+//         $('#submitBtn').prop('disabled', false);
+//       }
+//     });
+//   });
+
+
         
 </script>
 
