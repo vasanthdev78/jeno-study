@@ -71,12 +71,38 @@
             <li>
                 <a href="fees.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Fees</a>
             </li>
+            
             <!-- <li>
                 <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
             </li> -->
         </ul>
     </div>
     </li>
+
+    <li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#transactionMenu" aria-expanded="false" aria-controls="transactionMenu" class="side-nav-link">
+    <i class="bi bi-currency-bitcoin"></i>
+        <span> Income / Expense </span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="transactionMenu">
+        <ul class="side-nav-second-level">
+            
+        
+            <li>
+                <a href="transaction.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Transaction</a>
+            </li>
+            <li>
+                <a href="fees.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Fees</a>
+            </li>
+            
+            <!-- <li>
+                <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
+            </li> -->
+        </ul>
+    </div>
+    </li>
+
     <?php } ?>
 
     
@@ -154,17 +180,17 @@
     </a>
 </li>
 <li class="side-nav-item">
-    <a href="income.php" class="side-nav-link">
+    <a href="transaction.php" class="side-nav-link">
     <i class="bi bi-currency-exchange"></i>
-        <span> Income </span>
+        <span> transaction </span>
     </a>
 </li>
-<li class="side-nav-item">
+<!-- <li class="side-nav-item">
     <a href="expence.php" class="side-nav-link">
     <i class="bi bi-explicit"></i>
         <span> Expense </span>
     </a>
-</li>
+</li> -->
 <!-- <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarBook" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
