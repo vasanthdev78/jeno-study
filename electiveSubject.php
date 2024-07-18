@@ -93,11 +93,11 @@ session_start();
                         <td><?php echo $row['cou_name'] ?></td>
                         <td><?php echo $row['ele_elective'] ?></td>
                         <td>
-                        <?php if ($user_role == 'Admin') { ?>
-                            <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editElectiveModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteElective(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <?php if ($user_role == 'Admin') { ?>
+                                <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editElectiveModal"><i class='bi bi-pencil-square'></i></button>
+                                <button class="btn btn-circle btn-danger text-white" onclick="goDeleteElective(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                             <?php } else { ?>
-                                <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
+                                <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editelective(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editElectiveModal"><i class='bi bi-pencil-square'></i></button>
                             <?php } ?>
 
                         </td>
