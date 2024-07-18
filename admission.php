@@ -104,55 +104,6 @@ session_start();
                            
                         </td>
                       </tr>
-
-                      <tr>
-                        <td>2</td>
-                        <td>Raj</td>
-                        <td>MCA</td>
-                        <td>MS University</td>
-                        <td>9894688091</td>
-                        <td>20191291516</td>
-                    
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                            
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                        <td>3</td>
-                        <td>Santhuru</td>
-                        <td>MCA</td>
-                        <td>MS University</td>
-                        <td>9894688091</td>
-                        <td>20191291516</td>
-                    
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>4</td>
-                        <td>kaviya</td>
-                        <td>MCA</td>
-                        <td>MS University</td>
-                        <td>9894688091</td>
-                        <td>20191291516</td>
-                    
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
-                        </td>
-                      </tr>
                       <?php 
                     // }
                      ?>
@@ -201,6 +152,7 @@ session_start();
     <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
@@ -222,12 +174,13 @@ session_start();
 
         document.getElementsByClassName('editAdmissionBtn').addEventListener('click', function() {
         document.getElementById('StuContent').classList.add('d-none');
-        document.getElementById('addAdmissionModal').classList.remove('d-none');
+        document.getElementById('editAdmissionModal').classList.remove('d-none');
     });
     document.getElementById('backToMainBtn').addEventListener('click', function() {
             document.getElementById('StuContent').classList.remove('d-none');
-            document.getElementById('addAdmissionModal').classList.add('d-none');
+            document.getElementById('editAdmissionModal').classList.add('d-none');
         });
+        
 </script>
 
 
