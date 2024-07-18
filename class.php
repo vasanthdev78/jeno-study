@@ -175,4 +175,31 @@ function electiveTable() {
             return $courses;
         }
 
+
+
+         //----transaction table ------------------
+
+        
+    function transactionTable() {    
+        global $conn; // Assuming $conn is your database connection variable
+    
+    
+       // Query to retrieve course name based on course_id
+       $transaction_query = "SELECT `tran_id`, `tran_category`, `tran_date`, `tran_amount`, `tran_method` FROM `jeno_transaction` WHERE tran_status ='Active'";
+    
+       // Execute the query
+       $transaction_result = $conn->query($transaction_query);
+    
+       // Check if query was successful
+       if ($transaction_result) {
+           // Fetch the course name
+           
+    
+           return $transaction_result;
+       } else {
+           // Query execution failed
+           return "Query failed: " . $conn->error;
+       }
+        }
+
 ?>
