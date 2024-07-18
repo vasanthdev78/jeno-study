@@ -27,6 +27,32 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
     exit();
 }
 
+if (isset($_POST['university']) && $_POST['university'] != '') {
+    
+    $universityId = $_POST['university'];
+
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId;";
+    $courseResult = mysqli_query($conn, $courseQuery);
+
+    if ($courseResult) {
+        while ($row = mysqli_fetch_assoc($courseResult)) {
+            // Push each course as an object into the courses array
+            $course = array(
+                'cou_id' => $row['cou_id'],
+                'cou_name' => $row['cou_name']
+            );
+            $courses[] = $course;
+        }
+
+        echo json_encode($courses);
+    } else {
+        $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
+        echo json_encode($response);
+    }
+
+    exit(); 
+    }
+
 // Handle fetching university details for editing
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
@@ -59,13 +85,12 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     // Handle updating student details
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editElective') {
             $editid = $_POST['editid'];
-            $editCourseName = $_POST['editCourseName'];
             $editElectiveName = $_POST['editElectiveName'];
             
             $updatedBy = $_SESSION['userId'];
           
             $editElective ="UPDATE `jeno_elective` 
-            SET `ele_cou_id`='$editCourseName',`ele_elective`='$editElectiveName',`ele_updated_by`='$updatedBy' WHERE ele_id = $editid";
+            SET `ele_elective`='$editElectiveName',`ele_updated_by`='$updatedBy' WHERE ele_id = $editid";
             
             $editElectiveRes = mysqli_query($conn, $editElective);
 

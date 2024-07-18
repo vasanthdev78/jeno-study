@@ -69,6 +69,7 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">University Name</th>
                                     <th scope="col">Course Name</th>
                                     <th scope="col">Elective Subject</th>
                                     <th scope="col">Action</th>
@@ -78,7 +79,7 @@ session_start();
                     <tbody>
                 <?php  
 
-                    $i =0;
+                    $i =1;
 
                     while ($row = $elective_result->fetch_assoc()) {
                         $id = $row['ele_id'];
@@ -88,7 +89,8 @@ session_start();
 
             <tr>
                         <td scope="row"><?php echo $i ; $i++ ?></td>
-                        <td><?php echo $row['ele_cou_id'] ?></td>
+                        <td><?php echo $row['uni_name'] ?></td>
+                        <td><?php echo $row['cou_name'] ?></td>
                         <td><?php echo $row['ele_elective'] ?></td>
                         <td>
                         <?php if ($user_role == 'Admin') { ?>
@@ -166,15 +168,11 @@ session_start();
     
                         
     $('#addElectiveBtn').click(function() {
+        $('#addElective').removeClass('was-validated');
+        $('#addElective').addClass('needs-validation');
         $('#addElective')[0].reset(); // Reset the form
         
     });
-
-    $('#backButton').click(function() {
-        $('#universityView').addClass('d-none');
-        $('#StuContent').show();
-    });
-
 
 
     // edit function -------------------------
@@ -189,6 +187,8 @@ function editelective(editId) {
         },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+            $('#editElective').removeClass('was-validated');
+            $('#editElective').addClass('needs-validation');
             $('#editid').val(response.ele_id);
             $('#editElectiveName').val(response.ele_elective);
             $('#editCourseName').val(response.ele_cou_id);
@@ -209,7 +209,14 @@ function editelective(editId) {
        $('#addElective').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
 
-            var formData = new FormData(this);
+            var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
 
             $.ajax({
                 url: 'action/actElective.php',
@@ -255,7 +262,34 @@ function editelective(editId) {
         });
 
 
+        $('#university').change(function() {
+        var universityId = $(this).val();
+        
+        if (universityId === "") {
+            $('#courseName').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
 
+        $.ajax({
+            url: "action/actElective.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { university: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
+                $('#courseName').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
 
 
         //Edit Student Ajax
@@ -265,7 +299,15 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#editElective').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
-        var formData = new FormData(this);
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+            
         $.ajax({
             url: "action/actElective.php",
             method: 'POST',

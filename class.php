@@ -29,7 +29,8 @@ function electiveTable() {
 
 
    // Query to retrieve course name based on course_id
-   $elective_query = "SELECT * FROM `jeno_elective` WHERE ele_status ='Active'";
+   $elective_query = "SELECT a.*, b.*, c.* FROM `jeno_elective` AS a LEFT JOIN `jeno_course` AS b ON a.ele_cou_id = b.cou_id
+   LEFT JOIN `jeno_university` AS c ON b.cou_uni_id = c.uni_id WHERE a.ele_status ='Active'";
 
    // Execute the query
    $elective_result = $conn->query($elective_query);
