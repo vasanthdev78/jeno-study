@@ -76,7 +76,7 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    
+                                      <?php $id = 4 ; ?>
                      <tr>
                         <td>1</td>
                         <td>CS705</td>
@@ -84,64 +84,12 @@ session_start();
                         <td>1 st Year</td>
                         <?php if ($user_role == 'Admin') { ?>
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editSubject(<?php echo $id; ?>);"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="editSubject(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                         <?php } ?>
                       </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>CS709</td>
-                        <td>Internet Protocol</td>
-                        <td>1 st Year</td>
-                    
-                        <?php if ($user_role == 'Admin') { ?>
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                        <?php } ?>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>CS745</td>
-                        <td>Artificial Inteligence</td>
-                        <td>1 st Year</td>
-                    
-                        <?php if ($user_role == 'Admin') { ?>
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                        <?php } ?>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>CS805</td>
-                        <td>Python</td>
-                        <td>1 st Year</td>
-                    
-                        <?php if ($user_role == 'Admin') { ?>
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                        <?php } ?>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>CS205</td>
-                        <td>Maths 1 </td>
-                        <td>1 st Year</td>
-                    
-                        <?php if ($user_role == 'Admin') { ?>
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editSubjectModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                        <?php } ?>
-                      </tr>
-
+   
                         
                     </tbody>
                   </table>
@@ -210,6 +158,12 @@ session_start();
         $('#StuContent').removeClass('d-none');
     });
 
+    $('#editBackButton').on('click', function() {
+   
+        $('#editSubjectModal').addClass('d-none');
+        $('#StuContent').removeClass('d-none');
+    });
+
     $('#cancelButton').on('click', function() {
 
       $('#addSubject').removeClass('was-validated');
@@ -219,6 +173,14 @@ session_start();
         $('#addSubjectModal').addClass('d-none');
         $('#StuContent').removeClass('d-none');
     });
+
+    $('#editCancelButton').on('click', function() {
+
+
+  $('#editSubjectModal').addClass('d-none');
+  $('#StuContent').removeClass('d-none');
+});
+
 
 //---------------------form reset end -------------------
 
@@ -260,29 +222,62 @@ session_start();
 
           //-----------university select course load start -----------------------------
 
-          $('#university').change(function() {
-        var universityId = $(this).val();
-        alert(universityId);
+          $('#course').change(function() {
+        var electiveId = $(this).val();
+        alert(electiveId);
         
-        if (universityId === "") {
-            $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
-            return; // No university selected, exit the function
+        if (electiveId === "") {
+            $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            $('#electiveDiv').hide(); // Hide the elective div if no course is selected
+            $('#addElectiveButton').attr('data-type', '');
+            return; // No course selected, exit the function
         }
 
         $.ajax({
             url: "action/actSubject.php", // URL of the PHP script to handle the request
             type: "POST",
-            data: { universitySub: universityId },
+            data: { electiveSub: electiveId },
             dataType: 'json',
             success: function(response) {
-                
-                var options = '<option value="">--Select the Course--</option>';
-                
-                 // Loop through each course in the response and append to options
-                 $.each(response, function(index, course) {
-                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
-                });
-                $('#course').html(options); // Update the course dropdown
+                  // Handle course details
+                if (response.course) {
+                    var duration = response.course.cou_duration;
+                    var examType = response.course.cou_exam_type;
+
+                    var options = '<option value="">--Select--</option>';
+                    
+                    if (examType === 'Year') {
+                        for (var i = 1; i <= duration; i++) {
+                            options += '<option value="' + i + '">' + i + ' st Year</option>';
+                        }
+                    } else if (examType === 'Semester') {
+                        for (var i = 1; i <= (duration * 2); i++) {
+                            options += '<option value="' + i + '">' + i + ' st Semester</option>';
+                        }
+                    }
+
+                    $('#year').html(options);
+                }
+                   // Handle elective details
+                   if (response.electives && response.electives.length > 0) {
+                    $('#electiveDiv').show(); // Show the elective div if there are courses
+                    var electiveOptions = '<option value="">--Select the Course--</option>';
+
+                    // Loop through each course in the response and append to options
+                    $.each(response.electives, function(index, course) {
+                        electiveOptions += '<option value="' + course.ele_id + '">' + course.ele_elective + '</option>';
+                    });
+                    $('#elective').html(electiveOptions); // Update the course dropdown
+
+                    $('#addElectiveButton').attr('data-type', 'elective');
+                    $('#subType').val("Elective");
+                } else {
+                    $('#electiveDiv').hide(); // Hide the elective div if no courses
+                    $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+
+                    $('#addElectiveButton').attr('data-type', 'language'); // Set the data-type for language
+                    $('#subType').val("language");
+                }
             },
             error: function(xhr, status, error) {
                 console.error("AJAX request failed: " + status + ", " + error);
@@ -292,58 +287,86 @@ session_start();
 
     //-----------course select elective load end -----------------------------
 
-        // Function to show or hide the category field based on the selected course
-        function toggleCategoryField() {
-            var selectedCourse = $('#course').val();
-            if (selectedCourse === 'MBA') {
-                $('#categoryField').show();
-            } else {
-                $('#categoryField').hide();
-            }
-            updateLanguageButtonLabel(); // Call to update the button label
-        }
+       
+    $('#addInputButton').click(function() {
+        var newInputDiv = $('<div class="row mt-3"></div>');
 
-        // Function to update the label and inputs of the "Add Language Subject" button
-        function updateLanguageButtonLabel() {
-            var selectedCourse = $('#course').val();
-            var selectedCategory = $('#category').val();
-            var addButton = $('#addElectiveButton');
+        var inputDiv1 = $('<div class="col-sm-5"></div>');
+        var inputLabel1 = $('<label class="form-label"><b>Subject Code</b></label>');
+        var input1 = $('<input type="text" class="form-control" name="newInputSubjectCode[]" required>');
+        inputDiv1.append(inputLabel1);
+        inputDiv1.append(input1);
+        newInputDiv.append(inputDiv1);
 
-            if (selectedCourse === 'MBA' && selectedCategory !== '') {
-                addButton.text('Add Elective Subject').attr('data-type', 'elective');
-                $('#languageSubjectsHeader').text('Elective Subjects');
-            } else {
-                addButton.text('Add Language Subject').attr('data-type', 'language');
-                $('#languageSubjectsHeader').text('Language Subjects');
-            }
-        }
+        var inputDiv2 = $('<div class="col-sm-5"></div>');
+        var inputLabel2 = $('<label class="form-label"><b>Subject Name</b></label>');
+        var input2 = $('<input type="text" class="form-control" name="newInputSubjectName[]" required>');
+        inputDiv2.append(inputLabel2);
+        inputDiv2.append(input2);
+        newInputDiv.append(inputDiv2);
 
-        // Initial state on document ready
-        toggleCategoryField();
-
-        // Event listener for course select change
-        $('#course').change(function() {
-            toggleCategoryField();
+        var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+        var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+        deleteButton.click(function() {
+            newInputDiv.remove();
         });
+        deleteButtonDiv.append(deleteButton);
 
-        // Event listener for category select change
-        $('#category').change(function() {
-            updateLanguageButtonLabel();
-        });
+        newInputDiv.append(deleteButtonDiv);
 
-        $('#addInputButton').click(function() {
+        $('#additionalInputs').append(newInputDiv);
+    });
+
+    $('#addElectiveButton').click(function() {
+        var buttonType = $(this).attr('data-type');
+
+        if (buttonType === 'language') {
+            var newInputDiv = $('<div class="row mt-3"></div>');
+
+            var inputDiv1 = $('<div class="col-sm-3"></div>');
+            var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInputLanguageSubjectCode[]" required>');
+            inputDiv1.append(inputLabel1);
+            inputDiv1.append(input1);
+            newInputDiv.append(inputDiv1);
+
+            var inputDiv2 = $('<div class="col-sm-4"></div>');
+            var inputLabel2 = $('<label class="form-label"><b>Language Subject Code</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInputLanguageSubjectName[]" required>');
+            inputDiv2.append(inputLabel2);
+            inputDiv2.append(input2);
+            newInputDiv.append(inputDiv2);
+
+            var inputDiv3 = $('<div class="col-sm-4"></div>');
+            var inputLabel3 = $('<label class="form-label"><b>Language Subject Name</b></label>');
+            var input3 = $('<input type="text" class="form-control" name="newInputLanguageSubjectType[]" required>');
+            inputDiv3.append(inputLabel3);
+            inputDiv3.append(input3);
+            newInputDiv.append(inputDiv3);
+
+            var deleteButtonDiv = $('<div class="col-sm-1 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#electiveInputs').append(newInputDiv);
+        } else if (buttonType === 'elective') {
             var newInputDiv = $('<div class="row mt-3"></div>');
 
             var inputDiv1 = $('<div class="col-sm-5"></div>');
-            var inputLabel1 = $('<label class="form-label"><b>Subject Code</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="newInputSubjectCode[]">');
+            var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
             inputDiv1.append(inputLabel1);
             inputDiv1.append(input1);
             newInputDiv.append(inputDiv1);
 
             var inputDiv2 = $('<div class="col-sm-5"></div>');
-            var inputLabel2 = $('<label class="form-label"><b>Subject Name</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="newInputSubjectName[]">');
+            var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
             inputDiv2.append(inputLabel2);
             inputDiv2.append(input2);
             newInputDiv.append(inputDiv2);
@@ -357,76 +380,260 @@ session_start();
 
             newInputDiv.append(deleteButtonDiv);
 
-            $('#additionalInputs').append(newInputDiv);
-        });
-
-        $('#addElectiveButton').click(function() {
-            var buttonType = $(this).attr('data-type');
-
-            if (buttonType === 'language') {
-                var newInputDiv = $('<div class="row mt-3"></div>');
-
-                var inputDiv1 = $('<div class="col-sm-3"></div>');
-                var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
-                var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
-                inputDiv1.append(inputLabel1);
-                inputDiv1.append(input1);
-                newInputDiv.append(inputDiv1);
-
-                var inputDiv2 = $('<div class="col-sm-4"></div>');
-                var inputLabel2 = $('<label class="form-label"><b>Language Subject Code</b></label>');
-                var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
-                inputDiv2.append(inputLabel2);
-                inputDiv2.append(input2);
-                newInputDiv.append(inputDiv2);
-
-                var inputDiv3 = $('<div class="col-sm-4"></div>');
-                var inputLabel3 = $('<label class="form-label"><b>Language Subject Name</b></label>');
-                var input3 = $('<input type="text" class="form-control" name="newInputElectiveSubjectType[]">');
-                inputDiv3.append(inputLabel3);
-                inputDiv3.append(input3);
-                newInputDiv.append(inputDiv3);
-
-                var deleteButtonDiv = $('<div class="col-sm-1 d-flex align-items-end"></div>');
-                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-                deleteButton.click(function() {
-                    newInputDiv.remove();
-                });
-                deleteButtonDiv.append(deleteButton);
-
-                newInputDiv.append(deleteButtonDiv);
-
-                $('#electiveInputs').append(newInputDiv);
-            } else if (buttonType === 'elective') {
-                var newInputDiv = $('<div class="row mt-3"></div>');
-
-                var inputDiv1 = $('<div class="col-sm-5"></div>');
-                var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
-                var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
-                inputDiv1.append(inputLabel1);
-                inputDiv1.append(input1);
-                newInputDiv.append(inputDiv1);
-
-                var inputDiv2 = $('<div class="col-sm-5"></div>');
-                var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
-                var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
-                inputDiv2.append(inputLabel2);
-                inputDiv2.append(input2);
-                newInputDiv.append(inputDiv2);
-
-                var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-                deleteButton.click(function() {
-                    newInputDiv.remove();
-                });
-                deleteButtonDiv.append(deleteButton);
-
-                newInputDiv.append(deleteButtonDiv);
-
-                $('#electiveInputs').append(newInputDiv);
-            }
-        });
+            $('#electiveInputs').append(newInputDiv);
+        }
     });
+
+
+    $('#editAddInputButton').click(function() {
+        var newInputDiv = $('<div class="row mt-3"></div>');
+
+        var inputDiv1 = $('<div class="col-sm-5"></div>');
+        var inputLabel1 = $('<label class="form-label"><b>Subject Code</b></label>');
+        var input1 = $('<input type="text" class="form-control" name="EditNewInputSubjectCode[]" required>');
+        inputDiv1.append(inputLabel1);
+        inputDiv1.append(input1);
+        newInputDiv.append(inputDiv1);
+
+        var inputDiv2 = $('<div class="col-sm-5"></div>');
+        var inputLabel2 = $('<label class="form-label"><b>Subject Name</b></label>');
+        var input2 = $('<input type="text" class="form-control" name="editNewInputSubjectName[]" required>');
+        inputDiv2.append(inputLabel2);
+        inputDiv2.append(input2);
+        newInputDiv.append(inputDiv2);
+
+        var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+        var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+        deleteButton.click(function() {
+            newInputDiv.remove();
+        });
+        deleteButtonDiv.append(deleteButton);
+
+        newInputDiv.append(deleteButtonDiv);
+
+        $('#editLanguageInputs').append(newInputDiv);
+    });
+
+    $('#editAddElectiveButton').click(function() {
+        var buttonType = $(this).attr('data-type');
+
+        if (buttonType === 'language') {
+            var newInputDiv = $('<div class="row mt-3"></div>');
+
+            var inputDiv1 = $('<div class="col-sm-3"></div>');
+            var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInputLanguageSubjectCode[]" required>');
+            inputDiv1.append(inputLabel1);
+            inputDiv1.append(input1);
+            newInputDiv.append(inputDiv1);
+
+            var inputDiv2 = $('<div class="col-sm-4"></div>');
+            var inputLabel2 = $('<label class="form-label"><b>Language Subject Code</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInputLanguageSubjectName[]" required>');
+            inputDiv2.append(inputLabel2);
+            inputDiv2.append(input2);
+            newInputDiv.append(inputDiv2);
+
+            var inputDiv3 = $('<div class="col-sm-4"></div>');
+            var inputLabel3 = $('<label class="form-label"><b>Language Subject Name</b></label>');
+            var input3 = $('<input type="text" class="form-control" name="newInputLanguageSubjectType[]" required>');
+            inputDiv3.append(inputLabel3);
+            inputDiv3.append(input3);
+            newInputDiv.append(inputDiv3);
+
+            var deleteButtonDiv = $('<div class="col-sm-1 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#editElectiveInputs').append(newInputDiv);
+        } else if (buttonType === 'elective') {
+            var newInputDiv = $('<div class="row mt-3"></div>');
+
+            var inputDiv1 = $('<div class="col-sm-5"></div>');
+            var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
+            inputDiv1.append(inputLabel1);
+            inputDiv1.append(input1);
+            newInputDiv.append(inputDiv1);
+
+            var inputDiv2 = $('<div class="col-sm-5"></div>');
+            var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
+            inputDiv2.append(inputLabel2);
+            inputDiv2.append(input2);
+            newInputDiv.append(inputDiv2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#editElectiveInputs').append(newInputDiv);
+        }
+    });
+});
+
+
+
+
+// Ajax form submission
+$('#addSubject').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+            
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: 'action/actSubject.php',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(response) {
+
+                // Handle success response
+        console.log(response);
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            timer: 2000
+          }).then(function() {
+
+            $('#addSubjectModal').addClass('d-none');
+            $('#StuContent').removeClass('d-none');
+            
+            // $('#addSubject').modal('hide');
+            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+              $('#scroll-horizontal-datatable').DataTable().destroy();
+              $('#scroll-horizontal-datatable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable sorting
+                "searching": true // Enable searching
+              });
+            });
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message
+          });
+        }
+      },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error response
+                    alert('Error adding Enquiry: ' + textStatus);
+                }
+            });
+        });
+
+
+
+        //----------------edit subject ----------------------------------
+
+              // edit function -------------------------
+              function editSubject(editId) {
+    $('#StuContent').addClass('d-none');
+    $('#editSubjectModal').removeClass('d-none');
+    
+    $.ajax({
+        url: 'action/actSubject.php',
+        method: 'POST',
+        data: { editId: editId },
+        dataType: 'json',
+        success: function(response) {
+            if (response.error) {
+                console.error('Error:', response.error);
+                return;
+            }
+
+            $('#editSubId').val(response.sub_id);
+            $('#editUniversity').val(response.sub_uni_id);
+            $('#editCourse').val(response.sub_cou_id);
+            $('#editElective').val(response.sub_ele_id);
+            $('#editYear').val(response.sub_exam_patten);
+
+            $('#editAddElectiveButton').attr('data-type', 'elective');
+
+            // Clear previous input fields
+            $('#electiveInputs').empty();
+            $('#languageInputs').empty();
+
+            // Example data structure for electiveSubjects and languageSubjects
+            const electiveSubjects = []; // Populate this with actual data if needed
+            const languageSubjects = []; // Populate this with actual data if needed
+
+            // Render elective and language subjects
+            renderSubjectInputs('elective', electiveSubjects);
+            renderSubjectInputs('language', languageSubjects);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
+
+function renderSubjectInputs(subjectType, data) {
+    var container = subjectType === 'elective' ? '#electiveInputs' : '#languageInputs';
+    $(container).empty();
+    
+    if (Array.isArray(data)) {
+        data.forEach(function(subject, index) {
+            var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+
+            var input1Div = $('<div class="col-sm-5"></div>');
+            var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="' + (subjectType === 'elective' ? 'editElectiveSubjectCode[]' : 'editLanguageSubjectCode[]') + '" required>').val(subject.code);
+            input1Div.append(input1Label);
+            input1Div.append(input1);
+
+            var input2Div = $('<div class="col-sm-5"></div>');
+            var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
+            var input2 = $('<input type="text" class="form-control" name="' + (subjectType === 'elective' ? 'editElectiveSubjectName[]' : 'editLanguageSubjectName[]') + '" required>').val(subject.name);
+            input2Div.append(input2Label);
+            input2Div.append(input2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+            newInputDiv.append(deleteButtonDiv);
+
+            $(container).append(newInputDiv);
+        });
+    } else {
+        console.error('Subject data is not an array.');
+    }
+}
+
+
+
+
+
+
 </script>
 
 
