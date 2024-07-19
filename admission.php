@@ -200,7 +200,7 @@ session_start();
         }
 
         $.ajax({
-            url: "action/actElective.php", // URL of the PHP script to handle the request
+            url: "action/actAdmission.php", // URL of the PHP script to handle the request
             type: "POST",
             data: { university: universityId },
             dataType: 'json',
@@ -213,6 +213,34 @@ session_start();
                     options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
                 });
                 $('#courseName').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+    $('#courseName').change(function() {
+        var courseId = $(this).val();
+        
+        if (courseId === "") {
+            $('#language').html('<option value="">--Select the Specification--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actAdmission.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { courseId: courseId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Specification--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, elective) {
+                    options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+                });
+                $('#language').html(options); // Update the course dropdown
             },
             error: function(xhr, status, error) {
                 console.error("AJAX request failed: " + status + ", " + error);
@@ -252,7 +280,8 @@ $('#addAdmission').off('submit').on('submit', function(e) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            $('#addStaffModal').modal('hide');
+            $('#StuContent').removeClass('d-none');
+            $('#addAdmissionModal').addClass('d-none');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -276,7 +305,7 @@ $('#addAdmission').off('submit').on('submit', function(e) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'An error occurred while adding Staff data.'
+          text: 'An error occurred while adding Student data.'
         });
         // Re-enable the submit button on error
         $('#submitBtn').prop('disabled', false);
