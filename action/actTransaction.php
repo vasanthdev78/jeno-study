@@ -44,6 +44,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                         // Handle adding a university
                         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addTransaction') {
                             $category = $_POST['category'];
+                            
                             $expenseReason = $_POST['expenseReason'];
                             $date = $_POST['date'];
                             $amount = $_POST['amount'];
