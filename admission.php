@@ -91,7 +91,7 @@ session_start();
                         <td><?php echo $enroll; ?></td>
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                            
@@ -176,16 +176,22 @@ session_start();
     });
 
     // // Show edit admission modal on button click
-    // $('.editAdmissionBtn').on('click', function() {
-    //     $('#StuContent').addClass('d-none');
-    //     $('#editAdmissionModal').removeClass('d-none');
-    // });
+    $(document).on('click', '.modalBtn', function() {
+        $('#editAdmission').removeClass('was-validated');
+        $('#editAdmission').addClass('needs-validation');
+        $('#editAdmission')[0].reset(); // Reset the form
+        $('#StuContent').addClass('d-none');
+        $('#editAdmissionModal').removeClass('d-none');
+    });
 
-    // // Back to main content from edit admission modal
-    // $('#editAdmissionModal').on('click', '#backToMainBtn', function() {
-    //     $('#StuContent').removeClass('d-none');
-    //     $('#editAdmissionModal').addClass('d-none');
-    // });
+    // Back to main content from edit admission modal
+    $('#editAdmissionModal').on('click', '#backToMainBtn1', function() {
+        $('#StuContent').removeClass('d-none');
+        $('#editAdmissionModal').addClass('d-none');
+    });
+
+
+
     $('#university').change(function() {
         var universityId = $(this).val();
         
