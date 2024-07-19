@@ -22,13 +22,14 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- New input field for online payment method -->
-                        <div class="col-sm-12" id="expenseReason" style="display:none;">
-                            <div class="form-group pb-1">
-                                <label for="expenseReason" class="form-label"><b>Expense Reason</b></label>
-                                <textarea class="form-control"   placeholder="Enter Expense Reason" name="expenseReason" id="expenseReasonInput"></textarea>                                
-                            </div>
+                        <!-- Input field for expense reason -->
+                    <div class="col-sm-12" id="expenseReason">
+                        <div class="form-group pb-1">
+                            <label for="expenseReasonInput" class="form-label"><b>Ex / In Reason</b></label>
+                            <textarea class="form-control" placeholder="Enter Expense Reason" name="expenseReason" id="expenseReasonInput"></textarea>
                         </div>
+                    </div>
+
 
                         <div class="col-sm-12">
                                 <div class="form-group">
@@ -107,13 +108,15 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- New input field for online payment method -->
-                        <div class="col-sm-12" id="editExpenseReason" style="display:none;">
-                            <div class="form-group pb-1">
-                                <label for="editExpenseReason" class="form-label"><b>Expense Reason</b></label>
-                                <textarea class="form-control"   placeholder="Enter Expense Reason" name="editExpenseReason" id="editexpenseReasonInput"></textarea>                                
+                          
+
+                            <!-- Input field for income reason -->
+                            <div class="col-sm-12" id="editIncomeReason">
+                                <div class="form-group pb-1">
+                                    <label for="editIncomeReasonInput" class="form-label"><b>Income Reason</b></label>
+                                    <textarea class="form-control" placeholder="Enter Income Reason" name="editIncomeReason" id="editIncomeReasonInput"></textarea>
+                                </div>
                             </div>
-                        </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">

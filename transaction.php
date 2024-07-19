@@ -174,7 +174,7 @@ include("class.php");
                         console.log(response); // Debugging console log
                         $('#editTransactionId').val(response.tran_id);
                         $('#editCategory').val(response.tran_category);
-                        // $('#editexpenseReasonInput').val(response.tran_reason);
+                        $('#expenseReasonInput').val(response.tran_reason);
                         $('#editDate').val(response.tran_date);
                         $('#editAmount').val(response.tran_amount);
                         $('#editPaidMethod').val(response.tran_method);
@@ -182,13 +182,13 @@ include("class.php");
                         $('#editDescription').val(response.tran_description);
 
 
-                        if (response.tran_reason) {
-                $('#editExpenseReason').show();
-                $('#editexpenseReasonInput').val(response.tran_reason);
-            } else {
-                $('#editExpenseReason').hide();
-                $('#editexpenseReasonInput').val(''); // Clear the field
-            }
+            //             if (response.tran_reason) {
+            //     $('#editExpenseReason').show();
+            //     $('#editexpenseReasonInput').val(response.tran_reason);
+            // } else {
+            //     $('#editExpenseReason').hide();
+            //     $('#editexpenseReasonInput').val(''); // Clear the field
+            // }
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX request failed:', status, error); // Debugging console log
@@ -267,32 +267,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    document.getElementById('category').addEventListener('change', function() {
-        var paymentMethod = this.value;
-        var onlinePaymentDetails = document.getElementById('expenseReason');
-        
-        if (paymentMethod === 'Expense') {
-            onlinePaymentDetails.style.display = 'block';
-            document.getElementById('expenseReasonInput').setAttribute('required', 'required');
-        } else {
-            onlinePaymentDetails.style.display = 'none';
-            document.getElementById('expenseReasonInput').removeAttribute('required');
-        }
-    });
+  
 
 
-    document.getElementById('editCategory').addEventListener('change', function() {
-        var paymentMethod = this.value;
-        var onlinePaymentDetails = document.getElementById('editExpenseReason');
-        
-        if (paymentMethod === 'Expense') {
-            onlinePaymentDetails.style.display = 'block';
-            document.getElementById('editExpenseReasonInput').setAttribute('required', 'required');
-        } else {
-            onlinePaymentDetails.style.display = 'none';
-            document.getElementById('editExpenseReasonInput').removeAttribute('required');
-        }
-    });
+ 
 </script>
 
   <script>
