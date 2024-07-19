@@ -3,14 +3,7 @@ session_start();
 
     include "class.php";
     
-    // $selQuery = "SELECT student_tbl.*,
-    // additional_details_tbl.*,
-    // course_tbl.*
-    //  FROM student_tbl
-    // LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    // LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    // WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    // $resQuery = mysqli_query($conn , $selQuery); 
+    $admission_result = admission(); 
     
 ?>
 <!DOCTYPE html>
@@ -75,8 +68,8 @@ session_start();
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Student Name</th>
-                                    <th scope="col">Course</th>
                                     <th scope="col">University</th>
+                                    <th scope="col">Course</th>
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Roll No</th> 
                                     <th scope="col">Action</th>
@@ -85,28 +78,27 @@ session_start();
                     </thead>
                     <tbody>
                     <?php 
-                    // $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
+                    $i=1; while($row = mysqli_fetch_array($admission_result , MYSQLI_ASSOC)) { 
+                        $id = $row['stu_id'];  $name = $row['stu_name']; $phone = $row['stu_phone'];  $university=$row['uni_name'];  
+                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; 
                         ?>
                      <tr>
-                        <td>1</td>
-                        <td>Vasanth</td>
-                        <td>MCA</td>
-                        <td>MS University</td>
-                        <td>9894688091</td>
-                        <td>20191291516</td>
+                        <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $name; ?></td>
+                        <td><?php echo $university; ?></td>
+                        <td><?php echo $course; ?></td>
+                        <td><?php echo $phone; ?></td>
+                        <td><?php echo $enroll; ?></td>
                     
                         <td>
-                         <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" id="editAdmissionBtn"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
                            
                         </td>
                       </tr>
                       <?php 
-                    // }
+                    }
                      ?>
                         
                     </tbody>
@@ -170,6 +162,9 @@ session_start();
     $(document).ready(function() {
     // Show add admission modal on button click
     $('#addAdmissionBtn').on('click', function() {
+        $('#addAdmission').removeClass('was-validated');
+        $('#addAdmission').addClass('needs-validation');
+        $('#addAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
         $('#addAdmissionModal').removeClass('d-none');
     });

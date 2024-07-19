@@ -197,7 +197,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharNumber" class="form-label"><b>Aadhar Number</b></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar Number" name="aadharNumber" id="aadharNumber" >
+                                                            <input type="text" class="form-control" pattern="[0-9]{16}" placeholder="Enter Aadhar Number" name="aadharNumber" id="aadharNumber" >
                                                             </div>
                                                             </div>
 
@@ -345,6 +345,13 @@
                                                             <div class="form-group pb-1">
                                                             <label for="photo" class="form-label"><b>Passport Size Photo</b></label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" >
+                                                            </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group pb-1">
+                                                            <label for="enroll" class="form-label"><b>Enrollment No.</b></label>
+                                                            <input type="text" class="form-control" pattern="^\S.*$" placeholder="Enter Enrollment Number" name="enroll" id="enroll" >
                                                             </div>
                                                             </div>
 

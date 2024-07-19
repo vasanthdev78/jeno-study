@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 // Handle adding a university
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission') {
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POST['stuName'] != '') {
 
     $stuName = $_POST['stuName'];
     $mobileNo = $_POST['mobileNo'];
@@ -39,6 +39,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission') {
     $completed = $_POST['completed'];
     $study = $_POST['study'];
     $grade = $_POST['grade'];
+    $enroll = $_POST['enroll'];
     $createdBy = $_SESSION['userId'];
 
     $uploadDir = '../assets/images/student/';
@@ -80,8 +81,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission') {
     }
     
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_study_year`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '1 st year', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_study_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '1 st year', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;

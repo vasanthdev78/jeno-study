@@ -202,4 +202,25 @@ function electiveTable() {
        }
         }
 
+        function admission() {
+            global $conn; // Assuming $conn is your database connection variable
+        
+        
+           // Query to retrieve course name based on course_id
+           $admission_query = "SELECT a.*, b.*, c.* FROM `jeno_student` AS a LEFT JOIN jeno_university AS b ON a.stu_uni_id=b.uni_id LEFT JOIN jeno_course AS c ON a.stu_cou_id=c.cou_id WHERE stu_status = 'Active'";
+        
+           // Execute the query
+           $admission_result = $conn->query($admission_query);
+        
+           // Check if query was successful
+           if ($admission_result) {
+               // Fetch the course name              
+               return $admission_result;
+           } else {
+               // Query execution failed
+               return "Query failed: " . $conn->error;
+           }
+        }
+        
+
 ?>
