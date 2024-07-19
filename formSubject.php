@@ -1,10 +1,12 @@
-    
- <!-- Start Content-->
- <div class="container-fluid d-none" id="addSubjectModal">
+<!-- Start Content-->
+<div class="container-fluid d-none" id="addSubjectModal">
     <div class="card overflow-hidden">
         <div class="card-body">
             <h4 class="header-title">Add Subject</h4>
-            <form name="frmAddSubject" id="addSubject" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate  name="frmAddSubject" id="addSubject" enctype="multipart/form-data">
+            <div class="col-12 text-end">
+                    <button type="button" id="backButton" class="btn btn-danger">Back</button>
+                </div>
                 <input type="hidden" name="hdnAction" value="addSubject">
                 <div class="row">
                     <div class="col-sm-6">
@@ -12,10 +14,17 @@
                             <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                             <select class="form-control" name="university" id="university" required>
                                 <option value="">--Select the University--</option>
-                                <option value="MS">MS University</option>
-                                <option value="Anna">Anna University</option>
-                                <option value="Alagappa">Alagappa University</option>
-                                <option value="UM">University Of Madras</option>
+                                <?php 
+                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                     while ($row = $university_result->fetch_assoc()) {
+                                     $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -31,7 +40,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6" id="categoryField">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label for="category" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
                             <select class="form-control" name="category" id="category" required>
@@ -62,29 +71,32 @@
                         <button type="button" id="addElectiveButton" class="btn btn-primary">Add Language Subject</button>
                     </div>
                 </div>
-        </div>
-    </div>
-    <div class="row">
-    <div class="col-md-5">
-        <div class="card overflow-hidden">
-            <div class="card-body">
-                <h4 id="subjectsHeader" class="header-title">Subjects</h4>
-                <div id="additionalInputs"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-7">
-        <div class="card overflow-hidden">
-            <div class="card-body">
-                <h4 id="languageSubjectsHeader" class="header-title">Language Subjects</h4>
-                <div id="electiveInputs"></div>
-            </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-5">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <h4 id="subjectsHeader" class="header-title">Subjects</h4>
+                                <div id="additionalInputs"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <h4 id="languageSubjectsHeader" class="header-title">Language Subjects</h4>
+                                <div id="electiveInputs"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" id="cancelButton" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-</div>
-
-    <!-- ------------------------------------------------------------------------------------------------------------------ -->
-
-   
