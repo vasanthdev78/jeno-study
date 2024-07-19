@@ -11,6 +11,7 @@
                                             </button>
                                         </div>
                                         <form class="needs-validation" novalidate name="frmAddAdmission" id="addAdmission" enctype="multipart/form-data">
+                                        <input type="hidden" name="hdnAction" value="addAdmission">
                                             <div id="progressbarwizard">
 
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
@@ -47,7 +48,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
-                                                            <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
+                                                            <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
                                                             </div>
                                                             </div>
 
@@ -128,12 +129,7 @@
                                                             <div class="form-group">
                                                             <label for="language" class="form-label"><b>Language / Elective </b></label>
                                                             <select class="form-control" name="language" id="language" >
-                                                            <option value="">--Select the Paper--</option>
-                                                            <option value="Tamil">Tamil</option>
-                                                            <option value="English">English</option>
-                                                            <option value="English">Malayalam</option>
-                                                            <option value="arabic">Arabic</option>
-
+                                                            <option value="">--Select the Specification--</option>                                                           
                                                             </select>
                                                             </div>
                                                             </div>
@@ -255,8 +251,8 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group">
-                                                            <label for="empoloyed" class="form-label"><b>Empoloyed</b></label>
-                                                            <select class="form-control" name="empoloyed" id="empoloyed" >
+                                                            <label for="employed" class="form-label"><b>Empoloyed</b></label>
+                                                            <select class="form-control" name="employed" id="employed" >
                                                             <option value="">--Select the Empoloyed--</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
@@ -267,8 +263,8 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="qualifiaction" class="form-label"><b>Highest Qualifiaction</b></label>
-                                                            <select class="form-control" id="qualifiaction" name="qualifiaction" >
+                                                            <label for="qualification" class="form-label"><b>Highest Qualifiaction</b></label>
+                                                            <select class="form-control" id="qualification" name="qualification" >
                                                             <option>--Select the Qualifiaction--</option>
                                                             <option value="1">Diploma</option>
                                                             <option value="2">12TH</option>

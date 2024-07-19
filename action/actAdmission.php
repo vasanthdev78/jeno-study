@@ -1,0 +1,173 @@
+<?php
+include("../db/dbConnection.php");
+
+
+session_start();
+header('Content-Type: application/json');
+
+$response = ['success' => false, 'message' => ''];
+
+// Handle adding a university
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission') {
+
+    $stuName = $_POST['stuName'];
+    $mobileNo = $_POST['mobileNo'];
+    $email = $_POST['email'];
+    $university = $_POST['university'];
+    $courseName = $_POST['courseName'];
+    $medium = $_POST['medium'];
+    $yearType = $_POST['yearType'];
+    $language = $_POST['language'];
+    $digilocker = $_POST['digilocker'];
+    $admitDate = $_POST['admitDate'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $pincode = $_POST['pincode'];
+    $fathername = $_POST['fathername'];
+    $mothername = $_POST['mothername'];
+    $aadharNumber = $_POST['aadharNumber'];
+    $nationality = $_POST['nationality'];
+    $motherTongue = $_POST['motherTongue'];
+    $religion = $_POST['religion'];
+    $caste = $_POST['caste'];
+    $community = $_POST['community'];
+    $marital = $_POST['marital'];
+    $employed = $_POST['employed'];
+    $qualification = $_POST['qualification'];
+    $previous = $_POST['previous'];
+    $completed = $_POST['completed'];
+    $study = $_POST['study'];
+    $grade = $_POST['grade'];
+    $createdBy = $_SESSION['userId'];
+
+    $uploadDir = '../assets/images/student/';
+    $sslcName = '';
+    $hscName = '';
+    $communityName = '';
+    $tcName = '';
+    $aadharName = '';
+    $photoName = '';
+
+    if (!empty($_FILES['sslc']['name'])) {
+        $sslcName = basename($_FILES['sslc']['name']);
+        move_uploaded_file($_FILES['sslc']['tmp_name'], $uploadDir . $sslcName);
+    }
+
+    if (!empty($_FILES['hsc']['name'])) {
+        $hscName = basename($_FILES['hsc']['name']);
+        move_uploaded_file($_FILES['hsc']['tmp_name'], $uploadDir . $hscName);
+    }
+
+    if (!empty($_FILES['community']['name'])) {
+        $communityName = basename($_FILES['community']['name']);
+        move_uploaded_file($_FILES['community']['tmp_name'], $uploadDir . $communityName);
+    }
+
+    if (!empty($_FILES['tc']['name'])) {
+        $tcName = basename($_FILES['tc']['name']);
+        move_uploaded_file($_FILES['tc']['tmp_name'], $uploadDir . $tcName);
+    }
+
+    if (!empty($_FILES['aadhar']['name'])) {
+        $aadharName = basename($_FILES['aadhar']['name']);
+        move_uploaded_file($_FILES['aadhar']['tmp_name'], $uploadDir . $aadharName);
+    }
+
+    if (!empty($_FILES['photo']['name'])) {
+        $photoName = basename($_FILES['photo']['name']);
+        move_uploaded_file($_FILES['photo']['tmp_name'], $uploadDir . $photoName);
+    }
+    
+
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_study_year`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '1 st year', '$createdBy')";
+
+    if ($conn->query($student_sql) === TRUE) {
+        $studentId = $conn->insert_id;
+
+        // Insert into additional table
+        $additional_sql = "INSERT INTO `jeno_stu_additional`(`add_stu_id`, `add_year_type`, `add_language`, `add_digilocker`, `add_admit_date`, `add_dob`, `add_gender`, `add_address`, `add_pincode`, `add_father_name`, `add_mother_name`, `add_aadhar_no`, `add_nationality`, `add_mother_tongue`, `add_religion`, `add_caste`, `add_community`, `add_marital_status`, `add_employed`, `add_qualifiaction`, `add_institute`, `add_comp_year`, `add_study_field`, `add_grade`, `add_created_by`) 
+                        VALUES ('$studentId', '$yearType', '$language', '$digilocker', '$admitDate', '$dob', '$gender', '$address', '$pincode', '$fathername', '$mothername', '$aadharNumber', '$nationality', '$motherTongue', '$religion', '$caste', '$community', '$marital', '$employed', '$qualification', '$previous', '$completed', '$study', '$grade', '$createdBy')";
+
+        $conn->query($additional_sql);
+
+        // Insert into documents table
+        $documents_sql = "INSERT INTO `jeno_document`(`doc_stu_id`, `doc_sslc`, `doc_hsc`, `doc_community`, `doc_tc`, `doc_aadhar`, `doc_photo`, `doc_created_by`) 
+                        VALUES ('$studentId', '$sslcName', '$hscName', '$communityName', '$tcName', '$aadharName', '$photoName', '$createdBy')";
+
+        $conn->query($documents_sql);
+
+        // Insert into fees table
+        $fees_sql = "INSERT INTO `jeno_fees`(`fee_stu_id`, `fee_uni_fee`, `fee_sty_fee`, `fee_paid_date`, `fee_method`, `fee_trans_id`, `fee_created_by`) 
+                    VALUES ('$studentId', '0', '0', '0', '0', '0', '$createdBy')"; // Modify as per your requirements
+
+        $conn->query($fees_sql);
+
+        // Insert into book table
+        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_issued`, `book_id_issued`, `book_created_by`) 
+                    VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
+
+        $conn->query($book_sql);
+
+        $response['success'] = true;
+        $response['message'] = "Student details added successfully!";
+    } else {
+        $response['message'] = "Error adding student: " . $conn->error;
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+if (isset($_POST['university']) && $_POST['university'] != '') {
+    
+    $universityId = $_POST['university'];
+
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_status = 'Active' AND cou_uni_id = $universityId;";
+    $courseResult = mysqli_query($conn, $courseQuery);
+
+    if ($courseResult) {
+        while ($row = mysqli_fetch_assoc($courseResult)) {
+            // Push each course as an object into the courses array
+            $course = array(
+                'cou_id' => $row['cou_id'],
+                'cou_name' => $row['cou_name']
+            );
+            $courses[] = $course;
+        }
+
+        echo json_encode($courses);
+    } else {
+        $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
+        echo json_encode($response);
+    }
+
+    exit(); 
+    }
+
+if (isset($_POST['courseId']) && $_POST['courseId'] != '') {
+    
+        $courseId = $_POST['courseId'];
+    
+        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId;";
+        $eleResult = mysqli_query($conn, $eleQuery);
+    
+        if ($eleResult) {
+            while ($row = mysqli_fetch_assoc($eleResult)) {
+                $elective = array(
+                    'ele_id' => $row['ele_id'],
+                    'ele_elective' => $row['ele_elective']
+                );
+                $electives[] = $elective;
+            }
+    
+            echo json_encode($electives);
+        } else {
+            $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
+            echo json_encode($response);
+        }
+    
+        exit(); 
+        }
+?>
