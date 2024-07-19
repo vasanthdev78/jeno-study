@@ -40,7 +40,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="stuName" class="form-label"><b>Name</b><span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter First Name" name="stuName" id="stuName" required="required">
+                                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="stuName" id="stuName" required="required">
                                                             </div>
                                                             </div>
 
@@ -60,30 +60,33 @@
 
 
                                                             <div class="col-sm-6">
-                                                            <div class="form-group ">
-                                                            <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
-                                                            <select class="form-control" name="university" id="university" required="required">
-                                                            <option value="">--Select the University--</option>
-                                                            <option value="MS">MS University</option>
-                                                            <option value="Anna">Anna University</option>
-                                                            <option value="Alagappa">Alagappa University</option>
-                                                            <option value="UM">University Of Madras</option>
-                                                            </select>
-                                                            </div>
-                                                            </div>
+                                                                <div class="form-group ">
+                                                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="university" id="university" required="required">
+                                                                        
+                                                                        <option value="">--Select the University--</option>
+                                                                        <?php 
+                                                                    $university_result = universityTable(); // Call the function to fetch universities 
+                                                                    while ($row = $university_result->fetch_assoc()) {
+                                                                    $id = $row['uni_id']; 
+                                                                    $name = $row['uni_name'];    
+                                                        
+                                                                    ?>
+                                                        
+                                                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
 
+                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                             <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                            <label for="course" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                                                            <select class="form-control" name="course" id="course" required="required">
-                                                            <option value="">--Select the Course--</option>
-                                                            <option value="BBA">BBA</option>
-                                                            <option value="MBA">MBA</option>
-                                                            <option value="BCA">BCA</option>
-                                                            <option value="MCA">MCA</option>
+                                                                <div class="form-group">
+                                                                    <label for="courseName" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="courseName" id="courseName" required="required">
+                                                                    <option value="">--Select the Course--</option>
 
-                                                            </select>
-                                                            </div>
+                                                                    </select>
+                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
@@ -93,7 +96,6 @@
                                                             <option value="">--Select the Medium--</option>
                                                             <option value="BBA">Tamil</option>
                                                             <option value="MBA">English</option>
-                                                            <option value="BCA">Others</option>
 
                                                             </select>
                                                             </div>

@@ -1,6 +1,7 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+
+    include "class.php";
     
     // $selQuery = "SELECT student_tbl.*,
     // additional_details_tbl.*,
@@ -179,86 +180,109 @@ session_start();
         $('#addAdmissionModal').addClass('d-none');
     });
 
-    // Show edit admission modal on button click
-    $('.editAdmissionBtn').on('click', function() {
-        $('#StuContent').addClass('d-none');
-        $('#editAdmissionModal').removeClass('d-none');
-    });
+    // // Show edit admission modal on button click
+    // $('.editAdmissionBtn').on('click', function() {
+    //     $('#StuContent').addClass('d-none');
+    //     $('#editAdmissionModal').removeClass('d-none');
+    // });
 
-    // Back to main content from edit admission modal
-    $('#editAdmissionModal').on('click', '#backToMainBtn', function() {
-        $('#StuContent').removeClass('d-none');
-        $('#editAdmissionModal').addClass('d-none');
+    // // Back to main content from edit admission modal
+    // $('#editAdmissionModal').on('click', '#backToMainBtn', function() {
+    //     $('#StuContent').removeClass('d-none');
+    //     $('#editAdmissionModal').addClass('d-none');
+    // });
+    $('#university').change(function() {
+        var universityId = $(this).val();
+        
+        if (universityId === "") {
+            $('#courseName').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actElective.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { university: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
+                $('#courseName').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
     });
 });
 
 
-// $('#addAdmission').off('submit').on('submit', function(e) {
-//     if (!isUsernameValid) {
-//         e.preventDefault();
-//         $('#username').focus(); // Set focus to the invalid input
-//         return false;
-//     }
+$('#addAdmission').off('submit').on('submit', function(e) {
 
-//     e.preventDefault(); 
+    e.preventDefault(); 
 
-//     var form = this; // Get the form element
-//             if (form.checkValidity() === false) {
-//                 // If the form is invalid, display validation errors
-//                 form.reportValidity();
-//                 return;
-//             }
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
 
-//             var formData = new FormData(form);
+            var formData = new FormData(form);
 
-//     $.ajax({
-//       url: "action/actStaff.php",
-//       method: 'POST',
-//       data: formData,
-//       contentType: false,
-//       processData: false,
-//       dataType: 'json',
-//       success: function(response) {
-//         // Handle success response
-//         console.log(response);
-//         if (response.success) {
-//           Swal.fire({
-//             icon: 'success',
-//             title: 'Success',
-//             text: response.message,
-//             timer: 2000
-//           }).then(function() {
-//             $('#addStaffModal').modal('hide');
-//             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-//               $('#scroll-horizontal-datatable').DataTable().destroy();
-//               $('#scroll-horizontal-datatable').DataTable({
-//                 "paging": true, // Enable pagination
-//                 "ordering": true, // Enable sorting
-//                 "searching": true // Enable searching
-//               });
-//             });
-//           });
-//         } else {
-//           Swal.fire({
-//             icon: 'error',
-//             title: 'Error',
-//             text: response.message
-//           });
-//         }
-//       },
-//       error: function(xhr, status, error) {
-//         // Handle error response
-//         console.error(xhr.responseText);
-//         Swal.fire({
-//           icon: 'error',
-//           title: 'Error',
-//           text: 'An error occurred while adding Staff data.'
-//         });
-//         // Re-enable the submit button on error
-//         $('#submitBtn').prop('disabled', false);
-//       }
-//     });
-//   });
+    $.ajax({
+      url: "action/actAdmission.php",
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: 'json',
+      success: function(response) {
+        // Handle success response
+        console.log(response);
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            timer: 2000
+          }).then(function() {
+            $('#addStaffModal').modal('hide');
+            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+              $('#scroll-horizontal-datatable').DataTable().destroy();
+              $('#scroll-horizontal-datatable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable sorting
+                "searching": true // Enable searching
+              });
+            });
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message
+          });
+        }
+      },
+      error: function(xhr, status, error) {
+        // Handle error response
+        console.error(xhr.responseText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while adding Staff data.'
+        });
+        // Re-enable the submit button on error
+        $('#submitBtn').prop('disabled', false);
+      }
+    });
+  });
 
 
         
