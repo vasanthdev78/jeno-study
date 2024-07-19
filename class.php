@@ -122,6 +122,30 @@ function electiveTable() {
     }
 
 
+    //----elective Name  ------------------
+
+
+    function electiveNameOnly($elective) {
+        global $conn; // Assuming $conn is your database connection variable
+    
+        // Query to retrieve university name based on uni_id
+        $elective_name = "SELECT `cou_id`, `cou_name`, `cou_exam_type`, `cou_duration` FROM `jeno_course` WHERE cou_id = $elective";
+    
+        // Execute the query
+        $elective_result = $conn->query($elective_name);
+    
+        // Check if query was successful and there is a result
+        if ($elective_result && $elective_result->num_rows > 0) {
+            // Fetch the university name
+            $elective_row = $elective_result->fetch_assoc();
+            return $elective_row['cou_name'];
+        } else {
+            // Query execution failed or no results found
+            return "No Course found with the given ID.";
+        }
+    }
+
+
     //----Enquiry table ------------------
 
         

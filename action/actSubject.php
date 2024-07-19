@@ -39,55 +39,155 @@ if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     exit(); 
     }
 
+    //-----get elective pepar -------------------------------
+// Handle fetching university details for editing
+if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
+    $electiveSub = $_POST['electiveSub'];
+
+    // Query to fetch course details
+    $courseQuery = "SELECT `cou_id`, `cou_name`, `cou_exam_type`, `cou_duration` FROM `jeno_course` WHERE cou_id = $electiveSub;";
+    $courseResult = mysqli_query($conn, $courseQuery);
+
+    // Query to fetch elective details
+    $electiveQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub AND ele_lag_elec = 'E' AND ele_status = 'Active';";
+    $electiveResult = mysqli_query($conn, $electiveQuery);
+
+    // Initialize response array
+    $response = array(
+        'course' => null,
+        'electives' => array()
+    );
+
+    // Fetch course details
+    if ($courseResult && mysqli_num_rows($courseResult) > 0) {
+        $response['course'] = mysqli_fetch_assoc($courseResult);
+    } else {
+        $response['message'] = "Error fetching course details: " . mysqli_error($conn);
+        echo json_encode($response);
+        exit();
+    }
+
+    // Fetch elective details
+    if ($electiveResult) {
+        while ($elecRow = mysqli_fetch_assoc($electiveResult)) {
+            $electSub = array(
+                'ele_id' => $elecRow['ele_id'],
+                'ele_elective' => $elecRow['ele_elective']
+            );
+            $response['electives'][] = $electSub;
+        }
+    } else {
+        $response['message'] = "Error fetching elective details: " . mysqli_error($conn);
+        echo json_encode($response);
+        exit();
+    }
+
+    // Send response as JSON
+    echo json_encode($response);
+    exit(); 
+}
+
+
 
 
 // Handle adding a university
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
-    $name = $_POST['name'];
-    $gender = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $mobile = $_POST['mobile'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
     $university = $_POST['university'];
     $course = $_POST['course'];
-    $medium = $_POST['medium'];
-    // Other fields
+    $year = $_POST['year'];
+    $subType = $_POST['subType'];
+    
+    $newInputSubjectCode = $_POST['newInputSubjectCode'];
+    $newInputSubjectName = $_POST['newInputSubjectName'];
+
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
 
+    $subjectCode =json_encode($newInputSubjectCode);
+    $subjectName =json_encode($newInputSubjectName);
+     // Other fields
+     $uniCenterId = $_SESSION['centerId'];
+     $createdBy = $_SESSION['userId'];
+
+        if($subType === "Elective"){
+            $elective = $_POST['elective'];
+            $newInputElectiveSubjectCode = $_POST['newInputElectiveSubjectCode'];
+            $newInputElectiveSubjectName = $_POST['newInputElectiveSubjectName'];
+
+            $ElectiveSubjectCode =json_encode($newInputElectiveSubjectCode);
+            $ElectiveSubjectName =json_encode($newInputElectiveSubjectName);
+
+            $university_sql = "INSERT INTO `jeno_subject`
+            ( `sub_uni_id`
+            , `sub_cou_id`
+            , `sub_ele_id`
+            , `sub_exam_patten`
+            , `sub_subject_code`
+            , `sub_subject_name`
+            , `sub_addition_sub_code`
+            , `sub_addition_sub_name`
+            , `sub_type`
+            , `sub_center_id`    
+            , `sub_created_by`) VALUES 
+        
+            ('$university'
+            ,'$course'
+            ,'$elective'
+            ,'$year'
+            ,'$subjectCode'
+            ,'$subjectName'
+            ,'$ElectiveSubjectCode'
+            ,'$ElectiveSubjectName'
+            ,'$subType'
+            ,'$uniCenterId'
+            ,'$createdBy')";
+        
+
+        } if($subType === "language"){
+    $newInputLanguageSubjectCode = $_POST['newInputLanguageSubjectCode'];
+    $newInputLanguageSubjectName = $_POST['newInputLanguageSubjectName'];
+    $newInputLanguageSubjectType = $_POST['newInputLanguageSubjectType'];
+
+    $LanguageSubjectCode =json_encode($newInputLanguageSubjectCode);
+    $LanguageSubjectName =json_encode($newInputLanguageSubjectName);
+    $LanguageSubjectType =json_encode($newInputLanguageSubjectType);
     
 
-    $university_sql = "INSERT INTO `jeno_enquiry`
-    ( `enq_uni_id`
-    , `enq_cou_id`
-    , `enq_stu_name`
-    , `enq_email`
-    , `enq_dob`
-    , `enq_gender`
-    , `enq_mobile`
-    , `enq_address`
-    , `enq_medium`
-    , `enq_center_id`
-    , `enq_created_by`) 
-    VALUES 
+    $university_sql = "INSERT INTO `jeno_subject`
+    ( `sub_uni_id`
+    , `sub_cou_id`
+    , `sub_exam_patten`
+    , `sub_subject_code`
+    , `sub_subject_name`
+    , `sub_addition_lag_name`
+    , `sub_addition_sub_code`
+    , `sub_addition_sub_name`
+    , `sub_type`
+    , `sub_center_id`    
+    , `sub_created_by`) VALUES 
+
     ('$university'
     ,'$course'
-    ,'$name'
-    ,'$email'
-    ,'$dob'
-    ,'$gender'
-    ,'$mobile'
-    ,'$address'
-    ,'$medium'
+    ,'$year'
+    ,'$subjectCode'
+    ,'$subjectName'
+    ,'$LanguageSubjectCode'
+    ,'$LanguageSubjectName'
+    ,'$LanguageSubjectType'
+    ,'$subType'
     ,'$uniCenterId'
     ,'$createdBy')";
+            
+            }
+        
+
+
 
     if ($conn->query($university_sql) === TRUE) {
         $response['success'] = true;
-        $response['message'] = "Enquiry added successfully!";
+        $response['message'] = "Subject added successfully!";
     } else {
-        $response['message'] = "Error adding Enquiry: " . $conn->error;
+        $response['message'] = "Error adding Subject: " . $conn->error;
     }
 
     echo json_encode($response);
@@ -99,32 +199,42 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT `enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_stu_name`, `enq_email`, 
-        `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_medium` 
-        FROM `jeno_enquiry` WHERE enq_id = $editId";
+    $selQuery = "SELECT 
+    `sub_id`
+    , `sub_uni_id`
+    , `sub_cou_id`
+    , `sub_ele_id`
+    , `sub_exam_patten`
+    , `sub_subject_code`
+    , `sub_subject_name`
+    , `sub_addition_lag_name`
+    , `sub_addition_sub_code`
+    , `sub_addition_sub_name`
+    , `sub_type`
+     FROM `jeno_subject`
+      WHERE sub_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        $courseName = courseName($row['enq_uni_id']);
+        
 
         $courseDetails = [
-            'enq_id' => $row['enq_id'],
-            'enq_uni_id' => $row['enq_uni_id'],
-            'enq_courses' => $courseName,
-            'enq_cou_id' => $row['enq_cou_id'], // Course ID for pre-selecting the course in the dropdown
-            'enq_stu_name' => $row['enq_stu_name'],
-            'enq_email' => $row['enq_email'],
-            'enq_dob' => $row['enq_dob'],
-            'enq_gender' => $row['enq_gender'],
-            'enq_mobile' => $row['enq_mobile'],
-            'enq_address' => $row['enq_address'],
-            'enq_medium' => $row['enq_medium']
+            'sub_id' => $row['sub_id'],
+            'sub_uni_id' => $row['sub_uni_id'],
+            'sub_cou_id' => $row['sub_cou_id'],
+            'sub_ele_id' => $row['sub_ele_id'], // Course ID for pre-selecting the course in the dropdown
+            'sub_exam_patten' => $row['sub_exam_patten'],
+            'sub_addition_lag_name' => $row['sub_addition_lag_name'],
+            'sub_addition_sub_code' => $row['sub_addition_sub_code'],
+            'sub_addition_sub_name' => $row['sub_addition_sub_name'],
+            'sub_type' => $row['sub_type'],
+            
         ];
 
         echo json_encode($courseDetails);
     } else {
-        $response['message'] = "Error fetching Enquiry details: " . mysqli_error($conn);
+        $response['message'] = "Error fetching Sunbject details: " . mysqli_error($conn);
         echo json_encode($response);
     }
 
