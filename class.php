@@ -201,6 +201,35 @@ function electiveTable() {
 
 
 
+         //---elective name and Id=---------------
+
+         function electiveName($eleID) {
+            global $conn; // Assuming $conn is your database connection variable
+        
+            // Query to retrieve courses based on uni_id
+            $ele_name = "SELECT `ele_id`, `ele_cou_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id =$eleID AND ele_lag_elec = 'E' AND ele_status = 'Active'";
+            
+            // Execute the query
+            $ele_result = $conn->query($ele_name);
+            
+            $electives = []; // Initialize an array to store course details
+            
+            // Check if query was successful and there is a result
+            if ($ele_result && $ele_result->num_rows > 0) {
+                while ($ele_row = mysqli_fetch_assoc($ele_result)) {
+                    // Push each course as an object into the courses array
+                    $elective = array(
+                        'ele_id' => $ele_row['ele_id'],
+                        'ele_elective' => $ele_row['ele_elective']
+                    );
+                    $electives[] = $elective;
+                }
+            }
+            
+            return $electives;
+        }
+
+
          //----transaction table ------------------
 
         
@@ -244,6 +273,31 @@ function electiveTable() {
                // Query execution failed
                return "Query failed: " . $conn->error;
            }
+        }
+
+
+              //----elective language ------------------
+
+        
+    function subjectTable() {    
+        global $conn; // Assuming $conn is your database connection variable
+    
+    
+       // Query to retrieve course name based on course_id
+       $subject_query = "SELECT `sub_id`, `sub_uni_id`, `sub_cou_id`, `sub_type` ,`sub_exam_patten` FROM `jeno_subject` WHERE sub_status = 'Active'";
+    
+       // Execute the query
+       $subject_result = $conn->query($subject_query);
+    // Check if query was successful
+    if ($subject_result) {
+        // Fetch the course name
+        
+ 
+        return $subject_result;
+    } else {
+        // Query execution failed
+        return "Query failed: " . $conn->error;
+    }
         }
         
 

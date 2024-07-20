@@ -10,6 +10,8 @@ $response = ['success' => false, 'message' => ''];
 
 
 
+
+
     //---get course --------------------------
 
     // Handle fetching university details for editing
@@ -214,27 +216,53 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
      FROM `jeno_subject`
       WHERE sub_id = $editId";
     $result = mysqli_query($conn, $selQuery);
+    
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        
+        $courseName = courseName($row['sub_uni_id']);
+        $electiveName = electiveName($row['sub_cou_id']);
 
-        $courseDetails = [
-            'sub_id' => $row['sub_id'],
-            'sub_uni_id' => $row['sub_uni_id'],
-            'sub_cou_id' => $row['sub_cou_id'],
-            'sub_ele_id' => $row['sub_ele_id'], // Course ID for pre-selecting the course in the dropdown
-            'sub_exam_patten' => $row['sub_exam_patten'],
-            'sub_subject_code' => $row['sub_subject_code'],
-            'sub_subject_name' => $row['sub_subject_name'],
-            'sub_addition_lag_name' => $row['sub_addition_lag_name'],
-            'sub_addition_sub_code' => $row['sub_addition_sub_code'],
-            'sub_addition_sub_name' => $row['sub_addition_sub_name'],
-            'sub_type' => $row['sub_type'],
-            
-        ];
 
-        echo json_encode($courseDetails);
+        if(!empty($row['sub_addition_lag_name'])){
+            $courseDetails = [
+                'sub_id' => $row['sub_id'],
+                'sub_uni_id' => $row['sub_uni_id'],
+                'enq_courses' => $courseName,
+                'elective_course' => $electiveName,
+                'sub_cou_id' => $row['sub_cou_id'],
+                'sub_ele_id' => $row['sub_ele_id'],
+                'sub_exam_patten' => $row['sub_exam_patten'],
+                'sub_subject_code' => json_decode($row['sub_subject_code']),
+                'sub_subject_name' => json_decode($row['sub_subject_name']),
+                'sub_addition_lag_name' => json_decode($row['sub_addition_lag_name']),
+                'sub_addition_sub_code' => json_decode($row['sub_addition_sub_code']),
+                'sub_addition_sub_name' => json_decode($row['sub_addition_sub_name']),
+                'sub_type' => $row['sub_type'],
+            ];
+        } else {
+            $courseDetails = [
+                'sub_id' => $row['sub_id'],
+                'sub_uni_id' => $row['sub_uni_id'],
+                'enq_courses' => $courseName,
+                'elective_course' => $electiveName,
+                'sub_cou_id' => $row['sub_cou_id'],
+                'sub_ele_id' => $row['sub_ele_id'],
+                'sub_exam_patten' => $row['sub_exam_patten'],
+                'sub_subject_code' => json_decode($row['sub_subject_code']),
+                'sub_subject_name' => json_decode($row['sub_subject_name']),
+                'sub_addition_sub_code' => json_decode($row['sub_addition_sub_code']),
+                'sub_addition_sub_name' => json_decode($row['sub_addition_sub_name']),
+                'sub_type' => $row['sub_type'],
+            ];
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo 'JSON decode error: ' . json_last_error_msg();
+        } else {
+            echo json_encode($courseDetails);
+        }
+
     } else {
         $response['message'] = "Error fetching Sunbject details: " . mysqli_error($conn);
         echo json_encode($response);
@@ -245,42 +273,77 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
 
     // Handle updating student details
-        if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
-            $editEnquiryId = $_POST['editEnquiryId'];
-            $editName = $_POST['editName'];
-            $editGender = $_POST['editGender'];
-            $editDob = $_POST['editDob'];
-            $editMobile = $_POST['editMobile'];
-            $editEmail = $_POST['editEmail'];
-            $editAddress = $_POST['editAddress'];
+        if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editSubject') {
+            $editSubId = $_POST['editSubId'];
             $editUniversity = $_POST['editUniversity'];
             $editCourse = $_POST['editCourse'];
-            $editMedium = $_POST['editMedium'];
-            // Other fields
+            $editYear = $_POST['editYear'];
+            $editSubType = $_POST['editSubType'];
             
-            $updatedBy = $_SESSION['userId'];
-    
- 
-            $editUniversity ="UPDATE `jeno_enquiry`
-             SET 
-             `enq_uni_id`='$editUniversity'
-             ,`enq_cou_id`='$editCourse'
-             ,`enq_stu_name`='$editName'
-             ,`enq_email`='$editEmail'
-             ,`enq_dob`='$editDob'
-             ,`enq_gender`='$editGender'
-             ,`enq_mobile`='$editMobile'
-             ,`enq_address`='$editAddress'
-             ,`enq_medium`='$editMedium'
-             ,`enq_updated_by`='$updatedBy'
-              WHERE enq_id = $editEnquiryId";
+            $editSubjectCode = $_POST['editSubjectCode'];
+            $editSubjectName = $_POST['editSubjectName'];
+        
+           
+        
+            $subjectCode =json_encode($editSubjectCode);
+            $subjectName =json_encode($editSubjectName);
+             // Other fields
+            //  $uniCenterId = $_SESSION['centerId'];
+             $updatedBy = $_SESSION['userId'];
+        
+                if($editSubType === "Elective"){
+                    $editElective = $_POST['editElective'];
+                    $editAdditionSubCode = $_POST['editAdditionSubCode'];
+                    $editAdditionSubName = $_POST['editAdditionSubName'];
+        
+                    $ElectiveSubjectCode =json_encode($editAdditionSubCode);
+                    $ElectiveSubjectName =json_encode($editAdditionSubName);
+        
+                    $university_sql = "UPDATE `jeno_subject` 
+                    SET `sub_uni_id`='$editUniversity'
+                    ,`sub_cou_id`='$editCourse'
+                    ,`sub_ele_id`='$editElective'
+                    ,`sub_exam_patten`='$editYear'
+                    ,`sub_subject_code`='$subjectCode'
+                    ,`sub_subject_name`='$subjectName'
+                    ,`sub_addition_sub_code`='$ElectiveSubjectCode'
+                    ,`sub_addition_sub_name`='$ElectiveSubjectName'
+                    ,`sub_type`='$editSubType'
+                    ,`sub_updated_by`='$updatedBy' 
+                    WHERE sub_id =$editSubId";
+                
+        
+                } if($editSubType === "language"){
+            $editAdditionLanguageName = $_POST['editAdditionLanguageName'];
+            $editAdditionSubCode = $_POST['editAdditionSubCode'];
+            $editAdditionSubName = $_POST['editAdditionSubName'];
+        
+            $LanguageSubjectCode =json_encode($editAdditionLanguageName);
+            $LanguageSubjectName =json_encode($editAdditionSubCode);
+            $LanguageSubjectType =json_encode($editAdditionSubName);
             
-            $universityres = mysqli_query($conn, $editUniversity);
+        
+            $university_sql = "UPDATE `jeno_subject` 
+            SET `sub_uni_id`='$editUniversity'
+            ,`sub_cou_id`='$editCourse'
+            ,`sub_exam_patten`='$editYear'
+            ,`sub_subject_code`='$subjectCode'
+            ,`sub_subject_name`='$subjectName'
+            ,`sub_addition_lag_name`='$LanguageSubjectCode'
+            ,`sub_addition_sub_code`='$LanguageSubjectName'
+            ,`sub_addition_sub_name`='$LanguageSubjectType'
+            ,`sub_type`='$editSubType'
+            ,`sub_updated_by`='$updatedBy' 
+            WHERE sub_id =$editSubId";
+                    
+                    }
+            
+            $universityres = mysqli_query($conn, $university_sql);
 
                 if ($universityres) {
-                    $_SESSION['message'] = "Enquiry details Updated successfully!";
+                    $_SESSION['message'] = "Subject details Updated successfully!";
                     $response['success'] = true;
-                    $response['message'] = "Enquiry details Updated successfully!";
+                    $response['message'] = "Subject details Updated successfully!";
                 } 
                 else {
                 $response['message'] = "Error: " . mysqli_error($conn);
@@ -296,16 +359,16 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
 
-                $queryDel = "UPDATE `jeno_enquiry` SET `enq_updated_by`='$updatedBy',`enq_status`='Inactive' WHERE enq_id = $id;";
+                $queryDel = "UPDATE `jeno_subject` SET `sub_updated_by`='$updatedBy',`sub_status`='Inactive' WHERE sub_id = $id;";
                 $reDel = mysqli_query($conn, $queryDel);
 
                 if ($reDel) {
                     
-                    $_SESSION['message'] = "Enquiry details have been deleted successfully!";
+                    $_SESSION['message'] = "Subject details have been deleted successfully!";
                     $response['success'] = true;
-                    $response['message'] = "Enquiry details have been deleted successfully!";
+                    $response['message'] = "Subject details have been deleted successfully!";
                 } else {
-                    $_SESSION['message'] = "Unexpected error in deleting Enquiry details!";
+                    $_SESSION['message'] = "Unexpected error in deleting Subject details!";
                     $response['message'] = "Error: " . mysqli_error($conn);
                 }
 
@@ -319,40 +382,65 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
 
+
+                
                 // Prepare and execute the SQL query
-                $selQuery = "SELECT  
-                `enq_uni_id`
-                , `enq_cou_id`
-                , `enq_stu_name`
-                , `enq_email`
-                , `enq_dob`
-                , `enq_gender`
-                , `enq_mobile`
-                , `enq_address`
-                , `enq_medium`
-                , `enq_adminsion_status`
-                 FROM `jeno_enquiry`
-                  WHERE enq_id = $uniId;";
+                $selQuery = "SELECT 
+                a.sub_uni_id
+                , a.sub_cou_id
+                , a.sub_ele_id
+                , a.sub_exam_patten
+                , a.sub_subject_code
+                , a.sub_subject_name
+                , a.sub_addition_lag_name
+                , a.sub_addition_sub_code
+                , a.sub_addition_sub_name
+                , a.sub_type 
+                ,b.ele_elective 
+                FROM `jeno_subject` AS a 
+                LEFT JOIN jeno_elective AS b
+                 ON a.sub_ele_id = b.ele_id 
+                 WHERE a.sub_id = $uniId;";
+             
                 
                 $result1 = $conn->query($selQuery);
 
                 if($result1) {
                     $row = mysqli_fetch_assoc($result1);
 
+                    if(!empty($row['sub_addition_lag_name'])){
              // Prepare university details array
         $enquiryDetails = [
-            'enq_uni_id' => universityName($row['enq_uni_id']),
-            'enq_cou_id' => courseNameOnly($row['enq_cou_id']),
-            'enq_stu_name' => $row['enq_stu_name'],
-            'enq_email' => $row['enq_email'],
-            'enq_dob' => $row['enq_dob'],
-            'enq_gender' => $row['enq_gender'],
-            'enq_mobile' => $row['enq_mobile'],
-            'enq_address' => $row['enq_address'],
-            'enq_medium' => $row['enq_medium'],
-            'enq_adminsion_status' => $row['enq_adminsion_status'],
+            'sub_uni_id' => universityName($row['sub_uni_id']),
+            'sub_cou_id' => courseNameOnly($row['sub_cou_id']),
+            'ele_elective' => $row['ele_elective'],
+            'sub_exam_patten' => $row['sub_exam_patten'],
+            'sub_subject_code' => json_decode($row['sub_subject_code']),
+            'sub_subject_name' => json_decode($row['sub_subject_name']),
+            'sub_addition_lag_name' => json_decode($row['sub_addition_lag_name']),
+            'sub_addition_sub_code' => json_decode($row['sub_addition_sub_code']),
+            'sub_addition_sub_name' => json_decode($row['sub_addition_sub_name']),
+            'sub_type' => $row['sub_type'],
             
         ];
+
+    }else {
+              // Prepare university details array
+              $enquiryDetails = [
+                'sub_uni_id' => universityName($row['sub_uni_id']),
+                'sub_cou_id' => courseNameOnly($row['sub_cou_id']),
+                'ele_elective' => $row['ele_elective'],
+                'sub_exam_patten' => $row['sub_exam_patten'],
+                'sub_subject_code' => json_decode($row['sub_subject_code']),
+                'sub_subject_name' => json_decode($row['sub_subject_name']),
+                'sub_addition_sub_code' => json_decode($row['sub_addition_sub_code']),
+                'sub_addition_sub_name' => json_decode($row['sub_addition_sub_name']),
+                'sub_type' => $row['sub_type'],
+                
+            ];
+
+
+    }
 
           echo json_encode($enquiryDetails);
           exit();

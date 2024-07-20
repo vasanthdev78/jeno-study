@@ -106,7 +106,7 @@
                     <button type="button" id="editBackButton" class="btn btn-danger">Back</button>
                 </div>
                 <input type="hidden" name="hdnAction" value="editSubject">
-                <input type="hidden" name="subType" id="subType" value="">
+                <input type="hidden" name="editSubType" id="editSubType" value="">
                 <input type="hidden" name="editSubId" id="editSubId" value="">
                 <div class="row">
                     <div class="col-sm-6">
@@ -149,9 +149,7 @@
                     <div class="col-sm-6">
                     <div class="form-group">
                         <label for="editYear" class="form-label"><b>Year / Semester</b><span class="text-danger">*</span></label>
-                        <select class="form-control" name="editYear" id="editYear" required>
-                            <option value="">--Select the Year--</option>
-                        </select>
+                        <input type="text" class="form-control" name="editYear" id="editYear">
                     </div>
                 </div>
                 </div>
@@ -193,7 +191,65 @@
     </div>
 </div>
 
+<!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
+
+<div class="table-responsive d-none " id="SubjectView">
+        
+        <form name="frm" method="post">
+            <input type="hidden" name="hdnAction" value="">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Subject Details</h4>
+            </div>  
+            <div class="modal-footer mb-3">
+                <button type="button" class="btn btn-danger" id="backButtonSubject">Back</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>University Name</h4> 
+                            <span class="detail" id="viewUniversityName"></span>
+                        </div>
+                    </div>  
+                    <div class="col-sm-3" >
+                        <div class="card p-3">
+                            <h4>Course Name</h4>
+                            <span class="detail" id="viewCourseName"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 d-none" id="viewElectiveDiv">
+                        <div class="card p-3">
+                            <h4>Elective</h4>
+                            <span class="detail" id="viewElective"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Year / Semester</h4>
+                            <span class="detail" id="viewyearSemester"></span>
+                        </div>
+                    </div>
+
+                
+                    <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Subject Details</h3>
+            <div id="viewSubjectInputs"></div>
+        </div>
+        <div class="col-md-6">
+            <h3>Elective Subject Details</h3>
+            <div id="viewAdditionSubjectInputs"></div>
+        </div>
+    </div>
+</div>
+                    
+                </div>
+            </div>
+            
+        </form>   
+    </div>
 
 
 
