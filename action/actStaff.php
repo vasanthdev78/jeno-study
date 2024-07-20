@@ -185,7 +185,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     exit();
 }
 
-// Handle deleting a client
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
     $queryDel = "UPDATE `jeno_staff` AS a 
