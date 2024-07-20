@@ -12,6 +12,7 @@
                                         </div>
                                         <form class="needs-validation" novalidate name="frmAddAdmission" id="addAdmission" enctype="multipart/form-data">
                                         <input type="hidden" name="hdnAction" value="addAdmission">
+
                                             <div id="progressbarwizard">
 
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
@@ -70,7 +71,7 @@
                                                                     $university_result = universityTable(); // Call the function to fetch universities 
                                                                     while ($row = $university_result->fetch_assoc()) {
                                                                     $id = $row['uni_id']; 
-                                                                    $name = $row['uni_name'];    
+                                                                    $name = $row['uni_name'];        
                                                         
                                                                     ?>
                                                         
@@ -95,8 +96,8 @@
                                                             <label for="medium" class="form-label"><b>Medium </b><span class="text-danger">*</span></label>
                                                             <select class="form-control" name="medium" id="medium" required="required">
                                                             <option value="">--Select the Medium--</option>
-                                                            <option value="BBA">Tamil</option>
-                                                            <option value="MBA">English</option>
+                                                            <option value="1">Tamil</option>
+                                                            <option value="2">English</option>
 
                                                             </select>
                                                             </div>
@@ -159,7 +160,7 @@
                                                             <div class="form-group pb-1">
                                                             <label for="gender" class="form-label"><b>Gender</b></label>
                                                             <select class="form-control" id="gender" name="gender" >
-                                                            <option>--Select the Gender--</option>
+                                                            <option value="">--Select the Gender--</option>
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
                                                             <option value="Transgender">Transgender</option>
@@ -380,7 +381,7 @@
 
                 <!-- Start Content-->
                 <div class="container-fluid d-none" id="editAdmissionModal">
-                <div class="col-xl-12">
+                    <div class="col-xl-12">
                                 <div class="card overflow-hidden">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -389,34 +390,31 @@
                                                 Back to Main
                                             </button>
                                         </div>
+
                                         <form class="needs-validation" novalidate name="frmEditAdmission" id="editAdmission" enctype="multipart/form-data">
                                         <input type="hidden" name="hdnAction" value="editAdmission">
-                                            <div id="progressbarwizard">
+                                        <input type="hidden" name="hdnAdmissionId" id="admissionId">
 
+                                            <div id="rootwizard">
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
-                                                    <li class="nav-item">
-                                                        <a href="#account-3" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1">
+                                                    <li class="nav-item" data-target-form="#editAdmission">
+                                                        <a href="#first" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1">
                                                             <i class="ri-account-circle-line fw-normal fs-18 align-middle me-1"></i>
                                                             <span class="d-none d-sm-inline">Primary Info</span>
                                                         </a>
                                                     </li>
-                                                    <li class="nav-item">
-                                                        <a href="#profile-tab-3" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1">
-                                                            <i class="ri-profile-line fw-normal fs-18 align-middle me-1 active"></i>
+                                                    <li class="nav-item" data-target-form="#profileForm">
+                                                        <a href="#second" data-bs-toggle="tab" data-toggle="tab"  class="nav-link rounded-0 py-1">
+                                                            <i class="ri-profile-line fw-normal fs-18 align-middle me-1"></i>
                                                             <span class="d-none d-sm-inline">Seccondry Info</span>
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            
-                                                <div class="tab-content b-0 mb-0">
 
-                                                    <div id="bar" class="progress mb-3" style="height: 7px;">
-                                                        <div class="bar progress-bar progress-bar-striped progress-bar-animated bg-success"></div>
-                                                    </div>
-                                            
-                                                    <div class="tab-pane active show" id="account-3">
-                                                        <div class="row">
+                                                <div class="tab-content mb-0 b-0">
 
+                                                    <div class="tab-pane" id="first">
+                                                            <div class="row">
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="stuNameEdit" class="form-label"><b>Name</b><span class="text-danger">*</span></label>
@@ -474,15 +472,13 @@
                                                             <label for="mediumEdit" class="form-label"><b>Medium </b><span class="text-danger">*</span></label>
                                                             <select class="form-control" name="mediumEdit" id="mediumEdit" required="required">
                                                             <option value="">--Select the Medium--</option>
-                                                            <option value="BBA">Tamil</option>
-                                                            <option value="MBA">English</option>
+                                                            <option value="1">Tamil</option>
+                                                            <option value="2">English</option>
 
                                                             </select>
                                                             </div>
-                                                            </div>
-
-                                                        </div> <!-- end row -->
-
+                                                            </div><!-- end col -->
+                                                            </div> <!-- end row -->
                                                         <ul class="list-inline wizard mb-0">
                                                             <li class="next list-inline-item float-end">
                                                                 <a href="javascript:void(0);" class="btn btn-info">Add More Info <i class="ri-arrow-right-line ms-1"></i></a>
@@ -490,13 +486,14 @@
                                                         </ul>
                                                     </div>
 
-                                                    <div class="tab-pane" id="profile-tab-3">
-                                                        <div class="row">
+                                                    <div class="tab-pane fade" id="second">
+                                                        <form id="profileForm" method="post" action="#" class="form-horizontal">
+                                                            <div class="row">
                                                             <div class="col-sm-4">
                                                             <div class="form-group">
                                                             <label for="yearTypeEdit" class="form-label"><b>Year Type</b></label>
                                                             <select class="form-control" name="yearTypeEdit" id="yearTypeEdit" >
-                                                            <option value="">--Select the Type--</option>
+                                                            <option value="0">--Select the Type--</option>
                                                             <option value="1">Academic Year</option>
                                                             <option value="2">Calander Year</option>
 
@@ -508,7 +505,7 @@
                                                             <div class="form-group">
                                                             <label for="languageEdit" class="form-label"><b>Language / Elective </b></label>
                                                             <select class="form-control" name="languageEdit" id="languageEdit" >
-                                                            <option value="">--Select the Specification--</option>                                                           
+                                                            <option value="0">--Select the Specification--</option>                                                           
                                                             </select>
                                                             </div>
                                                             </div>
@@ -538,7 +535,7 @@
                                                             <div class="form-group pb-1">
                                                             <label for="genderEdit" class="form-label"><b>Gender</b></label>
                                                             <select class="form-control" id="genderEdit" name="genderEdit" >
-                                                            <option>--Select the Gender--</option>
+                                                            <option value="">--Select the Gender--</option>
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
                                                             <option value="Transgender">Transgender</option>
@@ -556,7 +553,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="pincodeEdit" class="form-label"><b>Pincode</b></label>
-                                                            <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincodeEdit" id="pincodeEdit" >
+                                                            <input type="text" class="form-control" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincodeEdit" id="pincodeEdit" >
                                                             </div>
                                                             </div>
 
@@ -576,7 +573,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharNumberEdit" class="form-label"><b>Aadhar Number</b></label>
-                                                            <input type="text" class="form-control" pattern="[0-9]{16}" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
+                                                            <input type="text" class="form-control" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
                                                             </div>
                                                             </div>
 
@@ -621,7 +618,7 @@
                                                             <div class="form-group">
                                                             <label for="maritalEdit" class="form-label"><b>Marital Status</b></label>
                                                             <select class="form-control" name="maritalEdit" id="maritalEdit">
-                                                            <option value="">--Select the Marital Status--</option>
+                                                            <option value="0">--Select the Marital Status--</option>
                                                             <option value="1">Single</option>
                                                             <option value="2">Married</option>
                                                             </select>
@@ -632,7 +629,7 @@
                                                             <div class="form-group">
                                                             <label for="employedEdit" class="form-label"><b>Empoloyed</b></label>
                                                             <select class="form-control" name="employedEdit" id="employedEdit" >
-                                                            <option value="">--Select the Empoloyed--</option>
+                                                            <option value="0">--Select the Empoloyed--</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
 
@@ -644,7 +641,7 @@
                                                             <div class="form-group pb-1">
                                                             <label for="qualificationEdit" class="form-label"><b>Highest Qualifiaction</b></label>
                                                             <select class="form-control" id="qualificationEdit" name="qualificationEdit" >
-                                                            <option>--Select the Qualifiaction--</option>
+                                                            <option value="0">--Select the Qualifiaction--</option>
                                                             <option value="1">Diploma</option>
                                                             <option value="2">12TH</option>
                                                             <option value="3">UG</option>
@@ -734,10 +731,13 @@
                                                             </div>
                                                             </div>
 
-                                                            </div> <!-- end row -->
+                                                                <!-- end col -->
+                                                            </div>
+                                                            <!-- end row -->
+                                                        </form>
                                                         <ul class="pager wizard mb-0 list-inline">
                                                             <li class="previous list-inline-item">
-                                                                <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile</button>
+                                                                <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile </button>
                                                             </li>
                                                             <li class="next list-inline-item float-end">
                                                                 <button type="submit" class="btn btn-info">Submit</button>
@@ -746,7 +746,7 @@
                                                     </div>
 
                                                 </div> <!-- tab-content -->
-                                            </div> <!-- end #progressbarwizard-->
+                                            </div> <!-- end #rootwizard-->
                                         </form>
 
                                     </div> <!-- end card-body -->

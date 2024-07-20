@@ -171,4 +171,225 @@ if (isset($_POST['courseId']) && $_POST['courseId'] != '') {
     
         exit(); 
         }
+
+if (isset($_POST['editId']) && $_POST['editId'] != '') {
+            $editId = $_POST['editId'];
+        
+            $selQuery = "SELECT a.*, b.*  
+                         FROM `jeno_student` AS a 
+                         LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id 
+                         WHERE a.stu_id = $editId";
+            $result = mysqli_query($conn, $selQuery);
+        
+            if ($result) {
+                $row = mysqli_fetch_assoc($result);
+        
+                $studentDetails = array(
+                    'stuId' => $row['stu_id'],
+                    'name' => $row['stu_name'],
+                    'phone' => $row['stu_phone'],
+                    'email' => $row['stu_email'],
+                    'uni_id' => $row['stu_uni_id'],
+                    'cou_id' => $row['stu_cou_id'],
+                    'medium_id' => $row['stu_medium_id'],
+                    'enroll' => $row['stu_enroll'],
+                    'year_type' => $row['add_year_type'],
+                    'language' => $row['add_language'],
+                    'digilocker' => $row['add_digilocker'],
+                    'admit_date' => $row['add_admit_date'],
+                    'dob' => $row['add_dob'],
+                    'gender' => $row['add_gender'],
+                    'address' => $row['add_address'],
+                    'pincode' => $row['add_pincode'],
+                    'father_name' => $row['add_father_name'],
+                    'mother_name' => $row['add_mother_name'],
+                    'aadhar_no' => $row['add_aadhar_no'],
+                    'nationality' => $row['add_nationality'],
+                    'mother_tongue' => $row['add_mother_tongue'],
+                    'religion' => $row['add_religion'],
+                    'caste' => $row['add_caste'],
+                    'community' => $row['add_community'],
+                    'marital_status' => $row['add_marital_status'],
+                    'employed' => $row['add_employed'],
+                    'qualification' => $row['add_qualifiaction'],
+                    'institute' => $row['add_institute'],
+                    'comp_year' => $row['add_comp_year'],
+                    'study_field' => $row['add_study_field'],
+                    'grade' => $row['add_grade'],
+
+                );
+        
+                echo json_encode($studentDetails);
+            } else {
+                $response['message'] = "Error executing query: " . mysqli_error($conn);
+                echo json_encode($response);
+            }
+            exit();
+        }
+
+// Handle updating student details
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_POST['hdnAdmissionId'] != '') {
+    $admissionId = $_POST['hdnAdmissionId'];
+    $stuName = $_POST['stuNameEdit'];
+    $mobileNo = $_POST['mobileNoEdit'];
+    $email = $_POST['emailEdit'];
+    $university = $_POST['universityEdit'];
+    $courseName = $_POST['courseNameEdit'];
+    $medium = $_POST['mediumEdit'];
+    $yearType = $_POST['yearTypeEdit'];
+    $language = $_POST['languageEdit'];
+    $digilocker = $_POST['digilockerEdit'];
+    $admitDate = $_POST['admitDateEdit'];
+    $dob = $_POST['dobEdit'];
+    $gender = $_POST['genderEdit'];
+    $address = $_POST['addressEdit'];
+    $pincode = $_POST['pincodeEdit'];
+    $fathername = $_POST['fathernameEdit'];
+    $mothername = $_POST['mothernameEdit'];
+    $aadharNumber = $_POST['aadharNumberEdit'];
+    $nationality = $_POST['nationalityEdit'];
+    $motherTongue = $_POST['motherTongueEdit'];
+    $religion = $_POST['religionEdit'];
+    $caste = $_POST['casteEdit'];
+    $community = $_POST['communityEdit'];
+    $marital = $_POST['maritalEdit'];
+    $employed = $_POST['employedEdit'];
+    $qualification = $_POST['qualificationEdit'];
+    $previous = $_POST['previousEdit'];
+    $completed = $_POST['completedEdit'];
+    $study = $_POST['studyEdit'];
+    $grade = $_POST['gradeEdit'];
+    $enroll = $_POST['enrollEdit'];
+    $updatedBy = $_SESSION['userId'];
+
+    $uploadDir = '../assets/images/student/';
+    $sslcName = '';
+    $hscName = '';
+    $communityName = '';
+    $tcName = '';
+    $aadharName = '';
+    $photoName = '';
+
+    if (!empty($_FILES['sslcEdit']['name'])) {
+        $sslcName = basename($_FILES['sslcEdit']['name']);
+        move_uploaded_file($_FILES['sslcEdit']['tmp_name'], $uploadDir . $sslcName);
+    }
+
+    if (!empty($_FILES['hscEdit']['name'])) {
+        $hscName = basename($_FILES['hscEdit']['name']);
+        move_uploaded_file($_FILES['hscEdit']['tmp_name'], $uploadDir . $hscName);
+    }
+
+    if (!empty($_FILES['communityEdit']['name'])) {
+        $communityName = basename($_FILES['communityEdit']['name']);
+        move_uploaded_file($_FILES['communityEdit']['tmp_name'], $uploadDir . $communityName);
+    }
+
+    if (!empty($_FILES['tcEdit']['name'])) {
+        $tcName = basename($_FILES['tcEdit']['name']);
+        move_uploaded_file($_FILES['tcEdit']['tmp_name'], $uploadDir . $tcName);
+    }
+
+    if (!empty($_FILES['aadharEdit']['name'])) {
+        $aadharName = basename($_FILES['aadharEdit']['name']);
+        move_uploaded_file($_FILES['aadharEdit']['tmp_name'], $uploadDir . $aadharName);
+    }
+
+    if (!empty($_FILES['photoEdit']['name'])) {
+        $photoName = basename($_FILES['photoEdit']['name']);
+        move_uploaded_file($_FILES['photoEdit']['tmp_name'], $uploadDir . $photoName);
+    }
+
+    // Update the student table
+    $combined_sql = "
+        UPDATE `jeno_student` AS a
+        LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id
+        LEFT JOIN `jeno_document` AS c ON a.stu_id = c.doc_stu_id
+        SET 
+            a.stu_name = '$stuName', 
+            a.stu_phone = '$mobileNo', 
+            a.stu_email = '$email', 
+            a.stu_uni_id = '$university', 
+            a.stu_cou_id = '$courseName', 
+            a.stu_medium_id = '$medium', 
+            a.stu_study_year = '1 st year', 
+            a.stu_enroll = '$enroll', 
+            a.stu_updated_by = '$updatedBy',
+            
+            b.add_year_type = '$yearType', 
+            b.add_language = '$language', 
+            b.add_digilocker = '$digilocker', 
+            b.add_admit_date = '$admitDate', 
+            b.add_dob = '$dob', 
+            b.add_gender = '$gender', 
+            b.add_address = '$address', 
+            b.add_pincode = '$pincode', 
+            b.add_father_name = '$fathername', 
+            b.add_mother_name = '$mothername', 
+            b.add_aadhar_no = '$aadharNumber', 
+            b.add_nationality = '$nationality', 
+            b.add_mother_tongue = '$motherTongue', 
+            b.add_religion = '$religion', 
+            b.add_caste = '$caste', 
+            b.add_community = '$community', 
+            b.add_marital_status = '$marital', 
+            b.add_employed = '$employed', 
+            b.add_qualifiaction = '$qualification', 
+            b.add_institute = '$previous', 
+            b.add_comp_year = '$completed', 
+            b.add_study_field = '$study', 
+            b.add_grade = '$grade', 
+            b.add_updated_by = '$updatedBy',
+            
+            c.doc_sslc = '$sslcName', 
+            c.doc_hsc = '$hscName', 
+            c.doc_community = '$communityName', 
+            c.doc_tc = '$tcName', 
+            c.doc_aadhar = '$aadharName', 
+            c.doc_photo = '$photoName', 
+            c.doc_updated_by = '$updatedBy'
+        WHERE a.stu_id = '$admissionId'";
+
+    if ($conn->query($combined_sql) === TRUE) {
+        $response['success'] = true;
+        $response['message'] = "Student details updated successfully!";
+    } else {
+        $response['message'] = "Error updating student: " . $conn->error;
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+// Handle deleting a client
+if (isset($_POST['deleteId'])) {
+    $id = $_POST['deleteId'];
+    $queryDel = "UPDATE `jeno_student` AS a
+        LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id
+        LEFT JOIN `jeno_document` AS c ON a.stu_id = c.doc_stu_id
+        LEFT JOIN `jeno_book` AS d ON a.stu_id = d.book_stu_id
+        LEFT JOIN `jeno_fees` AS e ON a.stu_id = e.fee_stu_id
+        SET 
+            a.stu_status = 'Inactive',
+            b.add_status = 'Inactive',
+            c.doc_status = 'Inactive',
+            d.book_status = 'Inactive',
+            e.fee_status = 'Inactive'
+        WHERE a.stu_id = $id;";
+    $reDel = mysqli_query($conn, $queryDel);
+
+    if ($reDel) {
+        $_SESSION['message'] = "Student details have been deleted successfully!";
+        $response['success'] = true;
+        $response['message'] = "Student details have been deleted successfully!";
+    } else {
+        $_SESSION['message'] = "Unexpected error in deleting Student details!";
+        $response['message'] = "Error: " . mysqli_error($conn);
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+        
 ?>
