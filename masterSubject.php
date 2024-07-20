@@ -76,7 +76,7 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                                      <?php $id = 4 ; ?>
+                                      <?php $id = 1 ; ?>
                      <tr>
                         <td>1</td>
                         <td>CS705</td>
@@ -550,7 +550,7 @@ $('#addSubject').submit(function(event) {
         //----------------edit subject ----------------------------------
 
               // edit function -------------------------
-              function editSubject(editId) {
+    function editSubject(editId) {
     $('#StuContent').addClass('d-none');
     $('#editSubjectModal').removeClass('d-none');
     
@@ -573,61 +573,67 @@ $('#addSubject').submit(function(event) {
 
             $('#editAddElectiveButton').attr('data-type', 'elective');
 
-            // Clear previous input fields
-            $('#electiveInputs').empty();
-            $('#languageInputs').empty();
+            alert(response.sub_subject_code);
 
-            // Example data structure for electiveSubjects and languageSubjects
-            const electiveSubjects = []; // Populate this with actual data if needed
-            const languageSubjects = []; // Populate this with actual data if needed
+              
+      
+    
+       // Check if sub_subject_code and sub_subject_name are arrays
+       if (!Array.isArray(response.sub_subject_code)) {
+                console.error('sub_subject_code is not an array');
+                return;
+            }
+            if (!Array.isArray(response.sub_subject_name)) {
+                console.error('sub_subject_name is not an array');
+                return;
+            }
 
-            // Render elective and language subjects
-            renderSubjectInputs('elective', electiveSubjects);
-            renderSubjectInputs('language', languageSubjects);
+            // Check if sub_subject_code and sub_subject_name have equal length
+            if (response.sub_subject_code.length !== response.sub_subject_name.length) {
+                console.error('sub_subject_code and sub_subject_name must be arrays of equal length');
+                return;
+            }
+
+
+
+                // Clear previous input fields
+            $('#editLanguageInputs').empty();
+
+// Directly assume sub_subject_code and sub_subject_name are arrays of equal length
+    response.sub_subject_code.forEach(function(subjectCode, index) {
+    var subjectName = response.sub_subject_name[index];
+    alert("va");
+
+    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+
+    var input1Div = $('<div class="col-sm-4"></div>');
+    var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
+    var input1 = $('<input type="text" class="form-control university-fees" name="editSubjectCode[]" required>').val(subjectCode);
+    input1Div.append(input1Label);
+    input1Div.append(input1);
+
+    var input2Div = $('<div class="col-sm-4"></div>');
+    var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
+    var input2 = $('<input type="text" class="form-control study-center-fees" name="editSubjectName[]" required>').val(subjectName);
+    input2Div.append(input2Label);
+    input2Div.append(input2);
+
+    newInputDiv.append(input1Div);
+    newInputDiv.append(input2Div);
+
+    $('#editLanguageInputs').append(newInputDiv);
+    });
         },
         error: function(xhr, status, error) {
             console.error('AJAX request failed:', status, error);
         }
     });
-}
+    };
 
-function renderSubjectInputs(subjectType, data) {
-    var container = subjectType === 'elective' ? '#electiveInputs' : '#languageInputs';
-    $(container).empty();
-    
-    if (Array.isArray(data)) {
-        data.forEach(function(subject, index) {
-            var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
 
-            var input1Div = $('<div class="col-sm-5"></div>');
-            var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
-            var input1 = $('<input type="text" class="form-control" name="' + (subjectType === 'elective' ? 'editElectiveSubjectCode[]' : 'editLanguageSubjectCode[]') + '" required>').val(subject.code);
-            input1Div.append(input1Label);
-            input1Div.append(input1);
+ 
+   
 
-            var input2Div = $('<div class="col-sm-5"></div>');
-            var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="' + (subjectType === 'elective' ? 'editElectiveSubjectName[]' : 'editLanguageSubjectName[]') + '" required>').val(subject.name);
-            input2Div.append(input2Label);
-            input2Div.append(input2);
-
-            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
-            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-            deleteButton.click(function() {
-                newInputDiv.remove();
-            });
-            deleteButtonDiv.append(deleteButton);
-
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-            newInputDiv.append(deleteButtonDiv);
-
-            $(container).append(newInputDiv);
-        });
-    } else {
-        console.error('Subject data is not an array.');
-    }
-}
 
 
 
