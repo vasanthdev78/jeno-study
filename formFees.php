@@ -3,9 +3,10 @@
 <div class="modal fade" id="addFeesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form name="frmEditFees" id="addFees">
+            <form class="needs-validation" novalidate name="addFees" id="addFees">
                 <input type="hidden" name="hdnAction" value="addFees">
-                <input type="hidden" name="editid" id="editid">
+                <input type="hidden" name="feesid" id="feesid">
+                <input type="hidden" name="studentId" id="studentId">
                 <div class="modal-header">
                     <h4 class="modal-title" id="staticBackdropLabel">Add Fees</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -14,7 +15,7 @@
                     <div class="row p-3">
                        
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="admissionId" class="form-label"><b>Admission Id</b><span class="text-danger">*</span></label>
                                 <input type="text" class="form-control"  name="admissionId" id="admissionId" required="required">
@@ -24,6 +25,12 @@
                             <div class="form-group pb-1">
                                 <label for="studentName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
                                 <input type="text" class="form-control"  name="studentName" id="studentName" required="required">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group pb-1">
+                                <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="year" id="year" required="required">
                             </div>
                         </div>
                        
@@ -56,14 +63,14 @@
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="universityPaid" class="form-label"><b>University Fees</b><span class="text-danger">  20,000</span></label>
+                                <label for="universityPaid" class="form-label"><b>University Fees  </b><span class="text-danger" id="universityFees"> </span></label>
                                 <input type="number" class="form-control"  placeholder="Enter amount" name="universityPaid" id="universityPaid" required="required">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="studyPaid" class="form-label"><b>Study Center Fees</b><span class="text-danger">  10,000</span></label>
+                                <label for="studyPaid" class="form-label"><b>Study Center Fees  </b><span class="text-danger" id="studyFees"> </span></label>
                                 <input type="number" class="form-control"  placeholder="Enter amount" name="studyPaid" id="studyPaid" required="required">
                             </div>
                         </div>
@@ -72,6 +79,13 @@
                             <div class="form-group pb-1">
                                 <label for="totalAmount" class="form-label"><b>Amount Paid</b></label>
                                 <input type="number" class="form-control" name="totalAmount" id="totalAmount" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group pb-1">
+                                <label for="balance" class="form-label"><b>Balance </b></label>
+                                <input type="number" class="form-control" name="balance" id="balance" readonly>
                             </div>
                         </div>
 
@@ -102,74 +116,96 @@
 <div class="modal fade" id="editFeesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <form name="frmEditFees" id="addFees">
-                <input type="hidden" name="hdnAction" value="addFees">
-                <input type="hidden" name="editid" id="editid">
+            <form class="needs-validation" novalidate name="editFees" id="editFees">
+                <input type="hidden" name="hdnAction" value="editFees">
+                <input type="hidden" name="editFeesid" id="editFeesid">
+                <input type="hidden" name="editStudentId" id="editStudentId">
                 <div class="modal-header">
                     <h4 class="modal-title" id="staticBackdropLabel">Edit Fees</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-3">
                     <div class="row p-3">
+                       
+
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="editFirstName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="editFirstName" id="editFirstName" required="required">
+                                <label for="editAdmissionId" class="form-label"><b>Admission Id</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="editAdmissionId" id="editAdmissionId" required="required" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group pb-1">
+                                <label for="editStudentName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="editStudentName" id="editStudentName" required="required" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group pb-1">
+                                <label for="editYear" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="editYear" id="editYear" required="required" readonly>
                             </div>
                         </div>
                        
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="paidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
-                                <select class="form-control" name="paidMethod" id="paidMethod" required="required">
+                                <label for="editPaidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="editPaidMethod" id="editPaidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
-                                    <option value="online">Online</option>
-                                    <option value="cash">Cash</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Cash">Cash</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="transactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Transaction ID" name="transactionId" id="transactionId" required="required">
+                                <label for="editTransactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  placeholder="Enter Transaction ID" name="editTransactionId" id="editTransactionId" required="required">
                             </div>
                         </div>
 
                         <!-- New input field for online payment method -->
                         <div class="col-sm-12" id="onlinePaymentDetails" style="display:none;">
                             <div class="form-group pb-1">
-                                <label for="Description" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
-                                <textarea class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces"  placeholder="Enter Description" name="Description" id="Description"></textarea>                                
+                                <label for="editDescription" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
+                                <textarea class="form-control"  placeholder="Enter Description" name="editDescription" id="editDescription"></textarea>                                
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="universityPaid" class="form-label"><b>University Fees</b><span class="text-danger">  20,000</span></label>
-                                <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="universityPaid" id="universityPaid" required="required">
+                                <label for="editUniversityPaid" class="form-label"><b>University Fees  </b><span class="text-danger" id="universityFees"> </span></label>
+                                <input type="number" class="form-control"  placeholder="Enter amount" name="editUniversityPaid" id="editUniversityPaid" required="required">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="studyPaid" class="form-label"><b>Study Center Fees</b><span class="text-danger">  10,000</span></label>
-                                <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="studyPaid" id="studyPaid" required="required">
+                                <label for="editStudyPaid" class="form-label"><b>Study Center Fees  </b><span class="text-danger" id="studyFees"> </span></label>
+                                <input type="number" class="form-control"  placeholder="Enter amount" name="editStudyPaid" id="editStudyPaid" required="required">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="totalAmount" class="form-label"><b>Amount Paid</b></label>
-                                <input type="number" class="form-control" name="totalAmount" id="totalAmount" readonly>
+                                <label for="editTotalAmount" class="form-label"><b>Amount Paid</b></label>
+                                <input type="number" class="form-control" name="editTotalAmount" id="editTotalAmount" readonly>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="paidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" name="paidDate" id="paidDate" required="required">
+                                <label for="editbalance" class="form-label"><b>Balance </b></label>
+                                <input type="number" class="form-control" name="editbalance" id="editbalance" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group pb-1">
+                                <label for="editPaidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
+                                <input type="date" class="form-control"  name="editPaidDate" id="editPaidDate" required="required">
                             </div>
                         </div>
 
@@ -191,77 +227,97 @@
     <!-- <-- ---------------------------------------------------------------------> 
 
 
-    <div class="table-responsive d-none" id="clientDetail">
-    <button type="button" class="btn btn-danger float-end "  onclick="toggleDivs()">Back</button>
-                <form name="frm" method="post">
-                    <input type="hidden" name="hdnAction" value="">
-                    <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Payment Details</h4>
-                    </div>  
-                <div class="modal-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="card p-3">
-                                        <h4>Name</h4> 
-                                        <span class="detail" id="name"></span>
-                                    </div>
-                                </div>  
-                                <div class="col-sm-3 ">
-                                    <div class="card p-3">
-                                        <h4>Course Name</h4>
-                                        <span class="detail" id="course_name"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 ">
-                                    <div class="card p-3">
-                                        <h4>Charge</h4>
-                                        <span class="detail" id="charge"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-3">
-                                        <h4>Course Duration</h4>
-                                        <span class="detail" id="course_duration"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-3">
-                                        <h4>Amount Received</h4>
-                                        <span class="detail" id="amount_received"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-3">
-                                        <h4>Balance</h4>
-                                        <span class="detail" id="balance"></span>
-                                    </div>
-                                </div>
-                                
-                                
-                                </div>
-                            </div>
-                            <h3 class="modal-title" id="myModalLabel">Payment History</h3>
-                            <table id="scroll-horizontal-datatable1" class="table table-striped w-100 nowrap">
-                            <thead>
-                                <tr class="bg-light">
-                                            <th scope="col-1">S.No.</th>
-                                            <th scope="col">Payment Date</th>
-                                            <th scope="col">Amount Received</th>
-                                            <th scope="col">Payment Method</th>
-                                            <th scope="col">Download</th>
-                                            
-                            </tr>
-                            </thead>
-                            <tbody id="paymentHistoryBody">                                
-                                
-                            </tbody>
-                        </table>
-
-                    
-                    
-                    
-                    
-                    
-                    </form>  
-
+    <div class=" d-none" id="clientDetail">
+    <div class="modal-footer mt-3">
+                <button type="button" class="btn btn-danger" id="backButtonsubject">Back</button>
             </div>
+    <form name="frm" method="post">
+        <input type="hidden" name="hdnAction" value="">
+        <div class="modal-header">
+            <h4 class="modal-title mb-2" id="myModalLabel">Payment Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Admission Id</h4>
+                        <span class="detail" id="viewAdmisionId"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Student Name</h4>
+                        <span class="detail" id="viewStudentName"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Year</h4>
+                        <span class="detail" id="ViewYear"></span>
+                    </div>
+                </div>
+                
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>University Total Fees</h4>
+                        <span class="detail" id="viewUniversityTotalFees"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>University Fees</h4>
+                        <span class="detail" id="viewUniversityFees"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Study Center Total Fees</h4>
+                        <span class="detail" id="viewStudyCenterTotalFees"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Study Center Fees</h4>
+                        <span class="detail" id="viewStudyCenterFees"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Total Fees</h4>
+                        <span class="detail" id="viewTotalFees"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Total Paid</h4>
+                        <span class="detail" id="viewTotalPaid"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>Balance</h4>
+                        <span class="detail text-danger" id="viewBalance"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="modal-title" id="myModalLabel">Payment History</h3>
+        <table id="scroll-horizontal-datatable1" class="table table-striped w-100 nowrap">
+            <thead>
+                <tr class="bg-light">
+                    <th scope="col-1">S.No.</th>
+                    <th scope="col">Payment Date</th>
+                    <th scope="col">Amount Received</th>
+                    <th scope="col">Payment Method</th>
+                    <th scope="col">Download</th>
+                </tr>
+            </thead>
+            <tbody id="paymentHistoryBody">
+            </tbody>
+        </table>
+    </form>
+</div>
