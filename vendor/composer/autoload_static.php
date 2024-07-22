@@ -7,29 +7,66 @@ namespace Composer\Autoload;
 class ComposerStaticInit175f515b2811e085f3258b59792b25af
 {
     public static $prefixLengthsPsr4 = array (
-        'T' => 
+        'Z' => 
         array (
-            'Tests\\PhpOffice\\Math\\' => 21,
+            'ZipStream\\' => 10,
         ),
         'P' => 
         array (
-            'PhpOffice\\PhpWord\\' => 18,
-            'PhpOffice\\Math\\' => 15,
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
+        ),
+        'M' => 
+        array (
+            'Matrix\\' => 7,
+        ),
+        'C' => 
+        array (
+            'Complex\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Tests\\PhpOffice\\Math\\' => 
+        'ZipStream\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpoffice/math/tests/Math',
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
-        'PhpOffice\\PhpWord\\' => 
+        'Psr\\SimpleCache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'PhpOffice\\Math\\' => 
+        'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpoffice/math/src/Math',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
+        'Complex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
         ),
     );
 
@@ -42,6 +79,7 @@ class ComposerStaticInit175f515b2811e085f3258b59792b25af
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit175f515b2811e085f3258b59792b25af::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit175f515b2811e085f3258b59792b25af::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit175f515b2811e085f3258b59792b25af::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit175f515b2811e085f3258b59792b25af::$classMap;
 
         }, null, ClassLoader::class);
