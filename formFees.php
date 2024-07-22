@@ -12,10 +12,18 @@
                 </div>
                 <div class="modal-body p-3">
                     <div class="row p-3">
+                       
+
+                        <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="admissionId" class="form-label"><b>Admission Id</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="admissionId" id="admissionId" required="required">
+                            </div>
+                        </div>
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="editFirstName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="editFirstName" id="editFirstName" required="required">
+                                <label for="studentName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
+                                <input type="text" class="form-control"  name="studentName" id="studentName" required="required">
                             </div>
                         </div>
                        
@@ -25,8 +33,8 @@
                                 <label for="paidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="paidMethod" id="paidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
-                                    <option value="online">Online</option>
-                                    <option value="cash">Cash</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Cash">Cash</option>
                                 </select>
                             </div>
                         </div>
@@ -34,29 +42,29 @@
                         <div class="col-sm-12">
                             <div class="form-group pb-1">
                                 <label for="transactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Transaction ID" name="transactionId" id="transactionId" required="required">
+                                <input type="text" class="form-control"  placeholder="Enter Transaction ID" name="transactionId" id="transactionId" required="required">
                             </div>
                         </div>
 
                         <!-- New input field for online payment method -->
                         <div class="col-sm-12" id="onlinePaymentDetails" style="display:none;">
                             <div class="form-group pb-1">
-                                <label for="Description" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
-                                <textarea class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces"  placeholder="Enter Description" name="Description" id="Description"></textarea>                                
+                                <label for="description" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
+                                <textarea class="form-control"  placeholder="Enter Description" name="description" id="description"></textarea>                                
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="universityPaid" class="form-label"><b>University Fees</b><span class="text-danger">  20,000</span></label>
-                                <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="universityPaid" id="universityPaid" required="required">
+                                <input type="number" class="form-control"  placeholder="Enter amount" name="universityPaid" id="universityPaid" required="required">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="studyPaid" class="form-label"><b>Study Center Fees</b><span class="text-danger">  10,000</span></label>
-                                <input type="number" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter amount" name="studyPaid" id="studyPaid" required="required">
+                                <input type="number" class="form-control"  placeholder="Enter amount" name="studyPaid" id="studyPaid" required="required">
                             </div>
                         </div>
 
@@ -70,7 +78,7 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="paidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" name="paidDate" id="paidDate" required="required">
+                                <input type="date" class="form-control"  name="paidDate" id="paidDate" required="required">
                             </div>
                         </div>
 

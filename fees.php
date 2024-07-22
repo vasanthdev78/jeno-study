@@ -92,7 +92,7 @@ session_start();
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFeesModal"><i class='bi bi-pencil-square'></i></button>
                             <?php } ?>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment();"><i class="bi bi-eye-fill"></i></button>
-                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goAddStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                             
 
                         </td>
@@ -216,6 +216,42 @@ function goViewPayment() {
             document.getElementById('onlineTransactionId').removeAttribute('required');
         }
     });
+
+    function goAddStudent(editId)
+{ 
+      $.ajax({
+        url: 'action/actFees.php',
+        method: 'POST',
+        data: {
+          editId: editId
+        },
+        //dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+
+          $('#editid').val(response.stu_id);
+          $('#editFname').val(response.first_name);
+          $('#editLname').val(response.last_name);
+         
+          $('#editDob').val(response.dob);
+          $('#editLocation').val(response.address);
+          $('#editEmail').val(response.email);
+          $('#editMobile').val(response.phone);
+          $('#editAadhar').val(response.aadhar);
+          $('#editCourse').val(response.course_id);
+          $('#editMonth').val(response.course_month);
+          $('#editGender').val(response.stu_gender);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    
+}
+
+
+
+
 </script>
 
     <!-------Start Add Student--->
