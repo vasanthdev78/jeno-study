@@ -92,7 +92,7 @@ session_start();
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" id="editAdmissionBtn" onclick="goEditAdmission(<?php echo $id; ?>);"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white" onclick="goViewAdmission(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-success text-white" id="viewAdmissionBtn" onclick="goViewAdmission(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteAdmission(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                            
                         </td>
@@ -190,6 +190,19 @@ session_start();
         $('#editAdmissionModal').addClass('d-none');
     });
 
+    $(document).on('click', '#viewAdmissionBtn', function() {
+        // $('#editAdmission').removeClass('was-validated');
+        // $('#editAdmission').addClass('needs-validation');
+        // $('#editAdmission')[0].reset(); // Reset the form
+        $('#StuContent').addClass('d-none');
+        $('#viewAdmissionModal').removeClass('d-none');
+    });
+
+    // Back to main content from edit admission modal
+    $('#viewAdmissionModal').on('click', '#backToMainBtn2', function() {
+        $('#StuContent').removeClass('d-none');
+        $('#viewAdmissionModal').addClass('d-none');
+    });
 
 
     $('#university').change(function() {

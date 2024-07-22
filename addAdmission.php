@@ -756,4 +756,35 @@
             <!----------------------------------------->
       
             
+<!-- Start Content-->
+                    <div class="container-fluid d-none" id="viewAdmissionModal"> 
+                        
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="backToMainBtn2" class="btn btn-secondary">
+                                        Back to Main
+                                        </button>
+                                    </div>
+                                </div>
+                                <h3 class="page-title">View Student Details</h3>   
+                            </div>
+
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="assets/images/small/small-4.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        </div> <!-- end card-body-->
+                                    </div> <!-- end col -->
+                                </div> <!-- end row-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                     </div> <!-- content -->
   
