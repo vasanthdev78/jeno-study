@@ -270,37 +270,55 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     $aadharName = '';
     $photoName = '';
 
+    // Initialize the SQL part for document updates
+    $updateDocSql = '';
+
+    // Handle file uploads and construct SQL parts conditionally
     if (!empty($_FILES['sslcEdit']['name'])) {
         $sslcName = basename($_FILES['sslcEdit']['name']);
         move_uploaded_file($_FILES['sslcEdit']['tmp_name'], $uploadDir . $sslcName);
+        $updateDocSql .= "c.doc_sslc = '$sslcName', ";
     }
 
     if (!empty($_FILES['hscEdit']['name'])) {
         $hscName = basename($_FILES['hscEdit']['name']);
         move_uploaded_file($_FILES['hscEdit']['tmp_name'], $uploadDir . $hscName);
+        $updateDocSql .= "c.doc_hsc = '$hscName', ";
     }
 
     if (!empty($_FILES['communityEdit']['name'])) {
         $communityName = basename($_FILES['communityEdit']['name']);
         move_uploaded_file($_FILES['communityEdit']['tmp_name'], $uploadDir . $communityName);
+        $updateDocSql .= "c.doc_community = '$communityName', ";
     }
 
     if (!empty($_FILES['tcEdit']['name'])) {
         $tcName = basename($_FILES['tcEdit']['name']);
         move_uploaded_file($_FILES['tcEdit']['tmp_name'], $uploadDir . $tcName);
+        $updateDocSql .= "c.doc_tc = '$tcName', ";
     }
 
     if (!empty($_FILES['aadharEdit']['name'])) {
         $aadharName = basename($_FILES['aadharEdit']['name']);
         move_uploaded_file($_FILES['aadharEdit']['tmp_name'], $uploadDir . $aadharName);
+        $updateDocSql .= "c.doc_aadhar = '$aadharName', ";
     }
 
     if (!empty($_FILES['photoEdit']['name'])) {
         $photoName = basename($_FILES['photoEdit']['name']);
         move_uploaded_file($_FILES['photoEdit']['tmp_name'], $uploadDir . $photoName);
+        $updateDocSql .= "c.doc_photo = '$photoName', ";
     }
 
-    // Update the student table
+    // Append the updated_by field if there are document updates
+    if (!empty($updateDocSql)) {
+        $updateDocSql .= "c.doc_updated_by = '$updatedBy', ";
+    }
+
+    // Remove the trailing comma and space from the SQL part
+    $updateDocSql = rtrim($updateDocSql, ', ');
+
+    // Construct the final SQL query
     $combined_sql = "
         UPDATE `jeno_student` AS a
         LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id
@@ -339,16 +357,14 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
             b.add_comp_year = '$completed', 
             b.add_study_field = '$study', 
             b.add_grade = '$grade', 
-            b.add_updated_by = '$updatedBy',
-            
-            c.doc_sslc = '$sslcName', 
-            c.doc_hsc = '$hscName', 
-            c.doc_community = '$communityName', 
-            c.doc_tc = '$tcName', 
-            c.doc_aadhar = '$aadharName', 
-            c.doc_photo = '$photoName', 
-            c.doc_updated_by = '$updatedBy'
-        WHERE a.stu_id = '$admissionId'";
+            b.add_updated_by = '$updatedBy'";
+
+    // Append document updates if there are any
+    if (!empty($updateDocSql)) {
+        $combined_sql .= ", " . $updateDocSql;
+    }
+
+    $combined_sql .= " WHERE a.stu_id = '$admissionId'";
 
     if ($conn->query($combined_sql) === TRUE) {
         $response['success'] = true;
@@ -389,6 +405,76 @@ if (isset($_POST['deleteId'])) {
 
     echo json_encode($response);
     exit();
+}
+
+if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
+    $studentId = $_POST['viewId'];
+
+    // Prepare and execute the SQL query
+    $selQuery1 = "SELECT a.*, b.*, c.*, d.*, e.*, f.*  
+                         FROM `jeno_student` AS a 
+                         LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id 
+                         LEFT JOIN `jeno_document` AS c ON a.stu_id = c.doc_stu_id
+                         LEFT JOIN `jeno_university` AS d ON a.stu_uni_id = d.uni_id 
+                         LEFT JOIN `jeno_course` AS e ON a.stu_cou_id = e.cou_id
+                         LEFT JOIN `jeno_elective` AS f ON b.add_language = f.ele_id
+                         WHERE a.stu_id = $studentId";
+    
+    $result1 = $conn->query($selQuery1);
+
+    if($result1) {
+        $row = mysqli_fetch_assoc($result1);
+
+    // Prepare university details array
+    $studentView = [
+           
+                    'stuId' => $row['stu_id'],
+                    'name' => $row['stu_name'],
+                    'phone' => $row['stu_phone'],
+                    'email' => $row['stu_email'],
+                    'uni_id' => $row['uni_name'],
+                    'cou_id' => $row['cou_name'],
+                    'medium_id' => $row['stu_medium_id'],
+                    'studyYear' => $row['stu_study_year'],
+                    'acaYear' => $row['stu_aca_year'],
+                    'enroll' => $row['stu_enroll'],
+                    'year_type' => $row['add_year_type'],
+                    'language' => $row['ele_elective'],
+                    'digilocker' => $row['add_digilocker'],
+                    'admit_date' => $row['add_admit_date'],
+                    'dob' => $row['add_dob'],
+                    'gender' => $row['add_gender'],
+                    'address' => $row['add_address'],
+                    'pincode' => $row['add_pincode'],
+                    'father_name' => $row['add_father_name'],
+                    'mother_name' => $row['add_mother_name'],
+                    'aadhar_no' => $row['add_aadhar_no'],
+                    'nationality' => $row['add_nationality'],
+                    'mother_tongue' => $row['add_mother_tongue'],
+                    'religion' => $row['add_religion'],
+                    'caste' => $row['add_caste'],
+                    'community' => $row['add_community'],
+                    'marital_status' => $row['add_marital_status'],
+                    'employed' => $row['add_employed'],
+                    'qualification' => $row['add_qualifiaction'],
+                    'institute' => $row['add_institute'],
+                    'comp_year' => $row['add_comp_year'],
+                    'study_field' => $row['add_study_field'],
+                    'grade' => $row['add_grade'],
+                    'sslc' => $row['doc_sslc'],
+                    'hsc' => $row['doc_hsc'],
+                    'community_doc' => $row['doc_community'],
+                    'tc' => $row['doc_tc'],
+                    'aadhar_doc' => $row['doc_aadhar'],
+                    'photo' => $row['doc_photo']
+    ];
+
+    echo json_encode($studentView);
+    exit();
+          
+    } else {
+        echo "Error executing query: " . $conn->error;
+    }
 }
 
         

@@ -95,7 +95,7 @@
                                                             <div class="form-group">
                                                             <label for="medium" class="form-label"><b>Medium </b><span class="text-danger">*</span></label>
                                                             <select class="form-control" name="medium" id="medium" required="required">
-                                                            <option value="">--Select the Medium--</option>
+                                                            <option value="0">--Select the Medium--</option>
                                                             <option value="1">Tamil</option>
                                                             <option value="2">English</option>
 
@@ -119,8 +119,8 @@
                                                             <label for="yearType" class="form-label"><b>Year Type</b></label>
                                                             <select class="form-control" name="yearType" id="yearType" >
                                                             <option value="">--Select the Type--</option>
-                                                            <option value="1">Academic Year</option>
-                                                            <option value="2">Calander Year</option>
+                                                            <option value="Academic Year">Academic Year</option>
+                                                            <option value="Calander Year">Calander Year</option>
 
                                                             </select>
                                                             </div>
@@ -244,19 +244,19 @@
                                                             <label for="marital" class="form-label"><b>Marital Status</b></label>
                                                             <select class="form-control" name="marital" id="marital">
                                                             <option value="">--Select the Marital Status--</option>
-                                                            <option value="1">Single</option>
-                                                            <option value="2">Married</option>
+                                                            <option value="Single">Single</option>
+                                                            <option value="Married">Married</option>
                                                             </select>
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group">
-                                                            <label for="employed" class="form-label"><b>Empoloyed</b></label>
+                                                            <label for="employed" class="form-label"><b>Employed</b></label>
                                                             <select class="form-control" name="employed" id="employed" >
-                                                            <option value="">--Select the Empoloyed--</option>
-                                                            <option value="1">Yes</option>
-                                                            <option value="2">No</option>
+                                                            <option value="">--Select the Employed--</option>
+                                                            <option value="Employed">Employed</option>
+                                                            <option value="Unemployed">Unemployed</option>
 
                                                             </select>
                                                             </div>
@@ -266,11 +266,11 @@
                                                             <div class="form-group pb-1">
                                                             <label for="qualification" class="form-label"><b>Highest Qualifiaction</b></label>
                                                             <select class="form-control" id="qualification" name="qualification" >
-                                                            <option>--Select the Qualifiaction--</option>
-                                                            <option value="1">Diploma</option>
-                                                            <option value="2">12TH</option>
-                                                            <option value="3">UG</option>
-                                                            <option value="4">PG</option>
+                                                            <option value="">--Select the Qualifiaction--</option>
+                                                            <option value="Diploma">Diploma</option>
+                                                            <option value="12">12TH</option>
+                                                            <option value="UG">UG</option>
+                                                            <option value="PG">PG</option>
                                                             </select>
                                                             </div>
                                                             </div>
@@ -493,9 +493,9 @@
                                                             <div class="form-group">
                                                             <label for="yearTypeEdit" class="form-label"><b>Year Type</b></label>
                                                             <select class="form-control" name="yearTypeEdit" id="yearTypeEdit" >
-                                                            <option value="0">--Select the Type--</option>
-                                                            <option value="1">Academic Year</option>
-                                                            <option value="2">Calander Year</option>
+                                                            <option value="">--Select the Type--</option>
+                                                            <option value="Academic Year">Academic Year</option>
+                                                            <option value="Calander Year">Calander Year</option>
 
                                                             </select>
                                                             </div>
@@ -618,20 +618,20 @@
                                                             <div class="form-group">
                                                             <label for="maritalEdit" class="form-label"><b>Marital Status</b></label>
                                                             <select class="form-control" name="maritalEdit" id="maritalEdit">
-                                                            <option value="0">--Select the Marital Status--</option>
-                                                            <option value="1">Single</option>
-                                                            <option value="2">Married</option>
+                                                            <option value="">--Select the Marital Status--</option>
+                                                            <option value="Single">Single</option>
+                                                            <option value="Married">Married</option>
                                                             </select>
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group">
-                                                            <label for="employedEdit" class="form-label"><b>Empoloyed</b></label>
+                                                            <label for="employedEdit" class="form-label"><b>Employed</b></label>
                                                             <select class="form-control" name="employedEdit" id="employedEdit" >
-                                                            <option value="0">--Select the Empoloyed--</option>
-                                                            <option value="1">Yes</option>
-                                                            <option value="2">No</option>
+                                                            <option value="">--Select the Empoloyed--</option>
+                                                            <option value="Employed">Employed</option>
+                                                            <option value="Unemployed">Unemployed</option>
 
                                                             </select>
                                                             </div>
@@ -641,11 +641,11 @@
                                                             <div class="form-group pb-1">
                                                             <label for="qualificationEdit" class="form-label"><b>Highest Qualifiaction</b></label>
                                                             <select class="form-control" id="qualificationEdit" name="qualificationEdit" >
-                                                            <option value="0">--Select the Qualifiaction--</option>
-                                                            <option value="1">Diploma</option>
-                                                            <option value="2">12TH</option>
-                                                            <option value="3">UG</option>
-                                                            <option value="4">PG</option>
+                                                            <option value="">--Select the Qualifiaction--</option>
+                                                            <option value="Diploma">Diploma</option>
+                                                            <option value="12">12TH</option>
+                                                            <option value="UG">UG</option>
+                                                            <option value="PG">PG</option>
                                                             </select>
                                                             </div>
                                                             </div>
@@ -772,19 +772,353 @@
 
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="assets/images/small/small-4.jpg" class="img-fluid rounded-start" alt="...">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-md-2">
+                                    <img id="studentImage" src="" alt="Student Image" class="img-fluid avatar-xxl rounded" />
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-5">
                                         <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                            <div class="table-responsive-sm">
+                                                <table class="table table-centered table-borderless mb-0">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>:</th>
+                                                        <td id="nameView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Phone</th>
+                                                        <th>:</th>
+                                                        <td id="phoneView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Email Id</th>
+                                                        <th>:</th>
+                                                        <td id="emailView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Student Year</th>
+                                                        <th>:</th>
+                                                        <td id="yearView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Academic Year</th>
+                                                        <th>:</th>
+                                                        <td id="acaYearView"></td>
+                                                    </tr>
+                                                </table>
+                                            </div> <!-- end table-responsive-->
+                                        </div> <!-- end card-body-->
+                                    </div> <!-- end col -->
+                                    <div class="col-md-5">
+                                        <div class="card-body">
+                                            <div class="table-responsive-sm">
+                                                <table class="table table-centered table-borderless mb-0">
+                                                    <tr>
+                                                        <th>University Name</th>
+                                                        <th>:</th>
+                                                        <td id="uni_idView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Course Name</th>
+                                                        <th>:</th>
+                                                        <td id="cou_idView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Medium</th>
+                                                        <th>:</th>
+                                                        <td id="medium_idView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Enrollment No.</th>
+                                                        <th>:</th>
+                                                        <td id="enrollView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Application No.</th>
+                                                        <th>:</th>
+                                                        <td id="applicationView"></td>
+                                                    </tr>
+                                                </table>
+                                            </div> <!-- end table-responsive-->
                                         </div> <!-- end card-body-->
                                     </div> <!-- end col -->
                                 </div> <!-- end row-->
                             </div> <!-- end card-->
                         </div> <!-- end col-->
+                            
+                                <div class="col-lg-12">
+                                    <div class="accordion" id="accordionExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingOne">
+                                                    <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                        aria-expanded="true" aria-controls="collapseOne">
+                                                        Fees Details
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-centered table-borderless mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">S.No.</th>
+                                                                        <th scope="col">Fees to</th>
+                                                                        <th scope="col">Year/Sem</th>
+                                                                        <th scope="col">Total Fees</th>
+                                                                        <th scope="col">Fees Paid</th>
+                                                                        <th scope="col">Balance</th>
+                                                                        <th scope="col">Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th scope="row">1</th>
+                                                                        <td>Cell</td>
+                                                                        <td>Cell</td>
+                                                                        <td>Cell</td>
+                                                                        <td>Cell</td>
+                                                                        <td>Cell</td>
+                                                                        <td>Cell</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingTwo">
+                                                    <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        Personal Details
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                            <div class="row g-0">
+                                                                <div class="col-md-4">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th>Year Type</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="yearTypeView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Language / Elective</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="languageView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Digilocker</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="digilockerView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Admission Date</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="admitDateView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Date of Birth</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="dobView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Gender</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="genderView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Father Name</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="fatherNameView"></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th>Mother Name</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="motherNameView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Aadhar Number</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="aadharNoView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Nationality</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="nationalityView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Mother Tongue</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="motherTongueView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Religion</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="religionView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Caste</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="casteView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Community</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="communityView"></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-4">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th>Marital Status</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="maritalStatusView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Employed</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="employedView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Highest Qualification</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="qualificationView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Previous Institute</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="instituteView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Year Of Completion</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="compYearView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Major Field Of Study</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="studyFieldView"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>CGPA / Grade</th>
+                                                                                    <th>:</th>
+                                                                                    <td id="gradeView"></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-8">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th class="col-2">Address</th>
+                                                                                    <th class="col-1">:</th>
+                                                                                    <td class="col-5" id="addressView"></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-4">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                    <tr>
+                                                                                        <th>Pincode</th>
+                                                                                        <th>:</th>
+                                                                                        <td id="pincodeView"></td>
+                                                                                    </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                            </div> <!-- end row-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingThree">
+                                                    <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                        Document Details
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                            <div class="row g-0 align-items-center">
+                                                                <div class="col-md-6">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th>SSLC Certificate</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="sslcView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>HSC Certificate</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="hscView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Community Certificate</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="communityCertView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-6">
+                                                                    <div class="card-body">
+                                                                        <div class="table-responsive-sm">
+                                                                            <table class="table table-centered table-borderless mb-0">
+                                                                                <tr>
+                                                                                    <th>Transfer Certificate</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="tcView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Aadhar Image</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="aadharImageView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Student Image</th>
+                                                                                    <th>:</th>
+                                                                                    <td><a id="studentImageView" href="#" target="_blank"></a></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div> <!-- end table-responsive-->
+                                                                    </div> <!-- end card-body-->
+                                                                </div> <!-- end col -->
+                                                            </div> <!-- end row-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
                      </div> <!-- content -->
   
