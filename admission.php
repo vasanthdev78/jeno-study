@@ -440,6 +440,77 @@ $('#addAdmission').off('submit').on('submit', function(e) {
     });
 }
 
+function goViewAdmission(id)
+{
+    $.ajax({
+        url: 'action/actAdmission.php',
+        method: 'POST',
+        data: {
+            viewId: id
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+
+                    $('#studentImage').attr('src', 'assets/images/student/' + response.photo);
+                    $('#nameView').text(response.name);
+                    $('#phoneView').text(response.phone);
+                    $('#emailView').text(response.email);
+                    $('#uni_idView').text(response.uni_id);
+                    $('#cou_idView').text(response.cou_id);
+
+                    var mediumText = '';
+                    if (response.medium_id == 1) {
+                        mediumText = 'Tamil';
+                    } else if (response.medium_id == 2) {
+                        mediumText = 'English';
+                    }
+                    // Set the text content of the element
+                    $('#medium_idView').text(mediumText);
+                    $('#yearView').text(response.studyYear);
+                    $('#acaYearView').text(response.acaYear);
+                    $('#enrollView').text(response.enroll);
+                    $('#yearTypeView').text(response.year_type);
+                    $('#languageView').text(response.language);
+                    $('#digilockerView').text(response.digilocker);
+                    $('#admitDateView').text(response.admit_date);
+                    $('#dobView').text(response.dob);
+                    $('#genderView').text(response.gender);
+                    $('#fatherNameView').text(response.father_name);
+                    $('#motherNameView').text(response.mother_name);
+                    $('#aadharNoView').text(response.aadhar_no);
+                    $('#nationalityView').text(response.nationality);
+                    $('#motherTongueView').text(response.mother_tongue);
+                    $('#religionView').text(response.religion);
+                    $('#casteView').text(response.caste);
+                    $('#communityView').text(response.community);
+                    $('#maritalStatusView').text(response.marital_status);
+                    $('#employedView').text(response.employed);
+                    $('#qualificationView').text(response.qualification);
+                    $('#instituteView').text(response.institute);
+                    $('#compYearView').text(response.comp_year);
+                    $('#studyFieldView').text(response.study_field);
+                    $('#gradeView').text(response.grade);
+                    $('#addressView').text(response.address);
+                    $('#pincodeView').text(response.pincode);
+
+                    var basePath = 'assets/images/student/';
+
+                    // Update the anchor tags to open images in a new tab
+                    $('#sslcView').attr('href', basePath + response.sslc).text(response.sslc);
+                    $('#hscView').attr('href', basePath + response.hsc).text(response.hsc);
+                    $('#communityCertView').attr('href', basePath + response.community_doc).text(response.community_doc);
+                    $('#tcView').attr('href', basePath + response.tc).text(response.tc);
+                    $('#aadharImageView').attr('href', basePath + response.aadhar_doc).text(response.aadhar_doc);
+                    $('#studentImageView').attr('href', basePath + response.photo).text(response.photo);
+
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
+
 function goDeleteAdmission(id)
 {
     if(confirm("Are you sure you want to delete Student?"))
