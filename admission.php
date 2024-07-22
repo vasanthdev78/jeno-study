@@ -164,6 +164,7 @@ session_start();
     $('#addAdmissionBtn').on('click', function() {
         $('#addAdmission').removeClass('was-validated');
         $('#addAdmission').addClass('needs-validation');
+        $('#applicationNo').removeClass('is-invalid is-valid');
         $('#addAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
         $('#addAdmissionModal').removeClass('d-none');
@@ -204,7 +205,43 @@ session_start();
         $('#viewAdmissionModal').addClass('d-none');
     });
 
+    var isApplicationNoValid = true;
 
+    // Function to update the submit button state
+    function updateSubmitButtonState() {
+        if (isApplicationNoValid) {
+            $('#submitBtn').prop('disabled', false); // Enable the button if valid
+        } else {
+            $('#submitBtn').prop('disabled', true); // Disable the button if invalid
+        }
+    }
+
+    // Validate application number on input
+    $('#applicationNo').on('input', function() {
+        var applicationNo = $(this).val();
+        if (applicationNo.length > 0) {
+            $.ajax({
+                url: 'check_application.php', // The PHP script to check the application number
+                type: 'post',
+                data: { applicationNo: applicationNo },
+                success: function(response) {
+                    if (response == "exists") {
+                        $('#applicationNo').removeClass('is-valid').addClass('is-invalid');
+                        isApplicationNoValid = false; // Set the flag to false if the application number exists
+                    } else {
+                        $('#applicationNo').removeClass('is-invalid').addClass('is-valid');
+                        isApplicationNoValid = true; // Set the flag to true if the application number is valid
+                    }
+                    updateSubmitButtonState(); // Update the button state based on validity
+                }
+            });
+        } else {
+            $('#applicationNo').removeClass('is-invalid is-valid');
+            isApplicationNoValid = true; // Reset the flag if the input is empty
+            updateSubmitButtonState(); // Update the button state
+        }
+    });
+    
     $('#university').change(function() {
         var universityId = $(this).val();
         
@@ -323,67 +360,72 @@ $('#courseNameEdit').change(function() {
 
 
 $('#addAdmission').off('submit').on('submit', function(e) {
-
+    
+    // Prevent default form submission to perform additional checks
     e.preventDefault(); 
 
     var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
 
-            var formData = new FormData(form);
+    var formData = new FormData(form);
 
+    // Proceed with form submission if everything is valid
     $.ajax({
-      url: "action/actAdmission.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#StuContent').removeClass('d-none');
-            $('#addAdmissionModal').addClass('d-none');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+        url: "action/actAdmission.php",
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    // Remove modal or form handling
+                    // Ensure the form is not closed if not desired
+                    $('#StuContent').removeClass('d-none');
+                    $('#addAdmissionModal').addClass('d-none');
+                    
+                    // Reload the datatable to show updated data
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding Student data.'
             });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
         }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Student data.'
-        });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
     });
-  });
+});
+
 
   function goEditAdmission(editId) { 
     $.ajax({
@@ -466,6 +508,7 @@ function goViewAdmission(id)
                     }
                     // Set the text content of the element
                     $('#medium_idView').text(mediumText);
+                    $('#applicationView').text(response.apply_no);
                     $('#yearView').text(response.studyYear);
                     $('#acaYearView').text(response.acaYear);
                     $('#enrollView').text(response.enroll);

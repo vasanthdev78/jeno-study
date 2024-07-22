@@ -103,6 +103,23 @@
                                                             </div>
                                                             </div>
 
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group pb-1">
+                                                            <label for="academicYear" class="form-label"><b>Academic Year</b><span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control"  placeholder="Enter Student Academic Year" name="academicYear" id="academicYear" required="required">
+                                                            </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group pb-1">
+                                                            <label for="applicationNo" class="form-label"><b>Application No.</b><span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" placeholder="Enter Student Application No." name="applicationNo" id="applicationNo" required="required">
+                                                            <div class="invalid-feedback">
+                                                                This Application No. is already exists.
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
                                                         </div> <!-- end row -->
 
                                                         <ul class="list-inline wizard mb-0">
@@ -362,7 +379,7 @@
                                                                 <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile</button>
                                                             </li>
                                                             <li class="next list-inline-item float-end">
-                                                                <button type="submit" class="btn btn-info">Submit</button>
+                                                                <button type="submit" id="submitBtn" class="btn btn-info">Submit</button>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -863,7 +880,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">S.No.</th>
-                                                                        <th scope="col">Fees to</th>
+                                                                        <th scope="col">Fees For</th>
                                                                         <th scope="col">Year/Sem</th>
                                                                         <th scope="col">Total Fees</th>
                                                                         <th scope="col">Fees Paid</th>
@@ -874,12 +891,21 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <th scope="row">1</th>
-                                                                        <td>Cell</td>
-                                                                        <td>Cell</td>
-                                                                        <td>Cell</td>
-                                                                        <td>Cell</td>
-                                                                        <td>Cell</td>
-                                                                        <td>Cell</td>
+                                                                        <td>University Fees</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">2</th>
+                                                                        <td>Study Center Fees</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
