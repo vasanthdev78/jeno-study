@@ -230,7 +230,10 @@ function goViewPayment(studentId) {
                     html += '<td>' + payment.pay_date + '</td>'; // Payment Date
                     html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
                     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
-                    html += '<td><button class="btn btn-circle btn-success text-white gap-3" onclick="gotoDetailPayment(' + payment.pay_id + ')"><i class="bi bi-arrow-down-circle"></i> </button> <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i> </button></td>'; // Download button with icon
+                    html += '<td>';
+                    html += '<button class="btn btn-circle btn-success text-white gap-3" onclick="gotoDetailPayment(' + payment.pay_id + ')"><i class="bi bi-arrow-down-circle"></i> </button>';
+                    html += '<?php if ($user_role == 'Admin') {?><button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i> </button><?php } ?>';
+                    html += '</td>'; 
                     html += '</tr>';
                 });
 

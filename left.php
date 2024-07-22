@@ -68,9 +68,9 @@
             <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="fees.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Fees</a>
-            </li>
+            </li> -->
             
             <!-- <li>
                 <a href="masterBooks.php" class="side-nav-link"><i class="bi bi-book"></i>Books</a>
