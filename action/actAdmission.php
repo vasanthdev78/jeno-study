@@ -16,6 +16,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $university = $_POST['university'];
     $courseName = $_POST['courseName'];
     $medium = $_POST['medium'];
+    $academicYear = $_POST['academicYear'];
+    $applicationNo = $_POST['applicationNo'];
     $yearType = $_POST['yearType'];
     $language = $_POST['language'];
     $digilocker = $_POST['digilocker'];
@@ -80,9 +82,18 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         move_uploaded_file($_FILES['photo']['tmp_name'], $uploadDir . $photoName);
     }
     
+    // Check if the name and phone number exist in the enquiry table
+    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_adminsion_status` = 'Pending'";
+    $enquiry_check_result = $conn->query($enquiry_check_sql);
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_study_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '1 st year', '$enroll', '$createdBy')";
+    if ($enquiry_check_result->num_rows > 0) {
+        // Update enquiry status to complete
+        $update_enquiry_sql = "UPDATE `jeno_enquiry` SET `enq_adminsion_status` = 'Complete' WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo'";
+        $conn->query($update_enquiry_sql);
+    }
+
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_study_year`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '1 st year', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -106,7 +117,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($fees_sql);
 
         // Insert into book table
-        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_issued`, `book_id_issued`, `book_created_by`) 
+        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_issued`, `book_id_card`, `book_created_by`) 
                     VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
 
         $conn->query($book_sql);
@@ -435,6 +446,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'uni_id' => $row['uni_name'],
                     'cou_id' => $row['cou_name'],
                     'medium_id' => $row['stu_medium_id'],
+                    'apply_no' => $row['stu_apply_no'],
                     'studyYear' => $row['stu_study_year'],
                     'acaYear' => $row['stu_aca_year'],
                     'enroll' => $row['stu_enroll'],
