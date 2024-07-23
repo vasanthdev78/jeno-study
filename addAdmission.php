@@ -106,7 +106,9 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="academicYear" class="form-label"><b>Academic Year</b><span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control"  placeholder="Enter Student Academic Year" name="academicYear" id="academicYear" required="required">
+                                                            <select class="form-control" name="academicYear" id="academicYear" required="required">
+                                                                <option value="">Select Academic Year</option>
+                                                            </select>
                                                             </div>
                                                             </div>
 
@@ -379,7 +381,7 @@
                                                                 <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile</button>
                                                             </li>
                                                             <li class="next list-inline-item float-end">
-                                                                <button type="submit" id="submitBtn" class="btn btn-info">Submit</button>
+                                                                <button type="submit" id="submitBtn " class="btn btn-info">Submit</button>
                                                             </li>
                                                         </ul>
                                                     </div>

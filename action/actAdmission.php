@@ -18,7 +18,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $medium = $_POST['medium'];
     $academicYear = $_POST['academicYear'];
     $applicationNo = $_POST['applicationNo'];
-    $stuYear = "1st year";
     $yearType = $_POST['yearType'];
     $language = $_POST['language'];
     $digilocker = $_POST['digilocker'];
@@ -93,8 +92,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_enquiry_sql);
     }
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_study_year`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$stuYear', '$academicYear', '$enroll', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -160,29 +159,46 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     }
 
 if (isset($_POST['courseId']) && $_POST['courseId'] != '') {
+        $courseId = $_POST['courseId'];                                                                                                   
+        $response = [];
     
-        $courseId = $_POST['courseId'];
-    
+        // Query to get elective list
         $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId;";
         $eleResult = mysqli_query($conn, $eleQuery);
-    
+        
+        $electives = [];
         if ($eleResult) {
             while ($row = mysqli_fetch_assoc($eleResult)) {
-                $elective = array(
+                $electives[] = [
                     'ele_id' => $row['ele_id'],
                     'ele_elective' => $row['ele_elective']
-                );
-                $electives[] = $elective;
+                ];
             }
-    
-            echo json_encode($electives);
+            $response['electives'] = $electives;
         } else {
-            $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
+            $response['message'] = "Error fetching elective details: " . mysqli_error($conn);
             echo json_encode($response);
+            exit();
         }
     
-        exit(); 
+        // Query to get course details (duration and fees pattern)
+        $courseQuery = "SELECT `cou_duration`, `cou_fees_type` FROM `jeno_course` WHERE cou_id = $courseId;";
+        $courseResult = mysqli_query($conn, $courseQuery);
+        
+        if ($courseResult) {
+            $courseDetails = mysqli_fetch_assoc($courseResult);
+            $response['duration'] = $courseDetails['cou_duration'];
+            $response['feesPattern'] = $courseDetails['cou_fees_type'];
+        } else {
+            $response['message'] = "Error fetching course details: " . mysqli_error($conn);
+            echo json_encode($response);
+            exit();
         }
+    
+        // Return both electives and course details as JSON
+        echo json_encode($response);
+        exit();
+}
 
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
             $editId = $_POST['editId'];
@@ -248,7 +264,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     $university = $_POST['universityEdit'];
     $courseName = $_POST['courseNameEdit'];
     $medium = $_POST['mediumEdit'];
-    $stuYear = "1st year";
     $yearType = $_POST['yearTypeEdit'];
     $language = $_POST['languageEdit'];
     $digilocker = $_POST['digilockerEdit'];
@@ -343,7 +358,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
             a.stu_uni_id = '$university', 
             a.stu_cou_id = '$courseName', 
             a.stu_medium_id = '$medium', 
-            a.stu_study_year = '$stuYear', 
             a.stu_enroll = '$enroll', 
             a.stu_updated_by = '$updatedBy',
             
