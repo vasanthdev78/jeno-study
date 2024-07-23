@@ -118,8 +118,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($fees_sql);
 
         // Insert into book table
-        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_issued`, `book_id_card`, `book_created_by`) 
-                    VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
+        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_created_by`) 
+                    VALUES ('$studentId', '$createdBy')"; // Modify as per your requirements
 
         $conn->query($book_sql);
 
