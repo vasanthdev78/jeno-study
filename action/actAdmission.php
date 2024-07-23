@@ -82,6 +82,15 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         move_uploaded_file($_FILES['photo']['tmp_name'], $uploadDir . $photoName);
     }
     
+    // Check if the name and phone number exist in the enquiry table
+    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_adminsion_status` = 'Pending'";
+    $enquiry_check_result = $conn->query($enquiry_check_sql);
+
+    if ($enquiry_check_result->num_rows > 0) {
+        // Update enquiry status to complete
+        $update_enquiry_sql = "UPDATE `jeno_enquiry` SET `enq_adminsion_status` = 'Complete' WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo'";
+        $conn->query($update_enquiry_sql);
+    }
 
     $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_study_year`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
                 VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '1 st year', '$academicYear', '$enroll', '$createdBy')";
