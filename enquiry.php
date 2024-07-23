@@ -79,7 +79,7 @@ $enquiry_result = enquiryTable();
              
              
              
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+             <table id="example" class="display" style="width:100%">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
@@ -171,10 +171,31 @@ $enquiry_result = enquiryTable();
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
+                <!--   pdf and excel print  -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
     <script>
+
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
         $('#addEnquiryBtn').click(function() {
 
             $('#addEnquiry').removeClass('was-validated');
@@ -291,12 +312,16 @@ $enquiry_result = enquiryTable();
             timer: 2000
           }).then(function() {
             $('#addEnquiryModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
+            $('#example').load(location.href + ' #example > *', function() {
+              $('#example').DataTable().destroy();
+              $('#example').DataTable({
                 "paging": true, // Enable pagination
                 "ordering": true, // Enable sorting
-                "searching": true // Enable searching
+                "searching": true, // Enable searching
+                dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
               });
             });
           });
@@ -391,14 +416,18 @@ document.addEventListener('DOMContentLoaded', function() {
                       $('#editEnquiryModal').modal('hide'); // Close the modal
                         
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                          $('#example').load(location.href + ' #example > *', function() {
                                
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                              $('#example').DataTable().destroy();
                                
-                                $('#scroll-horizontal-datatable').DataTable({
+                                $('#example').DataTable({
                                    "paging": true, // Enable pagination
                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
+                                    "searching": true, // Enable searching
+                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
                                });
                             });
                       });
@@ -443,14 +472,18 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+          $('#example').load(location.href + ' #example > *', function() {
                                
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
+                               $('#example').DataTable().destroy();
                                
-                                $('#scroll-horizontal-datatable').DataTable({
+                                $('#example').DataTable({
                                     "paging": true, // Enable pagination
                                     "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
+                                    "searching": true, // Enable searching
+                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
                                 });
                             });
          
