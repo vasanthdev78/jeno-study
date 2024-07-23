@@ -270,14 +270,12 @@ session_start();
             }
         });
     });
-
     $('#courseName').change(function() {
         var courseId = $(this).val();
         
         if (courseId === "") {
-            $('#language').html('<option value="">--Select the Specification--</option>'); // Clear the language dropdown
-            $('#academicYear').html('<option value="">--Select Academic Year--</option>'); // Clear the academic year dropdown
-            return; // No course selected, exit the function
+            $('#language').html('<option value="">--Select the Specification--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
         }
 
         $.ajax({
@@ -286,25 +284,14 @@ session_start();
             data: { courseId: courseId },
             dataType: 'json',
             success: function(response) {
-                // Handle elective list
-                var electiveOptions = '<option value="0">--Select the Specification--</option>';
-                $.each(response.electives, function(index, elective) {
-                    electiveOptions += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+                
+                var options = '<option value="">--Select the Specification--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, elective) {
+                    options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
                 });
-                $('#language').html(electiveOptions); // Update the language dropdown
-
-                // Handle academic year dropdown
-                var academicYearOptions = '<option value="">Select Academic Year</option>';
-                if(response.feesPattern === 'Semester') {
-                    for(var i = 1; i <= response.duration * 2; i++) {
-                        academicYearOptions += '<option value="'+i+' Sem">'+i+' Sem</option>';
-                    }
-                } else if(response.feesPattern === 'Year') {
-                    for(var i = 1; i <= response.duration; i++) {
-                        academicYearOptions += '<option value="'+i+' Year">'+i+' Year</option>';
-                    }
-                }
-                $('#academicYear').html(academicYearOptions); // Update the academic year dropdown
+                $('#language').html(options); // Update the course dropdown
             },
             error: function(xhr, status, error) {
                 console.error("AJAX request failed: " + status + ", " + error);
@@ -356,7 +343,7 @@ $('#courseNameEdit').change(function() {
         dataType: 'json',
         success: function(response) {
             
-            var options = '<option value="">--Select the Specification--</option>';
+            var options = '<option value="0">--Select the Specification--</option>';
             
              // Loop through each elective in the response and append to options
              $.each(response, function(index, elective) {
