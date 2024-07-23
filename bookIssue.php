@@ -2,14 +2,8 @@
 session_start();
     include("db/dbConnection.php");
     
-    // $selQuery = "SELECT student_tbl.*,
-    // additional_details_tbl.*,
-    // course_tbl.*
-    //  FROM student_tbl
-    // LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    // LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    // WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    // $resQuery = mysqli_query($conn , $selQuery); 
+    $selQuery = "SELECT a.*, b.* FROM `jeno_student` AS a LEFT JOIN jeno_book AS b ON a.stu_id = b.book_stu_id WHERE b.book_status = 'Active' ";
+    $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
@@ -62,46 +56,46 @@ session_start();
 
                       <!-- Filters -->
                       <div class="row mb-3">
-    <div class="col-md-3">
-        <label for="universityFilter">University</label>
-        <select id="universityFilter" class="form-control">
-            <option value="">All</option>
-            <option value="University1">University Of Madras</option>
-            <option value="University2">Anna University</option>
-            <option value="University3">MS University</option>
-            <option value="University4">Alagappa University</option>
-            <!-- Add more options as needed -->
-        </select>
-    </div>
-    <div class="col-md-3">
-        <label for="courseFilter">Course</label>
-        <select id="courseFilter" class="form-control">
-            <option value="">All</option>
-            <option value="Course1">BBA</option>
-            <option value="Course2">BCA</option>
-            <option value="Course3">MBA</option>
-            <option value="Course4">MCA</option>
-            <option value="Course5">BSc</option>
-            <!-- Add more options as needed -->
-        </select>
-    </div>
-    <div class="col-md-2">
-        <label for="yearFilter">Year</label>
-        <select id="yearFilter" class="form-control">
-            <option value="">All</option>
-            <option value="1stYear">1st Year</option>
-            <option value="2ndYear">2nd Year</option>
-            <option value="3rdYear">3rd Year</option>
-            <option value="4thYear">4th Year</option>
-            <option value="5thYear">5th Year</option>
-            <!-- Add more options as needed -->
-        </select>
-    </div>
-    <div class="col-md-2 mt-4">
-        <button id="searchButton" class="btn btn-primary">Search</button>
-        </div>  
-    
-</div>
+                        <div class="col-md-3">
+                            <label for="universityFilter">University</label>
+                            <select id="universityFilter" class="form-control">
+                                <option value="">All</option>
+                                <option value="University1">University Of Madras</option>
+                                <option value="University2">Anna University</option>
+                                <option value="University3">MS University</option>
+                                <option value="University4">Alagappa University</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="courseFilter">Course</label>
+                            <select id="courseFilter" class="form-control">
+                                <option value="">All</option>
+                                <option value="Course1">BBA</option>
+                                <option value="Course2">BCA</option>
+                                <option value="Course3">MBA</option>
+                                <option value="Course4">MCA</option>
+                                <option value="Course5">BSc</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="yearFilter">Year</label>
+                            <select id="yearFilter" class="form-control">
+                                <option value="">All</option>
+                                <option value="1stYear">1st Year</option>
+                                <option value="2ndYear">2nd Year</option>
+                                <option value="3rdYear">3rd Year</option>
+                                <option value="4thYear">4th Year</option>
+                                <option value="5thYear">5th Year</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <button id="searchButton" class="btn btn-primary">Search</button>
+                            </div>  
+                        
+                    </div>
 
 
              <?php include("formBookIssue.php");?>
@@ -110,11 +104,11 @@ session_start();
                     <thead>
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Student Roll NO</th>
                                     <th scope="col">Student Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Year</th>
-                                    <th scope="col">Book</th>
+                                    <!-- <th scope="col">Course</th>
+                                    <th scope="col">Year</th> -->
+                                    <th scope="col">Book Receive</th>
+                                    <th scope="col">Book Issue</th>
                                     <th scope="col">ID Card</th>
                                     <th scope="col">Contact</th>
                                     <th scope="col">Action</th>
@@ -123,30 +117,32 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
+
+                    <?php 
+                    $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['stu_id'];  $name = $row['stu_name']; 
+                        $bookRes = $row['book_received']; 
+                        $idCard = $row['book_id_card']; $contact = $row['stu_phone']; 
+                        ?>
+
                      <tr>
                      
-                     <td>1</td>
-                        <td>CS705654</td>
-                        <td>Vasanth</td>
-                        <td>MCA</td>
-                        <td>1 st Year</td>
-                        <td>Received</td>
-                        <td>Not Received</td>
-                        <td>987456320</td>
+                        <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $name; ?></td>
+                        <td><?php echo $bookRes; ?></td>
+                        <td></td>
+                        <td><?php echo $idCard; ?></td>
+                        <td><?php echo $contact; ?></td>
                     
                     
                         <td>
-                        <?php if ($user_role == 'Admin') { ?>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <?php } else { ?>
-                              <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                           <?php } ?>
                         </td>
                       </tr>
-                        
+                      <?php 
+                    }
+                     ?>
                     </tbody>
                   </table>
 
@@ -193,6 +189,9 @@ session_start();
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+  <!--  Select2 Plugin Js -->
+  <script src="assets/vendor/select2/js/select2.min.js"></script>
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>

@@ -14,59 +14,71 @@
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="medium" class="form-label"><b>Student Name</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Student Name" name="course" id="course" required="required">
+                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Vasanth" name="course" id="course" required="required" disabled>
                                 </div>
                             </div>
 
-                        <div class="col-sm-12">
-                <div class="form-group pb-1">
-                    <label for="subjects" class="form-label"><b>Subjects</b></label>
-                    <select class="form-control" name="subjects[]" id="subjects" multiple required>
-                        <option value="Math">Math</option>
-                        <option value="Science">Science</option>
-                        <option value="History">History</option>
-                        <option value="English">English</option>
-                        <option value="Computer Science">Computer Science</option>
-                        <!-- Add more subjects as needed -->
-                    </select>
-                </div>
-            </div>
-
-
-                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
                                             <div class="form-group pb-1">
-                                         <label class="form-label"><b>ID Card</b></label><br>
-                                                <div class="row">
-                                                 <div class="col-sm-4 ">
-                                                  <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="idCard" id="notIssue" value="notIssue" checked required>
-                                                 <label class="form-check-label" for="notIssue">
-                                                 Not Issue
-                                                 </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="idCard" id="Issue" value="Issue" required>
-                                                    <label class="form-check-label" for="Issue">
-                                                    Issue
-                                                    </label>
+                                                <label class="form-label"><b>Book and ID from University</b></label><br>
+                                                        <div class="row">
+                                                        <div class="col-sm-4 ">
+                                                        <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="bookReceived" id="bookNotReceived" value="Not Received" checked required>
+                                                        <label class="form-check-label" for="bookNotReceived">
+                                                        Not Received
+                                                        </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="bookReceived" id="bookReceived" value="Received" required>
+                                                            <label class="form-check-label" for="bookReceived">
+                                                            Received
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    </div>
+
+                                        <div class="col-lg-12">
+                                            <label for="bookIssue" class="form-label"><b>Issued Book List</b></label>
+                                            <select class="select2 form-control select2-multiple" name="bookIssue" id="bookIssue" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                                        <option value="Math">Math</option>
+                                                        <option value="Science">Science</option>
+                                                        <option value="History">History</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Computer Science">Computer Science</option>
+                                                
+                                            </select>
+                                        </div> <!-- end col -->
 
 
-                        
-                          
-                            
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Date</b></label>
-                                    <input type="date" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter In-Stock Date" name="course" id="course" required="required">
-                                </div>
-                            </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group pb-1">
+                                                <label class="form-label"><b>ID Card</b></label><br>
+                                                        <div class="row">
+                                                        <div class="col-sm-4 ">
+                                                        <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="idCard" id="notIssue" value="Not Issued" checked required>
+                                                        <label class="form-check-label" for="notIssue">
+                                                        Not Issued
+                                                        </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="idCard" id="Issue" value="Issued" required>
+                                                            <label class="form-check-label" for="Issue">
+                                                            Issued
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
