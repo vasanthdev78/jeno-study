@@ -8,7 +8,7 @@ $enquiry_result = enquiryTable();
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include("head2.php"); ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
@@ -79,7 +79,7 @@ $enquiry_result = enquiryTable();
              
              
              
-             <table id="example" class="display" style="width:100%">
+             <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
