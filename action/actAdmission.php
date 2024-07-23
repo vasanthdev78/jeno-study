@@ -18,6 +18,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $medium = $_POST['medium'];
     $academicYear = $_POST['academicYear'];
     $applicationNo = $_POST['applicationNo'];
+    $stuYear = "1st year";
     $yearType = $_POST['yearType'];
     $language = $_POST['language'];
     $digilocker = $_POST['digilocker'];
@@ -93,7 +94,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     }
 
     $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_study_year`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '1 st year', '$academicYear', '$enroll', '$createdBy')";
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$stuYear', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -247,6 +248,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     $university = $_POST['universityEdit'];
     $courseName = $_POST['courseNameEdit'];
     $medium = $_POST['mediumEdit'];
+    $stuYear = "1st year";
     $yearType = $_POST['yearTypeEdit'];
     $language = $_POST['languageEdit'];
     $digilocker = $_POST['digilockerEdit'];
@@ -341,7 +343,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
             a.stu_uni_id = '$university', 
             a.stu_cou_id = '$courseName', 
             a.stu_medium_id = '$medium', 
-            a.stu_study_year = '1 st year', 
+            a.stu_study_year = '$stuYear', 
             a.stu_enroll = '$enroll', 
             a.stu_updated_by = '$updatedBy',
             
