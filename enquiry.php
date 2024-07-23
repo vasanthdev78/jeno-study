@@ -62,18 +62,25 @@ $enquiry_result = enquiryTable();
                     </div>
 
                     <div class="row mb-3">
-                    <div class="col-md-5">
-                        <label for="universityFilter">University</label>
-                        <select id="universityFilter" class="form-control">
-                            <option value="">All</option>
-                            <option value="University1">University Of Madras</option>
-                            <option value="University2">Anna University</option>
-                            <option value="University3">MS University</option>
-                            <option value="University4">Alagappa University</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>                 
-                </div>
+                   <div class="col-md-5">
+                   <label for="universityFilter">University</label>
+                  <select id="universityFilter" class="form-control">
+                <option value="">--All University--</option>
+                                        <?php 
+                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                     while ($row = $university_result->fetch_assoc()) {
+                                     $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+            <!-- Add more options as needed -->
+        </select>
+    </div>                 
+    </div>
 
              
              
@@ -82,13 +89,13 @@ $enquiry_result = enquiryTable();
              <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">University</th>
-                                    <th scope="col">Course</th>                                    
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Status</th> 
-                                    <th scope="col">Action</th>
+                        <th scope="col-1">S.No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">University</th>
+                        <th scope="col">Course</th>                                    
+                        <th scope="col">Contact No</th>
+                        <th scope="col">Status</th> 
+                        <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
@@ -108,7 +115,7 @@ $enquiry_result = enquiryTable();
                      <tr>
                         <td><?php echo $i ; $i++ ?></td>
                         <td><?php echo $row['enq_stu_name'] ?></td>
-                        <td><?php echo $row['enq_uni_id'] ?></td>
+                        <td><?php echo  universityName($row['enq_uni_id']) ?></td>
                         <td><?php echo $row['enq_cou_id'] ?></td>
                         <td><?php echo $row['enq_mobile'] ?></td>
                         <td><?php echo $row['enq_adminsion_status'] ?></td>
@@ -187,13 +194,25 @@ $enquiry_result = enquiryTable();
 
     <script>
 
-        $(document).ready(function() {
-            $('#example').DataTable({
+            $(document).ready(function() {
+            var table = $('#example').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
+
+        // Event listener for the university filter dropdown
+        $('#universityFilter').on('change', function() {
+            var selectedUniversity = $(this).val();
+            if (selectedUniversity) {
+                table.column(2).search(selectedUniversity).draw();
+            } else {
+                table.column(2).search('').draw();
+            }
+        });
+
+
         });
 
         $('#addEnquiryBtn').click(function() {

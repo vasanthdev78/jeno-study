@@ -1,21 +1,14 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include("class.php");
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+    
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include("head2.php"); ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
@@ -55,13 +48,8 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <div class="page-title-right">
-                                    <div class="d-flex flex-wrap gap-2">
-                                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
-                                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
-                                    </div>
-                                </div>
-                                <h4 class="page-title">Student</h4> 
+                               
+                                <h4 class="page-title">Income Report</h4> 
                                 <div class="row mt-3 mb-3">
                         <div class="col-md-3">
                             <label for="startDate" class="form-label">Start Date:</label>
@@ -75,12 +63,18 @@ session_start();
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="university" id="university" required="required">
-                                        <option value="">--Select the University--</option>
-                                        <option value="MS">MS University</option>
-                                        <option value="Anna">Anna University</option>
-                                        <option value="Alagappa">Alagappa University</option>
-                                        <option value="UM">University Of Madras</option>
-                                        <option value="SC">Study Center</option>
+                                    <option value="All">--All University--</option>
+                                        <?php 
+                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                     while ($row = $university_result->fetch_assoc()) {
+                                     $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -93,15 +87,15 @@ session_start();
                         </div>
                     </div>
              
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+             <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Paid Date</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">University</th>
                                     <th scope="col">Amount</th>
-                                    <th scope="col">Method</th>
-                                    <th scope="col">Transaction Id</th> 
+                                    
                                     
                                     
                       </tr>
@@ -113,43 +107,20 @@ session_start();
                     //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
                     //     $name=$fname.' '.$lname;
                         ?>
-                     <tr>
-                        <td>1</td>
-                        <td>9-7-2024</td>
-                        <td>Admision</td>
-                        <td>50000</td>
-                        <td>Online</td>
-                        <td>TIS465768754</td>
-                                            
-                      </tr>
-
-                      <tr>
-                        <td>2</td>
-                        <td>9-7-2024</td>
-                        <td>Admision</td>
-                        <td>30000</td>
-                        <td>Online</td>
-                        <td>TIS465768754</td>
-                    
-                       
-                      </tr>
-
-                      <tr>
-                        <td>1</td>
-                        <td>9-7-2024</td>
-                        <td>Admision</td>
-                        <td>40000</td>
-                        <td>Cash</td>
-                        <td>TIS465768754</td>
-                        
-                      </tr>
-
-
+ 
 
                       <?php 
                     // }
                      ?>
-                        
+            <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Total:</th>
+            <th></th>
+        </tr>
+    </tfoot>
                     </tbody>
                   </table>
 
@@ -197,6 +168,16 @@ session_start();
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
+    <!--   pdf and excel print  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
@@ -205,6 +186,86 @@ session_start();
 
     <!-------Start Add Student--->
     <script>
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copy',
+                footer: true
+            },
+            {
+                extend: 'csv',
+                footer: true
+            },
+            {
+                extend: 'excel',
+                footer: true
+            },
+            {
+                extend: 'pdf',
+                footer: true
+            },
+            {
+                extend: 'print',
+                footer: true
+            }
+        ],
+        footerCallback: function(row, data, start, end, display) {
+            var api = this.api();
+            
+            // Calculate the total for the "Amount" column (index 4)
+            var total = api.column(4, { page: 'current' }).data().reduce(function(a, b) {
+                return parseFloat(a) + parseFloat(b);
+            }, 0);
+
+            // Update the footer with the total for the "Amount" column only
+            $(api.column(4).footer()).html(total.toFixed(2));
+        }
+    });
+
+    $('#searchBtn').on('click', function() {
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        var university = $('#university').val();
+
+        $.ajax({
+            url: 'action/actIncome.php',
+            method: 'POST',
+            data: {
+                startDate: startDate,
+                endDate: endDate,
+                university: university
+            },
+            dataType: 'json',
+            success: function(response) {
+                updateTable(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', status, error);
+            }
+        });
+    });
+
+    function updateTable(data) {
+        var table = $('#example').DataTable();
+        table.clear(); // Clear existing data
+
+        data.forEach(function(row, index) {
+            table.row.add([
+                index + 1,
+                row.fee_paid_date,
+                row.description,
+                row.uni_name,
+                row.fee_sty_fee
+            ]);
+        });
+
+        table.draw();
+    }
+});
+
 
 $(document).ready(function () {
   $('#addStudentBtn').click(function () {

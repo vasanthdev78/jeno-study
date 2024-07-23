@@ -1,102 +1,171 @@
 <?php
-include "../class.php";
-require '../vendor/autoload.php'; // Ensure this path is correct
+include "class.php";
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Font;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+$id = $_GET['empId'];
+//$id = 4;
 
-if (isset($_GET['payment_id'])) {
-    $payment_id = $_GET['payment_id'];
+$select_sql = "SELECT * FROM `invoice` WHERE inv_id = $id";
 
-    $sql = "SELECT * FROM jeno_payment_history WHERE pay_id = '$payment_id'";
-    $result = $conn->query($sql);
+$result = $conn->query($select_sql);
 
-    if ($result->num_rows > 0) {
-        $payment = $result->fetch_assoc();
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while ($row = $result->fetch_assoc()) {
+        //echo "ID: " . $row["inv_id"] . " - JSON Data: " . $row["invoice_dateile"] . "<br>";
+        $formData = json_decode($row["invoice_dateile"], true);
+        //echo $formData["Amount"];
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
 
-        // Create a new Spreadsheet object
-        $spreadsheet = new Spreadsheet();
+// Include the FPDF library
+require('./fpdf186/fpdf.php');
 
-        // Set document properties
-        $spreadsheet->getProperties()->setCreator('Your Name')
-            ->setTitle('Payment Details')
-            ->setDescription('Payment details for student');
+// Create a class extending FPDF
+class PDF extends FPDF
+{
+    // Header
+    function Header()
+    {
+        // Set font to Arial bold 15
+        $this->SetFont('Arial', 'B', 20);
 
-        // Add some data
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Payment ID');
-        $sheet->setCellValue('B1', $payment['pay_id']);
-        $sheet->setCellValue('A2', 'Student Name');
-        $sheet->setCellValue('B2', $payment['pay_student_name']);
-        $sheet->setCellValue('A3', 'Admission ID');
-        $sheet->setCellValue('B3', $payment['pay_admission_id']);
-        $sheet->setCellValue('A4', 'Year');
-        $sheet->setCellValue('B4', $payment['pay_year']);
-        $sheet->setCellValue('A5', 'Paid Method');
-        $sheet->setCellValue('B5', $payment['pay_paid_method']);
-        $sheet->setCellValue('A6', 'Total Amount');
-        $sheet->setCellValue('B6', $payment['pay_total_amount']);
-        $sheet->setCellValue('A7', 'Date');
-        $sheet->setCellValue('B7', $payment['pay_date']);
+        // Title
+        $this->Cell(0, 10, 'Invoice', 0, 1, 'C');
+        $this->Ln(5);
 
-        // Apply bold style to "Total Amount"
-        $sheet->getStyle('A6')->getFont()->setBold(true);
-        $sheet->getStyle('B6')->getFont()->setBold(true);
+        // Move to the right
+        $this->Cell(70);
 
-        // Increase the font size for the entire sheet
-        $sheet->getStyle('A1:B7')->getFont()->setSize(12);
+        // Left logo
+        $this->Image('./image/logo.png', 10, 4, 50); // Adjust the path and size as needed
 
-        // Set alignment for all cells
-        $sheet->getStyle('A1:B7')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-        $sheet->getStyle('A1:B7')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        
+        // Company name
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, 'RORIRI SOFTWARE SOLUTIONS PRIVATE LIMITED', 0, 1, 'R');
+        
 
-        // Adjust column widths
-        foreach (range('A', 'B') as $columnID) {
-            $sheet->getColumnDimension($columnID)->setAutoSize(true);
-        }
-
-        // Add some space below "Total Amount"
-        $sheet->setCellValue('A8', '');
-        $sheet->setCellValue('B8', '');
-
-        // Page setup for printing
-        $sheet->getPageSetup()
-            ->setOrientation(PageSetup::ORIENTATION_PORTRAIT)
-            ->setPaperSize(PageSetup::PAPERSIZE_A4)
-            ->setFitToWidth(1)
-            ->setFitToHeight(0);
-
-        $sheet->getPageMargins()->setTop(0.75);
-        $sheet->getPageMargins()->setRight(0.7);
-        $sheet->getPageMargins()->setLeft(0.7);
-        $sheet->getPageMargins()->setBottom(0.75);
-
-        // Center the sheet when printing
-        $sheet->getPageSetup()->setHorizontalCentered(true);
-        $sheet->getPageSetup()->setVerticalCentered(false);
-
-        // Write the file
-        $writer = new Xlsx($spreadsheet);
-        $filePath = 'payment_details_' . $payment_id . '.xlsx';
-        $writer->save($filePath);
-
-        // Serve the file to the user for download
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
-        header('Cache-Control: max-age=0');
-        readfile($filePath);
-
-        // Delete the file after serving it to the user
-        unlink($filePath);
-    } else {
-        echo "No payment details found for the provided payment ID.";
+        // Address
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(0, 10, 'RORIRI IT PARK, NALLANATHAPURAM, Kalakkad, Keela Karuvelankulam, Tamil Nadu 627502', 0, 1, 'R');
+        $this->Cell(0, 6, 'GST No: 33AANCR0590E1ZG', 0, 1,'R');
+        // Line break
+        $this->Ln(10);
     }
 
-    $conn->close();
-} else {
-    echo "No payment ID provided.";
+    // Footer
+        function Footer()
+        {
+            $this->SetY(-70);
+            $this->SetFont('Arial', 'B', 12);
+            $this->Cell(0,8,"Bank :Indian Overseas Bank",0,0,"L");
+            $this->SetFont('Arial', 'B', 12);
+            $this->Image('./image/seal.png', 90, 190, 45);
+            $this->Image('./image/sign.png', 150, 193, 40);
+            $this->Cell(0,10,"Authorized Signature",0,1,"R");
+            $this->SetFont('Arial', '', 12);
+            $this->Cell(0,8,"Account Name : RORIRI SOFTWARE SOLUTIONS PVT. LTD. ",0,1,"L");
+            $this->Cell(0,8,"Account No.     : 515707989",0,1,"L");
+            $this->Cell(0,8,"IFSC Code       : IOBA0001383",0,0,"l");
+            $this->Ln(10);
+            $this->Cell(0,10,"",'B',1);
+            $this->Ln(10); // Adjust the line height as needed
+            $this->SetY(-25);
+            $this->SetFont('Arial', '', 10);
+            $this->Cell(0,10,"Mobile : 7845593579  || email : contact@roririsoft.com   ",0,1,"c");
+            $this->SetY(-23);
+            $this->Cell(0,6,"Thankyou from Roriri Software Solutions PVT. LTD.",0,1,"R");
+            
+            // Position at 1.5 cm from bottom
+            $this->SetY(-15);
+            // Arial italic 8
+            $this->SetFont('Arial', 'I', 8);
+            // Page number
+            $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        }
+    }
+
+// Create a new PDF instance
+$pdf = new PDF();
+$pdf->AliasNbPages();
+$pdf->AddPage();
+
+// Set font for the document
+$pdf->SetFont('Arial', '', 12);
+
+// Add invoice content
+$pdf->Cell(0, 10, 'Name: '.$formData["Name"], 'T', 0,'L');
+$pdf->Cell(0, 10, 'Date: ' . date('Y-m-d'), 'T', 1,'R');
+$pdf->Cell(0, 10, 'Invoice Number: INV-00'.$id, 0, 0,'L');
+$pdf->Cell(0, 10, 'GST No:'.$formData["gstno"], 0, 1,'R');
+$pdf->MultiCell(0, 10, 'Address: ' . $formData["Address"], 'B', 'L');
+$pdf->Ln(); // Move to the next line
+
+// Add item details to the table
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(50, 10, 'Description', 1, 0, 'C'); 
+$pdf->Cell(30, 10, 'HSN Code', 1, 0, 'C');// Changed alignment to center
+$pdf->Cell(30, 10, 'Quantity', 1, 0, 'C'); // Adjusted width and changed alignment to center
+$pdf->Cell(40, 10, 'Unit Price', 1, 0, 'C'); // Adjusted width and changed alignment to center
+$pdf->Cell(40, 10, 'Total Price', 1, 1, 'C'); // Adjusted width and changed alignment to center
+$pdf->SetFont('Arial', '', 10);
+$Amount = $formData['Amount'];
+
+// Loop through each item detail
+for ($i = 0; $i < count($formData['Particulars']); $i++) { 
+    // Fetch item details
+    $Technologies = $formData['Technologies'][$i];
+    $ssncode = $formData['ssncode'][$i];
+    $Particulars = $formData['Particulars'][$i];
+    $Amount = $formData['Amount'][$i];
+    
+    $pdf->Cell(50, 8, $Technologies, 1);
+    $pdf->Cell(30, 8, $ssncode, 1); 
+    $pdf->Cell(30, 8, $Particulars, 1,0,'R'); 
+    $pdf->Cell(40, 8, $Amount, 1,0,'R');  
+    $totalAmt =$Particulars * $Amount ;
+    $pdf->Cell(40, 8, $totalAmt, 1, 0,'R'); // Border on the left and right sides
+
+    $pdf->Ln();
+    // Move to the next line for the next row
 }
+
+
+$total = $totalAmt; // Calculate total by summing all amounts
+$gst = $formData['gst'];
+if ($gst == 'IGST') {
+    $taxRate = 0.18; // IGST rate is 18%
+} else {
+    // Assuming SGST and CGST are applied, each at 9%
+    $taxRate = 0.09;
+}
+$tax = $total * $taxRate;
+$grandTotal = $total + $tax;
+
+// Add subtotal, tax, and grand total to the table
+
+$pdf->Cell(150, 10, 'Subtotal:', 1, 0, 'R'); // Adjusted alignment to right
+$pdf->Cell(40, 10, '$' . $total, 1, 1, 'R'); // Adjusted alignment to right and added line break
+
+if($gst == 'IGST'){
+$pdf->Cell(150, 10, 'IGST (' . ($taxRate * 100) . '%):', 1, 0, 'R'); // Adjusted alignment to right
+$pdf->Cell(40, 10, '$' . $tax, 1, 1, 'R'); // Adjusted alignment to right and added line break
+}else{
+$pdf->Cell(150, 10, 'CGST (' . ($taxRate * 100) . '%):', 1, 0, 'R'); // Adjusted alignment to right
+$pdf->Cell(40, 10, '$' . $tax, 1, 1, 'R'); // Adjusted alignment to right and added line break
+
+$pdf->Cell(150, 10, 'SGST (' . ($taxRate * 100) . '%):', 1, 0, 'R'); // Adjusted alignment to right
+$pdf->Cell(40, 10, '$' . $tax, 1, 1, 'R'); // Adjusted alignment to right and added line break
+}
+
+$pdf->Cell(150, 10, 'Grand Total:', 1, 0, 'R'); // Adjusted alignment to right
+$pdf->Cell(40, 10, '$' . $grandTotal, 1, 1, 'R'); // Adjusted alignment to right and added line break
+
+// No need to specify the file path
+$pdf->Output("RoririInvoice.pdf", 'D'); // Force download the PDF
+//echo "PDF invoice created successfully.";
 ?>
