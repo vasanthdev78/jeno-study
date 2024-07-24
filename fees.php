@@ -149,9 +149,24 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+$(document).ready(function() {
+    
+
+    // function goDownload(id) {
+    //     alert(id);
+    //     window.location.href = "action/actDownload.php?payment_id="+id;
+    // }
+});
+</script>
 
     <script>
+
+
     $(document).ready(function() {
+    
+
+
         function calculateTotalAndBalance() {
             var universityPaid = parseFloat($('#universityPaid').val()) || 0;
             var studyPaid = parseFloat($('#studyPaid').val()) || 0;
@@ -169,9 +184,7 @@ session_start();
 
 <script>
 
-function gotoDetailPayment(paymentId) {
-    window.location.href = 'action/actDownload.php?payment_id=' + paymentId;
-}
+    
 
 $('#addCourseBtn').click(function() {
 
@@ -224,19 +237,21 @@ function goViewPayment(studentId) {
          
           console.log(response.hostory_table);
 
-          response.hostory_table.forEach(function(payment, index) {
-                    html += '<tr>';
-                    html += '<td>' + (index + 1) + '</td>'; // S.No.
-                    html += '<td>' + payment.pay_date + '</td>'; // Payment Date
-                    html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
-                    html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
-                    html += '<td>';
-                    html += '<button class="btn btn-circle btn-success text-white gap-3" onclick="gotoDetailPayment(' + payment.pay_id + ')"><i class="bi bi-arrow-down-circle"></i> </button>';
-                    html += '<?php if ($user_role == 'Admin') {?><button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i> </button><?php } ?>';
-                    html += '</td>'; 
-                    html += '</tr>';
-                });
+        response.hostory_table.forEach(function(payment, index) {
+    html += '<tr>';
+    html += '<td>' + (index + 1) + '</td>'; // S.No.
+    html += '<td>' + payment.pay_date + '</td>'; // Payment Date
+    html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
+    html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
+    html += '<td>';
+    html += '<a href="action/actDownload.php?payment_id='+ payment.pay_id +'"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
+    <?php if ($user_role == 'Admin') { ?>
+        html += '<button class="btn btn-circle btn-danger text-white gap-3" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i> </button>';
+    <?php } ?>
 
+    html += '</td>';
+    html += '</tr>';
+       });
                 $('#paymentHistoryBody').html(html); // Append HTML to table body
 
                 // Initialize DataTable
