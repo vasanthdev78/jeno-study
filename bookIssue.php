@@ -120,7 +120,7 @@ session_start();
 
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $name = $row['stu_name']; 
+                        $id = $row['book_id'];  $name = $row['stu_name']; 
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; $contact = $row['stu_phone']; 
                         ?>
@@ -136,7 +136,7 @@ session_start();
                     
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditBook(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
                       </tr>
@@ -199,314 +199,54 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
     
-  
-    <!-------Start Add Student--->
-    <!-- <script>
-
-$(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
-
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
-
-  
-  $('#addStudent').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
-
-    var formData = new FormData(this);
+    <script>
+    function goEditAdmission(editId) { 
     $.ajax({
-      url: "action/actStudent.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
-        }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Student data.'
-        });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
-    });
-  });
-});
-
-
-//Edit Student Ajax
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
-                            });
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Edit student data.'
-                });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
-            }
-        });
-    });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
-    });
-
-
-
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
-{ 
-      $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actBook.php',
         method: 'POST',
-        data: {
-          editId: editId
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-    
-}
-
-
-function goDeleteStudent(id)
-{
-    //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
-    {
-      $.ajax({
-        url: 'action/actStudent.php',
-        method: 'POST',
-        data: {
-          deleteId: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                                });
-                            });
-         
-
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-    }
-}
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
-
-function goDocStu(id) 
-  
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
+        data: { editId: editId },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
+            // Set the values for the fields
+            // $('#admissionId').val(response.stuId);
+            // $('#stuNameEdit').val(response.name);
+            // $('#mobileNoEdit').val(response.phone);
+            // $('#emailEdit').val(response.email);
+            // $('#universityEdit').val(response.uni_id).trigger('change'); // Trigger change to populate courses
+
+            // // Delay setting course and language values to ensure dropdowns are populated
+            // setTimeout(function() {
+            //     $('#courseNameEdit').val(response.cou_id).trigger('change'); // Trigger change to populate electives
+
+            //     setTimeout(function() {
+            //         $('#languageEdit').val(response.language); // Set after triggering change for courses
+            //     }, 10); // Adjust timeout if necessary
+                
+            //     $('#mediumEdit').val(response.medium_id);
+            //     $('#yearTypeEdit').val(response.year_type);
+            //     $('#digilockerEdit').val(response.digilocker);
+            //     $('#admitDateEdit').val(response.admit_date);
+            //     $('#dobEdit').val(response.dob);
+            //     $('#genderEdit').val(response.gender);
+            //     $('#addressEdit').val(response.address);
+            //     $('#pincodeEdit').val(response.pincode);
+            //     $('#fathernameEdit').val(response.father_name);
+            //     $('#mothernameEdit').val(response.mother_name);
+            //     $('#aadharNumberEdit').val(response.aadhar_no);
+            //     $('#nationalityEdit').val(response.nationality);
+            //     $('#motherTongueEdit').val(response.mother_tongue);
+            //     $('#religionEdit').val(response.religion);
+            //     $('#casteEdit').val(response.caste);
+            //     $('#communityEdit').val(response.community);
+            //     $('#maritalEdit').val(response.marital_status);
+            //     $('#employedEdit').val(response.employed);
+            //     $('#qualificationEdit').val(response.qualification);
+            //     $('#previousEdit').val(response.institute);
+            //     $('#completedEdit').val(response.comp_year);
+            //     $('#studyEdit').val(response.study_field);
+            //     $('#gradeEdit').val(response.grade);
+            //     $('#enrollEdit').val(response.enroll);
+            // }, 10   ); // Adjust timeout if necessary
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -514,9 +254,7 @@ function goDocStu(id)
         }
     });
 }
-</script> -->
-
-    
+</script>
 
 </body>
 
