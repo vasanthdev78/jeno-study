@@ -1,15 +1,7 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+
     
 ?>
 <!DOCTYPE html>
