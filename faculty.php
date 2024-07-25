@@ -1,7 +1,8 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-
+    $selQuery = "SELECT a.*, b.* FROM `jeno_faculty` AS a LEFT JOIN `jeno_course` AS b ON a.fac_cou_id = b.cou_id WHERE a.fac_status = 'Active'";
+    $resQuery = mysqli_query($conn , $selQuery);
     
 ?>
 <!DOCTYPE html>
@@ -30,10 +31,11 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
+
+            <?php include "formFaculty.php";?> <!---add formFaculty popup--->
 
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="FacContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -54,20 +56,17 @@ session_start();
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Faculies</h4>   
+                                <h4 class="page-title">Faculties</h4>   
                             </div>
                         </div>
                     </div>
-
-             <?php include("formFaculty.php");?> <!---add formFaculty popup--->
-             
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Faculty Name</th>
-                                    <th scope="col">Designation</th>
+                                    <th scope="col">Qualification</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Contact</th> 
@@ -77,83 +76,27 @@ session_start();
                     </thead>
                     <tbody>
                     <?php 
-                    // $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
+                        $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['fac_id'];  $name = $row['fac_name']; 
+                        $qualification = $row['fac_qualification'];   $cou_name=$row['cou_name'];  
+                        $email = $row['fac_email'];  $mobile  = $row['fac_mobile']; 
                         ?>
                      <tr>
-                     <td>1</td>
-                        <td>Vasanth</td>
-                        <td>trainer</td>
-                        <td>B.litt</td>
-                        <td>vasanth@gmail.com</td>
-                        <td>9894688091</td>
-                        
+                        <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $name; ?></td>
+                        <td><?php echo $qualification; ?></td>
+                        <td><?php echo $cou_name; ?></td>
+                        <td><?php echo $email; ?></td>
+                        <td><?php echo $mobile; ?></td>
       
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editaddFacultyModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                      <td>2</td>
-                        <td>Sankar</td>
-                        <td>trainer</td>
-                        <td>B.litt</td>
-                        <td>vasanth@gmail.com</td>
-                        <td>9894688091</td>
-                        
-      
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editaddFacultyModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                            
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                      <td>3</td>
-                        <td>Raj</td>
-                        <td>trainer</td>
-                        <td>B.litt</td>
-                        <td>vasanth@gmail.com</td>
-                        <td>9894688091</td>
-                        
-      
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editaddFacultyModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                          
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                      <td>4</td>
-                        <td>muthu</td>
-                        <td>trainer</td>
-                        <td>B.litt</td>
-                        <td>vasanth@gmail.com</td>
-                        <td>9894688091</td>
-                        
-      
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editaddFacultyModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php  $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditFaculty(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFacultyModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewFaculty(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteFaculty(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
                       <?php
-                    //  }
+                     }
                       ?>
                         
                     </tbody>
@@ -213,22 +156,36 @@ session_start();
     <script>
 
 $(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
+
+  $('#addFacultytBtn').click(function() {
+
+  $('#addFaculty').removeClass('was-validated');
+  $('#addFaculty').addClass('needs-validation');
+  $('#addFaculty')[0].reset(); // Reset the form
+
   });
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
-
+  $('#backButton').click(function() {
+    $('#facultyView').addClass('d-none');
+    $('#FacContent').show();
+  });
   
-  $('#addStudent').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
 
-    var formData = new FormData(this);
+  $('#addFaculty').off('submit').on('submit', function(e) {
+
+    e.preventDefault(); 
+
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+
     $.ajax({
-      url: "action/actStudent.php",
+      url: "action/actFaculty.php",
       method: 'POST',
       data: formData,
       contentType: false,
@@ -244,8 +201,7 @@ function resetForm(formId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
+            $('#addFacultyfModal').modal('hide');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -269,167 +225,43 @@ function resetForm(formId) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'An error occurred while adding Student data.'
+          text: 'An error occurred while adding Faculty data.'
         });
         // Re-enable the submit button on error
         $('#submitBtn').prop('disabled', false);
       }
     });
   });
+
+
 });
 
-
-//Edit Student Ajax
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
-                            });
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Edit student data.'
-                });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
-            }
-        });
-    });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
-    });
-
-
-
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
+function goEditFaculty(editId)
 { 
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actFaculty.php',
         method: 'POST',
         data: {
           editId: editId
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
 
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
+          $('#editFaculty').removeClass('was-validated');
+          $('#editFaculty').addClass('needs-validation');
+          $('#editFaculty')[0].reset(); // Reset the form
+
+          $('#facultyId').val(response.facId);
+          $('#staffNameEdit').val(response.name);
+          $('#genderEdit').val(response.gender);
+          $('#mobileEdit').val(response.mobile);
+          $('#emailEdit').val(response.email);
+          $('#addressEdit').val(response.address);
+          $('#dateofjoinEdit').val(response.date_of_join);
+          $('#salaryEdit').val(response.salary);
+          $('#qualificationEdit').val(response.qualification);
+          $('#clgNameEdit').val(response.clg);
+          $('#courseEdit').val(response.cou_id);
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -439,14 +271,54 @@ $('#docStudent').off('submit').on('submit', function(e) {
     
 }
 
-
-function goDeleteStudent(id)
+function goViewFaculty(id)
 {
-    //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    $.ajax({
+        url: 'action/actFaculty.php',
+        method: 'POST',
+        data: {
+            id: id
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+          
+          $('#FacContent').hide();
+          $('#facultyView').removeClass('d-none');
+        
+          $('#staffNameView').text(response.nameView);
+          $('#mobileView').text(response.mobileView);
+          $('#emailView').text(response.emailView);
+          $('#addressView').text(response.addressView);
+          $('#genderView').text(response.genderView);
+          $('#qualificationView').text(response.qualificationView);
+          $('#salaryView').text(response.salaryView);
+          $('#dateofjoinView').text(response.date_of_joinView);
+          $('#clgnameView').text(response.clgView);
+          $('#courseView').text(response.cou_nameView);
+
+          var aadharImageUrl = 'assets/images/faculty/' + response.aadharView;
+
+            // Create a link for the Aadhar card
+            $('#aadharView')
+                .attr('href', aadharImageUrl)
+                .attr('target', '_blank')
+                .text('View Aadhar Card');
+
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
+
+
+function goDeleteFaculty(id)
+{
+    if(confirm("Are you sure you want to delete Faculty?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actFaculty.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -473,57 +345,76 @@ function goDeleteStudent(id)
     });
     }
 }
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
 
-function goDocStu(id) 
-  
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
+
+document.addEventListener('DOMContentLoaded', function() {
+    $('#editFaculty').off('submit').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+        $.ajax({
+            url: "action/actFaculty.php",
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success response
+                
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    }).then(function() {
+                      $('#editFacultyModal').modal('hide'); // Close the modal
+                        
+                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                   "paging": true, // Enable pagination
+                                   "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                               });
+                            });
+                      });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Edit Faculty data.'
+                });
+                // Re-enable the submit button on error
+                $('#updateBtn').prop('disabled', false);
+            }
+        });
     });
-}
-</script>
+});
+
+
+ </script>
 
     
 

@@ -4,10 +4,9 @@ session_start();
 
 $userId = $_SESSION['userId'];
 
-// Handle adding a client
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST['staffName'] != '') {
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POST['staffName'] != '') {
 
-    $targetDir = "../assets/images/staff/";
+    $targetDir = "../assets/images/faculty/";
 
     if (!empty($_FILES["aadhar"]["name"])) {
         $fileName = $_FILES["aadhar"]["name"];
@@ -33,72 +32,58 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     }
 
     $name = $_POST['staffName'];
-    $dob = $_POST['dob'];
     $gender = $_POST['gender'];
     $mobile = $_POST['mobile'];
     $dateofjoin = $_POST['dateofjoin'];
     $salary = $_POST['salary'];
-    $role = $_POST['designation'];
+    $qualification = $_POST['qualification'];
     $email = $_POST['email'];
     $address = $_POST['address'];
     $aadhar = $newFileName;
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $clgName = $_POST['clgName'];
+    $course = $_POST['course'];
 
-        // First, insert the username and password into the jeno_user table
-        $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_by) VALUES ('$name', '$username', '$password', 'Staff', '$userId')";
         
-        if ($conn->query($user_insert) === TRUE) {
-            // Get the last inserted ID
-            $last_user_id = $conn->insert_id;
-
-            // Now, insert the remaining data into the jeno_staff table
-            $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_userId, stf_created_by) 
-                VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$aadhar', '$last_user_id', '$userId')";
+            $faculty_insert = "INSERT INTO jeno_faculty (fac_name, fac_gender, fac_mobile, fac_email, fac_address, fac_date_of_join, fac_salary, fac_qualification, fac_clg, fac_aadhar, fac_cou_id, fac_created_by) 
+                VALUES ('$name', '$gender', '$mobile', '$email', '$address', '$dateofjoin', '$salary', '$qualification', '$clgName', '$aadhar', '$course', '$userId')";
             
-            if ($conn->query($staff_insert) === TRUE) {
-                $_SESSION['message'] = "Staff details added successfully!";
+            if ($conn->query($faculty_insert) === TRUE) {
+                $_SESSION['message'] = "Faculty details added successfully!";
                 $response['success'] = true;
-                $response['message'] = "Staff details added successfully!";
+                $response['message'] = "Faculty details added successfully!";
             } else {
-                $response['message'] = "Error: " . $staff_insert . "<br>" . $conn->error;
+                $response['message'] = "Error: " . $faculty_insert . "<br>" . $conn->error;
             }
-        } else {
-            $response['message'] = "Error: " . $user_insert . "<br>" . $conn->error;
-        }
 
     echo json_encode($response);
     exit();
 }
 
 
-
-
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $editId";
+    $selQuery = "SELECT * FROM `jeno_faculty` WHERE fac_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
         
-        $staffDetails = array(
-            'stfId' => $row['stf_id'],
-            'name' => $row['stf_name'],
-            'birth' => $row['stf_birth'],
-            'mobile' => $row['stf_mobile'],
-            'email' => $row['stf_email'],
-            'address' => $row['stf_address'],
-            'gender' => $row['stf_gender'],
-            'role' => $row['stf_role'],
-            'salary' => $row['stf_salary'],
-            'joining_date' => $row['stf_joining_date'],
-            'username' => $row['user_username'],
-            'password' => $row['user_password'],
+        $facultyDetails = array(
+            'facId' => $row['fac_id'],
+            'name' => $row['fac_name'],
+            'gender' => $row['fac_gender'],
+            'mobile' => $row['fac_mobile'],
+            'email' => $row['fac_email'],
+            'address' => $row['fac_address'],
+            'date_of_join' => $row['fac_date_of_join'],
+            'salary' => $row['fac_salary'],
+            'qualification' => $row['fac_qualification'],
+            'clg' => $row['fac_clg'],
+            'cou_id' => $row['fac_cou_id'],
         );
 
-        echo json_encode($staffDetails);
+        echo json_encode($facultyDetails);
     } else {
         $response['message'] = "Error executing query: " . mysqli_error($conn);
         echo json_encode($response);
@@ -107,10 +92,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 }
 
 
-// Handle updating staff details
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['hdnStaffId'] != '') {
+// Handle updating faculty details
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editFaculty' && $_POST['hdnFacultyId'] != '') {
 
-    $targetDir = "../assets/images/staff/";
+    $targetDir = "../assets/images/faculty/";
     $newFileName = '';
 
     if (!empty($_FILES["aadharEdit"]["name"])) {
@@ -136,47 +121,43 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         }
     }
 
+    $facId = $_POST['hdnFacultyId'];
     $name = $_POST['staffNameEdit'];
-    $dob = $_POST['dobEdit'];
     $gender = $_POST['genderEdit'];
     $mobile = $_POST['mobileEdit'];
     $dateofjoin = $_POST['dateofjoinEdit'];
     $salary = $_POST['salaryEdit'];
-    $role = $_POST['designationEdit'];
+    $qualification = $_POST['qualificationEdit'];
     $email = $_POST['emailEdit'];
     $address = $_POST['addressEdit'];
-    $password = $_POST['passwordEdit'];
-    $staffId = $_POST['hdnStaffId']; // Assuming staffId is passed in the form
+    $clgName = $_POST['clgNameEdit'];
+    $course = $_POST['courseEdit'];
 
     // Base query
-    $updateQuery = "UPDATE jeno_user AS u
-    JOIN jeno_staff AS s ON u.user_id = s.stf_userId
+    $updateQuery = "UPDATE jeno_faculty 
     SET 
-        u.user_name = '$name',
-        u.user_password = '$password',
-        u.user_role = 'Staff',
-        u.user_updated_by = '$userId',
-        s.stf_name = '$name',
-        s.stf_birth = '$dob',
-        s.stf_gender = '$gender',
-        s.stf_mobile = '$mobile',
-        s.stf_joining_date = '$dateofjoin',
-        s.stf_salary = '$salary',
-        s.stf_role = '$role',
-        s.stf_email = '$email',
-        s.stf_address = '$address',
-        s.stf_updated_by = '$userId'";
+        fac_name = '$name',
+        fac_gender = '$gender',
+        fac_mobile = '$mobile',
+        fac_date_of_join = '$dateofjoin',
+        fac_salary = '$salary',
+        fac_qualification = '$qualification',
+        fac_email = '$email',
+        fac_address = '$address',
+        fac_clg = '$clgName',
+        fac_cou_id = '$course',
+        fac_updated_by = '$userId'";
 
     if (!empty($newFileName)) {
-        $updateQuery .= ", s.stf_image = '$newFileName'";
+        $updateQuery .= ", fac_aadhar = '$newFileName'";
     }
 
-    $updateQuery .= " WHERE s.stf_id = $staffId";
+    $updateQuery .= " WHERE fac_id = $facId";
 
     if ($conn->query($updateQuery) === TRUE) {
-        $_SESSION['message'] = "Staff details updated successfully!";
+        $_SESSION['message'] = "Faculty details updated successfully!";
         $response['success'] = true;
-        $response['message'] = "Staff details updated successfully!";
+        $response['message'] = "Faculty details updated successfully!";
     } else {
         $response['message'] = "Error: " . $updateQuery . "<br>" . $conn->error;
     }
@@ -185,20 +166,21 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     exit();
 }
 
+
+
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
-    $queryDel = "UPDATE `jeno_staff` AS a 
-                 LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id 
-                 SET a.stf_status = 'Inactive', b.user_status = 'Inactive'
-                 WHERE `stf_id` = $id;";
+    $queryDel = "UPDATE `jeno_faculty` 
+                 SET fac_status = 'Inactive'
+                 WHERE `fac_id` = $id;";
     $reDel = mysqli_query($conn, $queryDel);
 
     if ($reDel) {
-        $_SESSION['message'] = "Staff details have been deleted successfully!";
+        $_SESSION['message'] = "Faculty details have been deleted successfully!";
         $response['success'] = true;
-        $response['message'] = "Staff details have been deleted successfully!";
+        $response['message'] = "Faculty details have been deleted successfully!";
     } else {
-        $_SESSION['message'] = "Unexpected error in deleting Staff details!";
+        $_SESSION['message'] = "Unexpected error in deleting Faculty details!";
         $response['message'] = "Error: " . mysqli_error($conn);
     }
 
@@ -207,10 +189,10 @@ if (isset($_POST['deleteId'])) {
 }
 
 if(isset($_POST['id']) && $_POST['id'] != '') {
-    $staffId = $_POST['id'];
+    $facultyId = $_POST['id'];
 
     // Prepare and execute the SQL query
-    $selQuery1 = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $staffId";
+    $selQuery1 = "SELECT a.*, b.* FROM `jeno_faculty` AS a LEFT JOIN `jeno_course` AS b ON a.fac_cou_id = b.cou_id WHERE a.fac_id = $facultyId";
     
     $result1 = $conn->query($selQuery1);
 
@@ -218,23 +200,23 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
         $row = mysqli_fetch_assoc($result1);
 
     // Prepare university details array
-    $staffDetails = [
+    $facultyDetails1 = [
            
-            'nameView' => $row['stf_name'],
-            'birthView' => $row['stf_birth'],
-            'mobileView' => $row['stf_mobile'],
-            'emailView' => $row['stf_email'],
-            'addressView' => $row['stf_address'],
-            'genderView' => $row['stf_gender'],
-            'roleView' => $row['stf_role'],
-            'salaryView' => $row['stf_salary'],
-            'joining_dateView' => $row['stf_joining_date'], 
-            'aadharView' => $row['stf_image'],
-            'usernameView' => $row['user_username'],
-            'passwordView' => $row['user_password'],
+            'facIdView' => $row['fac_id'],
+            'nameView' => $row['fac_name'],
+            'genderView' => $row['fac_gender'],
+            'mobileView' => $row['fac_mobile'],
+            'emailView' => $row['fac_email'],
+            'addressView' => $row['fac_address'],
+            'date_of_joinView' => $row['fac_date_of_join'],
+            'salaryView' => $row['fac_salary'],
+            'qualificationView' => $row['fac_qualification'],
+            'aadharView' => $row['fac_aadhar'],
+            'clgView' => $row['fac_clg'],
+            'cou_nameView' => $row['cou_name'],
     ];
 
-    echo json_encode($staffDetails);
+    echo json_encode($facultyDetails1);
     exit();
           
     } else {
