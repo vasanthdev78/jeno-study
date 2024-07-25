@@ -311,6 +311,8 @@ function toggleDivs() {
           $('#admissionId').val(response.fee_admision_id);
           $('#studentName').val(response.stu_name);
           $('#year').val(response.stu_study_year);
+          $('#universityFees').text(response.fee_uni_fee_total);
+          $('#studyFees').text(response.fee_sdy_fee_total);
 
           var uni_fee = response.fee_uni_fee_total - response.fee_uni_fee ;
           var sty_fee = response.fee_sdy_fee_total - response.fee_sty_fee ;

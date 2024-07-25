@@ -7,28 +7,36 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a university
-if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFees') {
-    $feesid = $_POST['feesid'];
-    $studentId = $_POST['studentId'];
-    $admissionId = $_POST['admissionId'];
-    $studentName = $_POST['studentName'];
-    $paidMethod = $_POST['paidMethod'];
-    $paidDate = $_POST['paidDate'];
-    $year = $_POST['year'];
-    $transactionId = $_POST['transactionId'];
-    $description = $_POST['description'];
-    $universityPaid = $_POST['universityPaid'];
-    $studyPaid = $_POST['studyPaid'];
+    // Handle adding a university
+    if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFees') {
+        $feesid = $_POST['feesid'];
+        $studentId = $_POST['studentId'];
+        $admissionId = $_POST['admissionId'];
+        $studentName = $_POST['studentName'];
+        $paidMethod = $_POST['paidMethod'];
+        $paidDate = $_POST['paidDate'];
+        $year = $_POST['year'];
+        $transactionId = $_POST['transactionId'];
+        $description = $_POST['description'];
+        $universityPaid = $_POST['universityPaid'];
+        $studyPaid = $_POST['studyPaid'];
 
-    $totalFees = $universityPaid + $studyPaid ;
+        $totalFees = $universityPaid + $studyPaid ;
 
-    $fees_select ="SELECT `fee_id`,  `fee_uni_fee_total` , `fee_sdy_fee_total` , `fee_uni_fee`, `fee_sty_fee` FROM `jeno_fees` WHERE fee_id = $feesid;";
-    $fees_res = mysqli_query($conn , $fees_select);
-    $fees = mysqli_fetch_array($fees_res , MYSQLI_ASSOC);
-    $fee_id =$fees['fee_id'];
-    $fee_uni_fee =$fees['fee_uni_fee'];
-    $fee_sty_fee =$fees['fee_sty_fee'];
+        $fees_select ="SELECT 
+        `fee_id`
+        ,  `fee_uni_fee_total` 
+        , `fee_sdy_fee_total` 
+        , `fee_uni_fee`
+        , `fee_sty_fee` 
+        FROM `jeno_fees` 
+        WHERE fee_id = $feesid;";
+
+        $fees_res = mysqli_query($conn , $fees_select);
+        $fees = mysqli_fetch_array($fees_res , MYSQLI_ASSOC);
+        $fee_id =$fees['fee_id'];
+        $fee_uni_fee =$fees['fee_uni_fee'];
+        $fee_sty_fee =$fees['fee_sty_fee'];
     
 
   
@@ -106,10 +114,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     , a.fee_uni_fee
     , a.fee_sdy_fee_total
     , a.fee_sty_fee
-    , a.fee_paid_date
-    , a.fee_method
-    , a.fee_trans_id
-    , a.fee_description
+    , a.fee_stu_year
     , b.stu_id
     , b.stu_name
     , c.cou_id
@@ -296,11 +301,17 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 $updateUniFees = $fee_uni_fee_total - $pay_university_fees ;
                 $updateStyFees = $fee_sdy_fee_total - $pay_study_fees ;
 
-                  $updateSql = "UPDATE `jeno_fees` SET `fee_uni_fee_total`='$updateUniFees',`fee_sdy_fee_total`='$updateStyFees',`fee_updated_by`='$updatedBy' WHERE `fee_admision_id` = '$admision'";
+                  $updateSql = "UPDATE `jeno_fees` 
+                  SET `fee_uni_fee_total`='$updateUniFees'
+                  , `fee_sdy_fee_total`='$updateStyFees'
+                  , `fee_updated_by`='$updatedBy' 
+                  WHERE `fee_admision_id` = '$admision'";
 
                   if($updateSql_res = mysqli_query($conn, $updateSql)){
 
-                $queryDel = "UPDATE `jeno_payment_history` SET `pay_updated_by`='$updatedBy',`pay_status`='Inactive' WHERE pay_id =$id;";
+                $queryDel = "UPDATE `jeno_payment_history` 
+                SET `pay_updated_by`='$updatedBy'
+                ,`pay_status`='Inactive' WHERE pay_id =$id;";
                 $reDel = mysqli_query($conn, $queryDel);
             }
         }
