@@ -4,7 +4,6 @@ session_start();
 
 $userId = $_SESSION['userId'];
 
-// Handle adding a client
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POST['staffName'] != '') {
 
     $targetDir = "../assets/images/faculty/";
