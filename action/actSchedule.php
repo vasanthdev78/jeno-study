@@ -61,4 +61,94 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
     exit();
 }
 
+if (isset($_POST['editId']) && $_POST['editId'] != '') {
+    $editId = $_POST['editId'];
+
+    $selQuery = "SELECT * FROM `jeno_schedule` WHERE sch_id = $editId";
+    $result = mysqli_query($conn, $selQuery);
+
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        
+        $scheduleDetails = array(
+            'schId' => $row['sch_id'],
+            'name' => $row['sch_fac_id'],
+            'date' => $row['sch_date'],
+            'session' => $row['sch_session'],
+            'timing' => $row['sch_timing'],
+            'couId' => $row['sch_cou_id'],
+            'subId' => $row['sch_sub_id'],
+        );
+
+        echo json_encode($scheduleDetails);
+    } else {
+        $response['message'] = "Error executing query: " . mysqli_error($conn);
+        echo json_encode($response);
+    }
+    exit();
+}
+
+if (isset($_POST['deleteId'])) {
+    $id = $_POST['deleteId'];
+    $queryDel = "UPDATE `jeno_schedule` 
+                 SET sch_status = 'Inactive'
+                 WHERE `sch_id` = $id;";
+    $reDel = mysqli_query($conn, $queryDel);
+
+    if ($reDel) {
+        $_SESSION['message'] = "Schedule details have been deleted successfully!";
+        $response['success'] = true;
+        $response['message'] = "Schedule details have been deleted successfully!";
+    } else {
+        $_SESSION['message'] = "Unexpected error in deleting Schedule details!";
+        $response['message'] = "Error: " . mysqli_error($conn);
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_POST['hdnScheduleId'] != '') {
+
+    $schId = $_POST['hdnScheduleId'];
+    $name = $_POST['facultyNameEdit'];
+    $date = $_POST['fromDateEdit'];
+    $session = $_POST['sessionEdit'];
+    $timing = $_POST['timingEdit'];
+    $course = $_POST['courseEdit'];
+    $subject = json_encode($_POST['subjectEdit']);
+
+    // Base query
+    // $updateQuery = "UPDATE jeno_faculty 
+    // SET 
+    //     fac_name = '$name',
+    //     fac_gender = '$gender',
+    //     fac_mobile = '$mobile',
+    //     fac_date_of_join = '$dateofjoin',
+    //     fac_salary = '$salary',
+    //     fac_qualification = '$qualification',
+    //     fac_email = '$email',
+    //     fac_address = '$address',
+    //     fac_clg = '$clgName',
+    //     fac_cou_id = '$course',
+    //     fac_updated_by = '$userId'";
+
+    // if (!empty($newFileName)) {
+    //     $updateQuery .= ", fac_aadhar = '$newFileName'";
+    // }
+
+    // $updateQuery .= " WHERE fac_id = $facId";
+
+    // if ($conn->query($updateQuery) === TRUE) {
+    //     $_SESSION['message'] = "Faculty details updated successfully!";
+    //     $response['success'] = true;
+    //     $response['message'] = "Faculty details updated successfully!";
+    // } else {
+    //     $response['message'] = "Error: " . $updateQuery . "<br>" . $conn->error;
+    // }
+    
+    echo json_encode($response);
+    exit();
+}
+
 ?>

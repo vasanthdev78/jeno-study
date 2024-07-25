@@ -1,7 +1,8 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    
+    $selQuery = "SELECT a.*, b.fac_name, c.cou_name FROM `jeno_schedule` AS a LEFT JOIN jeno_faculty AS b ON a.sch_fac_id = b.fac_id LEFT JOIN jeno_course AS c ON a.sch_cou_id = c.cou_id WHERE a.sch_status = 'Active'";
+    $resQuery = mysqli_query($conn , $selQuery);
   
 ?>
 <!DOCTYPE html>
@@ -65,39 +66,43 @@ session_start();
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Faculty Name</th>
-                                    <th scope="col">From Date</th>
-                                    <th scope="col">End Date</th>
+                                    <th scope="col">Schedule Date</th>
                                     <th scope="col">Session</th>
-                                    <th scope="col">Subject</th> 
+                                    <th scope="col">Timing</th>
+                                    <th scope="col">Course</th> 
+                                    <th scope="col">Subject</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
                     <?php 
-                    // $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
+                        $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['sch_id'];  $name = $row['fac_name']; 
+                        $date = $row['sch_date']; $session=$row['sch_session'];  
+                        $timing = $row['sch_timing'];  $course  = $row['cou_name']; $subject = $row['sch_sub_id']; 
+                        $subject_names = json_decode($subject, true); // If it's JSON array
+                        if (is_array($subject_names)) {
+                            $subject = implode(', ', $subject_names); // Convert array to comma-separated string
+                        } 
                         ?>
                      <tr>
-                        <td>1</td>
-                        <td>Vasanth</td>
-                        <td>6-7-2024</td>
-                        <td>10-7-2024</td>
-                        <td>Morning</td>
-                        <td>Web Development</td>
+                        <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $name; ?></td>
+                        <td><?php echo $date; ?></td>
+                        <td><?php echo $session; ?></td>
+                        <td><?php echo $timing; ?></td>
+                        <td><?php echo $course; ?></td>
+                        <td><?php echo $subject; ?></td>
 
-
-                    
                         <td>
-                          <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php  $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteSchedule(<?php  $id; ?>);"><i class="bi bi-trash"></i></button>
+                          <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteSchedule(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                            
                         </td>
                       </tr>
                       <?php
-                    //  } 
+                     } 
                      ?>
                         
                     </tbody>
@@ -184,6 +189,24 @@ $('#course').change(function() {
         }
     });
 
+    $('#courseEdit').change(function() {
+    var courseId = $(this).val();
+    if (courseId) {
+        $.ajax({
+            type: 'POST',
+            url: 'action/actSchedule.php', // PHP file to fetch subjects
+            data: { course_id: courseId },
+            success: function(response) {
+                $('#subjectEdit').html(response); // Populate the multi-select dropdown
+                $('#subjectEdit').select2(); // Reinitialize select2
+            }
+        });
+    } else {
+        $('#subjectEdit').html('<option value="">--Select the Subject--</option>');
+        $('#subjectEdit').select2(); // Reinitialize select2
+    }
+});
+
 $('#addSchedule').off('submit').on('submit', function(e) {
 
   e.preventDefault(); 
@@ -248,6 +271,141 @@ $('#addSchedule').off('submit').on('submit', function(e) {
 
 
 });
+
+function goEditSchedule(editId)
+{ 
+      $.ajax({
+        url: 'action/actSchedule.php',
+        method: 'POST',
+        data: {
+          editId: editId
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+
+          $('#editSchedule').removeClass('was-validated');
+          $('#editSchedule').addClass('needs-validation');
+          $('#editSchedule')[0].reset(); // Reset the form
+
+          $('#scheduleId').val(response.schId);
+          $('#facultyNameEdit').val(response.name);
+          $('#fromDateEdit').val(response.date);
+          $('#sessionEdit').val(response.session);
+          $('#timingEdit').val(response.timing);
+          $('#courseEdit').val(response.couId);
+          $('#courseEdit').trigger('change');
+          var selectedSubjects = response.subId;
+          $('#subjectEdit').val(selectedSubjects).trigger('change');
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    
+}
+
+
+function goDeleteSchedule(id)
+{
+    if(confirm("Are you sure you want to delete Schedule?"))
+    {
+      $.ajax({
+        url: 'action/actSchedule.php',
+        method: 'POST',
+        data: {
+          deleteId: id
+        },
+        //dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                               $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                    "paging": true, // Enable pagination
+                                    "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                                });
+                            });
+         
+
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    $('#editSchedule').off('submit').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+        $.ajax({
+            url: "action/actSchedule.php",
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success response
+                
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    }).then(function() {
+                      $('#editScheduleModal').modal('hide'); // Close the modal
+                        
+                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                   "paging": true, // Enable pagination
+                                   "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                               });
+                            });
+                      });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Edit Schedule data.'
+                });
+                // Re-enable the submit button on error
+                $('#updateBtn').prop('disabled', false);
+            }
+        });
+    });
+});
+
+
 
 </script>
 
