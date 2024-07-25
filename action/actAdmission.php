@@ -112,8 +112,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($documents_sql);
 
         // Insert into fees table
-        $fees_sql = "INSERT INTO `jeno_fees`(`fee_stu_id`, `fee_uni_fee`, `fee_sty_fee`, `fee_paid_date`, `fee_method`, `fee_trans_id`, `fee_created_by`) 
-                    VALUES ('$studentId', '0', '0', '0', '0', '0', '$createdBy')"; // Modify as per your requirements
+        $fees_sql = "INSERT INTO `jeno_fees`(`fee_stu_id`, `fee_uni_fee`, `fee_sty_fee`, `fee_created_by`) 
+                    VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
 
         $conn->query($fees_sql);
 

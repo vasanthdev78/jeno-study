@@ -1,10 +1,13 @@
     
     <!-- Modal -->
-    <div class="modal fade" id="addStockModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="addBookIssueModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="frmAddStock" id="addStock" enctype="multipart/form-data">
-                    <input type="hidden" name="hdnAction" value="addStock">
+                <form class="needs-validation" novalidate name="frmAddStock" id="addBookissue" enctype="multipart/form-data">
+                    <input type="hidden" name="hdnAction" value="addBookissue">
+                    <input type="hidden" name="typeExam" id="typeExam">
+                    <input type="hidden" name="studentId" id="studentId">
+                    <input type="hidden" name="bookId" id="bookId">
                     <div class="modal-header">
                         <h4 class="modal-title" id="staticBackdropLabel">Add Book Issue</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -13,10 +16,28 @@
                         <div class="row">
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="medium" class="form-label"><b>Student Name</b></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Vasanth" name="course" id="course" required="required" disabled>
+                                    <label for="admissionId" class="form-label"><b>Admission Id</b></label>
+                                    <input type="text" class="form-control"   name="admissionId" id="admissionId" required="required" readonly>
                                 </div>
                             </div>
+
+                        <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="studentName" class="form-label"><b>Student Name</b></label>
+                                    <input type="text" class="form-control" name="studentName" id="studentName" required="required" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                            <div class="form-group">
+                                            <label for="courseyear" class="form-label"><b>Year of Stusy</b></label>
+                                            <select class="form-control" name="courseyear" id="courseyear" >
+                                                        
+                                                        
+                                                
+                                            </select>
+                                            </div>
+                                        </div> <!-- end col -->
 
                                         <div class="col-sm-12">
                                             <div class="form-group pb-1">
@@ -44,12 +65,8 @@
 
                                         <div class="col-lg-12">
                                             <label for="bookIssue" class="form-label"><b>Issued Book List</b></label>
-                                            <select class="select2 form-control select2-multiple" name="bookIssue" id="bookIssue" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
-                                                        <option value="Math">Math</option>
-                                                        <option value="Science">Science</option>
-                                                        <option value="History">History</option>
-                                                        <option value="English">English</option>
-                                                        <option value="Computer Science">Computer Science</option>
+                                            <select class="select2 form-control select2-multiple" name="bookIssue[]" id="bookIssue" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                                      
                                                 
                                             </select>
                                         </div> <!-- end col -->

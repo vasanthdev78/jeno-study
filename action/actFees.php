@@ -379,7 +379,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
 
 
             // Handle fetching university details for editing
-if (isset($_POST['editId']) && $_POST['editId'] != '') {
+    if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
 

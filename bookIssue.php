@@ -122,7 +122,9 @@ session_start();
                     $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
                         $id = $row['book_id'];  $name = $row['stu_name']; 
                         $bookRes = $row['book_received']; 
-                        $idCard = $row['book_id_card']; $contact = $row['stu_phone']; 
+                        $idCard = $row['book_id_card']; 
+                        $contact = $row['stu_phone']; 
+                        $stu_apply_no = $row['stu_apply_no']; 
                         ?>
 
                      <tr>
@@ -136,7 +138,8 @@ session_start();
                     
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditBook(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addStockModal"><i class='bi bi-pencil-square'></i></button>
+                        <button type="button" onclick="goAddBook('<?php echo $stu_apply_no; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
+
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
                       </tr>
@@ -195,66 +198,200 @@ session_start();
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
+    
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
     
-    <script>
-    function goEditAdmission(editId) { 
-    $.ajax({
-        url: 'action/actBook.php',
-        method: 'POST',
-        data: { editId: editId },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-            // Set the values for the fields
-            // $('#admissionId').val(response.stuId);
-            // $('#stuNameEdit').val(response.name);
-            // $('#mobileNoEdit').val(response.phone);
-            // $('#emailEdit').val(response.email);
-            // $('#universityEdit').val(response.uni_id).trigger('change'); // Trigger change to populate courses
+    
+       <script>
+        function goAddBook(addGetId) {
+            alert("click button");
+            $('#addBookissue').removeClass('was-validated');
+            $('#addBookissue').addClass('needs-validation');
+            $('#addBookissue')[0].reset(); // Reset the form
+            
+            $.ajax({
+                url: 'action/actBook.php',
+                method: 'POST',
+                data: {
+                    addGetId: addGetId
+                },
+                dataType: 'json', // Ensure the expected data type as JSON
+                success: function(response) {
+                    $('#admissionId').val(response.stu_apply_no);
+                    $('#studentName').val(response.stu_name);
+                    $('#studentId').val(response.stu_id);
+                    $('#studentName').val(response.stu_name);
+                    $('#year').val(response.stu_study_year);
+                    $('#typeExam').val(response.cou_fees_type);
+                    $('#bookId').val(response.book_id);
+                      // Populate the select input with study years or semesters based on course duration and fees type
+            var courseYearSelect = $('#courseyear');
+            courseYearSelect.empty(); // Clear existing options
+            courseYearSelect.append(new Option('--select year--', '')); // Add default option
 
-            // // Delay setting course and language values to ensure dropdowns are populated
-            // setTimeout(function() {
-            //     $('#courseNameEdit').val(response.cou_id).trigger('change'); // Trigger change to populate electives
+            var html = '';
 
-            //     setTimeout(function() {
-            //         $('#languageEdit').val(response.language); // Set after triggering change for courses
-            //     }, 10); // Adjust timeout if necessary
-                
-            //     $('#mediumEdit').val(response.medium_id);
-            //     $('#yearTypeEdit').val(response.year_type);
-            //     $('#digilockerEdit').val(response.digilocker);
-            //     $('#admitDateEdit').val(response.admit_date);
-            //     $('#dobEdit').val(response.dob);
-            //     $('#genderEdit').val(response.gender);
-            //     $('#addressEdit').val(response.address);
-            //     $('#pincodeEdit').val(response.pincode);
-            //     $('#fathernameEdit').val(response.father_name);
-            //     $('#mothernameEdit').val(response.mother_name);
-            //     $('#aadharNumberEdit').val(response.aadhar_no);
-            //     $('#nationalityEdit').val(response.nationality);
-            //     $('#motherTongueEdit').val(response.mother_tongue);
-            //     $('#religionEdit').val(response.religion);
-            //     $('#casteEdit').val(response.caste);
-            //     $('#communityEdit').val(response.community);
-            //     $('#maritalEdit').val(response.marital_status);
-            //     $('#employedEdit').val(response.employed);
-            //     $('#qualificationEdit').val(response.qualification);
-            //     $('#previousEdit').val(response.institute);
-            //     $('#completedEdit').val(response.comp_year);
-            //     $('#studyEdit').val(response.study_field);
-            //     $('#gradeEdit').val(response.grade);
-            //     $('#enrollEdit').val(response.enroll);
-            // }, 10   ); // Adjust timeout if necessary
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
+            if (response.cou_fees_type == 'Year') {
+                for (var i = 1; i <= response.cou_duration; i++) {
+                    html += '<option value="' + i + '">' + i + ' Year</option>';
+                }
+            } else if (response.cou_fees_type == 'Semester') {
+                for (var i = 1; i <= response.cou_duration * 2; i++) {
+                    html += '<option value="' + i + '">' + i + ' Semester</option>';
+                }
+            }
+
+            courseYearSelect.append(html);
+            // courseYearSelect.val(response.stu_study_year); // Set the selected value to the current study year if it exists in the options
+
+    
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors here
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
+        }
+
+
+        $(document).ready(function() {
+    // Bind the change event to the select element
+    $('#courseyear').change(function() {
+        var selectedYear = $(this).val(); // Get the selected value
+        var admissionId = $('#admissionId').val(); // Get the selected value
+        var typeExam = $('#typeExam').val(); // Get the selected value
+        
+        // Make sure a valid year is selected
+        if (selectedYear !== '') {
+            $.ajax({
+                url: 'action/actBook.php',
+                method: 'POST',
+                data: {
+                    year: selectedYear,
+                    admissionId: admissionId,
+                    typeExam: typeExam
+                },
+                // dataType: 'json',
+                success: function(response) {
+                    // Handle the response data
+                    console.log(response);
+                    
+                  // Populate the select element with options from the response array
+                var $select = $('#bookIssue');
+
+                // Clear existing options if any
+                $select.empty();
+
+                // Check if sub_addition_lag_name is empty
+                if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length === 0) {
+                    // If sub_addition_lag_name is empty, use sub_ele_id to fetch values
+                    if (response.sub_ele_id) {
+                        // Use sub_ele_id to get corresponding values (assuming sub_addition_sub_name and sub_subject_name are arrays)
+                        // Here, you should have a way to map sub_ele_id to actual values, which may involve additional logic.
+                        
+                        // For demonstration, assuming you want to add a single option based on sub_ele_id
+                        // You would need to modify this according to your actual logic for sub_ele_id
+                        var $option = $('<option>').val(response.sub_addition_sub_name[0]).text(response.sub_addition_sub_name[0]);
+                        $select.append($option);
+
+                        var $subjectOption = $('<option>').val(response.sub_subject_name[0]).text(response.sub_subject_name[0]);
+                        $select.append($subjectOption);
+                    }
+                } else if (Array.isArray(response.sub_addition_lag_name) &&
+                           Array.isArray(response.sub_addition_sub_name) &&
+                           Array.isArray(response.sub_subject_name)) {
+                    // Load subName options first
+                    response.sub_addition_lag_name.forEach(function(lagName, index) {
+                        if (lagName === response.add_language) {
+                            var subName = response.sub_addition_sub_name[index];
+                            var $option = $('<option>').val(subName).text(subName);
+                            $select.append($option);
+                        }
+                    });
+
+                    // Load subjectName options next
+                    response.sub_subject_name.forEach(function(subjectName) {
+                        var $option = $('<option>').val(subjectName).text(subjectName);
+                        $select.append($option);
+                    });
+
+                    // Initialize Select2 on the select element
+                    $select.select2();
+                } else {
+                    console.error('One or more response arrays are not valid.');
+                }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
         }
     });
-}
-</script>
+    });
+
+
+
+
+    $('#addBookissue').off('submit').on('submit', function(e) {
+    e.preventDefault(); // Prevent the form from submitting normally
+
+    var formData = new FormData(this);
+    $.ajax({
+      url: "action/actBook.php",
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: 'json',
+      success: function(response) {
+        // Handle success response
+        console.log(response);
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            timer: 2000
+          }).then(function() {
+            
+                $('#addBookIssueModal').modal('hide');
+            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+              $('#scroll-horizontal-datatable').DataTable().destroy();
+              $('#scroll-horizontal-datatable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable sorting
+                "searching": true // Enable searching
+              });
+            });
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message
+          });
+        }
+      },
+      error: function(xhr, status, error) {
+        // Handle error response
+        console.error(xhr.responseText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while adding Fees data.'
+        });
+        // Re-enable the submit button on error
+        $('#submitBtn').prop('disabled', false);
+      }
+    });
+  });
+
+        
+    </script>
+   
 
 </body>
 
