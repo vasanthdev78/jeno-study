@@ -104,10 +104,12 @@
                                                             </div>
 
                                                             <div class="col-sm-6">
-                                                            <div class="form-group pb-1">
-                                                            <label for="academicYear" class="form-label"><b>Academic Year</b><span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control"  placeholder="Enter Student Academic Year" name="academicYear" id="academicYear" required="required">
-                                                            </div>
+                                                                <div class="form-group pb-1">
+                                                                    <label for="academicYear" class="form-label"><b>Academic Year/Sem</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="academicYear" id="academicYear" required="required">
+                                                                        <option value="">--Select Academic Year/Sem--</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
@@ -117,6 +119,15 @@
                                                             <div class="invalid-feedback">
                                                                 This Application No. is already exists.
                                                             </div>
+                                                            </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                            <label for="language" class="form-label"><b>Language / Elective </b><span class="text-danger">*</span></label>
+                                                            <select class="form-control" name="language" id="language" required="required">
+                                                            <option value="">--Select the Specification--</option>                                                           
+                                                            </select>
                                                             </div>
                                                             </div>
 
@@ -144,11 +155,9 @@
                                                             </div>
 
                                                             <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                            <label for="language" class="form-label"><b>Language / Elective </b></label>
-                                                            <select class="form-control" name="language" id="language" >
-                                                            <option value="">--Select the Specification--</option>                                                           
-                                                            </select>
+                                                            <div class="form-group pb-1">
+                                                            <label for="enroll" class="form-label"><b>Enrollment No.</b></label>
+                                                            <input type="text" class="form-control" pattern="^\S.*$" placeholder="Enter Enrollment Number" name="enroll" id="enroll" >
                                                             </div>
                                                             </div>
 
@@ -366,13 +375,6 @@
                                                             </div>
                                                             </div>
 
-                                                            <div class="col-sm-6">
-                                                            <div class="form-group pb-1">
-                                                            <label for="enroll" class="form-label"><b>Enrollment No.</b></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" placeholder="Enter Enrollment Number" name="enroll" id="enroll" >
-                                                            </div>
-                                                            </div>
-
                                                             </div> <!-- end row -->
                                                         <ul class="pager wizard mb-0 list-inline">
                                                             <li class="previous list-inline-item">
@@ -495,6 +497,25 @@
                                                             </select>
                                                             </div>
                                                             </div><!-- end col -->
+
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group pb-1">
+                                                                    <label for="academicYearEdit" class="form-label"><b>Academic Year/Sem</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="academicYearEdit" id="academicYearEdit" required="required">
+                                                                        <option value="">--Select Academic Year/Sem--</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                            <label for="languageEdit" class="form-label"><b>Language / Elective </b><span class="text-danger">*</span></label>
+                                                            <select class="form-control" name="languageEdit" id="languageEdit" required="required">
+                                                            <option value="0">--Select the Specification--</option>                                                           
+                                                            </select>
+                                                            </div>
+                                                            </div>
+
                                                             </div> <!-- end row -->
                                                         <ul class="list-inline wizard mb-0">
                                                             <li class="next list-inline-item float-end">
@@ -519,11 +540,9 @@
                                                             </div>
 
                                                             <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                            <label for="languageEdit" class="form-label"><b>Language / Elective </b></label>
-                                                            <select class="form-control" name="languageEdit" id="languageEdit" >
-                                                            <option value="0">--Select the Specification--</option>                                                           
-                                                            </select>
+                                                            <div class="form-group pb-1">
+                                                            <label for="enrollEdit" class="form-label"><b>Enrollment No.</b></label>
+                                                            <input type="text" class="form-control" pattern="^\S.*$" placeholder="Enter Enrollment Number" name="enrollEdit" id="enrollEdit" >
                                                             </div>
                                                             </div>
 
@@ -740,14 +759,6 @@
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photoEdit" id="photoEdit" >
                                                             </div>
                                                             </div>
-
-                                                            <div class="col-sm-6">
-                                                            <div class="form-group pb-1">
-                                                            <label for="enrollEdit" class="form-label"><b>Enrollment No.</b></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" placeholder="Enter Enrollment Number" name="enrollEdit" id="enrollEdit" >
-                                                            </div>
-                                                            </div>
-
                                                                 <!-- end col -->
                                                             </div>
                                                             <!-- end row -->
@@ -813,14 +824,14 @@
                                                         <td id="emailView"></td>
                                                     </tr>
                                                     <tr>
-                                                        <th>Student Year</th>
-                                                        <th>:</th>
-                                                        <td id="yearView"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <th>Academic Year</th>
                                                         <th>:</th>
                                                         <td id="acaYearView"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Application No.</th>
+                                                        <th>:</th>
+                                                        <td id="applicationView"></td>
                                                     </tr>
                                                 </table>
                                             </div> <!-- end table-responsive-->
@@ -846,14 +857,14 @@
                                                         <td id="medium_idView"></td>
                                                     </tr>
                                                     <tr>
+                                                        <th>Language / Elective</th>
+                                                        <th>:</th>
+                                                        <td id="lagView"></td>
+                                                    </tr>
+                                                    <tr>
                                                         <th>Enrollment No.</th>
                                                         <th>:</th>
                                                         <td id="enrollView"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Application No.</th>
-                                                        <th>:</th>
-                                                        <td id="applicationView"></td>
                                                     </tr>
                                                 </table>
                                             </div> <!-- end table-responsive-->

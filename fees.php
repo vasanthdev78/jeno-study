@@ -2,14 +2,8 @@
 session_start();
     include("db/dbConnection.php");
     
-    // $selQuery = "SELECT student_tbl.*,
-    // additional_details_tbl.*,
-    // course_tbl.*
-    //  FROM student_tbl
-    // LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    // LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    // WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    // $resQuery = mysqli_query($conn , $selQuery); 
+    $selQuery = "SELECT a.*, b.*, c.* FROM `jeno_fees` AS a LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id WHERE fee_status = 'Active'";
+    $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
@@ -68,6 +62,7 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">Application No.</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
@@ -78,24 +73,48 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
+                        <?php 
+                        $i = 1;
+                        while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
+                        $id = $row['fee_id'];  
+                        $name = $row['stu_name']; 
+                        $admitId = $row['fee_admision_id'];   
+                        $course = $row['cou_name']; 
+                        $phone = $row['stu_phone']; 
                     
-                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        // Retrieve the necessary fee details
+                        $fee_uni_fee_total = $row['fee_uni_fee_total'];
+                        $fee_sty_fee_total = $row['fee_sdy_fee_total'];
+                        $fee_uni_fee = $row['fee_uni_fee'];
+                        $fee_sty_fee = $row['fee_sty_fee'];
                     
+                        // Calculate the total fees and balance
+                        $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
+                        $paidFees = $fee_uni_fee + $fee_sty_fee;
+                        $balance = $totalFees - $paidFees;
+                    
+                        // Determine the status
+                        $status = $balance > 0 ? 'Pending' : 'Completed';
+                        ?>
+                        <tr>
+                            <td><?php echo $i; $i++; ?></td>
+                            <td><?php echo $admitId; ?></td>
+                            <td><?php echo $name; ?></td>
+                            <td><?php echo $course; ?></td>
+                            <td><?php echo $phone; ?></td>
+                            <td><?php echo $balance; ?></td> 
+                            <td><?php echo $status; ?></td> 
                         <td>
                         
-                           <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('2024a001');"><i class="bi bi-eye-fill"></i></button>
-                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goAddStudent(1);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                             
 
                         </td>
                       </tr>
-                        
+                      <?php 
+                    }
+                     ?>
                     </tbody>
                   </table>
                   
@@ -290,7 +309,7 @@ function toggleDivs() {
         }
     });
 
-    function goAddStudent(addGetId)
+    function goEditFees(addGetId)
     {
       $('#addFees').removeClass('was-validated');
     $('#addFees').addClass('needs-validation');
@@ -323,7 +342,7 @@ function toggleDivs() {
          
         
             // Function to get index based on study year
-        function getIndexByStudyYear(studyYear) {
+        function getIndexByStudyYear(studyYear) { 
             switch (studyYear) {
                 case "1st Year": return 0;
                 case "2nd Year": return 1;

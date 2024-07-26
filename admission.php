@@ -272,10 +272,11 @@ session_start();
     });
     $('#courseName').change(function() {
         var courseId = $(this).val();
-        
+
         if (courseId === "") {
             $('#language').html('<option value="">--Select the Specification--</option>'); // Clear the course dropdown
-            return; // No university selected, exit the function
+            $('#academicYear').html('<option value="">--Select Academic Year/Sem--</option>'); // Clear the academic year dropdown
+            return; // No course selected, exit the function
         }
 
         $.ajax({
@@ -284,21 +285,35 @@ session_start();
             data: { courseId: courseId },
             dataType: 'json',
             success: function(response) {
-                
                 var options = '<option value="">--Select the Specification--</option>';
-                
-                 // Loop through each course in the response and append to options
-                 $.each(response, function(index, elective) {
+                $.each(response.electives, function(index, elective) {
                     options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
                 });
-                $('#language').html(options); // Update the course dropdown
+                $('#language').html(options); // Update the elective dropdown
+
+                // Assuming response contains course details
+                var courseDuration = response.courseDuration; // e.g., 3
+                var feesPattern = response.feesPattern; // e.g., 'sem'
+
+                // Generate options for academic year/sem based on duration and pattern
+                var academicYearOptions = '<option value="">--Select Academic Year/Sem--</option>';
+                if (feesPattern === 'Semester') {
+                    var totalSems = courseDuration * 2; // 2 semesters per year
+                    for (var i = 1; i <= totalSems; i++) {
+                        academicYearOptions += '<option value="' + i + '">' + i + ' Sem</option>';
+                    }
+                } else if (feesPattern === 'Year') {
+                    for (var i = 1; i <= courseDuration; i++) {
+                        academicYearOptions += '<option value="' + i + '">' + i + ' Year</option>';
+                    }
+                }
+                $('#academicYear').html(academicYearOptions); // Update the academic year dropdown
             },
             error: function(xhr, status, error) {
                 console.error("AJAX request failed: " + status + ", " + error);
             }
         });
     });
-
     $('#universityEdit').change(function() {
     var universityId = $(this).val();
     
@@ -333,6 +348,7 @@ $('#courseNameEdit').change(function() {
     
     if (courseId === "") {
         $('#languageEdit').html('<option value="">--Select the Specification--</option>'); // Clear the language dropdown
+        $('#academicYearEdit').html('<option value="">--Select Academic Year/Sem--</option>'); // Clear the academic year dropdown
         return; // No course selected, exit the function
     }
 
@@ -342,20 +358,36 @@ $('#courseNameEdit').change(function() {
         data: { courseId: courseId },
         dataType: 'json',
         success: function(response) {
-            
-            var options = '<option value="0">--Select the Specification--</option>';
-            
-             // Loop through each elective in the response and append to options
-             $.each(response, function(index, elective) {
-                options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+            var electiveOptions = '<option value="">--Select the Specification--</option>';
+            $.each(response.electives, function(index, elective) {
+                electiveOptions += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
             });
-            $('#languageEdit').html(options); // Update the language dropdown
+            $('#languageEdit').html(electiveOptions); // Update the language dropdown
+
+            // Generate options for academic year/sem based on duration and pattern
+            var academicYearOptions = '<option value="">--Select Academic Year/Sem--</option>';
+            var courseDuration = response.courseDuration; // e.g., 3
+            var feesPattern = response.feesPattern; // e.g., 'sem'
+
+            if (feesPattern === 'Semester') {
+                var totalSems = courseDuration * 2; // 2 semesters per year
+                for (var i = 1; i <= totalSems; i++) {
+                    academicYearOptions += '<option value="' + i + '">' + i + ' Sem</option>';
+                }
+            } else if (feesPattern === 'Year') {
+                for (var i = 1; i <= courseDuration; i++) {
+                    academicYearOptions += '<option value="' + i + '">' + i + ' Year</option>';
+                }
+            }
+
+            $('#academicYearEdit').html(academicYearOptions); // Update the academic year dropdown
         },
         error: function(xhr, status, error) {
             console.error("AJAX request failed: " + status + ", " + error);
         }
     });
 });
+
 });
 
 
@@ -444,11 +476,11 @@ $('#addAdmission').off('submit').on('submit', function(e) {
             // Delay setting course and language values to ensure dropdowns are populated
             setTimeout(function() {
                 $('#courseNameEdit').val(response.cou_id).trigger('change'); // Trigger change to populate electives
-
                 setTimeout(function() {
+                    $('#academicYearEdit').val(response.acaYear);
                     $('#languageEdit').val(response.language); // Set after triggering change for courses
                 }, 10); // Adjust timeout if necessary
-                
+
                 $('#mediumEdit').val(response.medium_id);
                 $('#yearTypeEdit').val(response.year_type);
                 $('#digilockerEdit').val(response.digilocker);
@@ -509,8 +541,8 @@ function goViewAdmission(id)
                     // Set the text content of the element
                     $('#medium_idView').text(mediumText);
                     $('#applicationView').text(response.apply_no);
-                    $('#yearView').text(response.studyYear);
                     $('#acaYearView').text(response.acaYear);
+                    $('#lagView').text(response.language);
                     $('#enrollView').text(response.enroll);
                     $('#yearTypeView').text(response.year_type);
                     $('#languageView').text(response.language);

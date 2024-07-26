@@ -122,7 +122,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     , c.cou_university_fess
     , c.cou_total_fees
     , b.stu_enroll
-    , b.stu_study_year 
+    , b.stu_aca_year 
     FROM jeno_fees AS a 
     LEFT JOIN jeno_student AS b 
     ON a.fee_stu_id = b.stu_id 
@@ -145,7 +145,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             'fee_uni_fee' => $row['fee_uni_fee'],
             'fee_sdy_fee_total' => $row['fee_sdy_fee_total'],
             'fee_sty_fee' => $row['fee_sty_fee'],
-            'stu_study_year' => $row['stu_study_year'],
+            'stu_study_year' => $row['stu_aca_year'],
             'cou_university_fess' => json_decode($row['cou_university_fess']), // Decode JSON string to array
             'cou_study_fees' => json_decode($row['cou_study_fees']), // Decode JSON string to array
         

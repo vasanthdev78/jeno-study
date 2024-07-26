@@ -18,7 +18,6 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $medium = $_POST['medium'];
     $academicYear = $_POST['academicYear'];
     $applicationNo = $_POST['applicationNo'];
-    $stuYear = "1st year";
     $yearType = $_POST['yearType'];
     $language = $_POST['language'];
     $digilocker = $_POST['digilocker'];
@@ -93,8 +92,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_enquiry_sql);
     }
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_study_year`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$stuYear', '$academicYear', '$enroll', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -111,9 +110,30 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
 
         $conn->query($documents_sql);
 
+        // Retrieve course details including fees arrays
+            $courseQuery = "SELECT `cou_university_fess`, `cou_study_fees` 
+            FROM `jeno_course` 
+            WHERE `cou_id` = '$courseName'";
+
+        $courseResult = $conn->query($courseQuery);
+
+        if ($courseResult && $courseResult->num_rows > 0) {
+        $courseRow = $courseResult->fetch_assoc();
+        $universityFeesArray = json_decode($courseRow['cou_university_fess'], true);
+        $studyFeesArray = json_decode($courseRow['cou_study_fees'], true);
+
+        // Determine the fees based on the academic year
+        $academicYearIndex = intval($academicYear) - 1;
+        $universityFee = isset($universityFeesArray[$academicYearIndex]) ? $universityFeesArray[$academicYearIndex] : 0;
+        $studyFee = isset($studyFeesArray[$academicYearIndex]) ? $studyFeesArray[$academicYearIndex] : 0;
+        } else {
+        $universityFee = 0;
+        $studyFee = 0;
+        }
+
         // Insert into fees table
-        $fees_sql = "INSERT INTO `jeno_fees`(`fee_stu_id`, `fee_uni_fee`, `fee_sty_fee`, `fee_created_by`) 
-                    VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
+        $fees_sql = "INSERT INTO `jeno_fees`(`fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_sdy_fee_total`, `fee_stu_year`, `fee_created_by`) 
+        VALUES ('$applicationNo', '$studentId', '$universityFee', '$studyFee', '$academicYear', '$createdBy')";
 
         $conn->query($fees_sql);
 
@@ -158,15 +178,31 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     exit(); 
     }
-
-if (isset($_POST['courseId']) && $_POST['courseId'] != '') {
     
+    if (isset($_POST['courseId']) && $_POST['courseId'] != '') 
+    {
         $courseId = $_POST['courseId'];
     
-        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId;";
+        // Fetch course details
+        $courseQuery = "SELECT cou_duration, cou_fees_type FROM `jeno_course` WHERE cou_id = '$courseId'";
+        $courseResult = mysqli_query($conn, $courseQuery);
+    
+        if ($courseResult) {
+            $course = mysqli_fetch_assoc($courseResult);
+            $courseDuration = $course['cou_duration'];
+            $feesPattern = $course['cou_fees_type'];
+        } else {
+            $response['message'] = "Error fetching Course details: " . mysqli_error($conn);
+            echo json_encode($response);
+            exit();
+        }
+    
+        // Fetch electives based on course_id
+        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId";
         $eleResult = mysqli_query($conn, $eleQuery);
     
         if ($eleResult) {
+            $electives = [];
             while ($row = mysqli_fetch_assoc($eleResult)) {
                 $elective = array(
                     'ele_id' => $row['ele_id'],
@@ -175,14 +211,21 @@ if (isset($_POST['courseId']) && $_POST['courseId'] != '') {
                 $electives[] = $elective;
             }
     
-            echo json_encode($electives);
+            $response = [
+                'courseDuration' => $courseDuration,
+                'feesPattern' => $feesPattern,
+                'electives' => $electives
+            ];
+    
+            echo json_encode($response);
         } else {
-            $response['message'] = "Error fetching Course Name details: " . mysqli_error($conn);
+            $response['message'] = "Error fetching Elective details: " . mysqli_error($conn);
             echo json_encode($response);
         }
     
-        exit(); 
-        }
+        exit();
+    }
+    
 
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
             $editId = $_POST['editId'];
@@ -204,6 +247,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     'uni_id' => $row['stu_uni_id'],
                     'cou_id' => $row['stu_cou_id'],
                     'medium_id' => $row['stu_medium_id'],
+                    'acaYear' => $row['stu_aca_year'],
                     'enroll' => $row['stu_enroll'],
                     'year_type' => $row['add_year_type'],
                     'language' => $row['add_language'],
@@ -248,7 +292,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     $university = $_POST['universityEdit'];
     $courseName = $_POST['courseNameEdit'];
     $medium = $_POST['mediumEdit'];
-    $stuYear = "1st year";
+    $acaYear = $_POST['academicYearEdit'];
     $yearType = $_POST['yearTypeEdit'];
     $language = $_POST['languageEdit'];
     $digilocker = $_POST['digilockerEdit'];
@@ -343,7 +387,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
             a.stu_uni_id = '$university', 
             a.stu_cou_id = '$courseName', 
             a.stu_medium_id = '$medium', 
-            a.stu_study_year = '$stuYear', 
+            a.stu_aca_year = '$acaYear', 
             a.stu_enroll = '$enroll', 
             a.stu_updated_by = '$updatedBy',
             
@@ -438,6 +482,13 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
     if($result1) {
         $row = mysqli_fetch_assoc($result1);
 
+        $acaYearValue = $row['stu_aca_year'];
+        $feesPattern = $row['cou_fees_type'];
+        if ($feesPattern == 'Semester') {
+            $acaYearValue .= ' Sem';
+        } else if ($feesPattern == 'Year') {
+            $acaYearValue .= ' Year';
+        }
     // Prepare university details array
     $studentView = [
            
@@ -449,8 +500,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'cou_id' => $row['cou_name'],
                     'medium_id' => $row['stu_medium_id'],
                     'apply_no' => $row['stu_apply_no'],
-                    'studyYear' => $row['stu_study_year'],
-                    'acaYear' => $row['stu_aca_year'],
+                    'acaYear' => $acaYearValue,
                     'enroll' => $row['stu_enroll'],
                     'year_type' => $row['add_year_type'],
                     'language' => $row['ele_elective'],
