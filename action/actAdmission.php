@@ -110,20 +110,38 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
 
         $conn->query($documents_sql);
 
+        // Retrieve course details including fees arrays
+            $courseQuery = "SELECT `cou_university_fess`, `cou_study_fees` 
+            FROM `jeno_course` 
+            WHERE `cou_id` = '$courseName'";
+
+        $courseResult = $conn->query($courseQuery);
+
+        if ($courseResult && $courseResult->num_rows > 0) {
+        $courseRow = $courseResult->fetch_assoc();
+        $universityFeesArray = json_decode($courseRow['cou_university_fess'], true);
+        $studyFeesArray = json_decode($courseRow['cou_study_fees'], true);
+
+        // Determine the fees based on the academic year
+        $academicYearIndex = intval($academicYear) - 1;
+        $universityFee = isset($universityFeesArray[$academicYearIndex]) ? $universityFeesArray[$academicYearIndex] : 0;
+        $studyFee = isset($studyFeesArray[$academicYearIndex]) ? $studyFeesArray[$academicYearIndex] : 0;
+        } else {
+        $universityFee = 0;
+        $studyFee = 0;
+        }
+
         // Insert into fees table
         $fees_sql = "INSERT INTO `jeno_fees`(`fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_sdy_fee_total`, `fee_stu_year`, `fee_created_by`) 
         VALUES ('$applicationNo', '$studentId', '$universityFee', '$studyFee', '$academicYear', '$createdBy')";
 
         $conn->query($fees_sql);
 
-      
+        // Insert into book table
+        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_created_by`) 
+                    VALUES ('$studentId', '$createdBy')"; // Modify as per your requirements
 
-            
-            // Insert into book table based on the course duration
-           
-                $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_created_by`) VALUES ('$studentId', '$createdBy')";
-                $conn->query($book_sql) ;
-       
+        $conn->query($book_sql);
 
         $response['success'] = true;
         $response['message'] = "Student details added successfully!";
