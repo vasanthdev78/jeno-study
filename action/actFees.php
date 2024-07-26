@@ -101,41 +101,38 @@ if ($conn->query($history_sql) === TRUE) {
     exit();
 }
 
-// Handle fetching university details for editing
 if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
-    
     $addGetId = $_POST['addGetId'];
 
     $selQuery = "SELECT 
-    a.fee_id
-    , a.fee_admision_id
-    , a.fee_stu_id
-    , a.fee_uni_fee_total
-    , a.fee_uni_fee
-    , a.fee_sdy_fee_total
-    , a.fee_sty_fee
-    , a.fee_stu_year
-    , b.stu_id
-    , b.stu_name
-    , c.cou_id
-    , c.cou_study_fees 
-    , c.cou_university_fess
-    , c.cou_total_fees
-    , b.stu_enroll
-    , b.stu_aca_year 
+        a.fee_id,
+        a.fee_admision_id,
+        a.fee_stu_id,
+        a.fee_uni_fee_total,
+        a.fee_uni_fee,
+        a.fee_sdy_fee_total,
+        a.fee_sty_fee,
+        a.fee_stu_year,
+        b.stu_id,
+        b.stu_name,
+        c.cou_id,
+        c.cou_duration,
+        c.cou_fees_type,
+        c.cou_university_fess,
+        c.cou_study_fees,
+        c.cou_total_fees
     FROM jeno_fees AS a 
     LEFT JOIN jeno_student AS b 
-    ON a.fee_stu_id = b.stu_id 
+        ON a.fee_stu_id = b.stu_id 
     LEFT JOIN jeno_course AS c 
-    ON b.stu_cou_id = c.cou_id 
-    WHERE a.fee_id= $addGetId";
+        ON b.stu_cou_id = c.cou_id 
+    WHERE a.fee_id = $addGetId";
 
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
 
-        // Prepare university details array
         $courseDetails = [
             'fee_id' => $row['fee_id'],
             'fee_admision_id' => $row['fee_admision_id'],
@@ -145,10 +142,11 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             'fee_uni_fee' => $row['fee_uni_fee'],
             'fee_sdy_fee_total' => $row['fee_sdy_fee_total'],
             'fee_sty_fee' => $row['fee_sty_fee'],
-            'stu_study_year' => $row['stu_aca_year'],
-            'cou_university_fess' => json_decode($row['cou_university_fess']), // Decode JSON string to array
-            'cou_study_fees' => json_decode($row['cou_study_fees']), // Decode JSON string to array
-        
+            'stu_study_year' => $row['fee_stu_year'],
+            'cou_duration' => $row['cou_duration'],
+            'cou_fees_type' => $row['cou_fees_type'],
+            'cou_university_fess' => json_decode($row['cou_university_fess']),
+            'cou_study_fees' => json_decode($row['cou_study_fees'])
         ];
 
         echo json_encode($courseDetails);
@@ -158,9 +156,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     }
 
     exit(); 
-    }
-
-
+}
 
 
     if (isset($_GET['studentId'])) {

@@ -168,16 +168,7 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
-    <script>
-$(document).ready(function() {
-    
 
-    // function goDownload(id) {
-    //     alert(id);
-    //     window.location.href = "action/actDownload.php?payment_id="+id;
-    // }
-});
-</script>
 
     <script>
 
@@ -309,78 +300,62 @@ function toggleDivs() {
         }
     });
 
-    function goEditFees(addGetId)
-    {
-      $('#addFees').removeClass('was-validated');
+    function goEditFees(addGetId) {
+    $('#addFees').removeClass('was-validated');
     $('#addFees').addClass('needs-validation');
     $('#addFees')[0].reset(); // Reset the form
-    //  $('#fessType').val('');
-      
-      $.ajax({
+
+    $.ajax({
         url: 'action/actFees.php',
         method: 'POST',
         data: {
-          addGetId: addGetId
+            addGetId: addGetId
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json',
         success: function(response) {
+            if (response) {
+                // Check if response contains the course details
+                if (response.cou_duration && response.cou_fees_type) {
+                    var options = '';
+                    var duration = response.cou_duration; // Get course duration
+                    var feesType = response.cou_fees_type; // Get fee pattern (e.g., 'Year', 'Semester')
 
-          $('#feesid').val(response.fee_id);
-          $('#studentId').val(response.stu_id);
-          $('#admissionId').val(response.fee_admision_id);
-          $('#studentName').val(response.stu_name);
-          $('#year').val(response.stu_study_year);
-          $('#universityFees').text(response.fee_uni_fee_total);
-          $('#studyFees').text(response.fee_sdy_fee_total);
+                   
+                    
+                    // Generate dropdown options based on the fee pattern
+                    for (var i = 1; i <= duration; i++) {
+                        var optionText = i + ' ' + feesType ;
+                        options += '<option value="' + i + '">' + optionText + '</option>';
+                    }
 
-          var uni_fee = response.fee_uni_fee_total - response.fee_uni_fee ;
-          var sty_fee = response.fee_sdy_fee_total - response.fee_sty_fee ;
-          
-          $('#balance').val(uni_fee + sty_fee);
+                    // Set the generated options into the dropdown
+                    $('#year').html(options);
+                } else {
+                    console.error("Invalid response data");
+                }
 
-          
-         
-        
-            // Function to get index based on study year
-        function getIndexByStudyYear(studyYear) { 
-            switch (studyYear) {
-                case "1st Year": return 0;
-                case "2nd Year": return 1;
-                case "3rd Year": return 2;
-                case "4th Year": return 3;
-                case "5th Year": return 4;
-                default: return -1; // Invalid study year
-            }
-        }
+                // Set form fields
+                $('#feesid').val(response.fee_id);
+                $('#studentId').val(response.stu_id);
+                $('#admissionId').val(response.fee_admision_id);
+                $('#studentName').val(response.stu_name);
+                $('#year').val(response.stu_study_year);
+                $('#universityFees').text('₹ ' + response.fee_uni_fee_total);
+                $('#studyFees').text('₹ ' + response.fee_sdy_fee_total);
 
-        var index = getIndexByStudyYear(response.stu_study_year);
+                var uni_fee = Number(response.fee_uni_fee_total) - Number(response.fee_uni_fee);
+                var sty_fee = Number(response.fee_sdy_fee_total) - Number(response.fee_sty_fee);
 
-        if (index !== -1) {
-            if (Array.isArray(response.cou_university_fess) && response.cou_university_fess.length > index) {
-                $('#universityFees').text(response.cou_university_fess[index]); // Get the value at the specific index
+                $('#balance').val(uni_fee + sty_fee);
             } else {
-                console.error('cou_university_fess is not a valid array or does not have enough elements.');
+                console.error('Invalid response');
             }
-            if (Array.isArray(response.cou_study_fees) && response.cou_study_fees.length > index) {
-                $('#studyFees').text(response.cou_study_fees[index]); // Get the value at the specific index
-            } else {
-                console.error('cou_study_fees is not a valid array or does not have enough elements.');
-            }
-        } else {
-            console.error('Invalid study year.');
-        }
-
-
-        
-      
         },
         error: function(xhr, status, error) {
-            // Handle errors here
             console.error('AJAX request failed:', status, error);
         }
     });
-    
-    }
+}
 
 
 

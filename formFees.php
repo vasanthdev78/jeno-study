@@ -30,11 +30,12 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control"  name="year" id="year" required="required">
+                                <select class="form-control" name="year" id="year" required="required" disabled>
+                                    <option value="">--Select Year--</option>
+                                </select>
                             </div>
                         </div>
                        
-
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="paidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
