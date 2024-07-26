@@ -119,33 +119,33 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_P
     $subject = json_encode($_POST['subjectEdit']);
 
     // Base query
-    // $updateQuery = "UPDATE jeno_faculty 
-    // SET 
-    //     fac_name = '$name',
-    //     fac_gender = '$gender',
-    //     fac_mobile = '$mobile',
-    //     fac_date_of_join = '$dateofjoin',
-    //     fac_salary = '$salary',
-    //     fac_qualification = '$qualification',
-    //     fac_email = '$email',
-    //     fac_address = '$address',
-    //     fac_clg = '$clgName',
-    //     fac_cou_id = '$course',
-    //     fac_updated_by = '$userId'";
+    $updateQuery = "UPDATE jeno_faculty 
+    SET 
+        fac_name = '$name',
+        fac_gender = '$gender',
+        fac_mobile = '$mobile',
+        fac_date_of_join = '$dateofjoin',
+        fac_salary = '$salary',
+        fac_qualification = '$qualification',
+        fac_email = '$email',
+        fac_address = '$address',
+        fac_clg = '$clgName',
+        fac_cou_id = '$course',
+        fac_updated_by = '$userId'";
 
-    // if (!empty($newFileName)) {
-    //     $updateQuery .= ", fac_aadhar = '$newFileName'";
-    // }
+    if (!empty($newFileName)) {
+        $updateQuery .= ", fac_aadhar = '$newFileName'";
+    }
 
-    // $updateQuery .= " WHERE fac_id = $facId";
+    $updateQuery .= " WHERE fac_id = $facId";
 
-    // if ($conn->query($updateQuery) === TRUE) {
-    //     $_SESSION['message'] = "Faculty details updated successfully!";
-    //     $response['success'] = true;
-    //     $response['message'] = "Faculty details updated successfully!";
-    // } else {
-    //     $response['message'] = "Error: " . $updateQuery . "<br>" . $conn->error;
-    // }
+    if ($conn->query($updateQuery) === TRUE) {
+        $_SESSION['message'] = "Faculty details updated successfully!";
+        $response['success'] = true;
+        $response['message'] = "Faculty details updated successfully!";
+    } else {
+        $response['message'] = "Error: " . $updateQuery . "<br>" . $conn->error;
+    }
     
     echo json_encode($response);
     exit();

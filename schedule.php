@@ -189,24 +189,7 @@ $('#course').change(function() {
         }
     });
 
-    $('#courseEdit').change(function() {
-    var courseId = $(this).val();
-    if (courseId) {
-        $.ajax({
-            type: 'POST',
-            url: 'action/actSchedule.php', // PHP file to fetch subjects
-            data: { course_id: courseId },
-            success: function(response) {
-                $('#subjectEdit').html(response); // Populate the multi-select dropdown
-                $('#subjectEdit').select2(); // Reinitialize select2
-            }
-        });
-    } else {
-        $('#subjectEdit').html('<option value="">--Select the Subject--</option>');
-        $('#subjectEdit').select2(); // Reinitialize select2
-    }
-});
-
+   
 $('#addSchedule').off('submit').on('submit', function(e) {
 
   e.preventDefault(); 
@@ -272,37 +255,51 @@ $('#addSchedule').off('submit').on('submit', function(e) {
 
 });
 
-function goEditSchedule(editId)
-{ 
-      $.ajax({
+function goEditSchedule(editId) {
+    $.ajax({
         url: 'action/actSchedule.php',
         method: 'POST',
         data: {
-          editId: editId
+            editId: editId
         },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+            $('#editSchedule').removeClass('was-validated');
+            $('#editSchedule').addClass('needs-validation');
+            $('#editSchedule')[0].reset(); // Reset the form
 
-          $('#editSchedule').removeClass('was-validated');
-          $('#editSchedule').addClass('needs-validation');
-          $('#editSchedule')[0].reset(); // Reset the form
+            $('#scheduleId').val(response.schId);
+            $('#facultyNameEdit').val(response.name);
+            $('#fromDateEdit').val(response.date);
+            $('#sessionEdit').val(response.session);
+            $('#timingEdit').val(response.timing);
+            $('#courseEdit').val(response.couId);
+            $('#courseEdit').trigger('change'); // This will trigger the change event to load subjects
 
-          $('#scheduleId').val(response.schId);
-          $('#facultyNameEdit').val(response.name);
-          $('#fromDateEdit').val(response.date);
-          $('#sessionEdit').val(response.session);
-          $('#timingEdit').val(response.timing);
-          $('#courseEdit').val(response.couId);
-          $('#courseEdit').trigger('change');
-          var selectedSubjects = response.subId;
-          $('#subjectEdit').val(selectedSubjects).trigger('change');
+            // Fetch subjects based on the selected course and set selected subjects
+            $.ajax({
+                type: 'POST',
+                url: 'action/actSchedule.php', // PHP file to fetch subjects
+                data: { course_id: response.couId },
+                success: function(subjectsResponse) {
+                    $('#subjectEdit').html(subjectsResponse); // Populate the multi-select dropdown
+
+                    // Parse the JSON-encoded string to get the selected subjects
+                    var selectedSubjects = JSON.parse(response.subId);
+                    $('#subjectEdit').val(selectedSubjects).trigger('change');
+
+                    $('#subjectEdit').select2(); // Reinitialize select2
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
         },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);
         }
     });
-    
 }
 
 
