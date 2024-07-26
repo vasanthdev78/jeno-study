@@ -15,6 +15,8 @@ $response = ['success' => false, 'message' => ''];
         $bookIssue = $_POST['bookIssue'];
         $idCard = $_POST['idCard'];
         $bookId = $_POST['bookId'];
+        $courseyear = $_POST['courseyear'];
+        
         
         $bookIssueAll =json_encode($bookIssue);
         $bookIssueUni =json_encode($bookUniReceived);
@@ -35,6 +37,7 @@ $response = ['success' => false, 'message' => ''];
          `book_uni_received` ='$bookIssueUni',
          `book_issued` = '$bookIssueAll',
          `book_id_card` = '$idCard',
+         `courseyear` = '$courseyear',
          `book_updated_by` = '$createdBy'
      WHERE `book_id` = '$bookId';";
     } else {
@@ -318,186 +321,13 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         ];
 
         echo json_encode($courseDetails);
+        exit();
     } else {
         $response = ['message' => "Error fetching details: " . mysqli_error($conn)];
         echo json_encode($response);
     }
-    exit();
-} else {
-    $response = ['message' => 'Required parameters are missing.'];
-    echo json_encode($response);
-    exit();
-}
-
-
-
-
-    if (isset($_GET['studentId'])) {
-        $studentId = $_GET['studentId'];
     
-        // Fetch payment history from the database
-        $payment_history_sql = "SELECT 
-        a.pay_id
-        , a.pay_admission_id 
-        , a.pay_student_name 
-        , a.pay_year 
-        , a.pay_paid_method 
-        , a.pay_transaction_id 
-        , a.pay_description 
-        , a.pay_university_fees 
-        , a.pay_study_fees 
-        , a.pay_total_amount 
-        , a.pay_balance 
-        , a.pay_date 
-        , b.fee_uni_fee_total 
-        ,b.fee_sdy_fee_total 
-        , b.fee_uni_fee 
-        ,b.fee_sty_fee 
-         FROM `jeno_payment_history` AS a 
-         LEFT JOIN jeno_fees AS b 
-         ON a.pay_admission_id = b.fee_admision_id 
-         WHERE b.fee_admision_id = '$studentId' 
-         AND a.pay_status ='Active' 
-         AND b.fee_status = 'Active';";
-        $payment_history_res = mysqli_query($conn, $payment_history_sql);
-
-        $history = "SELECT 
-        `pay_id`
-        , `pay_admission_id`
-        , `pay_student_name`
-        , `pay_year`
-        , `pay_paid_method`
-        , `pay_transaction_id`
-        , `pay_university_fees`
-        , `pay_study_fees`
-        , `pay_total_amount`
-        , `pay_balance`
-        , `pay_date` 
-        FROM `jeno_payment_history`
-         WHERE pay_admission_id = '$studentId' AND pay_status = 'Active';";
-
-        $payment_res = mysqli_query($conn, $history);
-
-            if($payment_res){
-                while ($pay_row = mysqli_fetch_assoc($payment_res)) {
-                // $pay_row = mysqli_fetch_assoc($payment_res);
-
-                $history = [
-
-                'pay_id' => $pay_row['pay_id'],
-                'pay_admission_id' => $pay_row['pay_admission_id'],
-                'pay_student_name' => $pay_row['pay_student_name'],
-                'pay_year' => $pay_row['pay_year'],
-                'pay_paid_method' => $pay_row['pay_paid_method'],
-                'pay_transaction_id' => $pay_row['pay_transaction_id'],
-                'pay_university_fees' => $pay_row['pay_university_fees'],
-                'pay_study_fees' => $pay_row['pay_study_fees'],
-                'pay_total_amount' => $pay_row['pay_total_amount'],
-                'pay_balance' => $pay_row['pay_balance'],
-                'pay_date' => $pay_row['pay_date'],
-                ];
-                $historys[] = $history;
-            }
-            }
-    
-        if ($payment_history_res) {
-            $row = mysqli_fetch_assoc($payment_history_res);
-            $totalPaid = $row['fee_uni_fee'] + $row['fee_sty_fee'] ;
-            $totalAmount = $row['fee_uni_fee_total'] + $row['fee_sdy_fee_total'] ;
-            $balance = $totalAmount - $totalPaid ;
-            // Prepare university details array
-            $courseDetails = [
-                'pay_id' => $row['pay_id'],
-                'pay_admission_id' => $row['pay_admission_id'],
-                'pay_student_name' => $row['pay_student_name'],
-                'pay_year' => $row['pay_year'],
-                'pay_paid_method' => $row['pay_paid_method'],
-                'pay_transaction_id' => $row['pay_transaction_id'],
-                'pay_description' => $row['pay_description'],
-                'fee_uni_fee_total' => $row['fee_uni_fee_total'],
-                'fee_sdy_fee_total' => $row['fee_sdy_fee_total'],
-                'fee_uni_fee' => $row['fee_uni_fee'],
-                'fee_sty_fee' => $row['fee_sty_fee'],
-                'totalAmount' => $totalAmount,
-                'totalPaid' => $totalPaid,
-                'pay_university_fees' => $row['pay_university_fees'],
-                'pay_study_fees' => $row['pay_study_fees'],
-                'pay_total_amount' => $row['pay_total_amount'],
-                'balance' => $balance,
-                'hostory_table' => $historys,
-                'pay_date' => $row['pay_date'],
-            
-            ];
-    
-            echo json_encode($courseDetails);
-        } else {
-            $response['message'] = "Error fetching Fees details: " . mysqli_error($conn);
-            echo json_encode($response);
-        }
-        exit();
-    }
-
-    
-
-
-    
-
-        // // Handle deleting a client
-            if (isset($_POST['deleteId'])) {
-                $id = $_POST['deleteId'];
-                $updatedBy = $_SESSION['userId'];
-
-                $deleteAmuont = "SELECT 
-                    a.pay_admission_id   
-                 , a.pay_university_fees 
-                 , a.pay_study_fees
-                 , a.pay_total_amount 
-                 , b.fee_uni_fee 
-                 , b.fee_sty_fee 
-                  FROM `jeno_payment_history` AS a 
-                  LEFT JOIN jeno_fees AS b 
-                  ON a.pay_admission_id = b.fee_admision_id 
-                  WHERE pay_id = $id;";
-
-               if(  $deleteAmuont_res = mysqli_query($conn, $deleteAmuont)){
-                  $fee_row = mysqli_fetch_assoc($deleteAmuont_res);
-                  $admision = $fee_row['pay_admission_id'];
-                  $pay_university_fees = $fee_row['pay_university_fees'];
-                  $pay_study_fees = $fee_row['pay_study_fees'];
-                  $fee_uni_fee_total = $fee_row['fee_uni_fee'];
-                  $fee_sdy_fee_total = $fee_row['fee_sty_fee'];
-                  
-                $updateUniFees = $fee_uni_fee_total - $pay_university_fees ;
-                $updateStyFees = $fee_sdy_fee_total - $pay_study_fees ;
-
-                  $updateSql = "UPDATE `jeno_fees` 
-                  SET `fee_uni_fee_total`='$updateUniFees'
-                  , `fee_sdy_fee_total`='$updateStyFees'
-                  , `fee_updated_by`='$updatedBy' 
-                  WHERE `fee_admision_id` = '$admision'";
-
-                  if($updateSql_res = mysqli_query($conn, $updateSql)){
-
-                $queryDel = "UPDATE `jeno_payment_history` 
-                SET `pay_updated_by`='$updatedBy'
-                ,`pay_status`='Inactive' WHERE pay_id =$id;";
-                $reDel = mysqli_query($conn, $queryDel);
-            }
-        }
-
-                if ($reDel) {
-                    
-                    $_SESSION['message'] = "Payment Details have been deleted successfully!";
-                    $response['success'] = true;
-                    $response['message'] = "Payment Details have been deleted successfully!";
-                } else {
-                    $_SESSION['message'] = "Unexpected error in deleting Course details!";
-                    $response['message'] = "Error: " . mysqli_error($conn);
-                }
-
-                echo json_encode($response);
-                exit();
-            }
+    } 
 
 
 
@@ -507,17 +337,20 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
                 $uniId = $_POST['id'];
 
                 // Prepare and execute the SQL query
-                $selQuery = "SELECT `cou_id`
-                , `cou_uni_id`
-                , `cou_name`
-                , `cou_medium`
-                , `cou_exam_type`
-                , `cou_fees_type`
-                , `cou_duration`
-                , `cou_university_fess`
-                , `cou_study_fees`
-                , `cou_total_fees` 
-                FROM `jeno_course` WHERE cou_id = $uniId";
+                $selQuery = "SELECT 
+                            a.book_id
+                            , a.book_stu_id
+                            , a.book_received
+                            , a.book_uni_received
+                            , a.book_issued
+                            , a.book_id_card
+                            , a.book_year
+                            ,b.stu_name 
+                            , b.stu_apply_no
+                            FROM `jeno_book` AS a
+                            LEFT JOIN jeno_student AS b
+                            ON a.book_stu_id = b.stu_id  
+                            WHERE book_id = $uniId";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -526,16 +359,15 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
                     
            // Prepare university details array
         $courseViewDetails = [
-            'cou_id' => $row['cou_id'],
-            'cou_uni_id' => universityName($row['cou_uni_id']),
-            'cou_name' => $row['cou_name'],
-            'cou_medium' => $row['cou_medium'],
-            'cou_exam_type' => $row['cou_exam_type'],
-            'cou_fees_type' => $row['cou_fees_type'],
-            'cou_duration' => $row['cou_duration'],
-            'cou_university_fess' => json_decode($row['cou_university_fess']), // Decode JSON string to array
-            'cou_study_fees' => json_decode($row['cou_study_fees']), // Decode JSON string to array
-            'cou_total_fees' => json_decode($row['cou_total_fees']), // Decode JSON string to array
+            'book_id' => $row['book_id'],
+            'stu_name' => $row['stu_name'],
+            'book_issued' => json_decode($row['book_issued']),
+            'book_uni_received' => json_decode($row['book_uni_received']),
+            'book_received' => $row['book_received'],
+            'book_id_card' => $row['book_id_card'],
+            'book_year' => $row['book_year'],
+            'stu_apply_no' => $row['stu_apply_no'],
+           
         ];
 
           echo json_encode($courseViewDetails);
@@ -545,76 +377,6 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
                     echo "Error executing query: " . $conn->error;
                 }
             }
-
-
-
-
-
-
-            // Handle fetching university details for editing
-    if (isset($_POST['editId']) && $_POST['editId'] != '') {
-    
-    $editId = $_POST['editId'];
-
-    $selQuery = "SELECT 
-    a.fee_id
-    , a.fee_admision_id
-    , a.fee_stu_id
-    , a.fee_uni_fee_total
-    , a.fee_uni_fee
-    , a.fee_sdy_fee_total
-    , a.fee_sty_fee
-    , a.fee_paid_date
-    , a.fee_method
-    , a.fee_trans_id
-    , a.fee_description
-    , b.stu_id
-    , b.stu_name
-    , c.cou_id
-    , c.cou_study_fees 
-    , c.cou_university_fess
-    , c.cou_total_fees
-    , b.stu_enroll
-    , b.stu_study_year 
-    FROM jeno_fees AS a 
-    LEFT JOIN jeno_student AS b 
-    ON a.fee_stu_id = b.stu_id 
-    LEFT JOIN jeno_course AS c 
-    ON b.stu_cou_id = c.cou_id 
-    WHERE a.fee_id= $editId";
-
-    $result = mysqli_query($conn, $selQuery);
-
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-
-        // Prepare university details array
-        $courseDetails = [
-            'fee_id' => $row['fee_id'],
-            'fee_admision_id' => $row['fee_admision_id'],
-            'stu_id' => $row['stu_id'],
-            'stu_name' => $row['stu_name'],
-            'fee_uni_fee_total' => $row['fee_uni_fee_total'],
-            'fee_uni_fee' => $row['fee_uni_fee'],
-            'fee_sdy_fee_total' => $row['fee_sdy_fee_total'],
-            'fee_sty_fee' => $row['fee_sty_fee'],
-            'stu_study_year' => $row['stu_study_year'],
-            'cou_university_fess' => json_decode($row['cou_university_fess']), // Decode JSON string to array
-            'cou_study_fees' => json_decode($row['cou_study_fees']), // Decode JSON string to array
-        
-        ];
-
-        echo json_encode($courseDetails);
-    } else {
-        $response['message'] = "Error fetching Fees details: " . mysqli_error($conn);
-        echo json_encode($response);
-    }
-
-    exit(); 
-    }
-
-
-
 
 
 
