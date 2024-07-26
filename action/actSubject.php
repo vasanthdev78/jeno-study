@@ -51,7 +51,7 @@ if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
     $courseResult = mysqli_query($conn, $courseQuery);
 
     // Query to fetch elective details
-    $electiveQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub AND ele_lag_elec = 'E' AND ele_status = 'Active';";
+    $electiveQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub  AND ele_status = 'Active';";
     $electiveResult = mysqli_query($conn, $electiveQuery);
 
     // Initialize response array

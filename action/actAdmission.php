@@ -111,17 +111,22 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
 
         $conn->query($documents_sql);
 
+
+
         // Insert into fees table
         $fees_sql = "INSERT INTO `jeno_fees`(`fee_stu_id`, `fee_uni_fee`, `fee_sty_fee`, `fee_created_by`) 
                     VALUES ('$studentId', '0', '0', '$createdBy')"; // Modify as per your requirements
 
         $conn->query($fees_sql);
 
-        // Insert into book table
-        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_created_by`) 
-                    VALUES ('$studentId', '$createdBy')"; // Modify as per your requirements
+      
 
-        $conn->query($book_sql);
+            
+            // Insert into book table based on the course duration
+           
+                $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_created_by`) VALUES ('$studentId', '$createdBy')";
+                $conn->query($book_sql) ;
+       
 
         $response['success'] = true;
         $response['message'] = "Student details added successfully!";
