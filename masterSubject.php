@@ -344,10 +344,12 @@ session_start();
     var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
     var input1 = $('<select class="form-control" name="newInputLanguageSubjectCode[]" required></select>');
 
+    var course_id = $('#course').val();
      // Fetch options and append to the dropdown (you can adjust this part to fetch dynamically if needed)
      $.ajax({
         url: 'action/actLanguage.php', // PHP file to fetch languages
-        method: 'GET',
+        method: 'POST',
+        data: { course_id: course_id },
         dataType: 'json',
         success: function(data) {
             input1.append('<option value="">--Select Language--</option>');

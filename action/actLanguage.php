@@ -4,14 +4,16 @@ include '../db/dbConnection.php'; // Adjust the path to your database connection
 header('Content-Type: application/json');
 
 // Check if the request method is GET
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $id = $_POST['course_id'];
 
     // Define the function to fetch language report
-    function landuageReport() {    
+    function landuageReport($id) {    
         global $conn; // Assuming $conn is your database connection variable
 
         // Query to retrieve elective languages
-        $language_query = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_lag_elec = 'L' AND ele_status = 'Active'";
+        $language_query = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $id AND ele_status ='Active';";
 
         // Execute the query
         $language_result = $conn->query($language_query);
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     // Fetch the language report
-    $languages = landuageReport();
+    $languages = landuageReport($id);
 
     // Output the data as JSON
     echo json_encode($languages);

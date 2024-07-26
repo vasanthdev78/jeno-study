@@ -2,7 +2,34 @@
 session_start();
     include("db/dbConnection.php");
     
-    $selQuery = "SELECT a.*, b.* FROM `jeno_student` AS a LEFT JOIN jeno_book AS b ON a.stu_id = b.book_stu_id WHERE b.book_status = 'Active' ";
+    $selQuery = "SELECT 
+    b.book_id,
+    b.book_stu_id,
+    b.book_received,
+    b.book_issued,
+    b.book_id_card,
+    b.book_year,
+    b.book_created_at,
+    b.book_created_by,
+    b.book_updated_at,
+    b.book_updated_by,
+    b.book_status,
+    c.stu_name,
+    c.stu_apply_no,
+    c.stu_phone
+    FROM 
+    jeno_book b
+    JOIN 
+    (SELECT 
+        book_stu_id, 
+        MAX(book_id) as max_book_id 
+     FROM 
+        jeno_book 
+     GROUP BY 
+        book_stu_id) sub 
+    ON 
+    b.book_id = sub.max_book_id LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id WHERE b.book_status ='Active';";
+
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
@@ -29,7 +56,7 @@ session_start();
         <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
-        
+        <?php include("formBookIssue.php");?>
         <div class="content-page">
             <div class="content">
 
@@ -98,7 +125,7 @@ session_start();
                     </div>
 
 
-             <?php include("formBookIssue.php");?>
+            
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -120,7 +147,8 @@ session_start();
 
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['book_id'];  $name = $row['stu_name']; 
+                        $id = $row['book_id']; 
+                        $name = $row['stu_name']; 
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; 
                         $contact = $row['stu_phone']; 
@@ -140,7 +168,7 @@ session_start();
                         <td>
                         <button type="button" onclick="goAddBook('<?php echo $stu_apply_no; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
 
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
                       </tr>
                       <?php 
@@ -206,6 +234,15 @@ session_start();
     
     
        <script>
+
+            $('#backButtonBook').on('click', function() {
+
+
+            $('#StuContent').addClass('d-none');
+            $('#bookView').removeClass('d-none');
+            });
+
+
         function goAddBook(addGetId) {
             alert("click button");
             $('#addBookissue').removeClass('was-validated');
@@ -278,51 +315,34 @@ session_start();
                 success: function(response) {
                     // Handle the response data
                     console.log(response);
+                    alert(response.final_subjects);
                     
-                  // Populate the select element with options from the response array
+               // Populate the select element with final subjects from the response array
                 var $select = $('#bookIssue');
+                var $select1 = $('#bookUniReceived');
 
                 // Clear existing options if any
                 $select.empty();
+                $select1.empty();
 
-                // Check if sub_addition_lag_name is empty
-                if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length === 0) {
-                    // If sub_addition_lag_name is empty, use sub_ele_id to fetch values
-                    if (response.sub_ele_id) {
-                        // Use sub_ele_id to get corresponding values (assuming sub_addition_sub_name and sub_subject_name are arrays)
-                        // Here, you should have a way to map sub_ele_id to actual values, which may involve additional logic.
-                        
-                        // For demonstration, assuming you want to add a single option based on sub_ele_id
-                        // You would need to modify this according to your actual logic for sub_ele_id
-                        var $option = $('<option>').val(response.sub_addition_sub_name[0]).text(response.sub_addition_sub_name[0]);
+                
+
+                    // Add filtered subjects to the select element
+                    response.final_subjects.forEach(function(subject) {
+                        var $option = $('<option>').val(subject).text(subject);
                         $select.append($option);
-
-                        var $subjectOption = $('<option>').val(response.sub_subject_name[0]).text(response.sub_subject_name[0]);
-                        $select.append($subjectOption);
-                    }
-                } else if (Array.isArray(response.sub_addition_lag_name) &&
-                           Array.isArray(response.sub_addition_sub_name) &&
-                           Array.isArray(response.sub_subject_name)) {
-                    // Load subName options first
-                    response.sub_addition_lag_name.forEach(function(lagName, index) {
-                        if (lagName === response.add_language) {
-                            var subName = response.sub_addition_sub_name[index];
-                            var $option = $('<option>').val(subName).text(subName);
-                            $select.append($option);
-                        }
                     });
 
-                    // Load subjectName options next
-                    response.sub_subject_name.forEach(function(subjectName) {
-                        var $option = $('<option>').val(subjectName).text(subjectName);
-                        $select.append($option);
+                       // Add filtered subjects to the select element
+                       response.Uni_final_subjects.forEach(function(subject) {
+                        var $option = $('<option>').val(subject).text(subject);
+                        $select1.append($option);
                     });
 
                     // Initialize Select2 on the select element
                     $select.select2();
-                } else {
-                    console.error('One or more response arrays are not valid.');
-                }
+                    $select1.select2();
+               
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
@@ -388,6 +408,152 @@ session_start();
       }
     });
   });
+
+
+
+
+//   ____________________________________________________________________________________________________________
+
+
+
+function goViewBook(id) 
+    {
+      alert('sdafda');
+    //location.href = "clientDetail.php?clientId="+id;
+    $.ajax({
+        url: 'action/actBook.php',
+        method: 'POST',
+        data: {
+            id: id
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+          
+          $('#StuContent').hide();
+          $('#SubjectView').removeClass('d-none');
+        
+          $('#viewUniversityName').text(response.sub_uni_id);
+          $('#viewCourseName').text(response.sub_cou_id);
+          
+          $('#viewyearSemester').text(response.sub_exam_patten);
+        //   $('#viewFeesType').text(response.cou_fees_type);
+        //   $('#viewDuration').text(response.cou_duration +" Years");
+  // Clear previous input fields
+  $('#viewSubjectInputs').empty();
+    $('#viewAdditionSubjectInputs').empty();
+
+    // Directly assume sub_subject_code and sub_subject_name are arrays of equal length
+    if (Array.isArray(response.sub_subject_code) && Array.isArray(response.sub_subject_name)) {
+        response.sub_subject_code.forEach(function(subjectCode, index) {
+            var subjectName = response.sub_subject_name[index];
+            
+            var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
+
+            var input1Div = $('<div class="col-sm-6"></div>');
+            var input1Card = $('<div class="card p-3"></div>');
+            var input1Label = $('<h4>Subject Code</h4>');
+            var input1 = $('<span class="detail"></span>').text(subjectCode);
+            input1Card.append(input1Label);
+            input1Card.append(input1);
+            input1Div.append(input1Card);
+
+            var input2Div = $('<div class="col-sm-6"></div>');
+            var input2Card = $('<div class="card p-3"></div>');
+            var input2Label = $('<h4>Subject Name</h4>');
+            var input2 = $('<span class="detail"></span>').text(subjectName);
+            input2Card.append(input2Label);
+            input2Card.append(input2);
+            input2Div.append(input2Card);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+
+            $('#viewSubjectInputs').append(newInputDiv);
+        });
+    } else {
+        console.error('sub_subject_code or sub_subject_name is not an array.');
+    }
+
+    // Check if sub_addition_lag_name is not empty and add those inputs
+    if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length > 0) {
+        response.sub_addition_lag_name.forEach(function(languageName, index) {
+            var subCode = response.sub_addition_sub_code[index];
+            var subName = response.sub_addition_sub_name[index];
+
+            var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
+
+            var input1Div = $('<div class="col-sm-4"></div>');
+            var input1Card = $('<div class="card p-3"></div>');
+            var input1Label = $('<h4>Additional Language Name</h4>');
+            var input1 = $('<span class="detail"></span>').text(languageName);
+            input1Card.append(input1Label);
+            input1Card.append(input1);
+            input1Div.append(input1Card);
+
+            var input2Div = $('<div class="col-sm-4"></div>');
+            var input2Card = $('<div class="card p-3"></div>');
+            var input2Label = $('<h4>Subject Code</h4>');
+            var input2 = $('<span class="detail"></span>').text(subCode);
+            input2Card.append(input2Label);
+            input2Card.append(input2);
+            input2Div.append(input2Card);
+
+            var input3Div = $('<div class="col-sm-4"></div>');
+            var input3Card = $('<div class="card p-3"></div>');
+            var input3Label = $('<h4>Subject Name</h4>');
+            var input3 = $('<span class="detail"></span>').text(subName);
+            input3Card.append(input3Label);
+            input3Card.append(input3);
+            input3Div.append(input3Card);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+            newInputDiv.append(input3Div);
+
+            $('#viewAdditionSubjectInputs').append(newInputDiv);
+        });
+    } else {
+        if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
+            $('#viewElectiveDiv').removeClass("d-none");
+           
+            $('#viewElective').text(response.ele_elective);
+
+            response.sub_addition_sub_code.forEach(function(subCode, index) {
+                var subName = response.sub_addition_sub_name[index];
+
+                var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
+
+                var input1Div = $('<div class="col-sm-6"></div>');
+                var input1Card = $('<div class="card p-3"></div>');
+                var input1Label = $('<h4>Elective Subject Code</h4>');
+                var input1 = $('<span class="detail"></span>').text(subCode);
+                input1Card.append(input1Label);
+                input1Card.append(input1);
+                input1Div.append(input1Card);
+
+                var input2Div = $('<div class="col-sm-6"></div>');
+                var input2Card = $('<div class="card p-3"></div>');
+                var input2Label = $('<h4>Elective Subject Name</h4>');
+                var input2 = $('<span class="detail"></span>').text(subName);
+                input2Card.append(input2Label);
+                input2Card.append(input2);
+                input2Div.append(input2Card);
+
+                newInputDiv.append(input1Div);
+                newInputDiv.append(input2Div);
+
+                $('#viewAdditionSubjectInputs').append(newInputDiv);
+            });
+        } else {
+            console.error('sub_addition_sub_code or sub_addition_sub_name is not an array.');
+        }
+    }   },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+    }
 
         
     </script>
