@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2024 at 11:00 AM
+-- Generation Time: Jul 26, 2024 at 01:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_demo`
+-- Database: `db_jeno_demo`
 --
 
 -- --------------------------------------------------------
@@ -31,8 +31,10 @@ CREATE TABLE `jeno_book` (
   `book_id` int(11) NOT NULL,
   `book_stu_id` int(11) NOT NULL,
   `book_received` enum('Received','Not Received') NOT NULL DEFAULT 'Not Received',
+  `book_uni_received` longtext NOT NULL,
   `book_issued` longtext NOT NULL,
   `book_id_card` enum('Issued','Not Issued') NOT NULL DEFAULT 'Not Issued',
+  `book_year` int(11) NOT NULL,
   `book_created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `book_created_by` int(11) NOT NULL,
   `book_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -44,19 +46,9 @@ CREATE TABLE `jeno_book` (
 -- Dumping data for table `jeno_book`
 --
 
-INSERT INTO `jeno_book` (`book_id`, `book_stu_id`, `book_received`, `book_issued`, `book_id_card`, `book_created_at`, `book_created_by`, `book_updated_at`, `book_updated_by`, `book_status`) VALUES
-(1, 1, 'Not Received', '0', 'Not Issued', '2024-07-19 16:52:04', 2, '2024-07-23 12:12:48', 0, 'Active'),
-(2, 2, 'Not Received', '0', 'Not Issued', '2024-07-19 17:05:26', 2, '2024-07-19 11:35:26', 0, 'Active'),
-(3, 3, 'Not Received', '0', 'Not Issued', '2024-07-19 17:19:13', 2, '2024-07-20 12:03:51', 0, 'Inactive'),
-(4, 4, 'Not Received', '0', 'Not Issued', '2024-07-19 17:20:50', 2, '2024-07-19 11:50:50', 0, 'Active'),
-(5, 5, 'Not Received', '0', 'Not Issued', '2024-07-19 17:21:46', 2, '2024-07-19 11:51:46', 0, 'Active'),
-(6, 14, 'Not Received', '0', 'Not Issued', '2024-07-22 18:47:38', 2, '2024-07-22 13:18:22', 0, 'Inactive'),
-(7, 15, 'Not Received', '0', 'Not Issued', '2024-07-23 09:54:29', 2, '2024-07-23 04:24:29', 0, 'Active'),
-(8, 16, 'Not Received', '0', 'Not Issued', '2024-07-23 09:56:00', 2, '2024-07-23 04:26:00', 0, 'Active'),
-(9, 17, 'Not Received', '0', 'Not Issued', '2024-07-23 14:46:12', 2, '2024-07-23 09:16:12', 0, 'Active'),
-(10, 18, 'Not Received', '0', 'Not Issued', '2024-07-23 15:48:40', 2, '2024-07-23 10:18:40', 0, 'Active'),
-(11, 19, 'Not Received', '0', 'Not Issued', '2024-07-23 16:25:30', 2, '2024-07-23 10:55:30', 0, 'Active'),
-(12, 20, 'Not Received', '0', 'Not Issued', '2024-07-23 17:43:47', 2, '2024-07-23 12:14:38', 0, 'Active');
+INSERT INTO `jeno_book` (`book_id`, `book_stu_id`, `book_received`, `book_uni_received`, `book_issued`, `book_id_card`, `book_year`, `book_created_at`, `book_created_by`, `book_updated_at`, `book_updated_by`, `book_status`) VALUES
+(1, 1, 'Not Received', '[\"Part-1 Tamil\",\"Part-1\",\"Part-1\"]', 'null', 'Not Issued', 0, '2024-07-26 12:29:27', 2, '2024-07-26 10:56:53', 2, 'Active'),
+(2, 2, 'Not Received', '', '[\"Quantitative Methods\",\"Organizational Behavior\"]', 'Not Issued', 0, '2024-07-26 14:40:01', 2, '2024-07-26 09:51:49', 2, 'Active');
 
 -- --------------------------------------------------------
 
@@ -88,11 +80,9 @@ CREATE TABLE `jeno_course` (
 --
 
 INSERT INTO `jeno_course` (`cou_id`, `cou_uni_id`, `cou_name`, `cou_medium`, `cou_exam_type`, `cou_fees_type`, `cou_duration`, `cou_university_fess`, `cou_study_fees`, `cou_total_fees`, `cou_center_id`, `cou_created_at`, `cou_created_by`, `cou_updated_at`, `cou_updated_by`, `cou_status`) VALUES
-(1, 4, 'BBA', 'English', 'Semester', 'Year', 3, '[\"4000\",\"51515\",\"5551\"]', '[\"5151\",\"5152\",\"5151\"]', '[\"9151\",\"56667\",\"10702\"]', 1, '2024-07-17 11:01:55', 1, '2024-07-17 05:31:55', 0, 'Active'),
-(2, 1, 'msc', 'Tamil', 'Semester', 'Year', 2, '[\"87848\",\"545\"]', '[\"545\",\"546\"]', '[\"88393\",\"1091\"]', 1, '2024-07-17 11:04:39', 1, '2024-07-17 05:34:39', 0, 'Active'),
-(3, 4, 'aaaa', 'English', 'Semester', 'Year', 2, '[\"8484\",\"5645\"]', '[\"55\",\"243\"]', '[\"8539\",\"5888\"]', 1, '2024-07-17 11:15:19', 1, '2024-07-17 05:45:19', 0, 'Active'),
-(4, 5, 'BBA', 'Tamil', 'Year', 'Year', 1, '[\"4354\"]', '[\"5435\"]', '[\"9789\"]', 1, '2024-07-17 11:17:05', 1, '2024-07-17 05:47:05', 1, 'Active'),
-(5, 1, 'vasanth', 'English', 'Year', 'Year', 1, '[\"435653\"]', '[\"435\"]', '[\"436088\"]', 1, '2024-07-17 18:12:42', 2, '2024-07-17 12:42:42', 0, 'Active');
+(1, 1, 'BBA', 'English', 'Year', 'Year', 3, '[\"6000\",\"5000\",\"7000\"]', '[\"2000\",\"3000\",\"1000\"]', '[\"8000\",\"8000\",\"8000\"]', 1, '2024-07-26 12:03:33', 2, '2024-07-26 06:33:33', 0, 'Active'),
+(2, 1, 'B.Com', 'English', 'Semester', 'Semester', 3, '[\"3000\",\"3000\",\"1500\",\"2000\",\"3000\",\"5000\"]', '[\"1000\",\"1000\",\"500\",\"1000\",\"1000\",\"1000\"]', '[\"4000\",\"4000\",\"2000\",\"3000\",\"4000\",\"6000\"]', 1, '2024-07-26 12:04:39', 2, '2024-07-26 06:34:39', 0, 'Active'),
+(3, 1, 'MBA', 'English', 'Year', 'Year', 2, '[\"8000\",\"10000\"]', '[\"4000\",\"3000\"]', '[\"12000\",\"13000\"]', 1, '2024-07-26 12:05:38', 2, '2024-07-26 06:35:38', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -121,26 +111,8 @@ CREATE TABLE `jeno_document` (
 --
 
 INSERT INTO `jeno_document` (`doc_id`, `doc_stu_id`, `doc_sslc`, `doc_hsc`, `doc_community`, `doc_tc`, `doc_aadhar`, `doc_photo`, `doc_created_at`, `doc_created_by`, `doc_updated_at`, `doc_updated_by`, `doc_status`) VALUES
-(1, 1, 'u3.png', 'uni4.png', 'fef.png', 'u2.png', 'madaras.png', 'duj.png', '2024-07-19 16:52:04', 2, '2024-07-22 10:37:17', 2, 'Active'),
-(2, 2, '', '', '', '', '', 'course-20.jpg', '2024-07-19 17:05:26', 2, '2024-07-22 10:18:28', 2, 'Active'),
-(3, 3, '', '', '', '', '', '', '2024-07-19 17:19:13', 2, '2024-07-20 12:03:51', 2, 'Inactive'),
-(4, 4, '', '', '', '', '', 'a1.jpg', '2024-07-19 17:20:50', 2, '2024-07-22 10:17:03', 2, 'Active'),
-(5, 5, 'u2.png', 'mano.png', '', 'u3.png', 'uni4.png', '', '2024-07-19 17:21:46', 2, '2024-07-19 11:51:46', 0, 'Active'),
-(6, 6, '', '', '', '', '', '', '2024-07-22 17:46:20', 2, '2024-07-22 13:18:34', 0, 'Inactive'),
-(7, 7, '', '', '', '', '', '', '2024-07-22 18:40:41', 2, '2024-07-22 13:18:32', 0, 'Inactive'),
-(8, 8, '', '', '', '', '', '', '2024-07-22 18:40:44', 2, '2024-07-22 13:18:29', 0, 'Inactive'),
-(9, 9, '', '', '', '', '', '', '2024-07-22 18:43:11', 2, '2024-07-22 13:18:27', 0, 'Inactive'),
-(10, 10, '', '', '', '', '', '', '2024-07-22 18:44:35', 2, '2024-07-22 13:18:19', 0, 'Inactive'),
-(11, 11, '', '', '', '', '', '', '2024-07-22 18:45:17', 2, '2024-07-22 13:18:15', 0, 'Inactive'),
-(12, 12, '', '', '', '', '', '', '2024-07-22 18:45:45', 2, '2024-07-22 13:18:17', 0, 'Inactive'),
-(13, 13, '', '', '', '', '', '', '2024-07-22 18:46:02', 2, '2024-07-22 13:18:25', 0, 'Inactive'),
-(14, 14, '', '', '', '', '', '', '2024-07-22 18:47:38', 2, '2024-07-22 13:18:22', 0, 'Inactive'),
-(15, 15, '', '', '', '', '', '', '2024-07-23 09:54:29', 2, '2024-07-23 04:24:29', 0, 'Active'),
-(16, 16, '', '', '', '', '', '', '2024-07-23 09:56:00', 2, '2024-07-23 04:26:00', 0, 'Active'),
-(17, 17, '', '', '', '', '', '', '2024-07-23 14:46:12', 2, '2024-07-23 09:16:12', 0, 'Active'),
-(18, 18, '', '', '', '', '', '', '2024-07-23 15:48:40', 2, '2024-07-23 10:18:40', 0, 'Active'),
-(19, 19, 'university1.png', 'university1.png', '', '', 'uni4.png', 'data.jpg', '2024-07-23 16:25:30', 2, '2024-07-23 10:55:30', 0, 'Active'),
-(20, 20, '', '', '', '', '', '', '2024-07-23 17:43:47', 2, '2024-07-23 12:13:47', 0, 'Active');
+(1, 1, '', '', '', '', '', '', '2024-07-26 12:29:27', 2, '2024-07-26 06:59:27', 0, 'Active'),
+(2, 2, '', '', '', '', '', '', '2024-07-26 14:40:01', 2, '2024-07-26 09:10:01', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -165,13 +137,16 @@ CREATE TABLE `jeno_elective` (
 --
 
 INSERT INTO `jeno_elective` (`ele_id`, `ele_cou_id`, `ele_elective`, `ele_lag_elec`, `ele_created_at`, `ele_created_by`, `ele_updated_at`, `ele_updated_by`, `ele_status`) VALUES
-(1, 1, 'Tamil', 'E', '2024-07-17 17:52:45', 1, '2024-07-19 07:24:09', 1, 'Inactive'),
-(2, 1, 'Tamil', 'E', '2024-07-18 10:03:10', 1, '2024-07-19 07:24:12', 2, 'Active'),
-(3, 1, 'English', 'E', '2024-07-18 10:03:30', 1, '2024-07-19 07:23:49', 1, 'Active'),
-(4, 1, 'English', 'E', '2024-07-18 10:03:45', 1, '2024-07-19 07:24:05', 1, 'Active'),
-(5, 2, 'Maths', 'E', '2024-07-18 10:43:39', 1, '2024-07-19 07:11:59', 0, 'Active'),
-(6, 3, 'malayalam', 'L', '2024-07-18 10:53:25', 1, '2024-07-20 07:15:19', 1, 'Active'),
-(7, 3, 'hindi', 'L', '2024-07-18 10:57:19', 1, '2024-07-20 06:10:16', 2, 'Active');
+(1, 2, 'Tamil', 'L', '2024-07-26 12:06:31', 2, '2024-07-26 06:36:31', 0, 'Active'),
+(2, 2, 'Hindi', 'L', '2024-07-26 12:06:50', 2, '2024-07-26 06:36:50', 0, 'Active'),
+(3, 2, 'Malayalam', 'L', '2024-07-26 12:07:12', 2, '2024-07-26 06:37:12', 0, 'Active'),
+(4, 2, 'Arabic', 'L', '2024-07-26 12:07:27', 2, '2024-07-26 06:37:27', 0, 'Active'),
+(5, 1, 'Tamil', 'L', '2024-07-26 12:07:49', 2, '2024-07-26 06:37:49', 0, 'Active'),
+(6, 1, 'Malayalam', 'L', '2024-07-26 12:08:02', 2, '2024-07-26 06:38:02', 0, 'Active'),
+(7, 1, 'Hindi', 'L', '2024-07-26 12:08:19', 2, '2024-07-26 06:38:19', 0, 'Active'),
+(8, 3, 'HR', 'L', '2024-07-26 12:08:31', 2, '2024-07-26 06:38:31', 0, 'Active'),
+(9, 3, 'Marketing', 'L', '2024-07-26 12:08:49', 2, '2024-07-26 06:38:49', 0, 'Active'),
+(10, 3, 'Project Management', 'L', '2024-07-26 12:09:03', 2, '2024-07-26 06:39:03', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -200,15 +175,40 @@ CREATE TABLE `jeno_enquiry` (
   `enq_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `jeno_enquiry`
+-- Table structure for table `jeno_faculty`
 --
 
-INSERT INTO `jeno_enquiry` (`enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_number`, `enq_stu_name`, `enq_email`, `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_medium`, `enq_adminsion_status`, `enq_center_id`, `enq_created_at`, `enq_created_by`, `enq_updated_at`, `enq_updated_by`, `enq_status`) VALUES
-(1, 4, 1, '', 'vasanth v', 'vasanth@gmail.com', '2001-11-02', 'Male', '9894688091', 'kallikulam', 'Tamil', 'Pending', 1, '2024-07-18 10:10:19', 2, '2024-07-18 06:54:55', 2, 'Active'),
-(2, 1, 2, '', 'raj', 'vasanth@gmail.com', '2001-11-03', 'Male', '9894688091', 'kalakad', 'English', 'Pending', 1, '2024-07-18 12:00:11', 2, '2024-07-18 07:04:50', 2, 'Active'),
-(3, 4, 1, '', 'dan', 'vasanth@gmail.com', '2001-11-02', 'Male', '7896541354', 'kallikulam', 'English', 'Pending', 1, '2024-07-23 10:06:55', 2, '2024-07-23 04:36:55', 0, 'Active'),
-(4, 4, 3, '', 'dan', 'fhjl@gmail.com', '2000-12-03', 'Female', '7896541389', 'agsfdgagasd', 'English', 'Pending', 1, '2024-07-23 10:08:19', 2, '2024-07-23 04:38:19', 0, 'Active');
+CREATE TABLE `jeno_faculty` (
+  `fac_id` int(11) NOT NULL,
+  `fac_name` varchar(100) NOT NULL,
+  `fac_gender` enum('Male','Female','Transgender') NOT NULL,
+  `fac_mobile` varchar(20) NOT NULL,
+  `fac_email` varchar(50) NOT NULL,
+  `fac_address` varchar(250) NOT NULL,
+  `fac_date_of_join` date NOT NULL,
+  `fac_salary` varchar(50) NOT NULL,
+  `fac_qualification` varchar(50) NOT NULL,
+  `fac_clg` varchar(150) NOT NULL,
+  `fac_aadhar` varchar(50) NOT NULL,
+  `fac_cou_id` int(11) NOT NULL,
+  `fac_center_id` int(11) NOT NULL,
+  `fac_created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `fac_created_by` int(11) NOT NULL,
+  `fac_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fac_updated_by` int(11) NOT NULL,
+  `fac_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jeno_faculty`
+--
+
+INSERT INTO `jeno_faculty` (`fac_id`, `fac_name`, `fac_gender`, `fac_mobile`, `fac_email`, `fac_address`, `fac_date_of_join`, `fac_salary`, `fac_qualification`, `fac_clg`, `fac_aadhar`, `fac_cou_id`, `fac_center_id`, `fac_created_at`, `fac_created_by`, `fac_updated_at`, `fac_updated_by`, `fac_status`) VALUES
+(1, 'Vasanth', 'Male', '9789867842', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', '2024-07-01', '6959859', 'fgjhefrgj', 'sfjwfgj', '20240725_111438.png', 2, 0, '2024-07-25 13:11:31', 2, '2024-07-25 09:21:01', 2, 'Active'),
+(2, 'Raja', 'Male', '9789867845', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', '2024-07-09', '77777', 'gggg', 'yyyyyyyy', '20240725_113916.png', 4, 0, '2024-07-25 15:09:16', 2, '2024-07-25 09:39:35', 2, 'Active');
 
 -- --------------------------------------------------------
 
@@ -221,13 +221,10 @@ CREATE TABLE `jeno_fees` (
   `fee_admision_id` varchar(20) NOT NULL,
   `fee_stu_id` int(11) NOT NULL,
   `fee_uni_fee_total` int(11) NOT NULL,
-  `fee_uni_fee` varchar(10) NOT NULL,
+  `fee_uni_fee` int(10) NOT NULL,
   `fee_sdy_fee_total` int(11) NOT NULL,
-  `fee_sty_fee` varchar(10) NOT NULL,
-  `fee_paid_date` date NOT NULL,
-  `fee_method` enum('Online','Cash') NOT NULL,
-  `fee_trans_id` varchar(100) NOT NULL,
-  `fee_description` varchar(150) NOT NULL,
+  `fee_sty_fee` int(10) NOT NULL,
+  `fee_stu_year` int(11) NOT NULL,
   `fee_created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `fee_created_by` int(11) NOT NULL,
   `fee_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -239,12 +236,18 @@ CREATE TABLE `jeno_fees` (
 -- Dumping data for table `jeno_fees`
 --
 
-INSERT INTO `jeno_fees` (`fee_id`, `fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_uni_fee`, `fee_sdy_fee_total`, `fee_sty_fee`, `fee_paid_date`, `fee_method`, `fee_trans_id`, `fee_description`, `fee_created_at`, `fee_created_by`, `fee_updated_at`, `fee_updated_by`, `fee_status`) VALUES
-(1, '2024a001', 1, 3900, '2400', 5051, '1898', '2024-07-22', 'Cash', '646465sa', 'Phone Pay', '2024-07-19 16:52:04', 2, '2024-07-22 13:06:08', 1, 'Active'),
-(7, '', 17, 0, '0', 0, '0', '0000-00-00', '', '0', '', '2024-07-23 14:46:12', 2, '2024-07-23 09:16:12', 0, 'Active'),
-(8, '', 18, 0, '0', 0, '0', '0000-00-00', '', '0', '', '2024-07-23 15:48:40', 2, '2024-07-23 10:18:40', 0, 'Active'),
-(9, '', 19, 0, '0', 0, '0', '0000-00-00', '', '0', '', '2024-07-23 16:25:30', 2, '2024-07-23 10:55:30', 0, 'Active'),
-(10, '', 20, 0, '0', 0, '0', '0000-00-00', '', '0', '', '2024-07-23 17:43:47', 2, '2024-07-23 12:13:47', 0, 'Active');
+INSERT INTO `jeno_fees` (`fee_id`, `fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_uni_fee`, `fee_sdy_fee_total`, `fee_sty_fee`, `fee_stu_year`, `fee_created_at`, `fee_created_by`, `fee_updated_at`, `fee_updated_by`, `fee_status`) VALUES
+(1, '2024a001', 1, 3900, 2400, 5051, 1898, 0, '2024-07-19 16:52:04', 2, '2024-07-26 09:07:32', 1, 'Inactive'),
+(7, '', 17, 0, 0, 0, 0, 0, '2024-07-23 14:46:12', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(8, '', 18, 0, 0, 0, 0, 0, '2024-07-23 15:48:40', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(9, '', 19, 0, 0, 0, 0, 0, '2024-07-23 16:25:30', 2, '2024-07-26 09:07:40', 0, 'Inactive'),
+(10, '', 20, 0, 0, 0, 0, 0, '2024-07-23 17:43:47', 2, '2024-07-26 09:07:41', 0, 'Inactive'),
+(11, '', 21, 0, 0, 0, 0, 0, '2024-07-26 12:45:16', 2, '2024-07-26 09:07:42', 0, 'Inactive'),
+(12, '', 22, 0, 0, 0, 0, 0, '2024-07-26 12:46:58', 2, '2024-07-26 09:07:30', 0, 'Inactive'),
+(13, '', 23, 0, 0, 0, 0, 0, '2024-07-26 14:04:41', 2, '2024-07-26 10:28:22', 0, 'Inactive'),
+(14, '24AC0040', 24, 87848, 0, 545, 0, 0, '2024-07-26 15:23:35', 2, '2024-07-26 09:55:03', 0, 'Active'),
+(15, '24AC0048', 25, 51515, 0, 5152, 0, 0, '2024-07-26 15:25:27', 2, '2024-07-26 09:55:27', 0, 'Active'),
+(16, '24CA00154', 26, 87848, 0, 545, 0, 1, '2024-07-26 15:30:52', 2, '2024-07-26 10:00:52', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -272,14 +275,36 @@ CREATE TABLE `jeno_payment_history` (
   `pay_status` enum('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `jeno_payment_history`
+-- Table structure for table `jeno_schedule`
 --
 
-INSERT INTO `jeno_payment_history` (`pay_id`, `pay_admission_id`, `pay_student_name`, `pay_year`, `pay_paid_method`, `pay_transaction_id`, `pay_description`, `pay_university_fees`, `pay_study_fees`, `pay_total_amount`, `pay_balance`, `pay_date`, `pay_created_at`, `pay_created_by`, `pay_updated_at`, `pay_updated_by`, `pay_status`) VALUES
-(1, '2024a001', 'Rajkumar', '1st Year', 'Online', '646465sa', 'Phone Pay', 200, 198, 398, 0, '2024-07-22', '2024-07-22 15:09:06', 1, '2024-07-22 09:39:06', 0, 'Active'),
-(2, '2024a001', 'Rajkumar', '1st Year', 'Cash', '646465sa', '', 100, 100, 200, 0, '2024-07-22', '2024-07-22 15:11:23', 1, '2024-07-22 10:36:32', 0, 'Active'),
-(3, '2024a001', 'Rajkumar', '1st Year', 'Online', '646465sa', 'dnh', 100, 100, 200, 0, '2024-07-22', '2024-07-22 15:14:10', 1, '2024-07-22 13:08:57', 1, 'Active');
+CREATE TABLE `jeno_schedule` (
+  `sch_id` int(11) NOT NULL,
+  `sch_fac_id` int(11) NOT NULL,
+  `sch_date` date NOT NULL,
+  `sch_session` enum('Morning','Afternoon','Full Day') NOT NULL,
+  `sch_timing` varchar(20) NOT NULL,
+  `sch_cou_id` int(11) NOT NULL,
+  `sch_sub_id` varchar(50) NOT NULL,
+  `sch_created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `sch_created_by` int(11) NOT NULL,
+  `sch_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `sch_updated_by` int(11) NOT NULL,
+  `sch_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jeno_schedule`
+--
+
+INSERT INTO `jeno_schedule` (`sch_id`, `sch_fac_id`, `sch_date`, `sch_session`, `sch_timing`, `sch_cou_id`, `sch_sub_id`, `sch_created_at`, `sch_created_by`, `sch_updated_at`, `sch_updated_by`, `sch_status`) VALUES
+(1, 1, '2024-07-26', 'Morning', '10-12', 3, '[\"gkgk\",\"fgkgk\",\"jjjjjj\"]', '2024-07-25 17:03:35', 2, '2024-07-25 11:34:52', 0, 'Active'),
+(2, 2, '2024-07-27', 'Afternoon', '12-02', 1, '[\"sdfhsgh\",\"dytietyietyi\"]', '2024-07-25 17:04:30', 2, '2024-07-25 12:08:27', 0, 'Active'),
+(3, 2, '2024-07-31', 'Full Day', '10-04', 5, '[\"sdfhsgh\",\"HSGH\",\"adfhgadfh\"]', '2024-07-25 17:06:01', 2, '2024-07-25 12:08:32', 0, 'Active'),
+(4, 1, '2024-08-09', 'Afternoon', '12-04', 3, '[\"ghkgl\",\"fgkgk\"]', '2024-07-26 10:22:51', 2, '2024-07-26 06:51:48', 2, 'Active');
 
 -- --------------------------------------------------------
 
@@ -307,16 +332,6 @@ CREATE TABLE `jeno_staff` (
   `stf_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `jeno_staff`
---
-
-INSERT INTO `jeno_staff` (`stf_id`, `stf_name`, `stf_birth`, `stf_mobile`, `stf_email`, `stf_address`, `stf_gender`, `stf_role`, `stf_salary`, `stf_joining_date`, `stf_image`, `stf_userId`, `stf_created_at`, `stf_created_by`, `stf_updated_at`, `stf_updated_by`, `stf_status`) VALUES
-(1, 'Rajkumar', '2024-07-02', '9789867842', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 'Male', 'HOD', 50000, '2024-07-08', '20240717_123653.png', 3, '2024-07-17 16:06:53', 1, '2024-07-17 10:36:53', 0, 'Active'),
-(2, 'Vasanth', '2024-07-01', '9789867842', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 'Male', 'HOD', 40000, '2024-07-02', '20240717_124147.png', 4, '2024-07-17 16:11:47', 1, '2024-07-17 10:41:47', 1, 'Active'),
-(3, 'Riya Infosystems', '2024-07-15', '9789867842', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 'Male', '', 0, '2024-07-10', '20240717_125840.png', 5, '2024-07-17 16:28:40', 1, '2024-07-17 10:58:40', 1, 'Active'),
-(4, 'petchi', '2024-07-02', '9789867842', 'riyainfosystemswork@gmail.com', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 'Male', '', 0, '2024-07-10', '20240717_130252.png', 6, '2024-07-17 16:32:52', 1, '2024-07-17 11:02:52', 0, 'Active');
-
 -- --------------------------------------------------------
 
 --
@@ -333,7 +348,6 @@ CREATE TABLE `jeno_student` (
   `stu_medium_id` int(11) NOT NULL,
   `stu_apply_no` varchar(20) NOT NULL,
   `stu_enroll` varchar(30) NOT NULL,
-  `stu_study_year` varchar(20) NOT NULL,
   `stu_aca_year` varchar(20) NOT NULL,
   `stu_created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `stu_created_by` int(11) NOT NULL,
@@ -346,27 +360,33 @@ CREATE TABLE `jeno_student` (
 -- Dumping data for table `jeno_student`
 --
 
-INSERT INTO `jeno_student` (`stu_id`, `stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_enroll`, `stu_study_year`, `stu_aca_year`, `stu_created_at`, `stu_created_by`, `stu_updated_at`, `stu_updated_by`, `stu_status`) VALUES
-(1, 'Rajkumar', '6669867842', 'rajatemswork@gmail.com', 4, 1, 2, '24AC001', '456789321456', '1 st year', 'Jan-2024', '2024-07-19 16:52:04', 2, '2024-07-22 11:50:45', 2, 'Active'),
-(2, 'Vasanth', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24AC002', '', '1 st year', 'Jan-2024', '2024-07-19 17:05:26', 2, '2024-07-22 11:50:52', 2, 'Active'),
-(3, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24AC003', '', '1 st year', 'July-2024', '2024-07-19 17:19:13', 2, '2024-07-22 11:50:56', 2, 'Inactive'),
-(4, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA001', '', '1 st year', 'July-2024', '2024-07-19 17:20:50', 2, '2024-07-22 11:51:16', 2, 'Active'),
-(5, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 2, '24CA002', '', '1 st year', 'June-2024', '2024-07-19 17:21:46', 2, '2024-07-22 11:51:27', 2, 'Active'),
-(6, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 5, 4, 2, '24AC004', '', '1 st year', 'June-2024', '2024-07-22 17:46:20', 2, '2024-07-22 13:18:34', 0, 'Inactive'),
-(7, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0011', '', '1 st year', 'July-2024', '2024-07-22 18:40:41', 2, '2024-07-22 13:18:32', 0, 'Inactive'),
-(8, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0010', '', '1 st year', 'July-2024', '2024-07-22 18:40:44', 2, '2024-07-22 13:18:29', 0, 'Inactive'),
-(9, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 4, 1, 2, '24CA003', '', '1 st year', 'July-2024', '2024-07-22 18:43:11', 2, '2024-07-22 13:18:27', 0, 'Inactive'),
-(10, 'fhdgh', '0789867842', 'riyainfosystemswork@gmail.com', 4, 3, 2, '24CA009', '', '1 st year', 'July-2024', '2024-07-22 18:44:35', 2, '2024-07-22 13:18:19', 0, 'Inactive'),
-(11, 'fu', '0978967842', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24AC0015', '', '1 st year', 'July-2024', '2024-07-22 18:45:17', 2, '2024-07-22 13:18:15', 0, 'Inactive'),
-(12, 'xjdfj', '8956778978', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24CA0019', '', '1 st year', 'July-2024', '2024-07-22 18:45:45', 2, '2024-07-22 13:18:17', 0, 'Inactive'),
-(13, 'xjdfj', '8956778978', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24CA0019', '', '1 st year', 'July-2024', '2024-07-22 18:46:02', 2, '2024-07-22 13:18:25', 0, 'Inactive'),
-(14, 'Riya Infosystems', '0978986784', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00155', '', '1 st year', 'July-2024', '2024-07-22 18:47:38', 2, '2024-07-22 13:18:22', 0, 'Inactive'),
-(15, 'Rajkumar', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0018', '', '1 st year', 'July-2024', '2024-07-23 09:54:29', 2, '2024-07-23 04:24:29', 0, 'Active'),
-(16, 'vasanth', '9876543210', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24AC0013', '', '1 st year', 'July-2024', '2024-07-23 09:56:00', 2, '2024-07-23 04:26:00', 0, 'Active'),
-(17, 'ajay', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0016', '', '', '', '2024-07-23 14:46:12', 2, '2024-07-23 10:52:13', 0, 'Active'),
-(18, 'rewqasdf', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00199', '', '', '1 Year', '2024-07-23 15:48:40', 2, '2024-07-23 10:18:40', 0, 'Active'),
-(19, 'magesh', '9789867842', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24CA0029', '456789321456', '1st year', 'July-2024', '2024-07-23 16:25:30', 2, '2024-07-23 10:57:04', 2, 'Active'),
-(20, 'Hello', '9789867842', 'riyainfosystemswork@gmail.com', 5, 4, 1, '24CA0030', '', '1st year', 'July-2024', '2024-07-23 17:43:47', 2, '2024-07-23 12:13:47', 0, 'Active');
+INSERT INTO `jeno_student` (`stu_id`, `stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_enroll`, `stu_aca_year`, `stu_created_at`, `stu_created_by`, `stu_updated_at`, `stu_updated_by`, `stu_status`) VALUES
+(1, 'Rajkumar', '6669867842', 'rajatemswork@gmail.com', 4, 1, 2, '24AC001', '456789321456', 'Jan-2024', '2024-07-19 16:52:04', 2, '2024-07-26 09:07:32', 2, 'Inactive'),
+(2, 'Vasanth', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24AC002', '', 'Jan-2024', '2024-07-19 17:05:26', 2, '2024-07-26 09:07:34', 2, 'Inactive'),
+(3, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24AC003', '', 'July-2024', '2024-07-19 17:19:13', 2, '2024-07-22 11:50:56', 2, 'Inactive'),
+(4, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA001', '', 'July-2024', '2024-07-19 17:20:50', 2, '2024-07-26 09:07:36', 2, 'Inactive'),
+(5, 'Anushiya', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 2, '24CA002', '', 'June-2024', '2024-07-19 17:21:46', 2, '2024-07-26 09:07:37', 2, 'Inactive'),
+(6, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 5, 4, 2, '24AC004', '', 'June-2024', '2024-07-22 17:46:20', 2, '2024-07-22 13:18:34', 0, 'Inactive'),
+(7, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0011', '', 'July-2024', '2024-07-22 18:40:41', 2, '2024-07-22 13:18:32', 0, 'Inactive'),
+(8, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0010', '', 'July-2024', '2024-07-22 18:40:44', 2, '2024-07-22 13:18:29', 0, 'Inactive'),
+(9, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 4, 1, 2, '24CA003', '', 'July-2024', '2024-07-22 18:43:11', 2, '2024-07-22 13:18:27', 0, 'Inactive'),
+(10, 'fhdgh', '0789867842', 'riyainfosystemswork@gmail.com', 4, 3, 2, '24CA009', '', 'July-2024', '2024-07-22 18:44:35', 2, '2024-07-22 13:18:19', 0, 'Inactive'),
+(11, 'fu', '0978967842', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24AC0015', '', 'July-2024', '2024-07-22 18:45:17', 2, '2024-07-22 13:18:15', 0, 'Inactive'),
+(12, 'xjdfj', '8956778978', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24CA0019', '', 'July-2024', '2024-07-22 18:45:45', 2, '2024-07-22 13:18:17', 0, 'Inactive'),
+(13, 'xjdfj', '8956778978', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24CA0019', '', 'July-2024', '2024-07-22 18:46:02', 2, '2024-07-22 13:18:25', 0, 'Inactive'),
+(14, 'Riya Infosystems', '0978986784', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00155', '', 'July-2024', '2024-07-22 18:47:38', 2, '2024-07-22 13:18:22', 0, 'Inactive'),
+(15, 'Rajkumar', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0018', '', 'July-2024', '2024-07-23 09:54:29', 2, '2024-07-26 09:07:38', 0, 'Inactive'),
+(16, 'vasanth', '9876543210', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24AC0013', '', 'July-2024', '2024-07-23 09:56:00', 2, '2024-07-26 09:07:38', 0, 'Inactive'),
+(17, 'ajay', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA0016', '', '', '2024-07-23 14:46:12', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(18, 'rewqasdf', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00199', '', '1 Year', '2024-07-23 15:48:40', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(19, 'magesh', '9789867842', 'riyainfosystemswork@gmail.com', 4, 3, 1, '24CA0029', '456789321456', 'July-2024', '2024-07-23 16:25:30', 2, '2024-07-26 09:07:40', 2, 'Inactive'),
+(20, 'Hello', '9789867842', 'riyainfosystemswork@gmail.com', 5, 4, 1, '24CA0030', '', 'July-2024', '2024-07-23 17:43:47', 2, '2024-07-26 09:07:41', 0, 'Inactive'),
+(21, 'rajaaa', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00111', '', '1st Year', '2024-07-26 12:45:16', 2, '2024-07-26 09:07:42', 0, 'Inactive'),
+(22, 'raj', '9894688091', 'riyainfosystemswork@gmail.com', 1, 2, 2, '24CA001111', '', '1st Year', '2024-07-26 12:46:58', 2, '2024-07-26 09:07:30', 0, 'Inactive'),
+(23, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 2, '24CA00135', '456789321456', '1', '2024-07-26 14:04:41', 2, '2024-07-26 10:28:22', 2, 'Inactive'),
+(24, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24AC0040', '', '1', '2024-07-26 15:23:35', 2, '2024-07-26 09:53:35', 0, 'Active'),
+(25, 'Riya Infosystems', '9789867842', 'riyainfosystemswork@gmail.com', 4, 1, 1, '24AC0048', '', '2', '2024-07-26 15:25:27', 2, '2024-07-26 09:55:27', 0, 'Active'),
+(26, 'raja', '9789867842', 'riyainfosystemswork@gmail.com', 1, 2, 1, '24CA00154', '', '1', '2024-07-26 15:30:52', 2, '2024-07-26 10:00:52', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -412,11 +432,11 @@ CREATE TABLE `jeno_stu_additional` (
 --
 
 INSERT INTO `jeno_stu_additional` (`add_id`, `add_stu_id`, `add_year_type`, `add_language`, `add_digilocker`, `add_admit_date`, `add_dob`, `add_gender`, `add_address`, `add_pincode`, `add_father_name`, `add_mother_name`, `add_aadhar_no`, `add_nationality`, `add_mother_tongue`, `add_religion`, `add_caste`, `add_community`, `add_marital_status`, `add_employed`, `add_qualifiaction`, `add_institute`, `add_comp_year`, `add_study_field`, `add_grade`, `add_created_at`, `add_created_by`, `add_updated_at`, `add_updated_by`, `add_status`) VALUES
-(1, 1, 'Calander Year', 2, 'sdsjh21423djd', '2024-07-10', '2024-07-01', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'Muthu', 'dghk', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Married', 'Unemployed', 'UG', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 16:52:04', 2, '2024-07-22 10:47:28', 2, 'Active'),
-(2, 2, 'Academic Year', 7, 'sdsjh21423djd', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-19 17:05:26', 2, '2024-07-20 11:38:09', 2, 'Active'),
+(1, 1, 'Calander Year', 2, 'sdsjh21423djd', '2024-07-10', '2024-07-01', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'Muthu', 'dghk', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Married', 'Unemployed', 'UG', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 16:52:04', 2, '2024-07-26 09:07:32', 2, 'Inactive'),
+(2, 2, 'Academic Year', 7, 'sdsjh21423djd', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-19 17:05:26', 2, '2024-07-26 09:07:34', 2, 'Inactive'),
 (3, 3, 'Academic Year', 3, 'sdsjh21423djd', '2024-07-17', '2024-07-07', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'hkr', 'dghk', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 17:19:13', 2, '2024-07-20 12:03:51', 2, 'Inactive'),
-(4, 4, 'Academic Year', 4, 'sdsjh21423djd', '2024-07-17', '2024-07-07', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'hkr', 'dghk', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 17:20:50', 2, '2024-07-22 10:17:03', 2, 'Active'),
-(5, 5, 'Academic Year', 4, 'sdsjh21423djd', '2024-07-17', '2024-07-07', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'ghkdjghk', 'fyuorhj', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 17:21:46', 2, '2024-07-22 10:35:33', 2, 'Active'),
+(4, 4, 'Academic Year', 4, 'sdsjh21423djd', '2024-07-17', '2024-07-07', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'hkr', 'dghk', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 17:20:50', 2, '2024-07-26 09:07:36', 2, 'Inactive'),
+(5, 5, 'Academic Year', 4, 'sdsjh21423djd', '2024-07-17', '2024-07-07', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'ghkdjghk', 'fyuorhj', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'dfhsgdh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-19 17:21:46', 2, '2024-07-26 09:07:37', 2, 'Inactive'),
 (6, 6, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 17:46:20', 2, '2024-07-22 13:18:34', 0, 'Inactive'),
 (7, 7, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 18:40:41', 2, '2024-07-22 13:18:32', 0, 'Inactive'),
 (8, 8, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 18:40:44', 2, '2024-07-22 13:18:29', 0, 'Inactive'),
@@ -426,12 +446,18 @@ INSERT INTO `jeno_stu_additional` (`add_id`, `add_stu_id`, `add_year_type`, `add
 (12, 12, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 18:45:45', 2, '2024-07-22 13:18:17', 0, 'Inactive'),
 (13, 13, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 18:46:02', 2, '2024-07-22 13:18:25', 0, 'Inactive'),
 (14, 14, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-22 18:47:38', 2, '2024-07-22 13:18:22', 0, 'Inactive'),
-(15, 15, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 09:54:29', 2, '2024-07-23 04:24:29', 0, 'Active'),
-(16, 16, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 09:56:00', 2, '2024-07-23 04:26:00', 0, 'Active'),
-(17, 17, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 14:46:12', 2, '2024-07-23 09:16:12', 0, 'Active'),
-(18, 18, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 15:48:40', 2, '2024-07-23 10:18:40', 0, 'Active'),
-(19, 19, 'Academic Year', 6, 'helllooooo', '2024-07-10', '0000-00-00', 'Female', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'muthu', 'veni', 2147483647, 'inrfs', 'tafgmsghj', 'hindzgh', 'sfdhadf', 'adhadfh', 'Single', 'Employed', '12', 'adfhadhd', '2023-2024', 'fhlfhl', '454548', '2024-07-23 16:25:30', 2, '2024-07-23 11:03:54', 2, 'Active'),
-(20, 20, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 17:43:47', 2, '2024-07-23 12:13:47', 0, 'Active');
+(15, 15, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 09:54:29', 2, '2024-07-26 09:07:38', 0, 'Inactive'),
+(16, 16, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 09:56:00', 2, '2024-07-26 09:07:38', 0, 'Inactive'),
+(17, 17, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 14:46:12', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(18, 18, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 15:48:40', 2, '2024-07-26 09:07:39', 0, 'Inactive'),
+(19, 19, 'Academic Year', 6, 'helllooooo', '2024-07-10', '0000-00-00', 'Female', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'muthu', 'veni', 2147483647, 'inrfs', 'tafgmsghj', 'hindzgh', 'sfdhadf', 'adhadfh', 'Single', 'Employed', '12', 'adfhadhd', '2023-2024', 'fhlfhl', '454548', '2024-07-23 16:25:30', 2, '2024-07-26 09:07:40', 2, 'Inactive'),
+(20, 20, '', 0, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-23 17:43:47', 2, '2024-07-26 09:07:41', 0, 'Inactive'),
+(21, 21, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-26 12:45:16', 2, '2024-07-26 09:07:42', 0, 'Inactive'),
+(22, 22, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-26 12:46:58', 2, '2024-07-26 09:07:30', 0, 'Inactive'),
+(23, 23, 'Academic Year', 5, 'sdsjh21423djd', '2024-07-26', '2001-02-06', 'Male', '1/117 D vadukachiMathil\r\nOochikulam , Nanguneri Road', 627108, 'Muthu', 'veni', 2147483647, 'sdfbs', 'adfg', 'sdvbs', 'sdfh', 'adhadfh', 'Single', 'Employed', '12', 'adfhadhdgh', '2023-2024', 'fhlfhl', '454548', '2024-07-26 14:04:41', 2, '2024-07-26 10:28:22', 2, 'Inactive'),
+(24, 24, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-26 15:23:35', 2, '2024-07-26 09:53:35', 0, 'Active'),
+(25, 25, '', 3, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-26 15:25:27', 2, '2024-07-26 09:55:27', 0, 'Active'),
+(26, 26, '', 5, '', '0000-00-00', '0000-00-00', '', '', 0, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-26 15:30:52', 2, '2024-07-26 10:00:52', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -464,8 +490,9 @@ CREATE TABLE `jeno_subject` (
 --
 
 INSERT INTO `jeno_subject` (`sub_id`, `sub_uni_id`, `sub_cou_id`, `sub_ele_id`, `sub_exam_patten`, `sub_subject_code`, `sub_subject_name`, `sub_addition_lag_name`, `sub_addition_sub_code`, `sub_addition_sub_name`, `sub_type`, `sub_center_id`, `sub_created_at`, `sub_created_by`, `sub_updated_at`, `sub_updated_by`, `sub_status`) VALUES
-(1, 1, 5, 0, 1, '[\"sfhsgdg\",\"FGDF\",\"SFHSG\"]', '[\"sdfhsgh\",\"HSGH\",\"fgk\"]', '[\"6\",\"7\"]', '[\"asdfgfd\",\"adfghdf\"]', '[\"adfhgadfh\",\"dhsdgh\"]', 'Language', 1, '2024-07-24 12:44:57', 2, '2024-07-24 07:14:57', 0, 'Active'),
-(2, 4, 3, 0, 1, '[\"fxguih\",\"ghkgk\"]', '[\"gkgk\",\"ghkgl\"]', '[\"7\",\"7\",\"6\"]', '[\"gkghk\",\"gkgj\",\"ghk\"]', '[\"fgkgk\",\"gkgh\",\"gk\"]', 'Language', 1, '2024-07-24 12:47:16', 2, '2024-07-24 07:17:16', 0, 'Active');
+(2, 1, 1, 0, 1, '[\"001\",\"002\",\"003\",\"003\"]', '[\"Principles of Management\",\"Business Economics\",\"Financial Accounting\",\"Business Mathematics and Statistics\"]', '[\"5\",\"6\",\"7\"]', '[\"101\",\"102\",\"103\"]', '[\"Part-1 Tamil\",\"Part-1\",\"Part-1\"]', 'Language', 1, '2024-07-26 12:26:29', 2, '2024-07-26 07:01:31', 0, 'Active'),
+(3, 1, 1, 0, 2, '[\"201\",\"202\",\"203\"]', '[\"Organizational Behavior\",\"Cost Accounting\",\"Marketing Management\"]', '[\"5\",\"6\",\"7\"]', '[\"204\",\"205\",\"206\"]', '[\"Part -1 Tamil\",\"Part-malayalam\",\"Part-1 Hindi\"]', 'Language', 1, '2024-07-26 12:34:48', 2, '2024-07-26 07:04:48', 0, 'Active'),
+(4, 1, 3, 8, 1, '[\"301\",\"302\",\"303\"]', '[\"Quantitative Methods\",\"Organizational Behavior\",\"Managerial Economics\"]', '', '[\"304\",\"305\",\"306\"]', '[\"Business Communication\",\"Human Resource Management\",\"Marketing Management\"]', 'Elective', 1, '2024-07-26 14:50:25', 2, '2024-07-26 09:20:25', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -489,19 +516,6 @@ CREATE TABLE `jeno_transaction` (
   `tran_updated_by` int(11) NOT NULL,
   `tran_status` enum('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `jeno_transaction`
---
-
-INSERT INTO `jeno_transaction` (`tran_id`, `tran_category`, `tran_date`, `tran_amount`, `tran_method`, `tran_transaction_id`, `tran_description`, `tran_reason`, `tran_center_id`, `tran_created_at`, `tran_created_by`, `tran_updated_at`, `tran_updated_by`, `tran_status`) VALUES
-(1, 'Expense', '2024-07-18', 5000, 'Cash', '6546545', 'havbhsgflk', 'billl', 1, '2024-07-18 16:44:44', 2, '2024-07-18 12:38:56', 1, 'Active'),
-(2, 'Income', '2024-07-11', 5000, 'Online', '646465sa', 'BILL', '', 1, '2024-07-19 10:14:32', 2, '2024-07-19 04:44:32', 0, 'Active'),
-(3, 'Income', '2024-07-11', 5000, 'Online', '646465sa', 'BILL', '', 1, '2024-07-19 10:14:49', 2, '2024-07-19 04:44:49', 0, 'Active'),
-(4, 'Income', '2024-07-19', 500, 'Online', '646465sa', 'bill ', '', 1, '2024-07-19 10:17:17', 2, '2024-07-19 04:47:17', 0, 'Active'),
-(5, 'Expense', '2024-07-19', 500, 'Online', '646465sa', 'bill ', '', 1, '2024-07-19 10:18:25', 2, '2024-07-19 04:48:25', 0, 'Active'),
-(6, 'Income', '2024-07-19', 1000, 'Online', '646465sa', 'bill', '', 1, '2024-07-19 10:21:55', 2, '2024-07-19 04:51:55', 0, 'Active'),
-(7, 'Income', '2024-07-19', 4000, 'Cash', '646465sa', 'dafsad', 'fees ', 1, '2024-07-19 10:56:56', 2, '2024-07-19 05:26:56', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -528,16 +542,7 @@ CREATE TABLE `jeno_university` (
 --
 
 INSERT INTO `jeno_university` (`uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact`, `uni_center_id`, `uni_created_at`, `uni_created_by`, `uni_updated_at`, `uni_updated_by`, `uni_status`) VALUES
-(1, 5465, 'MS University v', '[\"b.sc computer \",\"b.com\",\"m.sc \"]', '[\"8789484\",\"5164478\",\"488\"]', 1, '2024-07-16 14:02:18', 1, '2024-07-16 08:32:18', 1, 'Active'),
-(4, 64654, 'vasanth university', '[\"aaa\",\"bbb\",\"ccc\"]', '[\"94984\",\"654654\",\"6565465\"]', 1, '2024-07-16 14:49:32', 1, '2024-07-16 09:19:32', 0, 'Active'),
-(5, 5465, 'raj kumar university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:53:33', 1, '2024-07-16 09:23:33', 0, 'Active'),
-(6, 5465, 'MS University', '[\"afadf\"]', '[\"654654\"]', 1, '2024-07-16 14:55:26', 1, '2024-07-16 09:25:26', 0, 'Active'),
-(7, 5465, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:56:51', 1, '2024-07-16 09:26:51', 0, 'Active'),
-(8, 5465, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 14:57:06', 1, '2024-07-16 09:27:06', 0, 'Active'),
-(9, 64654, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 15:16:23', 1, '2024-07-16 09:46:23', 0, 'Active'),
-(10, 5465, 'MS University', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 15:18:37', 1, '2024-07-16 09:48:37', 1, 'Active'),
-(11, 5465, 'vasanth university', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 18:04:42', 1, '2024-07-16 12:34:42', 0, 'Active'),
-(12, 5465, 'MS University', '[\"b.sc computer \"]', '[\"6565465\"]', 1, '2024-07-16 18:06:20', 1, '2024-07-16 12:36:20', 0, 'Active');
+(1, 2024, 'MS University', '[\"Computer \",\"b.Com\"]', '[\"9894688091\",\"9894688091\"]', 1, '2024-07-26 12:01:53', 2, '2024-07-26 06:31:53', 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -601,6 +606,12 @@ ALTER TABLE `jeno_enquiry`
   ADD PRIMARY KEY (`enq_id`);
 
 --
+-- Indexes for table `jeno_faculty`
+--
+ALTER TABLE `jeno_faculty`
+  ADD PRIMARY KEY (`fac_id`);
+
+--
 -- Indexes for table `jeno_fees`
 --
 ALTER TABLE `jeno_fees`
@@ -611,6 +622,12 @@ ALTER TABLE `jeno_fees`
 --
 ALTER TABLE `jeno_payment_history`
   ADD PRIMARY KEY (`pay_id`);
+
+--
+-- Indexes for table `jeno_schedule`
+--
+ALTER TABLE `jeno_schedule`
+  ADD PRIMARY KEY (`sch_id`);
 
 --
 -- Indexes for table `jeno_staff`
@@ -662,79 +679,91 @@ ALTER TABLE `jeno_user`
 -- AUTO_INCREMENT for table `jeno_book`
 --
 ALTER TABLE `jeno_book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jeno_course`
 --
 ALTER TABLE `jeno_course`
-  MODIFY `cou_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cou_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jeno_document`
 --
 ALTER TABLE `jeno_document`
-  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jeno_elective`
 --
 ALTER TABLE `jeno_elective`
-  MODIFY `ele_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ele_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `jeno_enquiry`
 --
 ALTER TABLE `jeno_enquiry`
-  MODIFY `enq_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `enq_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jeno_faculty`
+--
+ALTER TABLE `jeno_faculty`
+  MODIFY `fac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jeno_fees`
 --
 ALTER TABLE `jeno_fees`
-  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `jeno_payment_history`
 --
 ALTER TABLE `jeno_payment_history`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jeno_schedule`
+--
+ALTER TABLE `jeno_schedule`
+  MODIFY `sch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `jeno_staff`
 --
 ALTER TABLE `jeno_staff`
-  MODIFY `stf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `stf_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jeno_student`
 --
 ALTER TABLE `jeno_student`
-  MODIFY `stu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `stu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `jeno_stu_additional`
 --
 ALTER TABLE `jeno_stu_additional`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `jeno_subject`
 --
 ALTER TABLE `jeno_subject`
-  MODIFY `sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `jeno_transaction`
 --
 ALTER TABLE `jeno_transaction`
-  MODIFY `tran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `tran_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jeno_university`
 --
 ALTER TABLE `jeno_university`
-  MODIFY `uni_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `uni_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jeno_user`
