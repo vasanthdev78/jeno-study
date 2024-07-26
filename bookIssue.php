@@ -56,10 +56,10 @@ session_start();
         <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
-        <?php include("formBookIssue.php");?>
+        
         <div class="content-page">
             <div class="content">
-
+            <?php include("formBookIssue.php");?>
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -82,7 +82,7 @@ session_start();
                     </div>
 
                       <!-- Filters -->
-                      <div class="row mb-3">
+                      <!-- <div class="row mb-3">
                         <div class="col-md-3">
                             <label for="universityFilter">University</label>
                             <select id="universityFilter" class="form-control">
@@ -91,7 +91,7 @@ session_start();
                                 <option value="University2">Anna University</option>
                                 <option value="University3">MS University</option>
                                 <option value="University4">Alagappa University</option>
-                                <!-- Add more options as needed -->
+                                
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -103,7 +103,7 @@ session_start();
                                 <option value="Course3">MBA</option>
                                 <option value="Course4">MCA</option>
                                 <option value="Course5">BSc</option>
-                                <!-- Add more options as needed -->
+                                
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -115,14 +115,14 @@ session_start();
                                 <option value="3rdYear">3rd Year</option>
                                 <option value="4thYear">4th Year</option>
                                 <option value="5thYear">5th Year</option>
-                                <!-- Add more options as needed -->
+                                
                             </select>
                         </div>
                         <div class="col-md-2 mt-4">
                             <button id="searchButton" class="btn btn-primary">Search</button>
                             </div>  
                         
-                    </div>
+                    </div> -->
 
 
             
@@ -131,11 +131,11 @@ session_start();
                     <thead>
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
+                                   <th scope="col">Addmission Id</th>
                                     <th scope="col">Student Name</th>
                                     <!-- <th scope="col">Course</th>
                                     <th scope="col">Year</th> -->
                                     <th scope="col">Book Receive</th>
-                                    <th scope="col">Book Issue</th>
                                     <th scope="col">ID Card</th>
                                     <th scope="col">Contact</th>
                                     <th scope="col">Action</th>
@@ -158,9 +158,10 @@ session_start();
                      <tr>
                      
                         <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $stu_apply_no; ?></td>
                         <td><?php echo $name; ?></td>
                         <td><?php echo $bookRes; ?></td>
-                        <td></td>
+                        
                         <td><?php echo $idCard; ?></td>
                         <td><?php echo $contact; ?></td>
                     
@@ -238,13 +239,13 @@ session_start();
             $('#backButtonBook').on('click', function() {
 
 
-            $('#StuContent').addClass('d-none');
-            $('#bookView').removeClass('d-none');
+            $('#bookView').addClass('d-none');
+            $('#StuContent').show();
             });
 
 
         function goAddBook(addGetId) {
-            alert("click button");
+            
             $('#addBookissue').removeClass('was-validated');
             $('#addBookissue').addClass('needs-validation');
             $('#addBookissue')[0].reset(); // Reset the form
@@ -315,7 +316,7 @@ session_start();
                 success: function(response) {
                     // Handle the response data
                     console.log(response);
-                    alert(response.final_subjects);
+                    
                     
                // Populate the select element with final subjects from the response array
                 var $select = $('#bookIssue');
@@ -416,9 +417,9 @@ session_start();
 
 
 
-function goViewBook(id) 
+    function goViewBook(id) 
     {
-      alert('sdafda');
+      
     //location.href = "clientDetail.php?clientId="+id;
     $.ajax({
         url: 'action/actBook.php',
@@ -430,124 +431,65 @@ function goViewBook(id)
         success: function(response) {
           
           $('#StuContent').hide();
-          $('#SubjectView').removeClass('d-none');
+          $('#bookView').removeClass('d-none');
         
-          $('#viewUniversityName').text(response.sub_uni_id);
-          $('#viewCourseName').text(response.sub_cou_id);
+          $('#viewAdmissionId').text(response.stu_apply_no);
+          $('#viewStudentName').text(response.stu_name);
           
-          $('#viewyearSemester').text(response.sub_exam_patten);
-        //   $('#viewFeesType').text(response.cou_fees_type);
-        //   $('#viewDuration').text(response.cou_duration +" Years");
-  // Clear previous input fields
-  $('#viewSubjectInputs').empty();
-    $('#viewAdditionSubjectInputs').empty();
+          $('#viewStudentYear').text(response.book_year);
+          $('#viewIdCardStu').text(response.book_id_card);
+          $('#viewIdCardUni').text(response.book_received);
+         
+          
+     // Function to populate the div with book_uni_received values
+function populateBooksUniReceived(bookList) {
+    var $viewUniBook = $('#viewUniBook');
+    $viewUniBook.empty(); // Clear existing content
 
-    // Directly assume sub_subject_code and sub_subject_name are arrays of equal length
-    if (Array.isArray(response.sub_subject_code) && Array.isArray(response.sub_subject_name)) {
-        response.sub_subject_code.forEach(function(subjectCode, index) {
-            var subjectName = response.sub_subject_name[index];
-            
-            var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
-
-            var input1Div = $('<div class="col-sm-6"></div>');
-            var input1Card = $('<div class="card p-3"></div>');
-            var input1Label = $('<h4>Subject Code</h4>');
-            var input1 = $('<span class="detail"></span>').text(subjectCode);
-            input1Card.append(input1Label);
-            input1Card.append(input1);
-            input1Div.append(input1Card);
-
-            var input2Div = $('<div class="col-sm-6"></div>');
-            var input2Card = $('<div class="card p-3"></div>');
-            var input2Label = $('<h4>Subject Name</h4>');
-            var input2 = $('<span class="detail"></span>').text(subjectName);
-            input2Card.append(input2Label);
-            input2Card.append(input2);
-            input2Div.append(input2Card);
-
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-
-            $('#viewSubjectInputs').append(newInputDiv);
-        });
-    } else {
-        console.error('sub_subject_code or sub_subject_name is not an array.');
+    if (!Array.isArray(bookList) || bookList.length === 0) {
+        $viewUniBook.html('<p>No university books received.</p>');
+        return;
     }
 
-    // Check if sub_addition_lag_name is not empty and add those inputs
-    if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length > 0) {
-        response.sub_addition_lag_name.forEach(function(languageName, index) {
-            var subCode = response.sub_addition_sub_code[index];
-            var subName = response.sub_addition_sub_name[index];
+    var $list = $('<ul>'); // Create an unordered list to hold book items
+    bookList.forEach(function(book) {
+        var $listItem = $('<li>').text(book); // Create a list item for each book
+        $list.append($listItem); // Append the list item to the list
+    });
 
-            var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
+    
+    $viewUniBook.append($list); // Append the list to the div
+}
 
-            var input1Div = $('<div class="col-sm-4"></div>');
-            var input1Card = $('<div class="card p-3"></div>');
-            var input1Label = $('<h4>Additional Language Name</h4>');
-            var input1 = $('<span class="detail"></span>').text(languageName);
-            input1Card.append(input1Label);
-            input1Card.append(input1);
-            input1Div.append(input1Card);
+// Function to populate the div with book_received values
+function populateBooksReceived(bookList) {
+    var $viewStuBook = $('#viewStuBook');
+    $viewStuBook.empty(); // Clear existing content
 
-            var input2Div = $('<div class="col-sm-4"></div>');
-            var input2Card = $('<div class="card p-3"></div>');
-            var input2Label = $('<h4>Subject Code</h4>');
-            var input2 = $('<span class="detail"></span>').text(subCode);
-            input2Card.append(input2Label);
-            input2Card.append(input2);
-            input2Div.append(input2Card);
+    if (!Array.isArray(bookList) || bookList.length === 0) {
+        $viewStuBook.html('<p>No books received.</p>');
+        return;
+    }
 
-            var input3Div = $('<div class="col-sm-4"></div>');
-            var input3Card = $('<div class="card p-3"></div>');
-            var input3Label = $('<h4>Subject Name</h4>');
-            var input3 = $('<span class="detail"></span>').text(subName);
-            input3Card.append(input3Label);
-            input3Card.append(input3);
-            input3Div.append(input3Card);
+    var $list = $('<ul>'); // Create an unordered list to hold book items
+    bookList.forEach(function(book) {
+        var $listItem = $('<li>').text(book); // Create a list item for each book
+        $list.append($listItem); // Append the list item to the list
+    });
 
-            newInputDiv.append(input1Div);
-            newInputDiv.append(input2Div);
-            newInputDiv.append(input3Div);
+    
+    $viewStuBook.append($list); // Append the list to the div
+}
 
-            $('#viewAdditionSubjectInputs').append(newInputDiv);
-        });
-    } else {
-        if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
-            $('#viewElectiveDiv').removeClass("d-none");
-           
-            $('#viewElective').text(response.ele_elective);
 
-            response.sub_addition_sub_code.forEach(function(subCode, index) {
-                var subName = response.sub_addition_sub_name[index];
 
-                var newInputDiv = $('<div class="row mb-3 detail-card"></div>'); // Added mb-3 class for some margin
+        populateBooksReceived(response.book_issued);
+        populateBooksUniReceived(response.book_uni_received);
 
-                var input1Div = $('<div class="col-sm-6"></div>');
-                var input1Card = $('<div class="card p-3"></div>');
-                var input1Label = $('<h4>Elective Subject Code</h4>');
-                var input1 = $('<span class="detail"></span>').text(subCode);
-                input1Card.append(input1Label);
-                input1Card.append(input1);
-                input1Div.append(input1Card);
 
-                var input2Div = $('<div class="col-sm-6"></div>');
-                var input2Card = $('<div class="card p-3"></div>');
-                var input2Label = $('<h4>Elective Subject Name</h4>');
-                var input2 = $('<span class="detail"></span>').text(subName);
-                input2Card.append(input2Label);
-                input2Card.append(input2);
-                input2Div.append(input2Card);
 
-                newInputDiv.append(input1Div);
-                newInputDiv.append(input2Div);
 
-                $('#viewAdditionSubjectInputs').append(newInputDiv);
-            });
-        } else {
-            console.error('sub_addition_sub_code or sub_addition_sub_name is not an array.');
-        }
-    }   },
+    },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);

@@ -133,7 +133,7 @@
 
     <!-- ------------------------------------------------------------------------------------------------------------------ -->
 
-    <div class="table-responsive d-none " id="bookView">
+    <div class="d-none " id="bookView">
         
         <form name="frm" method="post">
             <input type="hidden" name="hdnAction" value="">
@@ -147,44 +147,54 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="card p-3">
-                            <h4>University Name</h4> 
-                            <span class="detail" id="viewUniversityName"></span>
+                            <h4>Admission Id</h4> 
+                            <span class="detail" id="viewAdmissionId"></span>
                         </div>
                     </div>  
                     <div class="col-sm-3">
                         <div class="card p-3">
-                            <h4>Course Name</h4>
-                            <span class="detail" id="viewCourseName"></span>
+                            <h4>Student Name</h4>
+                            <span class="detail" id="viewStudentName"></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="card p-3">
-                            <h4>Medium</h4>
-                            <span class="detail" id="viewMedium"></span>
+                            <h4>Student year</h4>
+                            <span class="detail" id="viewStudentYear"></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="card p-3">
-                            <h4>Exam Type</h4>
-                            <span class="detail" id="viewExamType"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="card p-3">
-                            <h4>Fees Type</h4>
-                            <span class="detail" id="viewFeesType"></span>
+                            <h4>ID Card University</h4>
+                            <span class="detail" id="viewIdCardUni"></span>
                         </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="card p-3">
-                            <h4>Duration </h4>
-                            <span class="detail" id="viewDuration"></span>
+                            <h4>ID Card Student</h4>
+                            <span class="detail" id="viewIdCardStu"></span>
+                        </div>
+                    </div>
+
+                
+
+                    <div class="col-sm-5">
+                        <div class="card p-3">
+                            <h3>University Received Books </h3>
+                            <div id="viewUniBook"></div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="card p-3">
+                            <h3>Student Received Books </h3>
+                            <div id="viewStuBook"></div>
+                            
                         </div>
                     </div>
                 
-                <div id="viewCourseInputs"></div>
+                
                     
                 </div>
             </div>
