@@ -86,7 +86,8 @@ ORDER BY a.fee_created_at DESC";
                         <?php 
                         $i = 1;
                         while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
-                        $id = $row['fee_id'];  
+                        $id = $row['fee_id']; 
+                        $stuId = $row['stu_id']; 
                         $name = $row['stu_name']; 
                         $admitId = $row['fee_admision_id'];   
                         $course = $row['cou_name']; 
@@ -116,7 +117,7 @@ ORDER BY a.fee_created_at DESC";
                             <td><?php echo $status; ?></td> 
                         <td>
                         
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment(<?php echo $stuId; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                             
 
@@ -276,7 +277,7 @@ function goViewPayment(studentId) {
 
     $.ajax({
         url: 'action/actFees.php', // Replace with your PHP file path
-        type: 'GET', // or 'POST' depending on your PHP handling
+        type: 'POST', // or 'POST' depending on your PHP handling
         data: { studentId: studentId }, // Send student ID to fetch specific payment history
         dataType: 'json',
         success: function(response) {

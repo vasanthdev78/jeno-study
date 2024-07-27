@@ -154,8 +154,8 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
 }
 
 
-    if (isset($_GET['studentId'])) {
-        $studentId = $_GET['studentId'];
+    if (isset($_POST['studentId'])) {
+        $studentId = $_POST['studentId'];
     
         // Fetch payment history from the database
         $payment_history_sql = "SELECT 
@@ -178,7 +178,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
          FROM `jeno_payment_history` AS a 
          LEFT JOIN jeno_fees AS b 
          ON a.pay_admission_id = b.fee_admision_id 
-         WHERE b.fee_admision_id = '$studentId' 
+         WHERE b.fee_stus_id = '$studentId' 
          AND a.pay_status ='Active' 
          AND b.fee_status = 'Active';";
         $payment_history_res = mysqli_query($conn, $payment_history_sql);
