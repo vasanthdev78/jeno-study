@@ -73,7 +73,7 @@ $response = ['success' => false, 'message' => ''];
                 SET " . implode(', ', $updateFields) . ",
                     `fee_updated_by` = '$createdBy'
                 WHERE `fee_admision_id` = '$admissionId'
-                  AND `fee_stu_id` = '$studentId'";
+                  AND `fee_id` = '$feesid'";
     
                 if ($conn->query($course_sql) === TRUE) {
                     $response['success'] = true;

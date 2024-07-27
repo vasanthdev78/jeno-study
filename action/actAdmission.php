@@ -492,7 +492,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
         , `fee_sty_fee`
         , `fee_stu_year`
          FROM `jeno_fees` 
-         WHERE fee_admision_id = '24AC0040';";
+         WHERE fee_stu_id = '$studentId';";
     $result2 = $conn->query($select_fees_sql);
     
 
