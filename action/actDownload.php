@@ -56,7 +56,6 @@
     , a.fee_uni_fee 
     , a.fee_sdy_fee_total 
     , a.fee_sty_fee
-    , a.fee_paid_date
     ,b.stu_cou_id 
     FROM `jeno_fees` AS a
      LEFT JOIN jeno_student AS b

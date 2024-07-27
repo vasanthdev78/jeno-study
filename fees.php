@@ -83,50 +83,48 @@ ORDER BY a.fee_created_at DESC";
                       </tr>
                     </thead>
                     <tbody>
-                        <?php 
-                        $i = 1;
-                        while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
-                        $id = $row['fee_id']; 
-                        $stuId = $row['stu_id']; 
-                        $name = $row['stu_name']; 
-                        $admitId = $row['fee_admision_id'];   
-                        $course = $row['cou_name']; 
-                        $phone = $row['stu_phone']; 
-                    
-                        // Retrieve the necessary fee details
-                        $fee_uni_fee_total = $row['fee_uni_fee_total'];
-                        $fee_sty_fee_total = $row['fee_sdy_fee_total'];
-                        $fee_uni_fee = $row['fee_uni_fee'];
-                        $fee_sty_fee = $row['fee_sty_fee'];
-                    
-                        // Calculate the total fees and balance
-                        $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
-                        $paidFees = $fee_uni_fee + $fee_sty_fee;
-                        $balance = $totalFees - $paidFees;
-                    
-                        // Determine the status
-                        $status = $balance > 0 ? 'Pending' : 'Completed';
-                        ?>
-                        <tr>
-                            <td><?php echo $i; $i++; ?></td>
-                            <td><?php echo $admitId; ?></td>
-                            <td><?php echo $name; ?></td>
-                            <td><?php echo $course; ?></td>
-                            <td><?php echo $phone; ?></td>
-                            <td><?php echo $balance; ?></td> 
-                            <td><?php echo $status; ?></td> 
-                        <td>
-                        
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment(<?php echo $stuId; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
-                            
+    <?php 
+    $i = 1;
+    while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
+        $id = $row['fee_id']; 
+        $stuId = $row['stu_id']; 
+        $name = $row['stu_name']; 
+        $admitId = $row['fee_admision_id'];   
+        $course = $row['cou_name']; 
+        $phone = $row['stu_phone']; 
+    
+        // Retrieve the necessary fee details
+        $fee_uni_fee_total = $row['fee_uni_fee_total'];
+        $fee_sty_fee_total = $row['fee_sdy_fee_total'];
+        $fee_uni_fee = $row['fee_uni_fee'];
+        $fee_sty_fee = $row['fee_sty_fee'];
+    
+        // Calculate the total fees and balance
+        $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
+        $paidFees = $fee_uni_fee + $fee_sty_fee;
+        $balance = $totalFees - $paidFees;
+    
+        // Determine the status
+        $status = $balance > 0 ? 'Pending' : 'Completed';
+        ?>
+        <tr>
+            <td><?php echo $i; $i++; ?></td>
+            <td><?php echo $admitId; ?></td>
+            <td><?php echo $name; ?></td>
+            <td><?php echo $course; ?></td>
+            <td><?php echo $phone; ?></td>
+            <td><?php echo $balance; ?></td> 
+            <td><?php echo $status; ?></td> 
+            <td>
+                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
+                <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+            </td>
+        </tr>
+    <?php 
+    }
+    ?>
+</tbody>
 
-                        </td>
-                      </tr>
-                      <?php 
-                    }
-                     ?>
-                    </tbody>
                   </table>
                   
 
@@ -188,7 +186,7 @@ ORDER BY a.fee_created_at DESC";
     
 
 
-        function calculateTotalAndBalance() {
+    function calculateTotalAndBalance() {
     var uni_fee = parseFloat($('#universityFees').text().replace('₹ ', '')) || 0;
     var sty_fee = parseFloat($('#studyFees').text().replace('₹ ', '')) || 0;
 
@@ -259,22 +257,14 @@ $('#fessType').val('');
 });
 
 $('#backButtonsubject').click(function() {
-$('#clientDetail').addClass('d-none');
-$('#feesContent').show();
+window.location.href = "fees.php";
 
 });
-
-function toggleDivs() {
-    // Hide the client detail div
-    document.getElementById('clientDetail').classList.add('d-none');
-    $('#tableFees').show();
-}
 
 
 function goViewPayment(studentId) {
     $('#feesContent').hide();
     $('#clientDetail').removeClass('d-none');
-
     $.ajax({
         url: 'action/actFees.php', // Replace with your PHP file path
         type: 'POST', // or 'POST' depending on your PHP handling
@@ -303,6 +293,7 @@ function goViewPayment(studentId) {
         response.hostory_table.forEach(function(payment, index) {
     html += '<tr>';
     html += '<td>' + (index + 1) + '</td>'; // S.No.
+    html += '<td>' + payment.pay_year + '</td>'; // Payment Date
     html += '<td>' + payment.pay_date + '</td>'; // Payment Date
     html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
@@ -330,15 +321,6 @@ function goViewPayment(studentId) {
         }
     });
 }
-
-function toggleDivs() {
-    $('#clientDetail').addClass('d-none');
-    $('#tableFees').show();
-}
-
-
-
-
 
     document.getElementById('paidMethod').addEventListener('change', function() {
         var paymentMethod = this.value;
@@ -395,6 +377,7 @@ function toggleDivs() {
                 var options = '';
                 var duration = response.cou_duration;
                 var feesType = response.cou_fees_type;
+                $('#feesType').val(feesType);
 
                 for (var i = 1; i <= duration; i++) {
                     var optionText = i + ' ' + feesType;

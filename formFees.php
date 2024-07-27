@@ -7,6 +7,7 @@
                 <input type="hidden" name="hdnAction" value="addFees">
                 <input type="hidden" name="feesid" id="feesid">
                 <input type="hidden" name="studentId" id="studentId">
+                <input type="hidden" name="feesType" id="feesType">
                 <div class="modal-header">
                     <h4 class="modal-title" id="staticBackdropLabel">Add Fees</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -30,7 +31,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="year" class="form-label"><b>Year</b><span class="text-danger">*</span></label>
+                                <label for="year" class="form-label"><b>Current Year/Sem</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="year" id="year" required="required" disabled>
                                     <option value="">--Select Year--</option>
                                 </select>
@@ -251,7 +252,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="card p-3">
-                        <h4>Year</h4>
+                        <h4>Current Year/Sem</h4>
                         <span class="detail" id="ViewYear"></span>
                     </div>
                 </div>
@@ -264,7 +265,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="card p-3">
-                        <h4>University Fees</h4>
+                        <h4>University Paid Fees</h4>
                         <span class="detail" id="viewUniversityFees"></span>
                     </div>
                 </div>
@@ -278,7 +279,7 @@
 
                 <div class="col-sm-3">
                     <div class="card p-3">
-                        <h4>Study Center Fees</h4>
+                        <h4>Study Center Paid Fees</h4>
                         <span class="detail" id="viewStudyCenterFees"></span>
                     </div>
                 </div>
@@ -309,10 +310,11 @@
             <thead>
                 <tr class="bg-light">
                     <th scope="col-1">S.No.</th>
+                    <th scope="col">Study Year/Sem</th>
                     <th scope="col">Payment Date</th>
                     <th scope="col">Amount Received</th>
                     <th scope="col">Payment Method</th>
-                    <th scope="col">Download</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody id="paymentHistoryBody">

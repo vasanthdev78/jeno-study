@@ -16,12 +16,14 @@ $response = ['success' => false, 'message' => ''];
         $paidMethod = $_POST['paidMethod'];
         $paidDate = $_POST['paidDate'];
         $year = $_POST['year'];
+        $feesType = $_POST['feesType'];
         $transactionId = $_POST['transactionId'];
         $description = $_POST['description'];
         $universityPaid = $_POST['universityPaid'];
         $studyPaid = $_POST['studyPaid'];
     
         $totalFees = $universityPaid + $studyPaid;
+        $payYear = $year . ' ' . $feesType;
     
         $fees_select = "SELECT 
             `fee_id`,
@@ -51,7 +53,7 @@ $response = ['success' => false, 'message' => ''];
         (`pay_admission_id`, `pay_student_name`, `pay_year`, `pay_paid_method`, `pay_transaction_id`,
         `pay_description`, `pay_university_fees`, `pay_study_fees`, `pay_total_amount`, `pay_date`, `pay_created_by`)
         VALUES 
-        ('$admissionId', '$studentName', '$year', '$paidMethod', '$transactionId', '$description',
+        ('$admissionId', '$studentName', '$payYear', '$paidMethod', '$transactionId', '$description',
         '$universityPaid', '$studyPaid', '$totalFees', '$paidDate', '$createdBy')";
     
         if ($conn->query($history_sql) === TRUE) {
@@ -154,7 +156,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
 }
 
 
-    if (isset($_POST['studentId'])) {
+    if (isset($_POST['studentId']) && $_POST['studentId'] != '') {
         $studentId = $_POST['studentId'];
     
         // Fetch payment history from the database
@@ -172,15 +174,21 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         , a.pay_balance 
         , a.pay_date 
         , b.fee_uni_fee_total 
-        ,b.fee_sdy_fee_total 
+        , b.fee_sdy_fee_total 
         , b.fee_uni_fee 
-        ,b.fee_sty_fee 
+        , b.fee_sty_fee 
          FROM `jeno_payment_history` AS a 
          LEFT JOIN jeno_fees AS b 
          ON a.pay_admission_id = b.fee_admision_id 
-         WHERE b.fee_stus_id = '$studentId' 
+         WHERE b.fee_admision_id = '$studentId' 
+         AND b.fee_created_at = (
+                SELECT MAX(a2.fee_created_at)
+                FROM `jeno_fees` AS a2
+                WHERE a2.fee_stu_id = b.fee_stu_id
+                AND a2.fee_status = 'Active'
+            )
          AND a.pay_status ='Active' 
-         AND b.fee_status = 'Active';";
+         AND b.fee_status = 'Active'";
         $payment_history_res = mysqli_query($conn, $payment_history_sql);
 
         $history = "SELECT 
@@ -227,12 +235,13 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             $totalPaid = $row['fee_uni_fee'] + $row['fee_sty_fee'] ;
             $totalAmount = $row['fee_uni_fee_total'] + $row['fee_sdy_fee_total'] ;
             $balance = $totalAmount - $totalPaid ;
+            $currentYear = end($historys)['pay_year'];
             // Prepare university details array
             $courseDetails = [
                 'pay_id' => $row['pay_id'],
                 'pay_admission_id' => $row['pay_admission_id'],
                 'pay_student_name' => $row['pay_student_name'],
-                'pay_year' => $row['pay_year'],
+                'pay_year' => $currentYear,
                 'pay_paid_method' => $row['pay_paid_method'],
                 'pay_transaction_id' => $row['pay_transaction_id'],
                 'pay_description' => $row['pay_description'],
@@ -259,10 +268,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         exit();
     }
 
-    
 
-
-    
 
         // // Handle deleting a client
             if (isset($_POST['deleteId'])) {
