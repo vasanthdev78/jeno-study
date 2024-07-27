@@ -578,6 +578,26 @@ function goViewAdmission(id)
                     $('#aadharImageView').attr('href', basePath + response.aadhar_doc).text(response.aadhar_doc);
                     $('#studentImageView').attr('href', basePath + response.photo).text(response.photo);
 
+                    var html = '';
+                    response.student_fees.forEach(function(payment, index) {
+
+                        var fess_total = parseFloat(payment.fee_uni_fee_total) + parseFloat(payment.fee_sdy_fee_total);
+                var received_fees = parseFloat(payment.fee_uni_fee) + parseFloat(payment.fee_sty_fee);
+                var balance = fess_total - received_fees;
+                var status = balance === 0 ? "Complete" : "Pending";
+
+                html += '<tr>';
+                html += '<td>' + (index + 1) + '</td>'; // S.No.
+                html += '<td>' + payment.fee_uni_fee_total + '</td>'; // University Fee Total
+                html += '<td>' + payment.fee_uni_fee + '</td>'; // University Fee Received
+                html += '<td>' + payment.fee_sdy_fee_total + '</td>'; // Study Center Fee Total
+                html += '<td>' + payment.fee_sty_fee + '</td>'; // Study Center Fee Received
+                html += '<td>' + balance + '</td>'; // Balance
+                html += '<td>' + status + '</td>'; // Status
+                html += '</tr>';
+       });
+                $('#feesStudent').html(html); // Append HTML to table body
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
