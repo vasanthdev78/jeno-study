@@ -34,7 +34,6 @@ session_start();
             <div class="content">
 
               <?php include("formFees.php");?>
-
                 <!-- Start Content-->
                 <div class="container-fluid" id="feesContent">
 
