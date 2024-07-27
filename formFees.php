@@ -94,12 +94,9 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="paidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
-                                <input type="date" class="form-control"  name="paidDate" id="paidDate" required="required">
+                                <input type="date" class="form-control" name="paidDate" id="paidDate" required="required">
                             </div>
-                        </div>
-
-                        
-
+                        </div>                     
                         
                     </div>
                 </div>

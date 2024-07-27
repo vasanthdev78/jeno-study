@@ -253,7 +253,7 @@ $('#universityPaid, #studyPaid, #amountPaid').on('input', calculateTotalAndBalan
 
 <script>
 
-    
+document.getElementById('paidDate').max = new Date().toISOString().split('T')[0];
 
 $('#addCourseBtn').click(function() {
 
@@ -360,44 +360,20 @@ function toggleDivs() {
     });
 
     function goEditFees(addGetId) {
-    $('#addFees').removeClass('was-validated');
-    $('#addFees').addClass('needs-validation');
+    $('#addFees').removeClass('was-validated').addClass('needs-validation');
     $('#addFees')[0].reset(); // Reset the form
-    // Clear previous alerts
-    $('#alertContainer').empty();
+    $('#alertContainer').empty(); // Clear previous alerts
 
     $.ajax({
         url: 'action/actFees.php',
         method: 'POST',
-        data: {
-            addGetId: addGetId
-        },
+        data: { addGetId: addGetId },
         dataType: 'json',
         success: function(response) {
-            if (response) {
-                // Check if response contains the course details
-                if (response.cou_duration && response.cou_fees_type) {
-                    var options = '';
-                    var duration = response.cou_duration; // Get course duration
-                    var feesType = response.cou_fees_type; // Get fee pattern (e.g., 'Year', 'Semester')
+            console.log('AJAX response received:', response); // Debugging line
 
-                    // Generate dropdown options based on the fee pattern
-                    for (var i = 1; i <= duration; i++) {
-                        var optionText = i + ' ' + feesType;
-                        options += '<option value="' + i + '">' + optionText + '</option>';
-                    }
-
-                    // Set the generated options into the dropdown
-                    $('#year').html(options);
-
-                    // Set the selected year value
-                    $('#year').val(response.stu_study_year);
-                } else {
-                    console.error("Invalid response data");
-                    return;
-                }
-
-                // Set form fields
+            if (response && response.fee_id) {
+                // Process the response data
                 $('#feesid').val(response.fee_id);
                 $('#studentId').val(response.stu_id);
                 $('#admissionId').val(response.fee_admision_id);
@@ -411,41 +387,46 @@ function toggleDivs() {
                 var paid_uni_fee = Number(response.fee_uni_fee);
                 var paid_sty_fee = Number(response.fee_sty_fee);
 
-                // Calculate balance fees
                 var balance_uni_fee = uni_fee - paid_uni_fee;
                 var balance_sty_fee = sty_fee - paid_sty_fee;
                 var total_balance = balance_uni_fee + balance_sty_fee;
 
                 $('#balance').val(total_balance);
 
-                // Enable or disable the year field based on the balance
-                if (total_balance > 0) {
-                    $('#year').prop('disabled', true);
-                } else {
-                    $('#year').prop('disabled', false);
-                }
-
-                // Update input fields and validation
+                $('#year').prop('disabled', total_balance > 0);
                 $('#universityPaid').prop('disabled', paid_uni_fee >= uni_fee);
                 $('#studyPaid').prop('disabled', paid_sty_fee >= sty_fee);
 
-                // Check and update input fields for fees
-                $('#universityPaid').on('input', function() {
+                // Populate the year dropdown based on course duration
+                var options = '';
+                var duration = response.cou_duration;
+                var feesType = response.cou_fees_type;
+
+                for (var i = 1; i <= duration; i++) {
+                    var optionText = i + ' ' + feesType;
+                    options += '<option value="' + i + '">' + optionText + '</option>';
+                }
+
+                $('#year').html(options);
+                $('#year').val(response.stu_study_year);
+
+                // Handle input validation for paid fields
+                $('#universityPaid').off('input').on('input', function() {
                     var enteredAmount = Number($(this).val());
                     if (enteredAmount > balance_uni_fee) {
                         showAlert('danger', 'Entered university fee amount exceeds the remaining balance by ₹ ' + (enteredAmount - balance_uni_fee));
-                        $(this).val(balance_uni_fee).addClass('is-invalid'); // Reset the value to max allowed and mark field as invalid
+                        $(this).val(balance_uni_fee).addClass('is-invalid');
                     } else {
                         $(this).removeClass('is-invalid');
                     }
                     calculateTotalAndBalance();
                 });
 
-                $('#studyPaid').on('input', function() {
+                $('#studyPaid').off('input').on('input', function() {
                     var enteredAmount = Number($(this).val());
                     if (enteredAmount > balance_sty_fee) {
                         showAlert('danger', 'Entered study fee amount exceeds the remaining balance by ₹ ' + (enteredAmount - balance_sty_fee));
-                        $(this).val(balance_sty_fee).addClass('is-invalid'); // Reset the value to max allowed and mark field as invalid
+                        $(this).val(balance_sty_fee).addClass('is-invalid');
                     } else {
                         $(this).removeClass('is-invalid');
                     }
@@ -461,12 +442,7 @@ function toggleDivs() {
                     var balance = total_balance - totalAmount;
                     $('#balance').val(balance);
 
-                    // Enable or disable the year field based on the updated balance
-                    if (balance > 0) {
-                        $('#year').prop('disabled', true);
-                    } else {
-                        $('#year').prop('disabled', false);
-                    }
+                    $('#year').prop('disabled', balance > 0);
                 }
 
                 function showAlert(type, message) {
@@ -478,14 +454,28 @@ function toggleDivs() {
                     );
                 }
             } else {
-                console.error('Invalid response');
+                console.error('Invalid response data');
+                $('#alertContainer').append(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    'Invalid response data' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>'
+                );
             }
         },
         error: function(xhr, status, error) {
             console.error('AJAX request failed:', status, error);
+            $('#alertContainer').append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                'AJAX request failed: ' + error +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>'
+            );
         }
     });
 }
+
+
 
 
 
@@ -623,9 +613,9 @@ resetField('#studyPaid');
                     $('#year').prop('disabled', true);
                     $('#universityPaid').prop('disabled', false);
                     $('#studyPaid').prop('disabled', false);
-                    $('#feesid').val(response.fee_id);
-                    $('#universityFees').text('₹ ' + response.fee_uni_fee_total);
-                    $('#studyFees').text('₹ ' + response.fee_sdy_fee_total);
+                    // Get the inserted row fee ID and call the goEditFees function
+                    var newFeeId = response.fee_id;
+                    goEditFees(newFeeId);
                 } else {
                     alert('Failed to update student year or record new fees: ' + response.message);
                 }

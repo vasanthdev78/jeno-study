@@ -48,8 +48,6 @@ if (isset($_POST['studentId']) && isset($_POST['selectedYear'])) {
                 $response = array(
                     'success' => true,
                     'fee_id' => $newFeeId,
-                    'fee_uni_fee_total' => $universityFee,
-                    'fee_sdy_fee_total' => $studyFee
                 );
             } else {
                 $response['message'] = 'Error inserting fees: ' . $conn->error;
