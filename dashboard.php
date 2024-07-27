@@ -74,7 +74,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
-                                                <h3 class="my-1 py-1">9,184</h3>
+                                                <h3 class="my-1 py-1" id="allStudent"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -237,6 +237,34 @@ $user_role = $_SESSION['role'];
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+       $(document).ready(function() {
+    $.ajax({
+        url: 'action/actDashboard.php',
+        method: 'POST',
+        data: {
+            data: "AllData"
+        },
+       dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                // Assuming response contains the total_active_students count
+                $('#allStudent').text(response.data.total_active_students);
+                // Other response data can be set here similarly
+            } else {
+                console.error('Failed to fetch data:', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+});
+
+    </script>
 
     </body>
 </html> 
