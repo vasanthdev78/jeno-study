@@ -237,21 +237,26 @@
     </a>
     <div class="collapse" id="sidebarReport">
         <ul class="side-nav-second-level">
-            <li>
+            <!-- <li>
                 <a href="reportBook.php" class="side-nav-link"><i class="bi bi-sliders"></i>Book Reports</a>
-            </li>
+            </li> -->
             <!-- <li>
                 <a href="reportPending.php" class="side-nav-link"><i class="bi bi-sliders"></i>Book Pending</a>
             </li> -->
-            <li>
+            <!-- <li>
                 <a href="reportSchedule.php" class="side-nav-link"><i class="bi bi-calendar2-week"></i>Schedule</a>
-            </li>
+            </li> -->
             <li>
                 <a href="reportIncome.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Income</a>
             </li>
             <li>
                 <a href="reportExpense.php" class="side-nav-link"><i class="bi bi-wallet2"></i>Expense</a>
             </li>
+            <li>
+                <a href="reportTransaction.php" class="side-nav-link"><i class="bi bi-sign-intersection-t-fill"></i>Transaction</a>
+            </li>
+
+         
             <!-- <li>
                 <a href="reportStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>
             </li>

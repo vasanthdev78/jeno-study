@@ -101,8 +101,8 @@ $user_role = $_SESSION['role'];
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Books</h5>
-                                                <h3 class="my-1 py-1">861</h3>
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
+                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -110,6 +110,7 @@ $user_role = $_SESSION['role'];
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
 
+                           
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card ">
                                     <div class="card-body">
@@ -130,19 +131,7 @@ $user_role = $_SESSION['role'];
 
                 <div class="row">
         
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
-                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
-                                            </div>
-                                            
-                                        </div> <!-- end row-->
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card -->
-                            </div> <!-- end col -->
+                            
         
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">

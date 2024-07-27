@@ -251,6 +251,73 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
 
 
 
+            
+// Handle fetching university details for editing
+if (isset($_POST['university']) && $_POST['university'] != '') {
+
+    $endDate = $_POST['endDate'];
+    $startDate = $_POST['startDate'];
+    $university = $_POST['university'];
+    
+  
+    // Construct the SQL query
+    $selQuery = "SELECT 
+    `tran_id`
+    , `tran_category`
+    , `tran_date`
+    , `tran_amount`
+    , `tran_method`
+    , `tran_transaction_id`
+    , `tran_description`
+    , `tran_reason` 
+    FROM `jeno_transaction`
+     WHERE tran_status ='Active' 
+     AND tran_date BETWEEN '$startDate' AND '$endDate'";
+
+     // Append condition for `tran_category` if `university` is not 'All'
+     if ($university !== 'All') {
+        $selQuery .= " AND `tran_category` = '$university'";
+    }
+
+
+    $result = mysqli_query($conn, $selQuery);
+
+    if ($result) {
+        
+        
+        $fees = [];
+
+        while ($row = $result->fetch_assoc()) {
+
+            $fees[] = [
+                'tran_id' => $row['tran_id'],
+                'tran_category' => $row['tran_category'],
+                'tran_reason' => $row['tran_reason'],
+                'tran_method' => $row['tran_method'],
+                'tran_amount' => $row['tran_amount'],
+                'tran_date' => $row['tran_date'], // Course ID for pre-selecting the course in the dropdown            
+                
+            ];
+
+
+            
+
+        }
+       
+
+        echo json_encode($fees);
+    } else {
+        $response['message'] = "Error fetching Enquiry details: " . mysqli_error($conn);
+        echo json_encode($response);
+    }
+
+    exit();
+    }
+
+
+
+
+
             // Default response if no action specified
             $response['message'] = "Invalid action specified.";
             echo json_encode($response);
