@@ -50,7 +50,7 @@ include("class.php");
                             <div class="page-title-box">
                             <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addTransaction" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addaddTransactionModal">
+                                        <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addaddTransactionModal">
                                             Add New Transaction
                                         </button>
                                     </div>

@@ -52,7 +52,7 @@ $user_role = $_SESSION['role'];
                         </div>
 
                         <!-- Filters -->
-      <div class="row mb-3">
+      <!-- <div class="row mb-3">
                     <div class="col-md-5">
                         <label for="universityFilter">University</label>
                         <select id="universityFilter" class="form-control">
@@ -61,10 +61,10 @@ $user_role = $_SESSION['role'];
                             <option value="University2">Anna University</option>
                             <option value="University3">MS University</option>
                             <option value="University4">Alagappa University</option>
-                            <!-- Add more options as needed -->
+                            
                         </select>
                     </div>                 
-                </div>
+                </div> -->
 
                         <div class="row">
         
@@ -74,7 +74,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
-                                                <h3 class="my-1 py-1">9,184</h3>
+                                                <h3 class="my-1 py-1" id="allStudent"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -88,7 +88,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Enquiries </h5>
-                                                <h3 class="my-1 py-1">3,254</h3>
+                                                <h3 class="my-1 py-1" id="allEnquiry"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -116,7 +116,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Admission</h5>
-                                                <h3 class="my-1 py-1">259</h3>                                               
+                                                <h3 class="my-1 py-1" id="allAdmission">259</h3>                                               
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -136,7 +136,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
-                                                <h3 class="my-1 py-1">124</h3>
+                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -150,7 +150,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Staff </h5>
-                                                <h3 class="my-1 py-1">30</h3>
+                                                <h3 class="my-1 py-1" id="allStaff"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -166,7 +166,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Income</h5>
-                                                <h3 class="my-1 py-1">₹50,00,000</h3>
+                                                <h3 class="my-1 py-1" id="allIncome"></h3>
                                             </div>
                                             
                                         </div> <!-- end row-->
@@ -180,7 +180,7 @@ $user_role = $_SESSION['role'];
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Expense</h5>
-                                                <h3 class="my-1 py-1">₹25,00,000</h3>
+                                                <h3 class="my-1 py-1" id="allExpense"></h3>
                                             </div>
                                            
                                         </div> <!-- end row-->
@@ -237,6 +237,40 @@ $user_role = $_SESSION['role'];
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+$(document).ready(function() {
+    $.ajax({
+        url: 'action/actDashboard.php',
+        method: 'POST',
+        data: {
+            data: "AllData"
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                // Assuming response contains the total_active_students count
+                $('#allStudent').text(response.data.total_active_students);
+                $('#allEnquiry').text(response.data.total_active_enquiry);
+                $('#allAdmission').text(response.data.total_active_admission);
+                $('#allfaculty').text(response.data.total_active_faculty);
+                $('#allStaff').text(response.data.total_active_staff);
+                $('#allExpense').text("₹" + response.data.tran_amount_expense);
+                $('#allIncome').text("₹" + response.data.total_income);
+                // Other response data can be set here similarly
+            } else {
+                console.error('Failed to fetch data:', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+            console.error('Response text:', xhr.responseText);
+        }
+    });
+});
+</script>
 
     </body>
 </html> 

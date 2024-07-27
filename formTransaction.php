@@ -59,7 +59,7 @@
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="transactionId" class="form-label"><b>Transaction Id</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter Expense Amount" name="transactionId" id="transactionId" required="required">
+                                    <input type="text" class="form-control" placeholder="Enter Expense Amount" name="transactionId" id="transactionId" >
                                 </div>
                             </div>
 

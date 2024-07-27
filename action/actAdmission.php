@@ -482,6 +482,37 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
     if($result1) {
         $row = mysqli_fetch_assoc($result1);
 
+        $select_fees_sql ="SELECT 
+        `fee_id`
+        , `fee_admision_id`
+        , `fee_stu_id`
+        , `fee_uni_fee_total`
+        , `fee_uni_fee`
+        , `fee_sdy_fee_total`
+        , `fee_sty_fee`
+        , `fee_stu_year`
+         FROM `jeno_fees` 
+         WHERE fee_admision_id = '24AC0040';";
+    $result2 = $conn->query($select_fees_sql);
+    
+
+    $stu_fess = [];
+    while ($fees = mysqli_fetch_assoc($result2)) {
+        $stu_fess = array(
+            'fee_id' => $fees['fee_id'],
+            'fee_admision_id' => $fees['fee_admision_id'],
+            'fee_stu_id' => $fees['fee_stu_id'],
+            'fee_uni_fee_total' => $fees['fee_uni_fee_total'],
+            'fee_uni_fee' => $fees['fee_uni_fee'],
+            'fee_sdy_fee_total' => $fees['fee_sdy_fee_total'],
+            'fee_sty_fee' => $fees['fee_sty_fee'],
+            'fee_stu_year' => $fees['fee_stu_year'],
+        );
+        $student_fees[] = $stu_fess;
+    }
+    
+        
+
         $acaYearValue = $row['stu_aca_year'];
         $feesPattern = $row['cou_fees_type'];
         if ($feesPattern == 'Semester') {
@@ -530,7 +561,8 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'community_doc' => $row['doc_community'],
                     'tc' => $row['doc_tc'],
                     'aadhar_doc' => $row['doc_aadhar'],
-                    'photo' => $row['doc_photo']
+                    'photo' => $row['doc_photo'],
+                    'student_fees' => $student_fees,
     ];
 
     echo json_encode($studentView);

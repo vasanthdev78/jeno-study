@@ -891,33 +891,17 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">S.No.</th>
-                                                                        <th scope="col">Fees For</th>
-                                                                        <th scope="col">Year/Sem</th>
-                                                                        <th scope="col">Total Fees</th>
-                                                                        <th scope="col">Fees Paid</th>
+                                                                        <th scope="col">University fees Total</th>
+                                                                        <th scope="col">University Received Fees</th>
+                                                                        <th scope="col">Study Center Total</th>
+                                                                        <th scope="col">Study Received</th>
                                                                         <th scope="col">Balance</th>
                                                                         <th scope="col">Status</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">1</th>
-                                                                        <td>University Fees</td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">2</th>
-                                                                        <td>Study Center Fees</td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                    </tr>
+                                                                <tbody id="feesStudent">
+                                                                    
+                                                                    
                                                                 </tbody>
                                                             </table>
                                                         </div>
