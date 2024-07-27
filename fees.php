@@ -2,25 +2,18 @@
 session_start();
     include("db/dbConnection.php");
     
-    $selQuery = "SELECT a.*, b.*, c.* 
-FROM `jeno_fees` AS a 
-LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id 
-LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id 
+    $selQuery = "SELECT a.*, b.*, c.*
+FROM `jeno_fees` AS a
+LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
+LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
 WHERE a.fee_status = 'Active'
-AND (
-    (a.fee_stu_id, a.fee_created_at) IN (
-        SELECT fee_stu_id, MAX(fee_created_at)
-        FROM `jeno_fees`
-        WHERE fee_status = 'Active'
-        GROUP BY fee_stu_id
-    ) 
-    OR
-    (
-        (a.fee_uni_fee_total > a.fee_uni_fee OR a.fee_sdy_fee_total > a.fee_sty_fee)
-    )
+AND a.fee_created_at = (
+    SELECT MAX(a2.fee_created_at)
+    FROM `jeno_fees` AS a2
+    WHERE a2.fee_stu_id = a.fee_stu_id
+    AND a2.fee_status = 'Active'
 )
-ORDER BY a.fee_created_at DESC;
-";
+ORDER BY a.fee_created_at DESC";
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>

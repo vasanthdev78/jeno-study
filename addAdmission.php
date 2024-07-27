@@ -857,7 +857,7 @@
                                                         <td id="medium_idView"></td>
                                                     </tr>
                                                     <tr>
-                                                        <th>Language / Elective</th>
+                                                        <th>Joining Year</th>
                                                         <th>:</th>
                                                         <td id="lagView"></td>
                                                     </tr>

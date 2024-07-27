@@ -92,8 +92,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_enquiry_sql);
     }
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_aca_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$academicYear', '$enroll', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_aca_year`, `stu_join_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$academicYear', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -511,7 +511,13 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
         $student_fees[] = $stu_fess;
     }
     
-        
+    $joinYearValue = $row['stu_join_year'];
+    $feesPattern1 = $row['cou_fees_type'];
+    if ($feesPattern1 == 'Semester') {
+        $joinYearValue .= ' Sem';
+    } else if ($feesPattern1 == 'Year') {
+        $joinYearValue .= ' Year';
+    }
 
         $acaYearValue = $row['stu_aca_year'];
         $feesPattern = $row['cou_fees_type'];
@@ -532,6 +538,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'medium_id' => $row['stu_medium_id'],
                     'apply_no' => $row['stu_apply_no'],
                     'acaYear' => $acaYearValue,
+                    'joinYear' => $joinYearValue,
                     'enroll' => $row['stu_enroll'],
                     'year_type' => $row['add_year_type'],
                     'language' => $row['ele_elective'],

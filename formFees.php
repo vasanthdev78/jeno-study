@@ -19,13 +19,13 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="admissionId" class="form-label"><b>Admission Id</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control"  name="admissionId" id="admissionId" required="required">
+                                <input type="text" class="form-control"  name="admissionId" id="admissionId" required="required" readonly>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="studentName" class="form-label"><b>Student Name</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control"  name="studentName" id="studentName" required="required">
+                                <input type="text" class="form-control"  name="studentName" id="studentName" required="required" readonly>
                             </div>
                         </div>
                         <div class="col-sm-6">

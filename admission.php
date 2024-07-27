@@ -542,7 +542,7 @@ function goViewAdmission(id)
                     $('#medium_idView').text(mediumText);
                     $('#applicationView').text(response.apply_no);
                     $('#acaYearView').text(response.acaYear);
-                    $('#lagView').text(response.language);
+                    $('#lagView').text(response.joinYear);
                     $('#enrollView').text(response.enroll);
                     $('#yearTypeView').text(response.year_type);
                     $('#languageView').text(response.language);
