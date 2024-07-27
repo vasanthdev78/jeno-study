@@ -269,9 +269,7 @@
             </div>
         </div>
 
-    <footer class="footer footer-alt fw-medium">
-        <span class="bg-body"><script>document.write(new Date().getFullYear())</script> © RORIRI SOFTWARE SOLUTIONS PVT. LTD.</span>
-    </footer>
+    
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
