@@ -20,86 +20,77 @@ $response = ['success' => false, 'message' => ''];
         $description = $_POST['description'];
         $universityPaid = $_POST['universityPaid'];
         $studyPaid = $_POST['studyPaid'];
-
-        $totalFees = $universityPaid + $studyPaid ;
-
-        $fees_select ="SELECT 
-        `fee_id`
-        ,  `fee_uni_fee_total` 
-        , `fee_sdy_fee_total` 
-        , `fee_uni_fee`
-        , `fee_sty_fee` 
-        FROM `jeno_fees` 
-        WHERE fee_id = $feesid;";
-
-        $fees_res = mysqli_query($conn , $fees_select);
-        $fees = mysqli_fetch_array($fees_res , MYSQLI_ASSOC);
-        $fee_id =$fees['fee_id'];
-        $fee_uni_fee =$fees['fee_uni_fee'];
-        $fee_sty_fee =$fees['fee_sty_fee'];
     
-
-  
-
-    $uni_fees = $fee_uni_fee + $universityPaid ;
-    $sty_fees = $fee_sty_fee + $studyPaid ;
+        $totalFees = $universityPaid + $studyPaid;
     
-    // Other fields
-    // $centerId = $_SESSION['centerId'];
-    $createdBy = $_SESSION['userId'];
-
-     // Insert into payment history
-     $history_sql = "INSERT INTO `jeno_payment_history`
-     (`pay_admission_id`
-     , `pay-student_name`
-     , `pay_year`
-     , `pay_paid_method`
-     , `pay_transaction_id`
-     , `pay_description`
-     , `pay_university_fees`
-     , `pay_study_fees`
-     , `pay_total_amount`
-     , `pay_date`
-     , `pay_created_by`)
-      VALUES 
-      ('$admissionId'
-      ,'$studentName'
-      ,'$year'
-      ,'$paidMethod'
-      ,'$transactionId'
-      ,'$description'
-      ,'$universityPaid'
-      ,'$studyPaid'
-      ,'$totalFees'
-      ,'$paidDate'
-      ,'$createdBy')";
-
-if ($conn->query($history_sql) === TRUE) {
-
-
-    $course_sql = "UPDATE `jeno_fees`
-    SET `fee_uni_fee` = '$uni_fees',
-        `fee_sty_fee` = '$sty_fees',
-        `fee_paid_date` = '$paidDate',
-        `fee_updated_by` = '$createdBy'
-    WHERE `fee_admision_id` = '$admissionId'
-      AND `fee_stu_id` = '$studentId'";
-   
-    } else {
-        $response['message'] = "Error Payment History: " . $conn->error;
+        $fees_select = "SELECT 
+            `fee_id`,
+            `fee_uni_fee_total`, 
+            `fee_sdy_fee_total`, 
+            `fee_uni_fee`,
+            `fee_sty_fee`
+            FROM `jeno_fees` 
+            WHERE fee_id = $feesid;";
+    
+        $fees_res = mysqli_query($conn, $fees_select);
+        $fees = mysqli_fetch_array($fees_res, MYSQLI_ASSOC);
+    
+        $fee_id = $fees['fee_id'];
+        $fee_uni_fee = $fees['fee_uni_fee'];
+        $fee_sty_fee = $fees['fee_sty_fee'];
+    
+        // Calculate updated fees
+        $uni_fees = $fee_uni_fee + $universityPaid;
+        $sty_fees = $fee_sty_fee + $studyPaid;
+    
+        // Other fields
+        $createdBy = $_SESSION['userId'];
+    
+        // Insert into payment history
+        $history_sql = "INSERT INTO `jeno_payment_history`
+        (`pay_admission_id`, `pay_student_name`, `pay_year`, `pay_paid_method`, `pay_transaction_id`,
+        `pay_description`, `pay_university_fees`, `pay_study_fees`, `pay_total_amount`, `pay_date`, `pay_created_by`)
+        VALUES 
+        ('$admissionId', '$studentName', '$year', '$paidMethod', '$transactionId', '$description',
+        '$universityPaid', '$studyPaid', '$totalFees', '$paidDate', '$createdBy')";
+    
+        if ($conn->query($history_sql) === TRUE) {
+            // Conditionally update fees if they are not disabled
+            $updateFields = [];
+            
+            // Only add fields to update if they are not disabled
+            if (!isset($_POST['universityPaid_disabled'])) {
+                $updateFields[] = "`fee_uni_fee` = '$uni_fees'";
+            }
+            if (!isset($_POST['studyPaid_disabled'])) {
+                $updateFields[] = "`fee_sty_fee` = '$sty_fees'";
+            }
+    
+            if (!empty($updateFields)) {
+                $course_sql = "UPDATE `jeno_fees`
+                SET " . implode(', ', $updateFields) . ",
+                    `fee_updated_by` = '$createdBy'
+                WHERE `fee_admision_id` = '$admissionId'
+                  AND `fee_stu_id` = '$studentId'";
+    
+                if ($conn->query($course_sql) === TRUE) {
+                    $response['success'] = true;
+                    $response['message'] = "Fees added and updated successfully!";
+                } else {
+                    $response['message'] = "Error updating Fees: " . $conn->error;
+                }
+            } else {
+                $response['success'] = true;
+                $response['message'] = "Fees added successfully, no updates to existing fees.";
+            }
+        } else {
+            $response['message'] = "Error Payment History: " . $conn->error;
+        }
+    
+        echo json_encode($response);
+        exit();
     }
-
-
-    if ($conn->query($course_sql) === TRUE) {
-        $response['success'] = true;
-        $response['message'] = "Fees added successfully!";
-    } else {
-        $response['message'] = "Error adding Fees: " . $conn->error;
-    }
-
-    echo json_encode($response);
-    exit();
-}
+    
 
 if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     $addGetId = $_POST['addGetId'];
@@ -130,8 +121,10 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
 
     $result = mysqli_query($conn, $selQuery);
 
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
+    if ($result && $row = $result->fetch_assoc()) {
+        // Decode JSON fields if they exist
+        $cou_university_fess = isset($row['cou_university_fess']) ? json_decode($row['cou_university_fess']) : null;
+        $cou_study_fees = isset($row['cou_study_fees']) ? json_decode($row['cou_study_fees']) : null;
 
         $courseDetails = [
             'fee_id' => $row['fee_id'],
@@ -145,15 +138,17 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             'stu_study_year' => $row['fee_stu_year'],
             'cou_duration' => $row['cou_duration'],
             'cou_fees_type' => $row['cou_fees_type'],
-            'cou_university_fess' => json_decode($row['cou_university_fess']),
-            'cou_study_fees' => json_decode($row['cou_study_fees'])
+            'cou_university_fess' => $cou_university_fess,
+            'cou_study_fees' => $cou_study_fees
         ];
 
         echo json_encode($courseDetails);
     } else {
-        $response['message'] = "Error fetching Fees details: " . mysqli_error($conn);
+        // Handle case when no result is found
+        $response = ['message' => "No records found or error fetching Fees details"];
         echo json_encode($response);
     }
+
 
     exit(); 
 }

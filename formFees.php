@@ -13,7 +13,8 @@
                 </div>
                 <div class="modal-body p-3">
                     <div class="row p-3">
-                       
+                       <!-- Alert Container -->
+                       <div id="alertContainer" class="mb-3"></div>
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
