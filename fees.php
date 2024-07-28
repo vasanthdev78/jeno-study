@@ -277,30 +277,39 @@ function goViewPayment(studentId) {
 
           //       $('#feesid').val(paymentHistory.fee_id);
           // $('#studentId').val(paymentHistory.stu_id);
-          $('#viewAdmisionId').text(response.pay_admission_id);
-          $('#viewStudentName').text(response.pay_student_name);
-          $('#ViewYear').text(response.pay_year);
-          $('#viewUniversityTotalFees').text(response.fee_uni_fee_total);
-          $('#viewStudyCenterTotalFees').text(response.fee_sdy_fee_total);
-          $('#viewUniversityFees').text(response.fee_uni_fee);
-          $('#viewStudyCenterFees').text(response.fee_sty_fee);
-          $('#viewTotalFees').text(response.totalAmount);
-          $('#viewTotalPaid').text(response.totalPaid);
-          $('#viewBalance').text(response.balance);
-         
-          console.log(response.hostory_table);
+       // Extract student current year from response
+var studentCurrentYear = response.pay_year;
 
-        response.hostory_table.forEach(function(payment, index) {
+$('#viewAdmisionId').text(response.pay_admission_id);
+$('#viewStudentName').text(response.pay_student_name);
+$('#ViewYear').text(response.pay_year);
+$('#viewUniversityTotalFees').text(response.fee_uni_fee_total);
+$('#viewStudyCenterTotalFees').text(response.fee_sdy_fee_total);
+$('#viewUniversityFees').text(response.fee_uni_fee);
+$('#viewStudyCenterFees').text(response.fee_sty_fee);
+$('#viewTotalFees').text(response.totalAmount);
+$('#viewTotalPaid').text(response.totalPaid);
+$('#viewBalance').text(response.balance);
+
+console.log(response.hostory_table);
+
+var html = '';
+
+response.hostory_table.forEach(function(payment, index) {
     html += '<tr>';
     html += '<td>' + (index + 1) + '</td>'; // S.No.
-    html += '<td>' + payment.pay_year + '</td>'; // Payment Date
+    html += '<td>' + payment.pay_year + '</td>'; // Payment Year
     html += '<td>' + payment.pay_date + '</td>'; // Payment Date
     html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
     html += '<td>';
-    html += '<a href="action/actDownload.php?payment_id='+ payment.pay_id +'"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
+    html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
+
     <?php if ($user_role == 'Admin') { ?>
-        html += '<button class="btn btn-circle btn-danger text-white gap-3" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i> </button>';
+        // Add delete button conditionally based on the student's current year
+        if (payment.pay_year === studentCurrentYear) {
+            html += '<button class="btn btn-circle btn-danger text-white gap-3" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i></button>';
+        }
     <?php } ?>
 
     html += '</td>';
@@ -375,17 +384,29 @@ function goViewPayment(studentId) {
 
                 // Populate the year dropdown based on course duration
                 var options = '';
-                var duration = response.cou_duration;
-                var feesType = response.cou_fees_type;
-                $('#feesType').val(feesType);
+                var courseDuration = response.cou_duration;
+                var feesPattern = response.cou_fees_type;
+                $('#feesType').val(feesPattern);
 
-                for (var i = 1; i <= duration; i++) {
-                    var optionText = i + ' ' + feesType;
-                    options += '<option value="' + i + '">' + optionText + '</option>';
+                var studyYear = parseInt(response.stu_study_year);
+
+                if (feesPattern === 'Semester') {
+                    var totalSems = courseDuration * 2; // 2 semesters per year
+                    for (var i = 1; i <= totalSems; i++) {
+                        var optionText = i + ' Sem';
+                        var disabled = (i !== studyYear && i !== studyYear + 1) ? ' disabled' : '';
+                        options += '<option value="' + i + '"' + disabled + '>' + optionText + '</option>';
+                    }
+                } else if (feesPattern === 'Year') {
+                    for (var i = 1; i <= courseDuration; i++) {
+                        var optionText = i + ' Year';
+                        var disabled = (i !== studyYear && i !== studyYear + 1) ? ' disabled' : '';
+                        options += '<option value="' + i + '"' + disabled + '>' + optionText + '</option>';
+                    }
                 }
 
                 $('#year').html(options);
-                $('#year').val(response.stu_study_year);
+                $('#year').val(studyYear);
 
                 // Handle input validation for paid fields
                 $('#universityPaid').off('input').on('input', function() {

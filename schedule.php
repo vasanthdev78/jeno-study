@@ -93,7 +93,7 @@ session_start();
                         <td><?php echo $session; ?></td>
                         <td><?php echo $timing; ?></td>
                         <td><?php echo $course; ?></td>
-                        <td><?php echo $subject; ?></td>
+                        <td class="text-wrap"><?php echo $subject; ?></td>
 
                         <td>
                           <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>

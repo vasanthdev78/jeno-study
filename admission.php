@@ -459,7 +459,7 @@ $('#addAdmission').off('submit').on('submit', function(e) {
 });
 
 
-  function goEditAdmission(editId) { 
+function goEditAdmission(editId) {
     $.ajax({
         url: 'action/actAdmission.php',
         method: 'POST',
@@ -473,39 +473,39 @@ $('#addAdmission').off('submit').on('submit', function(e) {
             $('#emailEdit').val(response.email);
             $('#universityEdit').val(response.uni_id).trigger('change'); // Trigger change to populate courses
 
-            // Delay setting course and language values to ensure dropdowns are populated
+            // Ensure that the course and language fields are populated correctly
             setTimeout(function() {
                 $('#courseNameEdit').val(response.cou_id).trigger('change'); // Trigger change to populate electives
+
                 setTimeout(function() {
                     $('#academicYearEdit').val(response.acaYear);
-                    $('#languageEdit').val(response.language); // Set after triggering change for courses
-                }, 10); // Adjust timeout if necessary
-
-                $('#mediumEdit').val(response.medium_id);
-                $('#yearTypeEdit').val(response.year_type);
-                $('#digilockerEdit').val(response.digilocker);
-                $('#admitDateEdit').val(response.admit_date);
-                $('#dobEdit').val(response.dob);
-                $('#genderEdit').val(response.gender);
-                $('#addressEdit').val(response.address);
-                $('#pincodeEdit').val(response.pincode);
-                $('#fathernameEdit').val(response.father_name);
-                $('#mothernameEdit').val(response.mother_name);
-                $('#aadharNumberEdit').val(response.aadhar_no);
-                $('#nationalityEdit').val(response.nationality);
-                $('#motherTongueEdit').val(response.mother_tongue);
-                $('#religionEdit').val(response.religion);
-                $('#casteEdit').val(response.caste);
-                $('#communityEdit').val(response.community);
-                $('#maritalEdit').val(response.marital_status);
-                $('#employedEdit').val(response.employed);
-                $('#qualificationEdit').val(response.qualification);
-                $('#previousEdit').val(response.institute);
-                $('#completedEdit').val(response.comp_year);
-                $('#studyEdit').val(response.study_field);
-                $('#gradeEdit').val(response.grade);
-                $('#enrollEdit').val(response.enroll);
-            }, 10   ); // Adjust timeout if necessary
+                    $('#languageEdit').val(response.language);
+                    $('#mediumEdit').val(response.medium_id);
+                    $('#yearTypeEdit').val(response.year_type);
+                    $('#digilockerEdit').val(response.digilocker);
+                    $('#admitDateEdit').val(response.admit_date);
+                    $('#dobEdit').val(response.dob);
+                    $('#genderEdit').val(response.gender);
+                    $('#addressEdit').val(response.address);
+                    $('#pincodeEdit').val(response.pincode);
+                    $('#fathernameEdit').val(response.father_name);
+                    $('#mothernameEdit').val(response.mother_name);
+                    $('#aadharNumberEdit').val(response.aadhar_no);
+                    $('#nationalityEdit').val(response.nationality);
+                    $('#motherTongueEdit').val(response.mother_tongue);
+                    $('#religionEdit').val(response.religion);
+                    $('#casteEdit').val(response.caste);
+                    $('#communityEdit').val(response.community);
+                    $('#maritalEdit').val(response.marital_status);
+                    $('#employedEdit').val(response.employed);
+                    $('#qualificationEdit').val(response.qualification);
+                    $('#previousEdit').val(response.institute);
+                    $('#completedEdit').val(response.comp_year);
+                    $('#studyEdit').val(response.study_field);
+                    $('#gradeEdit').val(response.grade);
+                    $('#enrollEdit').val(response.enroll);
+                }, 500); // Adjust timeout if necessary
+            }, 500); // Adjust timeout if necessary
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -513,6 +513,7 @@ $('#addAdmission').off('submit').on('submit', function(e) {
         }
     });
 }
+
 
 function goViewAdmission(id)
 {

@@ -275,20 +275,20 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
 
-                $deleteAmuont = "SELECT 
-                    a.pay_admission_id   
-                 , a.pay_university_fees 
-                 , a.pay_study_fees
-                 , a.pay_total_amount 
-                 , b.fee_uni_fee 
-                 , b.fee_sty_fee 
-                  FROM `jeno_payment_history` AS a 
-                  LEFT JOIN jeno_fees AS b 
-                  ON a.pay_admission_id = b.fee_admision_id 
-                  WHERE pay_id = $id;";
+                $deleteAmuont = "SELECT a.*, b.*
+                                FROM jeno_payment_history AS a
+                                LEFT JOIN jeno_fees AS b
+                                ON a.pay_admission_id = b.fee_admision_id
+                                WHERE a.pay_id  = $id
+                                AND b.fee_updated_at = (
+                                    SELECT MAX(fee_updated_at)
+                                    FROM jeno_fees
+                                    WHERE fee_admision_id = a.pay_admission_id
+                                )";
 
                if(  $deleteAmuont_res = mysqli_query($conn, $deleteAmuont)){
                   $fee_row = mysqli_fetch_assoc($deleteAmuont_res);
+                  $feeId = $fee_row['fee_id'];
                   $admision = $fee_row['pay_admission_id'];
                   $pay_university_fees = $fee_row['pay_university_fees'];
                   $pay_study_fees = $fee_row['pay_study_fees'];
@@ -299,10 +299,10 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 $updateStyFees = $fee_sdy_fee_total - $pay_study_fees ;
 
                   $updateSql = "UPDATE `jeno_fees` 
-                  SET `fee_uni_fee_total`='$updateUniFees'
-                  , `fee_sdy_fee_total`='$updateStyFees'
+                  SET `fee_uni_fee`='$updateUniFees'
+                  , `fee_sty_fee`='$updateStyFees'
                   , `fee_updated_by`='$updatedBy' 
-                  WHERE `fee_admision_id` = '$admision'";
+                  WHERE `fee_id` = '$feeId'";
 
                   if($updateSql_res = mysqli_query($conn, $updateSql)){
 
