@@ -1,21 +1,14 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
-    
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+include("class.php");
+
+$enquiry_result = enquiryTable();
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include("head2.php"); ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
@@ -39,6 +32,7 @@ session_start();
         <div class="content-page">
             <div class="content">
             <div id="studentDetail"></div>
+            <?php include("formEnquiry.php");?> <!---add Student popup--->
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
@@ -57,56 +51,83 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                        <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addEnquiryModal">
+                                            Add New Enquiry
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h3 class="page-title">Enquiry</h3>   
                             </div>
                         </div>
                     </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
+                    <div class="row mb-3">
+                   <div class="col-md-5">
+                   <label for="universityFilter">University</label>
+                  <select id="universityFilter" class="form-control">
+                <option value="">--All University--</option>
+                                        <?php 
+                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                     while ($row = $university_result->fetch_assoc()) {
+                                     $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+            <!-- Add more options as needed -->
+        </select>
+    </div>                 
+    </div>
+
              
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+             
+             
+             
+             <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
-                                    <th scope="col">Action</th>
+                        <th scope="col-1">S.No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">University</th>
+                        <th scope="col">Course</th>                                    
+                        <th scope="col">Contact No</th>
+                        <th scope="col">Status</th> 
+                        <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
+
+                    <?php  
+
+                        $i =1;
+
+                        while ($row = $enquiry_result->fetch_assoc()) {
+                            $id = $row['enq_id'];
+                            
+
                         ?>
+
+                    
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                        <td><?php echo $i ; $i++ ?></td>
+                        <td><?php echo $row['enq_stu_name'] ?></td>
+                        <td><?php echo  universityName($row['enq_uni_id']) ?></td>
+                        <td><?php echo $row['enq_cou_id'] ?></td>
+                        <td><?php echo $row['enq_mobile'] ?></td>
+                        <td><?php echo $row['enq_adminsion_status'] ?></td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editEnquiry(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewEnquiry(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteEnquiry(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
-                      </tr>
-                      <?php } ?>
-                        
+                      </tr>   
+                     <?php } ?>  
+                                             
                     </tbody>
                   </table>
 
@@ -132,7 +153,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -157,36 +178,150 @@ session_start();
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
+                <!--   pdf and excel print  -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    <!-------Start Add Student--->
     <script>
 
-$(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
+            $(document).ready(function() {
+            var table = $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
+        // Event listener for the university filter dropdown
+        $('#universityFilter').on('change', function() {
+            var selectedUniversity = $(this).val();
+            if (selectedUniversity) {
+                table.column(2).search(selectedUniversity).draw();
+            } else {
+                table.column(2).search('').draw();
+            }
+        });
 
-  
-  $('#addStudent').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
 
-    var formData = new FormData(this);
-    $.ajax({
-      url: "action/actStudent.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
+        });
+
+        $('#addEnquiryBtn').click(function() {
+
+            $('#addEnquiry').removeClass('was-validated');
+            $('#addEnquiry').addClass('needs-validation');
+            $('#addEnquiry')[0].reset(); // Reset the form
+            // $('#fessType').val('');
+
+            });
+
+            $('#backButtonEnquiry').click(function() {
+            $('#enquiryView').addClass('d-none');
+            $('#StuContent').show();
+
+            });
+
+
+            $(document).ready(function() {
+    $('#university').change(function() {
+        var universityId = $(this).val();
+        alert(universityId);
+        
+        if (universityId === "") {
+            $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actEnquiry.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { universityID: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
+                $('#course').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
+
+    $('#editUniversity').change(function() {
+        var universityId = $(this).val();
+        alert(universityId);
+        
+        if (universityId === "") {
+            $('#editCourse').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actEnquiry.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { universityID: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
+                $('#editCourse').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
+
+    });
+
+
+
+
+     // Ajax form submission
+     $('#addEnquiry').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+            
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: 'action/actEnquiry.php',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(response) {
+
+                // Handle success response
         console.log(response);
         if (response.success) {
           Swal.fire({
@@ -195,14 +330,17 @@ function resetForm(formId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
+            $('#addEnquiryModal').modal('hide');
+            $('#example').load(location.href + ' #example > *', function() {
+              $('#example').DataTable().destroy();
+              $('#example').DataTable({
                 "paging": true, // Enable pagination
                 "ordering": true, // Enable sorting
-                "searching": true // Enable searching
+                "searching": true, // Enable searching
+                dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
               });
             });
           });
@@ -214,32 +352,70 @@ function resetForm(formId) {
           });
         }
       },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Student data.'
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error response
+                    alert('Error adding Enquiry: ' + textStatus);
+                }
+            });
         });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
+
+
+
+          // edit function -------------------------
+    function editEnquiry(editId) {
+    
+
+    $.ajax({
+        url: 'action/actEnquiry.php',
+        method: 'POST',
+        data: {
+            editId: editId
+        },
+        dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+            $('#editEnquiryId').val(response.enq_id);
+            $('#editName').val(response.enq_stu_name);
+            $('#editGender').val(response.enq_gender);
+            $('#editDob').val(response.enq_dob);
+            $('#editMobile').val(response.enq_mobile);
+            $('#editEmail').val(response.enq_email);
+            $('#editAddress').val(response.enq_address);
+            $('#editUniversity').val(response.enq_uni_id);
+            
+            $('#editMedium').val(response.enq_medium);
+            
+
+
+            var options = '<option value="">--Select the Course--</option>';
+                
+                // Loop through each course in the response and append to options
+                $.each(response.enq_courses, function(index, course) {
+                   options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+               });
+               $('#editCourse').html(options); // Update the course dropdown
+               $('#editCourse').val(response.enq_cou_id);
+           
+                    },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
     });
-  });
-});
+    }
 
 
-//Edit Student Ajax
+
+
+          //Edit update Enquiry form Ajax
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
+    $('#editEnquiry').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var formData = new FormData(this);
         $.ajax({
-            url: "action/actStudent.php",
+            url: "action/actEnquiry.php",
             method: 'POST',
             data: formData,
             contentType: false,
@@ -256,17 +432,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
+                      $('#editEnquiryModal').modal('hide'); // Close the modal
                         
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                          $('#example').load(location.href + ' #example > *', function() {
                                
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                              $('#example').DataTable().destroy();
                                
-                                $('#scroll-horizontal-datatable').DataTable({
+                                $('#example').DataTable({
                                    "paging": true, // Enable pagination
                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
+                                    "searching": true, // Enable searching
+                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
                                });
                             });
                       });
@@ -284,134 +464,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit student data.'
+                    text: 'An error occurred while Edit Enquiry data.'
                 });
                 // Re-enable the submit button on error
                 $('#updateBtn').prop('disabled', false);
             }
         });
     });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
     });
 
 
 
 
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
-{ 
-      $.ajax({
-        url: 'action/actStudent.php',
-        method: 'POST',
-        data: {
-          editId: editId
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
 
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-    
-}
-
-
-function goDeleteStudent(id)
-{
+    //----delete ---
+    function goDeleteEnquiry(id)
+        {
     //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    if(confirm("Are you sure you want to delete enquiry?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actEnquiry.php',
         method: 'POST',
         data: {
           deleteId: id
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+          $('#example').load(location.href + ' #example > *', function() {
                                
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
+                               $('#example').DataTable().destroy();
                                
-                                $('#scroll-horizontal-datatable').DataTable({
+                                $('#example').DataTable({
                                     "paging": true, // Enable pagination
                                     "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
+                                    "searching": true, // Enable searching
+                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    ]
                                 });
                             });
          
@@ -423,50 +514,42 @@ function goDeleteStudent(id)
         }
     });
     }
-}
-function goViewStudent(id)
+    }
+
+
+
+
+    //------view page -----------------------------
+
+
+    function goViewEnquiry(id)
 {
     //location.href = "clientDetail.php?clientId="+id;
     $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
-
-function goDocStu(id) 
-  
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
+        url: 'action/actEnquiry.php',
         method: 'POST',
         data: {
             id: id
         },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
+          
+          $('#StuContent').hide();
+          $('#enquiryView').removeClass('d-none');
+        
+          $('#viewStudentName').text(response.enq_stu_name);
+          $('#viewGender').text(response.enq_gender);
+          $('#viewDob').text(response.enq_dob);
+          $('#viewMobileNo').text(response.enq_mobile);
+          $('#viewEmail').text(response.enq_email);
+          $('#viewAddress').text(response.enq_address);
+          $('#viewUniversityName').text(response.enq_uni_id);
+          $('#viewCourseName').text(response.enq_cou_id);
+          $('#viewMedium').text(response.enq_medium);
+          $('#viewAddmissionStatus').text(response.enq_adminsion_status);
+
+    
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -474,9 +557,16 @@ function goDocStu(id)
         }
     });
 }
-</script>
 
-    
+
+
+
+
+
+
+    </script>
+
+ 
 
 </body>
 

@@ -1,15 +1,9 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
+    include "class.php";
+    
+    $course_result = courseTable(); 
     
 ?>
 <!DOCTYPE html>
@@ -38,10 +32,10 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
+            <?php include "formClgCourse.php" ;?>
 
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="courseContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -57,56 +51,60 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                        <button type="button" id="addCourseBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+                                            Add New Course
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Courses List</h4>   
                             </div>
                         </div>
                     </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
+                    
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">University</th>
                                     <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Exam Type</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
-                    <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
-                     <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                    <tbody> 
+                      <?php
+
+                    $i =1;
+
+              while ($row = $course_result->fetch_assoc()) {
+                  $id = $row['cou_id'];
+                  
+
+              ?>  
+                      <tr>
+                      <td ><?php echo $i ; $i++ ?></td>
+                        <td><?php echo universityName($id); ?></td>
+                        <td><?php echo $row['cou_name'] ?></td>
+                        <td><?php echo $row['cou_duration'] ." Years" ?></td>
+                        <td><?php echo $row['cou_exam_type'] ?></td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                        <?php if ($user_role == 'Admin') { ?>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewCourse(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <?php } else { ?>
+                                <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewCourse(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                           <?php } ?>
                         </td>
-                      </tr>
-                      <?php } ?>
-                        
+                      </tr> 
+                      <?php }  ?>  
+
                     </tbody>
                   </table>
 
@@ -132,7 +130,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -160,26 +158,43 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    <!-------Start Add Student--->
+
+
     <script>
+      
+      $('#addCourseBtn').click(function() {
 
-$(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
+        $('#addCourse').removeClass('was-validated');
+        $('#addCourse').addClass('needs-validation');
+        $('#addCourse')[0].reset(); // Reset the form
+        $('#fessType').val('');
+        
+    });
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
+    $('#backButtoncourse').click(function() {
+        $('#CourseView').addClass('d-none');
+        $('#courseContent').show();
 
-  
-  $('#addStudent').off('submit').on('submit', function(e) {
+    });
+
+
+    $(document).ready(function () {
+ 
+
+  $('#addCourse').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
+
+    
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
 
     var formData = new FormData(this);
     $.ajax({
-      url: "action/actStudent.php",
+      url: "action/actCourse.php",
       method: 'POST',
       data: formData,
       contentType: false,
@@ -195,8 +210,8 @@ function resetForm(formId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
+            
+                    $('#addCourseModal').modal('hide');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -227,19 +242,99 @@ function resetForm(formId) {
       }
     });
   });
-});
+  });
+
+      // edit function -------------------------
+function editCourse(editId) {
+    alert("afa");
+
+    $.ajax({
+        url: 'action/actCourse.php',
+        method: 'POST',
+        data: {
+            editId: editId
+        },
+        //dataType: 'json', // Specify the expected data type as JSON
+        success: function(response) {
+            $('#editCouseId').val(response.cou_id);
+            $('#editUniversity').val(response.cou_uni_id);
+            $('#editCourseName').val(response.cou_name);
+            $('#editMedium').val(response.cou_medium);
+            $('#editExamType').val(response.cou_exam_type);
+            $('#editFessType').val(response.cou_fees_type);
+            $('#ediDuration').val(response.cou_duration);
+
+            
+        // Clear previous input fields
+$('#editCourseInputs').empty();
+
+// Assuming cou_university_fess, cou_study_fees, and cou_total_fees arrays are of equal length and matched by index
+if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_study_fees) && Array.isArray(response.cou_total_fees)) {
+    response.cou_university_fess.forEach(function(universityFee, index) {
+        var studyFee = response.cou_study_fees[index];
+        var totalFee = response.cou_total_fees[index];
+        
+        var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+
+        var input1Div = $('<div class="col-sm-4"></div>');
+        var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
+        var input1 = $('<input type="number" class="form-control university-fees" name="editUniversityFees[]" required>').val(universityFee);
+        input1Div.append(input1Label);
+        input1Div.append(input1);
+
+        var input2Div = $('<div class="col-sm-4"></div>');
+        var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
+        var input2 = $('<input type="number" class="form-control study-center-fees" name="editStudyFees[]" required>').val(studyFee);
+        input2Div.append(input2Label);
+        input2Div.append(input2);
+
+        var input3Div = $('<div class="col-sm-4"></div>');
+        var input3Label = $('<label class="form-label"><b>Total Fees</b></label>');
+        var input3 = $('<input type="number" class="form-control total-fees" name="editTotalFees[]" readonly required>').val(totalFee);
+        input3Div.append(input3Label);
+        input3Div.append(input3);
+
+        newInputDiv.append(input1Div);
+        newInputDiv.append(input2Div);
+        newInputDiv.append(input3Div);
+        
+        $('#editCourseInputs').append(newInputDiv);
+
+        // Add event listeners to update total fees
+        (function(input1, input2, input3) {
+            input1.add(input2).on('input', function() {
+                var universityFees = parseFloat(input1.val()) || 0;
+                var studyCenterFees = parseFloat(input2.val()) || 0;
+                input3.val(universityFees + studyCenterFees);
+            });
+        })(input1, input2, input3);
+                });
+            } else {
+                // If not arrays or lengths do not match, handle the error accordingly
+                console.error('Department and contact arrays are not properly matched.');
+            }
+                    },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
 
 
-//Edit Student Ajax
+
+
+
+    //Edit Update Course Ajax
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
+    $('#editCourse').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var formData = new FormData(this);
         $.ajax({
-            url: "action/actStudent.php",
+            url: "action/actCourse.php",
             method: 'POST',
             data: formData,
             contentType: false,
@@ -256,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
+                      $('#editCourseModal').modal('hide'); // Close the modal
                         
                         $('.modal-backdrop').remove(); // Remove the backdrop   
                           $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
@@ -284,120 +379,93 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit student data.'
+                    text: 'An error occurred while Edit Course data.'
                 });
                 // Re-enable the submit button on error
                 $('#updateBtn').prop('disabled', false);
             }
         });
     });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
     });
 
 
 
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
-{ 
-      $.ajax({
-        url: 'action/actStudent.php',
+    
+    function goViewCourse(id) 
+    {
+      alert('sdafda');
+    //location.href = "clientDetail.php?clientId="+id;
+    $.ajax({
+        url: 'action/actCourse.php',
         method: 'POST',
         data: {
-          editId: editId
+            id: id
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+          
+          $('#courseContent').hide();
+          $('#CourseView').removeClass('d-none');
+        
+          $('#viewUniversityName').text(response.cou_uni_id);
+          $('#viewCourseName').text(response.cou_name);
+          $('#viewMedium').text(response.cou_medium);
+          $('#viewExamType').text(response.cou_exam_type);
+          $('#viewFeesType').text(response.cou_fees_type);
+          $('#viewDuration').text(response.cou_duration +" Years");
 
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
+     // Clear previous input fields
+     $('#viewCourseInputs').empty();
+
+            // Assuming uni_department and uni_contact arrays are of equal length and matched by index
+            if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_study_fees)) {
+                response.cou_university_fess.forEach(function(department, index) {
+                    var contact = response.cou_study_fees[index];
+                    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+
+                    var input1Div = $('<div class="col-sm-6"></div>');
+                    var input1Card = $('<div class="card p-3"></div>');
+                    var input1Label = $('<h4>University Fees</h4>');
+                    var input1 = $('<span class="detail"></span>').text(department);
+                    input1Card.append(input1Label);
+                    input1Card.append(input1);
+                    input1Div.append(input1Card);
+
+                    var input2Div = $('<div class="col-sm-6"></div>');
+                    var input2Card = $('<div class="card p-3"></div>');
+                    var input2Label = $('<h4>Study Center Fees</h4>');
+                    var input2 = $('<span class="detail"></span>').text(contact);
+                    input2Card.append(input2Label);
+                    input2Card.append(input2);
+                    input2Div.append(input2Card);
+
+                    newInputDiv.append(input1Div);
+                    newInputDiv.append(input2Div);
+
+                    $('#viewCourseInputs').append(newInputDiv);
+                });
+            } else {
+                // If not arrays or lengths do not match, handle the error accordingly
+                console.error('Fees and contact arrays are not properly matched.');
+            }
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);
         }
     });
-    
-}
+    }
 
 
-function goDeleteStudent(id)
-{
+
+    function goDeleteCourse(id)
+        {
     //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    if(confirm("Are you sure you want to delete Course?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actCourse.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -423,60 +491,88 @@ function goDeleteStudent(id)
         }
     });
     }
-}
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
+    }
 
-function goDocStu(id) 
+
+    </script>
+
   
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
+
+
+<script>
+    $(document).ready(function() {
+        $('#duration, #fessType').on('input change', function() {
+            $('#additionalInputs').empty(); // Clear previous inputs
+            var duration = parseInt($('#duration').val()) || 0;
+            var graduationType = $('#fessType').val();
+            
+            var totalSemesters = (graduationType === 'Semester') ? duration * 2 : duration;
+
+            for (var i = 1; i <= totalSemesters; i++) {
+                var yearText;
+                if (graduationType === 'Semester') {
+                    yearText = 'Semester ' + i;
+                } else {
+                    switch (i) {
+                        case 1:
+                            yearText = '1st Year';
+                            break;
+                        case 2:
+                            yearText = '2nd Year';
+                            break;
+                        case 3:
+                            yearText = '3rd Year';
+                            break;
+                        default:
+                            yearText = i + 'th Year';
+                            break;
+                    }
+                }
+
+                var newInputDiv = $('<div class="row m-2"></div>');
+
+                var yearDiv = $('<div class="col-sm-12"><label class="form-label"><b>' + yearText + '</b></label></div>');
+
+                var input1Div = $('<div class="col-sm-4"></div>');
+                var input1Label = $('<label class="form-label"><b>University Fees</b></label>');
+                var input1 = $('<input type="number" class="form-control university-fees" name="universityFees[]" placeholder="Enter University Fees" required>');
+                input1Div.append(input1Label);
+                input1Div.append(input1);
+
+                var input2Div = $('<div class="col-sm-4"></div>');
+                var input2Label = $('<label class="form-label"><b>Study Center Fees</b></label>');
+                var input2 = $('<input type="number" class="form-control study-center-fees" name="studyCenterFees[]" placeholder="Enter Study Center Fees" required>');
+                input2Div.append(input2Label);
+                input2Div.append(input2);
+
+                var input3Div = $('<div class="col-sm-4"></div>');
+                var input3Label = $('<label class="form-label"><b>Total Fees</b></label>');
+                var input3 = $('<input type="number" class="form-control total-fees" name="totalFees[]" readonly placeholder="Total Fees" required>');
+                input3Div.append(input3Label);
+                input3Div.append(input3);
+
+                newInputDiv.append(yearDiv);
+                newInputDiv.append(input1Div);
+                newInputDiv.append(input2Div);
+                newInputDiv.append(input3Div);
+
+                $('#additionalInputs').append(newInputDiv);
+
+                // Add event listeners to update total fees
+                (function(input1, input2, input3) {
+                    input1.add(input2).on('input', function() {
+                        var universityFees = parseFloat(input1.val()) || 0;
+                        var studyCenterFees = parseFloat(input2.val()) || 0;
+                        input3.val(universityFees + studyCenterFees);
+                    });
+                })(input1, input2, input3);
+            }
+        });
     });
-}
 </script>
 
-    
+
+
 
 </body>
 

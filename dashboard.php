@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+$user_role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,23 +46,25 @@ session_start();
                                 </div>
 
                                 <div class="page-title-box">                                    
-                                    <div class="page-title-right">
-                                        <form class="d-flex">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="dash-daterange">
-                                                <span class="input-group-text bg-primary border-primary text-white">
-                                                    <i class="ri-calendar-todo-fill fs-13"></i>
-                                                </span>
-                                            </div>
-                                            <a href="javascript: void(0);" class="btn btn-primary ms-2">
-                                                <i class="ri-refresh-line"></i>
-                                            </a>
-                                        </form>
-                                    </div>
                                     <h4 class="page-title">Dashboard</h4>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Filters -->
+      <!-- <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="universityFilter">University</label>
+                        <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
+                            
+                        </select>
+                    </div>                 
+                </div> -->
 
                         <div class="row">
         
@@ -71,16 +74,9 @@ session_start();
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
-                                                <h3 class="my-1 py-1">9,184</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 3.27%</span>
-                                                </p>
+                                                <h3 class="my-1 py-1" id="allStudent"></h3>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="campaign-sent-chart" data-colors="#6da09c"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
@@ -92,16 +88,9 @@ session_start();
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Enquiries </h5>
-                                                <h3 class="my-1 py-1">3,254</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 5.38%</span>
-                                                </p>
+                                                <h3 class="my-1 py-1" id="allEnquiry"></h3>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="new-leads-chart" data-colors="#87bf8a"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
@@ -112,21 +101,53 @@ session_start();
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Books</h5>
-                                                <h3 class="my-1 py-1">861</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 4.87%</span>
-                                                </p>
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
+                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="deals-chart" data-colors="#e7607b"></div>
-                                                </div>
-                                            </div>
+                                            
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
+
+                           
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card ">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Deals">Total Admission</h5>
+                                                <h3 class="my-1 py-1" id="allAdmission">259</h3>                                               
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div>
+                        
+                <!-- ------------------------admin view ----------------- -->
+                <?php if ($user_role == 'Admin') { ?>
+
+                <div class="row">
+        
+                            
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Staff </h5>
+                                                <h3 class="my-1 py-1" id="allStaff"></h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            
 
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card text-bg-primary border-primary">
@@ -134,22 +155,31 @@ session_start();
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Income</h5>
-                                                <h3 class="my-1 py-1">$253k</h3>
-                                                <p class="mb-0 text-muted">
-                                                    <span class="text-white text-opacity-75 me-2"><i class="ri-arrow-up-line"></i> 11.7%</span>
-                                                </p>
+                                                <h3 class="my-1 py-1" id="allIncome"></h3>
                                             </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card text-bg-primary border-primary">
+                                    <div class="card-body bg-danger">
+                                        <div class="row align-items-center">
                                             <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="booked-revenue-chart" data-colors="#d89e70"></div>
-                                                </div>
+                                                <h5 class="text-white text-opacity-75 fw-normal mt-0 text-truncate" title="Booked Revenue">Total Expense</h5>
+                                                <h3 class="my-1 py-1" id="allExpense"></h3>
                                             </div>
+                                           
                                         </div> <!-- end row-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
                         </div>
-                        
+                        <?php } ?>
+                        <!-- -----------------------admin view end -------------------- -->
+
                     </div>
                     <!-- container -->
 
@@ -169,121 +199,7 @@ session_start();
         </div>
         <!-- END wrapper -->
 
-        <!-- Theme Settings -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="theme-settings-offcanvas">
-            <div class="d-flex align-items-center bg-primary p-3 offcanvas-header">
-                <h5 class="text-white m-0">Theme Settings</h5>
-                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-
-            <div class="offcanvas-body p-0">
-                <div data-simplebar class="h-100">
-                    <div class="card border-0 mb-0 p-3">
-                        <div class="alert alert-warning" role="alert">
-                            <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
-                        </div>
-
-                        <h5 class="my-3 fs-16 fw-bold">Color Scheme</h5>
-
-                        <div class="d-flex flex-column gap-2">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-light" value="light">
-                                <label class="form-check-label" for="layout-color-light">Light</label>
-                            </div>
-
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-dark" value="dark">
-                                <label class="form-check-label" for="layout-color-dark">Dark</label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h5 class="my-3 fs-16 fw-bold">Menu Color</h5>
-
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-light" value="light">
-                                    <label class="form-check-label" for="leftbar-color-light">Light</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-dark" value="dark">
-                                    <label class="form-check-label" for="leftbar-color-dark">Dark</label>
-                                </div>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-brand" value="brand">
-                                    <label class="form-check-label" for="leftbar-color-brand">Brand</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="sidebar-size">
-                            <h5 class="my-3 fs-16 fw-bold">Sidebar Size</h5>
-
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-default" value="default">
-                                    <label class="form-check-label" for="leftbar-size-default">Default</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-compact" value="compact">
-                                    <label class="form-check-label" for="leftbar-size-compact">Compact</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-small" value="condensed">
-                                    <label class="form-check-label" for="leftbar-size-small">Condensed</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-full" value="full">
-                                    <label class="form-check-label" for="leftbar-size-full">Full Layout</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-fullscreen" value="fullscreen">
-                                    <label class="form-check-label" for="leftbar-size-fullscreen">Fullscreen Layout</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="layout-position">
-                            <h5 class="my-3 fs-16 fw-bold">Layout Position</h5>
-
-                            <div class="btn-group checkbox" role="group">
-                                <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed" value="fixed">
-                                <label class="btn btn-soft-primary w-sm" for="layout-position-fixed">Fixed</label>
-
-                                <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-scrollable" value="scrollable">
-                                <label class="btn btn-soft-primary w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
-                            </div>
-                        </div>
-
-                        <div id="sidebar-user">
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <label class="fs-16 fw-bold m-0" for="sidebaruser-check">Sidebar User Info</label>
-                                <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" name="sidebar-user" id="sidebaruser-check">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="offcanvas-footer border-top p-3 text-center">
-                <div class="row">
-                    <div class="col-6">
-                        <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
-                    </div>
-                    <div class="col-6">
-                        <a href="#" role="button" class="btn btn-primary w-100">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>          
+                 
         
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
@@ -310,6 +226,40 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+$(document).ready(function() {
+    $.ajax({
+        url: 'action/actDashboard.php',
+        method: 'POST',
+        data: {
+            data: "AllData"
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                // Assuming response contains the total_active_students count
+                $('#allStudent').text(response.data.total_active_students);
+                $('#allEnquiry').text(response.data.total_active_enquiry);
+                $('#allAdmission').text(response.data.total_active_admission);
+                $('#allfaculty').text(response.data.total_active_faculty);
+                $('#allStaff').text(response.data.total_active_staff);
+                $('#allExpense').text("₹" + response.data.tran_amount_expense);
+                $('#allIncome').text("₹" + response.data.total_income);
+                // Other response data can be set here similarly
+            } else {
+                console.error('Failed to fetch data:', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+            console.error('Response text:', xhr.responseText);
+        }
+    });
+});
+</script>
 
     </body>
 </html> 

@@ -2,13 +2,18 @@
 session_start();
     include("db/dbConnection.php");
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
+    $selQuery = "SELECT a.*, b.*, c.*
+FROM `jeno_fees` AS a
+LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
+LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+WHERE a.fee_status = 'Active'
+AND a.fee_created_at = (
+    SELECT MAX(a2.fee_created_at)
+    FROM `jeno_fees` AS a2
+    WHERE a2.fee_stu_id = a.fee_stu_id
+    AND a2.fee_status = 'Active'
+)
+ORDER BY a.fee_created_at DESC";
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
@@ -38,10 +43,10 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
 
+              <?php include("formFees.php");?>
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="feesContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -55,60 +60,73 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <div class="page-title-right">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
-                                        </button>
-                                    </div>
-                                </div>
-                                <h4 class="page-title">Student</h4>   
+                               
+                                <h4 class="page-title">Fees List</h4>   
                             </div>
                         </div>
                     </div>
-
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
+                    
+                    
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Application No.</th>
+                                    <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Balance</th>
+                                    <th scope="col">Payment Status</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
-                     <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
-                    
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
-                        </td>
-                      </tr>
-                      <?php } ?>
-                        
-                    </tbody>
+    <?php 
+    $i = 1;
+    while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
+        $id = $row['fee_id']; 
+        $stuId = $row['stu_id']; 
+        $name = $row['stu_name']; 
+        $admitId = $row['fee_admision_id'];   
+        $course = $row['cou_name']; 
+        $phone = $row['stu_phone']; 
+    
+        // Retrieve the necessary fee details
+        $fee_uni_fee_total = $row['fee_uni_fee_total'];
+        $fee_sty_fee_total = $row['fee_sdy_fee_total'];
+        $fee_uni_fee = $row['fee_uni_fee'];
+        $fee_sty_fee = $row['fee_sty_fee'];
+    
+        // Calculate the total fees and balance
+        $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
+        $paidFees = $fee_uni_fee + $fee_sty_fee;
+        $balance = $totalFees - $paidFees;
+    
+        // Determine the status
+        $status = $balance > 0 ? 'Pending' : 'Completed';
+        ?>
+        <tr>
+            <td><?php echo $i; $i++; ?></td>
+            <td><?php echo $admitId; ?></td>
+            <td><?php echo $name; ?></td>
+            <td><?php echo $course; ?></td>
+            <td><?php echo $phone; ?></td>
+            <td><?php echo $balance; ?></td> 
+            <td><?php echo $status; ?></td> 
+            <td>
+                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
+                <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+            </td>
+        </tr>
+    <?php 
+    }
+    ?>
+</tbody>
+
                   </table>
+                  
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -132,7 +150,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -160,26 +178,336 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    <!-------Start Add Student--->
+
     <script>
 
-$(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
+    $(document).ready(function() {
+    
+
+
+    function calculateTotalAndBalance() {
+    var uni_fee = parseFloat($('#universityFees').text().replace('₹ ', '')) || 0;
+    var sty_fee = parseFloat($('#studyFees').text().replace('₹ ', '')) || 0;
+
+    var universityPaid = parseFloat($('#universityPaid').val()) || 0;
+    var studyPaid = parseFloat($('#studyPaid').val()) || 0;
+    var amountPaid = parseFloat($('#amountPaid').val()) || 0;
+
+    var totalUniFeeBalance = uni_fee;
+    var totalStyFeeBalance = sty_fee;
+
+    if (universityPaid > uni_fee) {
+        showAlert('danger', 'Entered university fee amount exceeds the total amount by ₹ ' + (universityPaid - uni_fee));
+        universityPaid = uni_fee;
+        $('#universityPaid').val(uni_fee).addClass('is-invalid');
+    } else {
+        $('#universityPaid').removeClass('is-invalid');
+    }
+
+    if (studyPaid > sty_fee) {
+        showAlert('danger', 'Entered study fee amount exceeds the total amount by ₹ ' + (studyPaid - sty_fee));
+        studyPaid = sty_fee;
+        $('#studyPaid').val(sty_fee).addClass('is-invalid');
+    } else {
+        $('#studyPaid').removeClass('is-invalid');
+    }
+
+    var totalAmount = universityPaid + studyPaid;
+    $('#totalAmount').val(totalAmount);
+
+    // Calculate the balance for each fee type
+    var uniBalance = uni_fee - universityPaid;
+    var styBalance = sty_fee - studyPaid;
+
+    // Calculate the total balance
+    var totalBalance = uniBalance + styBalance;
+    $('#balance').val(totalBalance);
+
+    // Calculate the remaining balance after considering the amount already paid
+    var remainingBalance = totalBalance - amountPaid;
+    $('#remainingBalance').val(remainingBalance);
 }
 
-  
-  $('#addStudent').off('submit').on('submit', function(e) {
+function showAlert(type, message) {
+    $('#alertContainer').append(
+        '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+        message +
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+        '</div>'
+    );
+}
+
+$('#universityPaid, #studyPaid, #amountPaid').on('input', calculateTotalAndBalance);
+
+    });
+</script>
+
+<script>
+
+document.getElementById('paidDate').max = new Date().toISOString().split('T')[0];
+
+$('#addCourseBtn').click(function() {
+
+$('#addCourse').removeClass('was-validated');
+$('#addCourse').addClass('needs-validation');
+$('#addCourse')[0].reset(); // Reset the form
+$('#fessType').val('');
+
+});
+
+$('#backButtonsubject').click(function() {
+window.location.href = "fees.php";
+
+});
+
+
+function goViewPayment(studentId) {
+    $('#feesContent').hide();
+    $('#clientDetail').removeClass('d-none');
+    $.ajax({
+        url: 'action/actFees.php', // Replace with your PHP file path
+        type: 'POST', // or 'POST' depending on your PHP handling
+        data: { studentId: studentId }, // Send student ID to fetch specific payment history
+        dataType: 'json',
+        success: function(response) {
+
+                 // Assuming response.data contains payment history array
+                var html = '';
+
+          //       $('#feesid').val(paymentHistory.fee_id);
+          // $('#studentId').val(paymentHistory.stu_id);
+       // Extract student current year from response
+var studentCurrentYear = response.pay_year;
+
+$('#viewAdmisionId').text(response.pay_admission_id);
+$('#viewStudentName').text(response.pay_student_name);
+$('#ViewYear').text(response.pay_year);
+$('#viewUniversityTotalFees').text(response.fee_uni_fee_total);
+$('#viewStudyCenterTotalFees').text(response.fee_sdy_fee_total);
+$('#viewUniversityFees').text(response.fee_uni_fee);
+$('#viewStudyCenterFees').text(response.fee_sty_fee);
+$('#viewTotalFees').text(response.totalAmount);
+$('#viewTotalPaid').text(response.totalPaid);
+$('#viewBalance').text(response.balance);
+
+console.log(response.hostory_table);
+
+var html = '';
+
+response.hostory_table.forEach(function(payment, index) {
+    html += '<tr>';
+    html += '<td>' + (index + 1) + '</td>'; // S.No.
+    html += '<td>' + payment.pay_year + '</td>'; // Payment Year
+    html += '<td>' + payment.pay_date + '</td>'; // Payment Date
+    html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
+    html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
+    html += '<td>';
+    html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
+
+    <?php if ($user_role == 'Admin') { ?>
+        // Add delete button conditionally based on the student's current year
+        if (payment.pay_year === studentCurrentYear) {
+            html += '<button class="btn btn-circle btn-danger text-white gap-3" onclick="goDeleteCourse(' + payment.pay_id + ')"><i class="bi bi-trash"></i></button>';
+        }
+    <?php } ?>
+
+    html += '</td>';
+    html += '</tr>';
+       });
+                $('#paymentHistoryBody').html(html); // Append HTML to table body
+
+                // Initialize DataTable
+                $('#scroll-horizontal-datatable1').DataTable({
+                    destroy: true, // Destroy existing instance before reinitializing
+                    responsive: true,
+                    scrollX: true
+                });
+           
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+    document.getElementById('paidMethod').addEventListener('change', function() {
+        var paymentMethod = this.value;
+        var onlinePaymentDetails = document.getElementById('onlinePaymentDetails');
+        
+        if (paymentMethod === 'Online') {
+            onlinePaymentDetails.style.display = 'block';
+            document.getElementById('onlineTransactionId').setAttribute('required', 'required');
+        } else {
+            onlinePaymentDetails.style.display = 'none';
+            document.getElementById('onlineTransactionId').removeAttribute('required');
+        }
+    });
+
+    function goEditFees(addGetId) {
+    $('#addFees').removeClass('was-validated').addClass('needs-validation');
+    $('#addFees')[0].reset(); // Reset the form
+    $('#alertContainer').empty(); // Clear previous alerts
+
+    $.ajax({
+        url: 'action/actFees.php',
+        method: 'POST',
+        data: { addGetId: addGetId },
+        dataType: 'json',
+        success: function(response) {
+            console.log('AJAX response received:', response); // Debugging line
+
+            if (response && response.fee_id) {
+                // Process the response data
+                $('#feesid').val(response.fee_id);
+                $('#studentId').val(response.stu_id);
+                $('#admissionId').val(response.fee_admision_id);
+                $('#studentName').val(response.stu_name);
+                $('#universityFees').text('₹ ' + response.fee_uni_fee_total);
+                $('#studyFees').text('₹ ' + response.fee_sdy_fee_total);
+
+                var uni_fee = Number(response.fee_uni_fee_total);
+                var sty_fee = Number(response.fee_sdy_fee_total);
+
+                var paid_uni_fee = Number(response.fee_uni_fee);
+                var paid_sty_fee = Number(response.fee_sty_fee);
+
+                var balance_uni_fee = uni_fee - paid_uni_fee;
+                var balance_sty_fee = sty_fee - paid_sty_fee;
+                var total_balance = balance_uni_fee + balance_sty_fee;
+
+                $('#balance').val(total_balance);
+
+                $('#year').prop('disabled', total_balance > 0);
+                $('#universityPaid').prop('disabled', paid_uni_fee >= uni_fee);
+                $('#studyPaid').prop('disabled', paid_sty_fee >= sty_fee);
+
+                // Populate the year dropdown based on course duration
+                var options = '';
+                var courseDuration = response.cou_duration;
+                var feesPattern = response.cou_fees_type;
+                $('#feesType').val(feesPattern);
+
+                var studyYear = parseInt(response.stu_study_year);
+
+                if (feesPattern === 'Semester') {
+                    var totalSems = courseDuration * 2; // 2 semesters per year
+                    for (var i = 1; i <= totalSems; i++) {
+                        var optionText = i + ' Sem';
+                        var disabled = (i !== studyYear && i !== studyYear + 1) ? ' disabled' : '';
+                        options += '<option value="' + i + '"' + disabled + '>' + optionText + '</option>';
+                    }
+                } else if (feesPattern === 'Year') {
+                    for (var i = 1; i <= courseDuration; i++) {
+                        var optionText = i + ' Year';
+                        var disabled = (i !== studyYear && i !== studyYear + 1) ? ' disabled' : '';
+                        options += '<option value="' + i + '"' + disabled + '>' + optionText + '</option>';
+                    }
+                }
+
+                $('#year').html(options);
+                $('#year').val(studyYear);
+
+                // Handle input validation for paid fields
+                $('#universityPaid').off('input').on('input', function() {
+                    var enteredAmount = Number($(this).val());
+                    if (enteredAmount > balance_uni_fee) {
+                        showAlert('danger', 'Entered university fee amount exceeds the remaining balance by ₹ ' + (enteredAmount - balance_uni_fee));
+                        $(this).val(balance_uni_fee).addClass('is-invalid');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                    calculateTotalAndBalance();
+                });
+
+                $('#studyPaid').off('input').on('input', function() {
+                    var enteredAmount = Number($(this).val());
+                    if (enteredAmount > balance_sty_fee) {
+                        showAlert('danger', 'Entered study fee amount exceeds the remaining balance by ₹ ' + (enteredAmount - balance_sty_fee));
+                        $(this).val(balance_sty_fee).addClass('is-invalid');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                    calculateTotalAndBalance();
+                });
+
+                function calculateTotalAndBalance() {
+                    var universityPaid = parseFloat($('#universityPaid').val()) || 0;
+                    var studyPaid = parseFloat($('#studyPaid').val()) || 0;
+                    var totalAmount = universityPaid + studyPaid;
+                    $('#totalAmount').val(totalAmount);
+
+                    var balance = total_balance - totalAmount;
+                    $('#balance').val(balance);
+
+                    $('#year').prop('disabled', balance > 0);
+                }
+
+                function showAlert(type, message) {
+                    $('#alertContainer').append(
+                        '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+                        message +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                        '</div>'
+                    );
+                }
+            } else {
+                console.error('Invalid response data');
+                $('#alertContainer').append(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    'Invalid response data' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>'
+                );
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+            $('#alertContainer').append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                'AJAX request failed: ' + error +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>'
+            );
+        }
+    });
+}
+
+
+
+
+
+$('#addFees').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
-    var formData = new FormData(this);
+    $('#year').prop('disabled', false);
+    function resetField(fieldId) {
+    var $field = $(fieldId);
+
+    // Check if the field is currently disabled
+    if ($field.prop('disabled')) {
+        // Remove the disabled property
+        $field.prop('disabled', false);
+
+        // Set the value to 0
+        $field.val(0);
+    }
+}
+
+// Call the function for both fields
+resetField('#universityPaid');
+resetField('#studyPaid');
+
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
     $.ajax({
-      url: "action/actStudent.php",
+      url: "action/actFees.php",
       method: 'POST',
       data: formData,
       contentType: false,
@@ -195,8 +523,8 @@ function resetForm(formId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
+            
+                  $('#addFeesModal').modal('hide');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -220,184 +548,23 @@ function resetForm(formId) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'An error occurred while adding Student data.'
+          text: 'An error occurred while adding Fees data.'
         });
         // Re-enable the submit button on error
         $('#submitBtn').prop('disabled', false);
       }
     });
   });
-});
-
-
-//Edit Student Ajax
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
-                            });
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Edit student data.'
-                });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
-            }
-        });
-    });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
-    });
 
 
 
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
-{ 
-      $.ajax({
-        url: 'action/actStudent.php',
-        method: 'POST',
-        data: {
-          editId: editId
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-    
-}
-
-
-function goDeleteStudent(id)
-{
+  function goDeleteCourse(id)
+        {
     //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    if(confirm("Are you sure you want to delete Fees Record?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actFees.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -423,60 +590,59 @@ function goDeleteStudent(id)
         }
     });
     }
-}
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
+    }
 
-function goDocStu(id) 
-  
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
+    $('#year').on('change', function() {
+    var selectedYear = $(this).val();
+    var studentId = $('#studentId').val();
+
+    if (selectedYear) {
+        $.ajax({
+            url: 'updateStudentYear.php',
+            method: 'POST',
+            data: {
+                studentId: studentId,
+                selectedYear: selectedYear
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert('Student year updated and new fees recorded successfully.');
+                    $('#year').prop('disabled', true);
+                    $('#universityPaid').prop('disabled', false);
+                    $('#studyPaid').prop('disabled', false);
+                    // Get the inserted row fee ID and call the goEditFees function
+                    var newFeeId = response.fee_id;
+                    goEditFees(newFeeId);
+                } else {
+                    alert('Failed to update student year or record new fees: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', status, error);
+            }
+        });
+    }
+});
+
+
+    document.getElementById('universityPaid').addEventListener('input', function(e) {
+        var value = e.target.value;
+        if (value.includes('-')) {
+            e.target.value = value.replace('-', '');
+            alert('Negative values are not allowed.');
         }
     });
-}
+
+    document.getElementById('studyPaid').addEventListener('input', function(e) {
+        var value = e.target.value;
+        if (value.includes('-')) {
+            e.target.value = value.replace('-', '');
+            alert('Negative values are not allowed.');
+        }
+    });
+
 </script>
-
-    
 
 </body>
 

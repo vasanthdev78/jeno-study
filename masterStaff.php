@@ -1,34 +1,28 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php" ;
     
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
+    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'";
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -38,10 +32,10 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
 
+            <?php include "formStaff.php" ;?> <!---add Staff popup--->
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="StaffContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -57,56 +51,53 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                        <button type="button" id="addStaffBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                                            Add New Staff
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h3 class="page-title">Staff</h3>   
                             </div>
                         </div>
                     </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
-             
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
+                                    <th scope="col">Mobile</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Date of Joining</th>
                                     <th scope="col">Email ID</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
+                      <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['stf_id'];  
+                        $stf_name = $row['stf_name'];
+                        $stf_mobile=$row['stf_mobile']; 
+                        $stf_role = $row['stf_role'];  
+                        $stf_joining_date  = $row['stf_joining_date']; 
+                        $stf_email = $row['stf_email'];  
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                        <td><?php echo $stf_name; ?></td>
+                        <td><?php echo $stf_mobile; ?></td>
+                        <td><?php echo $stf_role; ?></td>
+                        <td><?php echo $stf_joining_date; ?></td>
+                        <td><?php echo $stf_email; ?></td>
                     
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStaff(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStaff(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStaff(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
                       <?php } ?>
-                        
                     </tbody>
                   </table>
 
@@ -119,7 +110,7 @@ session_start();
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php"; ?>
             <!-- end Footer -->
 
         </div>
@@ -132,7 +123,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -160,26 +151,43 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    <!-------Start Add Student--->
-    <script>
+  <script>
+    $(document).ready(function () {
 
-$(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
+      $('#addStaffBtn').click(function() {
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
+      $('#addStaff').removeClass('was-validated');
+      $('#addStaff').addClass('needs-validation');
+      $('#username').removeClass('is-invalid is-valid');
+      $('#addStaff')[0].reset(); // Reset the form
 
+      });
+
+      $('#backButton').click(function() {
+        $('#staffView').addClass('d-none');
+        $('#StaffContent').show();
+    });
   
-  $('#addStudent').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+  $('#addStaff').off('submit').on('submit', function(e) {
+    if (!isUsernameValid) {
+        e.preventDefault();
+        $('#username').focus(); // Set focus to the invalid input
+        return false;
+    }
 
-    var formData = new FormData(this);
+    e.preventDefault(); 
+
+    var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+
     $.ajax({
-      url: "action/actStudent.php",
+      url: "action/actStaff.php",
       method: 'POST',
       data: formData,
       contentType: false,
@@ -195,8 +203,7 @@ function resetForm(formId) {
             text: response.message,
             timer: 2000
           }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
+            $('#addStaffModal').modal('hide');
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -220,167 +227,72 @@ function resetForm(formId) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'An error occurred while adding Student data.'
+          text: 'An error occurred while adding Staff data.'
         });
         // Re-enable the submit button on error
         $('#submitBtn').prop('disabled', false);
       }
     });
   });
+
+
+  var isUsernameValid = true; // Flag to track username validity
+
+$('#username').on('input', function() {
+    var username = $(this).val();
+    if (username.length > 0) {
+        $.ajax({
+            url: 'check_username.php',
+            type: 'post',
+            data: { username: username },
+            success: function(response) {
+              if (response == "exists") {
+                    $('#username').removeClass('is-valid').addClass('is-invalid');
+                    isUsernameValid = false; // Set the flag to false if the username exists
+                } else {
+                    $('#username').removeClass('is-invalid').addClass('is-valid');
+                    isUsernameValid = true; // Set the flag to true if the username is valid
+                }
+            }
+        });
+    } else {
+        $('#username').removeClass('is-invalid is-valid');
+        isUsernameValid = true; // Reset the flag if the input is empty
+    }
+});
+
 });
 
 
-//Edit Student Ajax
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
-                            });
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Edit student data.'
-                });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
-            }
-        });
-    });
-});
-
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
-    });
-
-
-
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
+function goEditStaff(editId)
 { 
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actStaff.php',
         method: 'POST',
         data: {
           editId: editId
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
 
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
+          $('#editStaff').removeClass('was-validated');
+          $('#editStaff').addClass('needs-validation');
+          $('#editStaff')[0].reset(); // Reset the form
+
+          $('#staffId').val(response.stfId);
+          $('#staffNameEdit').val(response.name);
+          $('#dobEdit').val(response.birth);
+          $('#mobileEdit').val(response.mobile);
+          $('#emailEdit').val(response.email);
+          $('#addressEdit').val(response.address);
+          $('#genderEdit').val(response.gender);
+          $('#designationEdit').val(response.role);
+          $('#salaryEdit').val(response.salary);
+          $('#dateofjoinEdit').val(response.joining_date);
+          $('#usernameEdit').val(response.username).prop('disabled', true);
+          $('#passwordEdit').val(response.password);
+          // Remove the 'required' attribute from the aadhar field
+          $('#aadharEdit').removeAttr('required');
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -390,14 +302,12 @@ $('#docStudent').off('submit').on('submit', function(e) {
     
 }
 
-
-function goDeleteStudent(id)
+function goDeleteStaff(id)
 {
-    //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    if(confirm("Are you sure you want to delete Staff?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actStaff.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -424,49 +334,41 @@ function goDeleteStudent(id)
     });
     }
 }
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
 
-function goDocStu(id) 
-  
-  {
+function goViewStaff(id)
+{
     $.ajax({
-        url: 'getDocStudent.php',
+        url: 'action/actStaff.php',
         method: 'POST',
         data: {
             id: id
         },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
+          
+          $('#StaffContent').hide();
+          $('#staffView').removeClass('d-none');
+        
+          $('#staffNameView').text(response.nameView);
+          $('#dobView').text(response.birthView);
+          $('#mobileView').text(response.mobileView);
+          $('#emailView').text(response.emailView);
+          $('#addressView').text(response.addressView);
+          $('#genderView').text(response.genderView);
+          $('#designationView').text(response.roleView);
+          $('#salaryView').text(response.salaryView);
+          $('#dateofjoinView').text(response.joining_dateView);
+          $('#usernameView').text(response.usernameView);
+          $('#passwordView').text(response.passwordView);
+
+          var aadharImageUrl = 'assets/images/staff/' + response.aadharView;
+
+            // Create a link for the Aadhar card
+            $('#aadharView')
+                .attr('href', aadharImageUrl)
+                .attr('target', '_blank')
+                .text('View Aadhar Card');
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
@@ -474,8 +376,77 @@ function goDocStu(id)
         }
     });
 }
-</script>
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    $('#editStaff').off('submit').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+        $.ajax({
+            url: "action/actStaff.php",
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success response
+                
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    }).then(function() {
+                      $('#editStaffModal').modal('hide'); // Close the modal
+                        
+                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                   "paging": true, // Enable pagination
+                                   "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                               });
+                            });
+                      });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Edit staff data.'
+                });
+                // Re-enable the submit button on error
+                $('#updateBtn').prop('disabled', false);
+            }
+        });
+    });
+});
+
+
+</script>
     
 
 </body>
