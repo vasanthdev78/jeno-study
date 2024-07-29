@@ -205,7 +205,6 @@ session_start();
 
       $('#university').change(function() {
         var universityId = $(this).val();
-        alert(universityId);
         
         if (universityId === "") {
             $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
@@ -241,7 +240,6 @@ session_start();
 
           $('#course').change(function() {
         var electiveId = $(this).val();
-        alert(electiveId);
         
         if (electiveId === "") {
             $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
@@ -803,7 +801,6 @@ $('#addSubject').submit(function(event) {
           document.addEventListener('DOMContentLoaded', function() {
     $('#editSubject').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
-        alert("edit form");
         
        
         // Create a FormData object
@@ -873,7 +870,6 @@ $('#backButtonSubject').click(function() {
 
 function goViewCourse(id) 
     {
-      alert('sdafda');
     //location.href = "clientDetail.php?clientId="+id;
     $.ajax({
         url: 'action/actSubject.php',
