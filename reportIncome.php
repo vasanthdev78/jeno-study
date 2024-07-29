@@ -255,10 +255,10 @@ $(document).ready(function() {
         data.forEach(function(row, index) {
             table.row.add([
                 index + 1,
-                row.fee_paid_date,
+                row.pay_date,
                 row.description,
                 row.uni_name,
-                row.fee_sty_fee
+                row.pay_total_amount
             ]);
         });
 

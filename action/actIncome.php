@@ -35,14 +35,16 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         a.fee_uni_fee, 
         a.fee_sdy_fee_total, 
         a.fee_sty_fee, 
-        a.fee_paid_date,
-        b.stu_uni_id 
+        c.pay_total_amount,
+        b.stu_uni_id ,
+        c.pay_date
     FROM 
         jeno_fees AS a 
         LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id 
+        LEFT JOIN jeno_payment_history AS c ON a.fee_admision_id = c.pay_admission_id
     WHERE 
         ($universityFilterCondition)
-        AND a.fee_paid_date BETWEEN '$startDate' AND '$endDate'";
+        AND c.pay_date BETWEEN '$startDate' AND '$endDate'";
 
     $result = mysqli_query($conn, $selQuery);
 
@@ -61,7 +63,9 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'fee_stu_id' => $row['fee_stu_id'], // Course ID for pre-selecting the course in the dropdown            
                 'fee_uni_fee' => $row['fee_uni_fee'],
                 'fee_sty_fee' => $row['fee_sty_fee'],
-                'fee_paid_date' => $row['fee_paid_date'],
+                'pay_total_amount' => $row['pay_total_amount'],
+                'pay_date' => $row['pay_date'],
+                
                 
             ];
 

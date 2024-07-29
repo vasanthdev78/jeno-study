@@ -247,18 +247,19 @@
     // Add item details to the table
     
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(30, 15, 'S.No', 1, 0, 'C'); 
-    $pdf->Cell(40, 15, 'Payment Method', 1, 0, 'C');// Changed alignment to center
-    $pdf->Cell(40, 15, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center    
-    $pdf->Cell(40, 15, 'Total Fees', 1, 1, 'C'); // Adjusted width and changed alignment to center
+    $pdf->Cell(40, 15, 'S.No', 1, 0, 'C'); 
+    $pdf->Cell(50, 15, 'Payment Method', 1, 0, 'C');// Changed alignment to center
+    $pdf->Cell(50, 15, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center    
+    $pdf->Cell(50, 15, 'Total Fees', 1, 1, 'C'); // Adjusted width and changed alignment to center
     $pdf->SetFont('Arial', '', 10);
 
     
-    $pdf->Cell(30, 12, 1, 1);
-    $pdf->Cell(40, 12, $pay_paid_method, 1); 
+    $pdf->Cell(40, 12, 1, 1);
+    $pdf->Cell(50, 12, $pay_paid_method, 1); 
     $totalAmt =$pay_university_fees + $pay_study_fees ;
-    $pdf->Cell(40, 12, $totalAmt, 1,0,'R');  
-    $pdf->Cell(40, 12, $totalAmt, 1, 0,'R'); // Border on the left and right sides
+    $pdf->Cell(50, 12, $totalAmt, 1,0,'R');  
+
+    $pdf->Cell(50, 12, $totalAmt, 1, 0,'R'); // Border on the left and right sides
 
     $pdf->Ln();
  
@@ -269,18 +270,18 @@
     // Convert total amount to words
     $totalAmtInWords = numberToWords($totalAmt);
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(110, 15, ucfirst($totalAmtInWords), 1, 0, 'C'); // No border, aligned left, and move to next line
+    $pdf->Cell(100, 15, ucfirst($totalAmtInWords), 1, 0, 'C'); // No border, aligned left, and move to next line
     // Add the cell with the "Total:" label
     $pdf->Cell(40, 15, 'Total:', 1, 0, 'R'); // Adjusted alignment to left for the label
     // Add the cell with the formatted total amount, aligned to the right
-    $pdf->Cell(40, 15, $formattedTotalAmt, 1, 1, 'R'); // Adjusted alignment to right for the total amount
+    $pdf->Cell(50, 15, $formattedTotalAmt, 1, 1, 'R'); // Adjusted alignment to right for the total amount
 
     // Add the cell with the total amount in words
 
 
     
-    $pdf->Cell(150, 15, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
-    $pdf->Cell(40, 15, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
+    $pdf->Cell(140, 15, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
+    $pdf->Cell(50, 15, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
 
     // No need to specify the file path
     $pdf->Output("BillRecipt.pdf", 'D'); // Force download the PDF

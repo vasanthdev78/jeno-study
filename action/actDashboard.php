@@ -56,7 +56,8 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         $row7 = mysqli_fetch_assoc($result7);
         $row8 = mysqli_fetch_assoc($result8);
 
-        $tran_income = $row7['tran_amount'] ;
+        $tran_income = $row7['tran_amount'] ? $row7['tran_amount'] : 0;
+
         $received_total = $row8['fee_uni_fee'] + $row8['fee_sty_fee'] ;
         
         $total_income = $tran_income + $received_total ;
@@ -69,7 +70,7 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
             'total_active_faculty' => $row4['total_active_faculty'],
             'total_active_staff' => $row5['total_active_staff'],
             'tran_amount_expense' => $row6['tran_amount'],
-            'total_income' => $total_income,
+            'total_income' => $total_income
         );
 
         $response['success'] = true;
