@@ -57,55 +57,97 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
-                                        </button>
+                                          <button type="button" class="btn btn-primary mt-4" id="generatePdfBtn">Generate PDF</button>
+                                          <button type="button" class="btn btn-success mt-4" id="generateExcelBtn">Generate Excel</button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h4 class="page-title">Schedule</h4>  
+                                <div class="row mt-3 mb-3">
+                        <div class="col-md-2">
+                            <label for="startDate" class="form-label">Start Date:</label>
+                            <input type="date" class="form-control" id="startDate">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="endDate" class="form-label">End Date:</label>
+                            <input type="date" class="form-control" id="endDate">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="startDate" class="form-label">Faculty</label>
+                            <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">Vasanth</option>
+                            <option value="University2">Rajkumar</option>
+                            <option value="University3">Anushiya</option>
+                            <option value="University4">Subash</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="endDate" class="form-label">Subject</label>
+                            <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">Cloud Computing</option>
+                            <option value="University2">Internet Protocol</option>
+                            <option value="University3">Artificial Inteligence</option>
+                            <option value="University4">POM</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
+                        </div>                        
+                    </div> 
                             </div>
                         </div>
                     </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
-                                    <th scope="col">Action</th>
-                                    
+                                    <th scope="col">Faculty Name</th>
+                                    <th scope="col">From Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Subject</th> 
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
+                    <?php 
+                    // $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
+                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
+                    //     $name=$fname.' '.$lname;
                         ?>
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
-                    
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
-                        </td>
+                        <td>1</td>
+                        <td>Vasanth</td>
+                        <td>6-7-2024</td>
+                        <td>8-7-2024</td>
+                        <td>Morning</td>
+                        <td>Web Development</td>
                       </tr>
-                      <?php } ?>
+
+                      <tr>
+                        <td>2</td>
+                        <td>Raj</td>
+                        <td>6-7-2024</td>
+                        <td>8-7-2024</td>
+                        <td>Morning</td>
+                        <td>Web Development</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>kathir</td>
+                        <td>6-7-2024</td>
+                        <td>8-7-2024</td>
+                        <td>Morning</td>
+                        <td>Web Development</td>
+                      </tr>
+                      <?php 
+                    // }
+                     ?>
                         
                     </tbody>
                   </table>
@@ -132,7 +174,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>

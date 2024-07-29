@@ -78,21 +78,52 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
-                        ?>
+                   
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $course; ?></td>
+                        <td>1</td>
+                        <td>BSc.Computer Science</td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
-                      <?php } ?>
+                      <tr>
+                        <td>2</td>
+                        <td>BBA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>BCA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>MBA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>MCA</td>
+                    
+                        <td>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditCourse(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editCourseModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteCourse(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                        </td>
+                      </tr>
                         
                     </tbody>
                   </table>
@@ -119,7 +150,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>

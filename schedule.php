@@ -1,16 +1,9 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    
-    $selQuery = "SELECT student_tbl.*,
-    additional_details_tbl.*,
-    course_tbl.*
-     FROM student_tbl
-    LEFT JOIN additional_details_tbl on student_tbl.stu_id=additional_details_tbl.stu_id
-    LEFT JOIN course_tbl on student_tbl.course_id=course_tbl.course_id
-    WHERE student_tbl.stu_status = 'Active' and student_tbl.entity_id=1";
-    $resQuery = mysqli_query($conn , $selQuery); 
-    
+    $selQuery = "SELECT a.*, b.fac_name, c.cou_name FROM `jeno_schedule` AS a LEFT JOIN jeno_faculty AS b ON a.sch_fac_id = b.fac_id LEFT JOIN jeno_course AS c ON a.sch_cou_id = c.cou_id WHERE a.sch_status = 'Active'";
+    $resQuery = mysqli_query($conn , $selQuery);
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,10 +31,11 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
+
+            <?php include "formSchedule.php";?> <!---add formSchedule popup--->
 
                 <!-- Start Content-->
-                <div class="container-fluid" id="StuContent">
+                <div class="container-fluid" id="ScheduleContent">
 
                     <!-- start page title -->
                     <div class="row">
@@ -57,55 +51,59 @@ session_start();
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
+                                        <button type="button" id="addScheduleBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addScheduleModal">
+                                            Add New Schedule
                                         </button>
                                     </div>
                                 </div>
-                                <h4 class="page-title">Student</h4>   
+                                <h3 class="page-title">Schedules</h3>   
                             </div>
                         </div>
-                    </div>
-
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
+                    </div>             
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
+                                    <th scope="col">Faculty Name</th>
+                                    <th scope="col">Schedule Date</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Timing</th>
+                                    <th scope="col">Course</th> 
+                                    <th scope="col">Subject</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
+                    <?php 
+                        $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                        $id = $row['sch_id'];  $name = $row['fac_name']; 
+                        $date = $row['sch_date']; $session=$row['sch_session'];  
+                        $timing = $row['sch_timing'];  $course  = $row['cou_name']; $subject = $row['sch_sub_id']; 
+                        $subject_names = json_decode($subject, true); // If it's JSON array
+                        if (is_array($subject_names)) {
+                            $subject = implode(', ', $subject_names); // Convert array to comma-separated string
+                        } 
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
                         <td><?php echo $name; ?></td>
+                        <td><?php echo $date; ?></td>
+                        <td><?php echo $session; ?></td>
+                        <td><?php echo $timing; ?></td>
                         <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
-                    
+                        <td class="text-wrap"><?php echo $subject; ?></td>
+
                         <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
+                          <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
+                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteSchedule(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                           
                         </td>
                       </tr>
-                      <?php } ?>
+                      <?php
+                     } 
+                     ?>
                         
                     </tbody>
                   </table>
@@ -132,7 +130,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -154,250 +152,163 @@ session_start();
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
+    <!--  Select2 Plugin Js -->
+    <script src="assets/vendor/select2/js/select2.min.js"></script>
+
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    <!-------Start Add Student--->
-    <script>
+<script>
 
 $(document).ready(function () {
-  $('#addStudentBtn').click(function () {
-    $('#addStudentModal').modal('show'); // Show the modal
-    resetForm('addStudent'); // Reset the form 
-  });
 
-function resetForm(formId) {
-    document.getElementById(formId).reset(); // Reset the form
-}
+$('#addScheduleBtn').click(function() {
 
-  
-  $('#addStudent').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+$('#addSchedule').removeClass('was-validated');
+$('#addSchedule').addClass('needs-validation');
+$('#addSchedule')[0].reset(); // Reset the form
 
-    var formData = new FormData(this);
-    $.ajax({
-      url: "action/actStudent.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            resetForm('addStudent');
-                    $('#addStudentModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+});
+
+$('#course').change(function() {
+        var courseId = $(this).val();
+        if (courseId) {
+            $.ajax({
+                type: 'POST',
+                url: 'action/actSchedule.php', // The PHP file that fetches the subjects
+                data: {course_id: courseId},
+                success: function(response) {
+                    $('#subject').html(response);
+                }
+            });
+        } else {
+            $('#subject').html('<option value="">--Select the Subject--</option>');
+        }
+    });
+
+   
+$('#addSchedule').off('submit').on('submit', function(e) {
+
+  e.preventDefault(); 
+
+  var form = this; // Get the form element
+          if (form.checkValidity() === false) {
+              // If the form is invalid, display validation errors
+              form.reportValidity();
+              return;
+          }
+
+          var formData = new FormData(form);
+
+  $.ajax({
+    url: "action/actSchedule.php",
+    method: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: 'json',
+    success: function(response) {
+      // Handle success response
+      console.log(response);
+      if (response.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.message,
+          timer: 2000
+        }).then(function() {
+          $('#addScheduleModal').modal('hide');
+          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+            $('#scroll-horizontal-datatable').DataTable().destroy();
+            $('#scroll-horizontal-datatable').DataTable({
+              "paging": true, // Enable pagination
+              "ordering": true, // Enable sorting
+              "searching": true // Enable searching
             });
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
-        }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
+        });
+      } else {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'An error occurred while adding Student data.'
+          text: response.message
         });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
       }
-    });
+    },
+    error: function(xhr, status, error) {
+      // Handle error response
+      console.error(xhr.responseText);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred while adding Schedule data.'
+      });
+      // Re-enable the submit button on error
+      $('#submitBtn').prop('disabled', false);
+    }
   });
 });
 
 
-//Edit Student Ajax
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    $('#editStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      $('#editStudentModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
-                            });
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Edit student data.'
-                });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
-            }
-        });
-    });
 });
 
-//Student document ajax
-$('#docStudent').off('submit').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        var formData = new FormData(this);
-        $.ajax({
-            url: "action/actStudent.php",
-            method: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success response
-                
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        timer: 2000
-                    }).then(function() {
-                      window.location.href="student.php";
-                      });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while Add Student Document.'
-                });
-                // Re-enable the submit button on error
-                $('#docSubmit').prop('disabled', false);
-            }
-        });
-    });
-
-
-
-
-    (function(i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-104952515-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-<script>
-    function goEditStudent(editId)
-{ 
-      $.ajax({
-        url: 'action/actStudent.php',
+function goEditSchedule(editId) {
+    $.ajax({
+        url: 'action/actSchedule.php',
         method: 'POST',
         data: {
-          editId: editId
+            editId: editId
         },
-        //dataType: 'json', // Specify the expected data type as JSON
+        dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+            $('#editSchedule').removeClass('was-validated');
+            $('#editSchedule').addClass('needs-validation');
+            $('#editSchedule')[0].reset(); // Reset the form
 
-          $('#editid').val(response.stu_id);
-          $('#editFname').val(response.first_name);
-          $('#editLname').val(response.last_name);
-         
-          $('#editDob').val(response.dob);
-          $('#editLocation').val(response.address);
-          $('#editEmail').val(response.email);
-          $('#editMobile').val(response.phone);
-          $('#editAadhar').val(response.aadhar);
-          $('#editCourse').val(response.course_id);
-          $('#editMonth').val(response.course_month);
-          $('#editGender').val(response.stu_gender);
+            $('#scheduleId').val(response.schId);
+            $('#facultyNameEdit').val(response.name);
+            $('#fromDateEdit').val(response.date);
+            $('#sessionEdit').val(response.session);
+            $('#timingEdit').val(response.timing);
+            $('#courseEdit').val(response.couId);
+            $('#courseEdit').trigger('change'); // This will trigger the change event to load subjects
+
+            // Fetch subjects based on the selected course and set selected subjects
+            $.ajax({
+                type: 'POST',
+                url: 'action/actSchedule.php', // PHP file to fetch subjects
+                data: { course_id: response.couId },
+                success: function(subjectsResponse) {
+                    $('#subjectEdit').html(subjectsResponse); // Populate the multi-select dropdown
+
+                    // Parse the JSON-encoded string to get the selected subjects
+                    var selectedSubjects = JSON.parse(response.subId);
+                    $('#subjectEdit').val(selectedSubjects).trigger('change');
+
+                    $('#subjectEdit').select2(); // Reinitialize select2
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
         },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);
         }
     });
-    
 }
 
 
-function goDeleteStudent(id)
+function goDeleteSchedule(id)
 {
-    //alert(id);
-    if(confirm("Are you sure you want to delete Student?"))
+    if(confirm("Are you sure you want to delete Schedule?"))
     {
       $.ajax({
-        url: 'action/actStudent.php',
+        url: 'action/actSchedule.php',
         method: 'POST',
         data: {
           deleteId: id
@@ -424,59 +335,76 @@ function goDeleteStudent(id)
     });
     }
 }
-function goViewStudent(id)
-{
-    //location.href = "clientDetail.php?clientId="+id;
-    $.ajax({
-        url: 'studentDetail.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        //dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#StuContent').hide();
-          $('#studentDetail').html(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
-    });
-}
 
-function goDocStu(id) 
-  
-  {
-    $.ajax({
-        url: 'getDocStudent.php',
-        method: 'POST',
-        data: {
-            id: id
-        },
-        dataType: 'json', // Specify the expected data type as JSON
-        success: function(response) {
-          $('#stuDocId').val(response.stuId);
-          $('#userName').val(response.username);
-          var baseUrl = window.location.origin + "/Admin/roriri software/document/students/"; 
-          var aadharUrl = baseUrl + response.aadhar;
-          var marksheetUrl = baseUrl + response.marksheet;
-         // var bankUrl = baseUrl + response.bank;
-                    
-            // Set the href attribute and text content of the a tags with the constructed URLs
-            $('#aadharLink').attr('href', aadharUrl).find('#aadharImg').text(response.aadhar);
-            $('#marksheetLink').attr('href', marksheetUrl).find('#marksheetImg').text(response.marksheet);
-           // $('#bankLink').attr('href', bankUrl).find('#bankImg').text(response.bank);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors here
-            console.error('AJAX request failed:', status, error);
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    $('#editSchedule').off('submit').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
+            var formData = new FormData(form);
+        $.ajax({
+            url: "action/actSchedule.php",
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success response
+                
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    }).then(function() {
+                      $('#editScheduleModal').modal('hide'); // Close the modal
+                        
+                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                               
+                              $('#scroll-horizontal-datatable').DataTable().destroy();
+                               
+                                $('#scroll-horizontal-datatable').DataTable({
+                                   "paging": true, // Enable pagination
+                                   "ordering": true, // Enable sorting
+                                    "searching": true // Enable searching
+                               });
+                            });
+                      });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Edit Schedule data.'
+                });
+                // Re-enable the submit button on error
+                $('#updateBtn').prop('disabled', false);
+            }
+        });
     });
-}
+});
+
+
+
 </script>
-
-    
 
 </body>
 

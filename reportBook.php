@@ -55,57 +55,120 @@ session_start();
                             </div>
         
                             <div class="page-title-box">
-                                <div class="page-title-right">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" id="addStudentBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Add New Student
-                                        </button>
-                                    </div>
-                                </div>
-                                <h4 class="page-title">Student</h4>   
+                              
+                                <h4 class="page-title">Books</h4>   
                             </div>
                         </div>
                     </div>
+      <!-- Filters -->
+      <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="universityFilter">University</label>
+                        <select id="universityFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="University1">University Of Madras</option>
+                            <option value="University2">Anna University</option>
+                            <option value="University3">MS University</option>
+                            <option value="University4">Alagappa University</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="courseFilter">Course</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Course1">BBA</option>
+                            <option value="Course2">BCA</option>
+                            <option value="Course3">MBA</option>
+                            <option value="Course4">MCA</option>
+                            <option value="Course5">BSc</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="courseFilter">Year</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Course1">1st Year</option>
+                            <option value="Course2">2nd Year</option>
+                            <option value="Course3">3srd Year</option>
+                            <option value="Course4">4th Year</option>
+                            <option value="Course5">5th Year</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Pending">Received</option>
+                            <option value="Complete">Not Received</option>
+                            <option value="Pending">Issued</option>
+                            <option value="Complete">Not Issued</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-right mt-4">
+                        <button id="exportPdf" class="btn btn-danger">Export to PDF</button>
+                        <button id="exportExcel" class="btn btn-success">Export to Excel</button>
+                    </div>
+                </div>
 
-             <?php include("addStudent.php");?> <!---add Student popup--->
-             <?php include("editStudent.php"); ?><!-------Edit Student popup--->
-             <?php include("docStudent.php"); ?><!-------View Document popup--->
-             
+
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Name</th>
+                                   <th scope="col-1">S.No.</th>
+                                    <th scope="col">Student Roll NO</th>
+                                    <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Email ID</th> 
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Contact</th>
+                                    <th scope="col">Status</th>
+                                    
                                     
                       </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                        $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                        $name=$fname.' '.$lname;
+                    <?php
+                    //  $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
+                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
+                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
+                    //     $name=$fname.' '.$lname;
                         ?>
                      <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php echo $mobile; ?></td>
-                        <td><?php echo $email; ?></td>
+                     <td>1</td>
+                        <td>CS705654</td>
+                        <td>Vasanth</td>
+                        <td>MCA</td>
+                        <td>1 st Year</td>
+                        <td>987456320</td>
+                        <td>Issue</td>
                     
-                        <td>
-                        <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStudent(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class='bi bi-pencil-square'></i></button>
-                        <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStudent(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStudent(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <button type="button" id="docStu" class="btn btn-circle btn-success text-white modalBtn" onclick="goDocStu(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#docStudentModal"><i class='bi bi-file-earmark-text'></i></button>
-                        </td>
                       </tr>
-                      <?php } ?>
+
+                      <tr>
+                     <td>2</td>
+                        <td>CS7055498</td>
+                        <td>Raj</td>
+                        <td>MSC</td>
+                        <td>1 st Year</td>
+                        <td>654789321</td>
+                        <td>Pending</td>
+                    
+                      </tr>
+
+                      <tr>
+                        <td>3</td>
+                        <td>CS7059848</td>
+                        <td>hari</td>
+                        <td>MCA</td>
+                        <td>1 st Year</td>
+                        <td>4567891235</td>
+                        <td>Issue</td>
+                      </tr>
+                      <?php 
+                    // }
+                     ?>
                         
                     </tbody>
                   </table>
@@ -132,7 +195,7 @@ session_start();
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-<?php include("theme.php"); ?> <!-------Add theme--------------->
+
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
@@ -153,6 +216,13 @@ session_start();
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+  <!-- Include jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+<!-- Include SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
