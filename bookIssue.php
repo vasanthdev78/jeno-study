@@ -262,7 +262,7 @@ session_start();
                     $('#studentName').val(response.stu_name);
                     $('#studentId').val(response.stu_id);
                     $('#studentName').val(response.stu_name);
-                    $('#year').val(response.stu_study_year);
+                    $('#year').val(response.stu_aca_year);
                     $('#typeExam').val(response.cou_fees_type);
                     $('#bookId').val(response.book_id);
                       // Populate the select input with study years or semesters based on course duration and fees type
