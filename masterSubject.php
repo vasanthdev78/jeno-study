@@ -205,7 +205,6 @@ session_start();
 
       $('#university').change(function() {
         var universityId = $(this).val();
-        alert(universityId);
         
         if (universityId === "") {
             $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
@@ -241,7 +240,6 @@ session_start();
 
           $('#course').change(function() {
         var electiveId = $(this).val();
-        alert(electiveId);
         
         if (electiveId === "") {
             $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
