@@ -637,9 +637,6 @@ $('#addSubject').submit(function(event) {
                
 
             $('#editAddElectiveButton').attr('data-type', 'elective');
-
-            alert(response.sub_subject_code);
-
               
         // Clear previous input fields
         $('#editLanguageInputs').empty();
@@ -789,7 +786,6 @@ $('#addSubject').submit(function(event) {
           document.addEventListener('DOMContentLoaded', function() {
     $('#editSubject').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
-        alert("edit form");
         
        
         // Create a FormData object
@@ -859,7 +855,6 @@ $('#backButtonSubject').click(function() {
 
 function goViewCourse(id) 
     {
-      alert('sdafda');
     //location.href = "clientDetail.php?clientId="+id;
     $.ajax({
         url: 'action/actSubject.php',
