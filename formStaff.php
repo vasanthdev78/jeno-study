@@ -218,7 +218,7 @@
 
     <!-- View Modal -->
 
- <div class="table-responsive d-none " id="staffView">
+ <div class=" d-none " id="staffView">
         
         <form name="frmViewStaff" method="post">
             <div class="page-title-box">

@@ -27,7 +27,7 @@ class DBConnection {
     
 }
 
-$db = new DBConnection("localhost", "root", "", "db_demo");
+$db = new DBConnection("localhost", "root", "", "db_demo1");
 
 $conn = $db->getConnection();
      

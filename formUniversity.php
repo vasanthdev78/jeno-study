@@ -19,7 +19,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="universityName" class="form-label"><b>Study Center Code</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Study Center Code" name="studyCode" id="studyCode" required="required">
+                                    <input type="text" class="form-control"  placeholder="Enter Study Center Code" name="studyCode" id="studyCode" required="required">
                                 </div>
                             </div>
                             
@@ -42,7 +42,7 @@
              <div class="modal fade" id="editUniversityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form name="editUniversity" id="editUniversity">
+                <form class="needs-validation" novalidate name="editUniversity" id="editUniversity">
                     <input type="hidden" name="hdnAction" value="editUniversity">
                     <input type="hidden" name="editid" id="editid">
                     <div class="modal-header">
@@ -60,7 +60,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="universityName" class="form-label"><b>Study Center Code</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter University Code" name="editStudyCode" id="editStudyCode" required="required">
+                                    <input type="text" class="form-control"  placeholder="Enter University Code" name="editStudyCode" id="editStudyCode" required="required">
                                 </div>
                             </div>
                             

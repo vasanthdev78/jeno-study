@@ -144,15 +144,33 @@ session_start();
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+
+    // Function to set the max attribute to today's date
+    function setMaxDate() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateofjoin').setAttribute('max', today);
+            document.getElementById('dateofjoinEdit').setAttribute('max', today);
+        }
+
+        // Call setMaxDate when the window loads
+        window.onload = setMaxDate;
+
+    </script>
 
   <script>
+
+    
     $(document).ready(function () {
+
+     
 
       $('#addStaffBtn').click(function() {
 

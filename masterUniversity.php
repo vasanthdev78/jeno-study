@@ -70,8 +70,8 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Study Center Code</th>
                                     <th scope="col">University Name</th>
+                                    <th scope="col">Study Center Code</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -89,8 +89,8 @@ session_start();
 
             <tr>
                         <td scope="row"><?php echo $i ; $i++ ?></td>
-                        <td><?php echo $row['uni_study_code'] ?></td>
                         <td><?php echo $row['uni_name'] ?></td>
+                        <td><?php echo $row['uni_study_code'] ?></td>
                         <td>
                         <?php if ($user_role == 'Admin') { ?>
                             <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editUiversity(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editUniversityModal"><i class='bi bi-pencil-square'></i></button>
@@ -166,6 +166,17 @@ session_start();
   
     <script>
     $(document).ready(function() {
+
+        $('#addUniversityBtn').click(function() {
+
+            $('#addUniversity').removeClass('was-validated');
+            $('#addUniversity').addClass('needs-validation');
+            $('#addUniversity')[0].reset(); // Reset the form
+            // $('#fessType').val('');
+
+            });
+
+
         $('#addInputButton').click(function() {
             var newInputDiv = $('<div class="row"></div>');
 
@@ -177,7 +188,7 @@ session_start();
 
             var input2Div = $('<div class="col-sm-5"></div>');
             var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
-            var input2 = $('<input type="text" class="form-control" name="contact[]" required>');
+            var input2 = $('<input type="tel" class="form-control" pattern="[0-9]{10}" name="contact[]" required>');
             input2Div.append(input2Label);
             input2Div.append(input2);
 
@@ -196,11 +207,7 @@ session_start();
         });
     });
 
-    $('#addUniversityBtn').click(function() {
-        $('#addUniversity')[0].reset(); // Reset the form
-        
-    });
-
+ 
     $('#backButton').click(function() {
         $('#universityView').addClass('d-none');
         $('#StuContent').show();
@@ -241,7 +248,7 @@ function editUiversity(editId) {
 
                     var input2Div = $('<div class="col-sm-5"></div>');
                     var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
-                    var input2 = $('<input type="text" class="form-control" name="editcontact[]" required>').val(contact);
+                    var input2 = $('<input type="tel" class="form-control" pattern="[0-9]{10}" name="editcontact[]" required>').val(contact);
                     input2Div.append(input2Label);
                     input2Div.append(input2);
 
