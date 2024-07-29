@@ -51,7 +51,7 @@ if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
     $courseResult = mysqli_query($conn, $courseQuery);
 
     // Query to fetch elective details
-    $electiveQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub  AND ele_status = 'Active';";
+    $electiveQuery = "SELECT `ele_id`, `ele_elective`, `ele_lag_elec` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub  AND ele_status = 'Active';";
     $electiveResult = mysqli_query($conn, $electiveQuery);
 
     // Initialize response array
@@ -74,7 +74,8 @@ if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
         while ($elecRow = mysqli_fetch_assoc($electiveResult)) {
             $electSub = array(
                 'ele_id' => $elecRow['ele_id'],
-                'ele_elective' => $elecRow['ele_elective']
+                'ele_elective' => $elecRow['ele_elective'],
+                'ele_lag_elec' => $elecRow['ele_lag_elec']
             );
             $response['electives'][] = $electSub;
         }
@@ -313,7 +314,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     WHERE sub_id =$editSubId";
                 
         
-                } if($editSubType === "language"){
+                } if($editSubType === "Language"){
             $editAdditionLanguageName = $_POST['editAdditionLanguageName'];
             $editAdditionSubCode = $_POST['editAdditionSubCode'];
             $editAdditionSubName = $_POST['editAdditionSubName'];

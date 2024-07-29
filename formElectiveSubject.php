@@ -39,6 +39,20 @@
                                     </select>
                                 </div>
                             </div>
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="electiveLanguage" class="form-label"><b>Elective / Language</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="electiveLanguage" id="electiveLanguage" required="required">
+                                    <option value="">--Select Elective OR Language--</option>
+                                    <option value="E">Elective</option>
+                                    <option value="L">Language</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="universityName" class="form-label"><b>Elective Subject Name</b><span class="text-danger">*</span></label>

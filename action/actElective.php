@@ -11,10 +11,12 @@ $response = ['success' => false, 'message' => ''];
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
     $courseName = $_POST['courseName'];
     $electiveName = $_POST['electiveName'];
+    $electiveLanguage = $_POST['electiveLanguage'];
+
     $createdBy = $_SESSION['userId'];
     
 
-    $elective_sql = "INSERT INTO `jeno_elective`(`ele_cou_id`,`ele_elective`,`ele_created_by`) VALUES ('$courseName','$electiveName','$createdBy')";
+    $elective_sql = "INSERT INTO `jeno_elective`(`ele_cou_id`,`ele_elective` , `ele_lag_elec`,`ele_created_by`) VALUES ('$courseName','$electiveName', '$electiveLanguage' ,'$createdBy')";
 
     if ($conn->query($elective_sql) === TRUE) {
         $response['success'] = true;

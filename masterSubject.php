@@ -275,26 +275,37 @@ session_start();
 
                     $('#year').html(options);
                 }
-                   // Handle elective details
-                   if (response.electives && response.electives.length > 0) {
-                    $('#electiveDiv').show(); // Show the elective div if there are courses
-                    var electiveOptions = '<option value="">--Select the Course--</option>';
+                
+                     // Handle elective details
+                     if (response.electives && response.electives.length > 0) {
+                        var electiveOptions = '<option value="">--Select the Course--</option>';
+                        var hasElectives = false;
 
-                    // Loop through each course in the response and append to options
-                    $.each(response.electives, function(index, course) {
-                        electiveOptions += '<option value="' + course.ele_id + '">' + course.ele_elective + '</option>';
-                    });
-                    $('#elective').html(electiveOptions); // Update the course dropdown
+                        // Loop through each course in the response and append to options
+                        $.each(response.electives, function(index, course) {
+                            if (course.ele_lag_elec === 'E') {
+                                hasElectives = true;
+                                electiveOptions += '<option value="' + course.ele_id + '">' + course.ele_elective + '</option>';
+                            }
+                        });
 
-                    $('#addElectiveButton').attr('data-type', 'elective');
-                    $('#subType').val("Elective");
-                } else {
-                    $('#electiveDiv').hide(); // Hide the elective div if no courses
-                    $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
-
-                    $('#addElectiveButton').attr('data-type', 'language'); // Set the data-type for language
-                    $('#subType').val("language");
-                }
+                        if (hasElectives) {
+                            $('#electiveDiv').show(); // Show the elective div if there are electives
+                            $('#elective').html(electiveOptions); // Update the course dropdown
+                            $('#addElectiveButton').attr('data-type', 'elective');
+                            $('#subType').val("Elective");
+                        } else {
+                            $('#electiveDiv').hide(); // Hide the elective div if no electives
+                            $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+                            $('#addElectiveButton').attr('data-type', 'language'); // Set the data-type for language
+                            $('#subType').val("language");
+                        }
+                    } else {
+                        $('#electiveDiv').hide(); // Hide the elective div if no courses
+                        $('#elective').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+                        $('#addElectiveButton').attr('data-type', 'language'); // Set the data-type for language
+                        $('#subType').val("language");
+                    }
             },
             error: function(xhr, status, error) {
                 console.error("AJAX request failed: " + status + ", " + error);
@@ -393,14 +404,14 @@ session_start();
         } else if (buttonType === 'elective') {
             var newInputDiv = $('<div class="row mt-3"></div>');
 
-            var inputDiv1 = $('<div class="col-sm-5"></div>');
+            var inputDiv1 = $('<div class="col-sm-4"></div>');
             var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
             var input1 = $('<input type="text" class="form-control" name="newInputElectiveSubjectCode[]">');
             inputDiv1.append(inputLabel1);
             inputDiv1.append(input1);
             newInputDiv.append(inputDiv1);
 
-            var inputDiv2 = $('<div class="col-sm-5"></div>');
+            var inputDiv2 = $('<div class="col-sm-4"></div>');
             var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
             var input2 = $('<input type="text" class="form-control" name="newInputElectiveSubjectName[]">');
             inputDiv2.append(inputLabel2);
@@ -424,21 +435,21 @@ session_start();
     $('#editAddInputButton').click(function() {
         var newInputDiv = $('<div class="row mt-3"></div>');
 
-        var inputDiv1 = $('<div class="col-sm-5"></div>');
+        var inputDiv1 = $('<div class="col-sm-4"></div>');
         var inputLabel1 = $('<label class="form-label"><b>Subject Code</b></label>');
         var input1 = $('<input type="text" class="form-control" name="editSubjectCode[]" required>');
         inputDiv1.append(inputLabel1);
         inputDiv1.append(input1);
         newInputDiv.append(inputDiv1);
 
-        var inputDiv2 = $('<div class="col-sm-5"></div>');
+        var inputDiv2 = $('<div class="col-sm-4"></div>');
         var inputLabel2 = $('<label class="form-label"><b>Subject Name</b></label>');
         var input2 = $('<input type="text" class="form-control" name="editSubjectName[]" required>');
         inputDiv2.append(inputLabel2);
         inputDiv2.append(input2);
         newInputDiv.append(inputDiv2);
 
-        var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+        var deleteButtonDiv = $('<div class="col-sm-3 d-flex align-items-end"></div>');
         var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
         deleteButton.click(function() {
             newInputDiv.remove();
@@ -638,7 +649,7 @@ $('#addSubject').submit(function(event) {
 
                
 
-            $('#editAddElectiveButton').attr('data-type', 'elective');
+            
 
             alert(response.sub_subject_code);
 
@@ -649,6 +660,7 @@ $('#addSubject').submit(function(event) {
 
         // Directly assume sub_subject_code and sub_subject_name are arrays of equal length
         if (Array.isArray(response.sub_subject_code) && Array.isArray(response.sub_subject_name)) {
+            
             response.sub_subject_code.forEach(function(subjectCode, index) {
                 var subjectName = response.sub_subject_name[index];
 
@@ -686,7 +698,7 @@ $('#addSubject').submit(function(event) {
 
         // Check if sub_addition_lag_name is not empty and add those inputs
         if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length > 0) {
-            
+            $('#editAddElectiveButton').attr('data-type', 'language');
             response.sub_addition_lag_name.forEach(function(languageName, index) {
                 var subCode = response.sub_addition_sub_code[index];
                 var subName = response.sub_addition_sub_name[index];
@@ -727,7 +739,7 @@ $('#addSubject').submit(function(event) {
             });
         } else {
             if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
-
+                $('#editAddElectiveButton').attr('data-type', 'elective');
                 $('#editElectiveDiv').show();
                 var options1 = '<option value="">--Select the Elective--</option>';
                 
