@@ -249,17 +249,15 @@
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(30, 15, 'S.No', 1, 0, 'C'); 
     $pdf->Cell(40, 15, 'Payment Method', 1, 0, 'C');// Changed alignment to center
-    $pdf->Cell(40, 15, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center
-    $pdf->Cell(40, 15, 'Study Center Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center
+    $pdf->Cell(40, 15, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center    
     $pdf->Cell(40, 15, 'Total Fees', 1, 1, 'C'); // Adjusted width and changed alignment to center
     $pdf->SetFont('Arial', '', 10);
 
     
     $pdf->Cell(30, 12, 1, 1);
     $pdf->Cell(40, 12, $pay_paid_method, 1); 
-    $pdf->Cell(40, 12, $pay_university_fees, 1,0,'R'); 
-    $pdf->Cell(40, 12, $pay_study_fees, 1,0,'R');  
     $totalAmt =$pay_university_fees + $pay_study_fees ;
+    $pdf->Cell(40, 12, $totalAmt, 1,0,'R');  
     $pdf->Cell(40, 12, $totalAmt, 1, 0,'R'); // Border on the left and right sides
 
     $pdf->Ln();
