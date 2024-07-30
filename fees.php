@@ -116,8 +116,8 @@ ORDER BY a.fee_created_at DESC";
             <td><?php echo $balance; ?></td> 
             <td><?php echo $status; ?></td> 
             <td>
-                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
                 <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
+                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
             </td>
         </tr>
     <?php 
@@ -303,8 +303,8 @@ response.hostory_table.forEach(function(payment, index) {
     html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
     html += '<td>';
-    html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
-    html += '<a href="action/actStudentReceipt.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button></a>';
+    html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Jeno Bill</button></a> &nbsp;';
+    html += '<a href="action/actStudentReceipt.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Student Bill</button></a>';
 
     <?php if ($user_role == 'Admin') { ?>
         // Add delete button conditionally based on the student's current year

@@ -528,7 +528,7 @@ function goViewAdmission(id)
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
 
-                    $('#studentImage').attr('src', 'assets/images/student/' + response.photo);
+                    $('#studentImage').attr('src', response.photo ? 'assets/images/student/' + response.photo : 'assets/images/default.png');
                     $('#nameView').text(response.name);
                     $('#phoneView').text(response.phone);
                     $('#emailView').text(response.email);
