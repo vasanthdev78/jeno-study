@@ -61,7 +61,7 @@
                         <button type="button" id="addInputButton" class="btn btn-primary">Add Subject</button>
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" id="addElectiveButton" class="btn btn-primary">Add  Subject</button>
+                        <button type="button" id="addElectiveButton" class="btn btn-primary">Add Additional Subject</button>
                     </div>
                 </div>
                 
@@ -112,7 +112,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="editUniversity" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
-                            <select class="form-control" name="editUniversity" id="editUniversity" required>
+                            <select class="form-control" name="editUniversity" id="editUniversity" required disabled>
                                 <option value="">--Select the University--</option>
                                 <?php 
                                      $university_result = universityTable(); // Call the function to fetch universities 
@@ -131,7 +131,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="editCourse" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                            <select class="form-control" name="editCourse" id="editCourse" required>
+                            <select class="form-control" name="editCourse" id="editCourse" required disabled>
                                 <option value="">--Select the Course--</option>
                                
                             </select>
@@ -140,7 +140,7 @@
                     <div class="col-sm-6 " id="editElectiveDiv" style="display:none;">
                         <div class="form-group">
                             <label for="editElective" class="form-label"><b>Elective</b><span class="text-danger" >*</span></label>
-                            <select class="form-control" name="editElective" id="editElective" >
+                            <select class="form-control" name="editElective" id="editElective" disabled >
                                 <option value="">--Select the Category--</option>
                               
                             </select>
@@ -149,7 +149,7 @@
                     <div class="col-sm-6">
                     <div class="form-group">
                         <label for="editYear" class="form-label"><b>Year / Semester</b><span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="editYear" id="editYear">
+                        <input type="text" class="form-control" name="editYear" id="editYear" readonly>
                     </div>
                 </div>
                 </div>
