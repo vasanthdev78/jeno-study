@@ -131,7 +131,7 @@
                     <input type="hidden" name="hdnAction" value="editEnquiry">
                     <input type="hidden" name="editEnquiryId" id="editEnquiryId">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Add Enquiry</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Edit Enquiry</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">

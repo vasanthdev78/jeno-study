@@ -175,6 +175,16 @@ session_start();
         $('#StuContent').removeClass('d-none');
     });
 
+    $('#addSubjectBtn').on('click', function() {
+      $('#addSubject').removeClass('was-validated');
+            $('#addSubject').addClass('needs-validation');
+            $('#addSubject')[0].reset(); // Reset the form
+
+
+        $('#StuContent').addClass('d-none');
+        $('#addSubjectModal').removeClass('d-none');
+    });
+
     $('#editBackButton').on('click', function() {
    
         $('#editSubjectModal').addClass('d-none');
@@ -613,6 +623,10 @@ $('#addSubject').submit(function(event) {
 
               // edit function -------------------------
     function editSubject(editId) {
+
+        $('#editSubject').removeClass('was-validated');
+            $('#editSubject').addClass('needs-validation');
+
     $('#StuContent').addClass('d-none');
     $('#editSubjectModal').removeClass('d-none');
     
@@ -645,128 +659,35 @@ $('#addSubject').submit(function(event) {
                $('#editCourse').html(options); // Update the course dropdown
                $('#editCourse').val(response.sub_cou_id);
 
-               
+     
 
             
 
-            alert(response.sub_subject_code);
+            // alert(response.sub_subject_code);
 
               
         // Clear previous input fields
         $('#editLanguageInputs').empty();
         $('#editElectiveInputs').empty();
 
-        // Directly assume sub_subject_code and sub_subject_name are arrays of equal length
         if (Array.isArray(response.sub_subject_code) && Array.isArray(response.sub_subject_name)) {
-            
-            response.sub_subject_code.forEach(function(subjectCode, index) {
-                var subjectName = response.sub_subject_name[index];
-
-                var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
-
-                var input1Div = $('<div class="col-sm-4"></div>');
-                var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
-                var input1 = $('<input type="text" class="form-control university-fees" name="editSubjectCode[]" required>').val(subjectCode);
-                input1Div.append(input1Label);
-                input1Div.append(input1);
-
-                var input2Div = $('<div class="col-sm-4"></div>');
-                var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
-                var input2 = $('<input type="text" class="form-control study-center-fees" name="editSubjectName[]" required>').val(subjectName);
-                input2Div.append(input2Label);
-                input2Div.append(input2);
-
-                var deleteButtonDiv = $('<div class="col-sm-4 d-flex align-items-end"></div>');
-                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-                deleteButton.click(function() {
-                    newInputDiv.remove();
-                });
-                deleteButtonDiv.append(deleteButton);
-
-                newInputDiv.append(input1Div);
-                newInputDiv.append(input2Div);
-                newInputDiv.append(deleteButtonDiv);
-
-                $('#editLanguageInputs').append(newInputDiv);
-            });
-        } else {
-            console.error('sub_subject_code or sub_subject_name is not an array.');
-        }
-
-
-        // Check if sub_addition_lag_name is not empty and add those inputs
-        if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length > 0) {
-            $('#editAddElectiveButton').attr('data-type', 'language');
-            response.sub_addition_lag_name.forEach(function(languageName, index) {
-                var subCode = response.sub_addition_sub_code[index];
-                var subName = response.sub_addition_sub_name[index];
-
-                var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
-
-                var input1Div = $('<div class="col-sm-3"></div>');
-                var input1Label = $('<label class="form-label"><b>Additional Language Name</b></label>');
-                var input1 = $('<input type="text" class="form-control" name="editAdditionLanguageName[]" required>').val(languageName);
-                input1Div.append(input1Label);
-                input1Div.append(input1);
-
-                var input2Div = $('<div class="col-sm-3"></div>');
-                var input2Label = $('<label class="form-label"><b>Subject Code</b></label>');
-                var input2 = $('<input type="text" class="form-control" name="editAdditionSubCode[]" required>').val(subCode);
-                input2Div.append(input2Label);
-                input2Div.append(input2);
-
-                var input3Div = $('<div class="col-sm-3"></div>');
-                var input3Label = $('<label class="form-label"><b>Subject Name</b></label>');
-                var input3 = $('<input type="text" class="form-control" name="editAdditionSubName[]" required>').val(subName);
-                input3Div.append(input3Label);
-                input3Div.append(input3);
-
-                var deleteButtonDiv = $('<div class="col-sm-3 d-flex align-items-end"></div>');
-                var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
-                deleteButton.click(function() {
-                    newInputDiv.remove();
-                });
-                deleteButtonDiv.append(deleteButton);
-
-                newInputDiv.append(input1Div);
-                newInputDiv.append(input2Div);
-                newInputDiv.append(input3Div);
-                newInputDiv.append(deleteButtonDiv);
-
-                $('#editElectiveInputs').append(newInputDiv);
-            });
-        } else {
-            if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
-                $('#editAddElectiveButton').attr('data-type', 'elective');
-                $('#editElectiveDiv').show();
-                var options1 = '<option value="">--Select the Elective--</option>';
-                
-                // Loop through each course in the response and append to options
-                $.each(response.elective_course, function(index, elective) {
-                   options1 += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
-               });
-               $('#editElective').html(options1); // Update the course dropdown
-               
-                $('#editElective').val(response.sub_ele_id);
-
-                response.sub_addition_sub_code.forEach(function(subCode, index) {
-                    var subName = response.sub_addition_sub_name[index];
-
-                    var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
+                response.sub_subject_code.forEach(function(subjectCode, index) {
+                    var subjectName = response.sub_subject_name[index];
+                    var newInputDiv = $('<div class="row mb-3"></div>');
 
                     var input1Div = $('<div class="col-sm-4"></div>');
-                    var input1Label = $('<label class="form-label"><b>Elective Subject Code</b></label>');
-                    var input1 = $('<input type="text" class="form-control" name="editAdditionSubCode[]" required>').val(subCode);
+                    var input1Label = $('<label class="form-label"><b>Subject Code</b></label>');
+                    var input1 = $('<input type="text" class="form-control" name="editSubjectCode[]" required>').val(subjectCode);
                     input1Div.append(input1Label);
                     input1Div.append(input1);
 
                     var input2Div = $('<div class="col-sm-4"></div>');
-                    var input2Label = $('<label class="form-label"><b>Elective Subject Name</b></label>');
-                    var input2 = $('<input type="text" class="form-control" name="editAdditionSubName[]" required>').val(subName);
+                    var input2Label = $('<label class="form-label"><b>Subject Name</b></label>');
+                    var input2 = $('<input type="text" class="form-control" name="editSubjectName[]" required>').val(subjectName);
                     input2Div.append(input2Label);
                     input2Div.append(input2);
 
-                    var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+                    var deleteButtonDiv = $('<div class="col-sm-4 d-flex align-items-end"></div>');
                     var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
                     deleteButton.click(function() {
                         newInputDiv.remove();
@@ -777,20 +698,141 @@ $('#addSubject').submit(function(event) {
                     newInputDiv.append(input2Div);
                     newInputDiv.append(deleteButtonDiv);
 
-                    $('#editElectiveInputs').append(newInputDiv);
+                    $('#editLanguageInputs').append(newInputDiv);
                 });
             } else {
-                console.error('sub_addition_sub_code or sub_addition_sub_name is not an array.');
+                console.error('sub_subject_code or sub_subject_name is not an array.');
+            }
+
+            if (Array.isArray(response.sub_addition_lag_name) && response.sub_addition_lag_name.length > 0) {
+                $('#editAddElectiveButton').attr('data-type', 'language');
+
+                fetchLanguages(response.sub_cou_id, function(languages) {
+                    response.sub_addition_lag_name.forEach(function(languageName, index) {
+                        var subCode = response.sub_addition_sub_code[index];
+                        var subName = response.sub_addition_sub_name[index];
+                        var newInputDiv = createLanguageInputDiv(languageName, subCode, subName, languages);
+                        $('#editElectiveInputs').append(newInputDiv);
+                    });
+                });
+            } else {
+                if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
+                    $('#editAddElectiveButton').attr('data-type', 'elective');
+                    $('#editElectiveDiv').show();
+
+                    var electiveOptions = '<option value="">--Select the Elective--</option>';
+                    $.each(response.elective_course, function(index, elective) {
+                        electiveOptions += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+                    });
+                    $('#editElective').html(electiveOptions);
+                    $('#editElective').val(response.sub_ele_id);
+
+                    response.sub_addition_sub_code.forEach(function(subCode, index) {
+                        var subName = response.sub_addition_sub_name[index];
+                        var newInputDiv = createElectiveInputDiv(subCode, subName);
+                        $('#editElectiveInputs').append(newInputDiv);
+                    });
+                } else {
+                    console.error('sub_addition_sub_code or sub_addition_sub_name is not an array.');
+                }
             }
         }
+    });
+}
 
-
+function fetchLanguages(course_id, callback) {
+    $.ajax({
+        url: 'action/actLanguage.php',
+        method: 'POST',
+        data: { course_id: course_id },
+        dataType: 'json',
+        success: function(data) {
+            callback(data);
         },
         error: function(xhr, status, error) {
-            console.error('AJAX request failed:', status, error);
+            console.error('Failed to fetch languages:', status, error);
         }
     });
-    };
+}
+
+function createLanguageInputDiv(languageName, subCode, subName, languages) {
+    
+    var newInputDiv = $('<div class="row mt-3"></div>');
+
+    var inputDiv1 = $('<div class="col-sm-3"></div>');
+    var inputLabel1 = $('<label class="form-label"><b>Language Name</b></label>');
+    var input1 = $('<select class="form-control" name="editAdditionLanguageName[]" required></select>');
+
+    input1.append('<option value="">--Select Language--</option>');
+    languages.forEach(function(language) {
+        var option = $('<option></option>').val(language.ele_id).text(language.ele_elective);
+        if (language.ele_id === languageName) {
+            option.attr('selected', 'selected');
+        }
+        input1.append(option);
+    });
+
+    inputDiv1.append(inputLabel1);
+    inputDiv1.append(input1);
+
+    var input2Div = $('<div class="col-sm-3"></div>');
+    var input2Label = $('<label class="form-label"><b>Subject Code</b></label>');
+    var input2 = $('<input type="text" class="form-control" name="editAdditionSubCode[]" required>').val(subCode);
+    input2Div.append(input2Label);
+    input2Div.append(input2);
+
+    var input3Div = $('<div class="col-sm-3"></div>');
+    var input3Label = $('<label class="form-label"><b>Subject Name</b></label>');
+    var input3 = $('<input type="text" class="form-control" name="editAdditionSubName[]" required>').val(subName);
+    input3Div.append(input3Label);
+    input3Div.append(input3);
+
+    var deleteButtonDiv = $('<div class="col-sm-3 d-flex align-items-end"></div>');
+    var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+    deleteButton.click(function() {
+        newInputDiv.remove();
+    });
+    deleteButtonDiv.append(deleteButton);
+
+    newInputDiv.append(inputDiv1);
+    newInputDiv.append(input2Div);
+    newInputDiv.append(input3Div);
+    newInputDiv.append(deleteButtonDiv);
+
+    return newInputDiv;
+}
+
+function createElectiveInputDiv(subCode, subName) {
+    var newInputDiv = $('<div class="row mb-3"></div>');
+
+    var input1Div = $('<div class="col-sm-4"></div>');
+    var input1Label = $('<label class="form-label"><b>Elective Subject Code</b></label>');
+    var input1 = $('<input type="text" class="form-control" name="editAdditionSubCode[]" required>').val(subCode);
+    input1Div.append(input1Label);
+    input1Div.append(input1);
+
+    var input2Div = $('<div class="col-sm-4"></div>');
+    var input2Label = $('<label class="form-label"><b>Elective Subject Name</b></label>');
+    var input2 = $('<input type="text" class="form-control" name="editAdditionSubName[]" required>').val(subName);
+    input2Div.append(input2Label);
+    input2Div.append(input2);
+
+    var deleteButtonDiv = $('<div class="col-sm-4 d-flex align-items-end"></div>');
+    var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+    deleteButton.click(function() {
+        newInputDiv.remove();
+    });
+    deleteButtonDiv.append(deleteButton);
+
+    newInputDiv.append(input1Div);
+    newInputDiv.append(input2Div);
+    newInputDiv.append(deleteButtonDiv);
+
+    return newInputDiv;
+}
+
+
+        
 
 
  
@@ -801,8 +843,18 @@ $('#addSubject').submit(function(event) {
           document.addEventListener('DOMContentLoaded', function() {
     $('#editSubject').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
-        
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
        
+        $('#editElective').prop('disabled', false);
+        $('#editCourse').prop('disabled', false);
+        $('#editUniversity').prop('disabled', false);
+        
         // Create a FormData object
         var formData = new FormData(this);
         
