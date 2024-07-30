@@ -244,55 +244,105 @@ session_start();
             });
 
 
-        function goAddBook(addGetId) {
-            
-            $('#addBookissue').removeClass('was-validated');
-            $('#addBookissue').addClass('needs-validation');
-            $('#addBookissue')[0].reset(); // Reset the form
-            
-            $.ajax({
-                url: 'action/actBook.php',
-                method: 'POST',
-                data: {
-                    addGetId: addGetId
-                },
-                dataType: 'json', // Ensure the expected data type as JSON
-                success: function(response) {
-                    $('#admissionId').val(response.stu_apply_no);
-                    $('#studentName').val(response.stu_name);
-                    $('#studentId').val(response.stu_id);
-                    $('#studentName').val(response.stu_name);
-                    $('#year').val(response.stu_aca_year);
-                    $('#typeExam').val(response.cou_fees_type);
-                    $('#bookId').val(response.book_id);
-                      // Populate the select input with study years or semesters based on course duration and fees type
+            function goAddBook(addGetId) {
+    // Reset the form and validation state
+    $('#addBookissue').removeClass('was-validated');
+    $('#addBookissue').addClass('needs-validation');
+    $('#addBookissue')[0].reset();
+
+    // First AJAX request to fetch student and course details
+    $.ajax({
+        url: 'action/actBook.php',
+        method: 'POST',
+        data: {
+            addGetId: addGetId
+        },
+        dataType: 'json', // Ensure the expected data type as JSON
+        success: function(response) {
+            // Populate the form fields with the response data
+            $('#admissionId').val(response.stu_apply_no);
+            $('#studentName').val(response.stu_name);
+            $('#studentId').val(response.stu_id);
+            $('#year').val(response.stu_aca_year);
+            $('#typeExam').val(response.cou_fees_type);
+            $('#bookId').val(response.book_id);
+
+            if(response.fee_uni_fee_total == response.fee_uni_fee){
+
+                $('#courseyear').prop('disabled', false);
+            }
+
+            // Populate the select input with study years or semesters based on course duration and fees type
             var courseYearSelect = $('#courseyear');
             courseYearSelect.empty(); // Clear existing options
             courseYearSelect.append(new Option('--select year--', '')); // Add default option
 
             var html = '';
-
-            if (response.cou_fees_type == 'Year') {
+            if (response.cou_fees_type === 'Year') {
                 for (var i = 1; i <= response.cou_duration; i++) {
                     html += '<option value="' + i + '">' + i + ' Year</option>';
                 }
-            } else if (response.cou_fees_type == 'Semester') {
+            } else if (response.cou_fees_type === 'Semester') {
                 for (var i = 1; i <= response.cou_duration * 2; i++) {
                     html += '<option value="' + i + '">' + i + ' Semester</option>';
                 }
             }
-
             courseYearSelect.append(html);
-            // courseYearSelect.val(response.stu_study_year); // Set the selected value to the current study year if it exists in the options
+            // Set the selected value to the current study year if it exists in the options
             $('#courseyear').val(response.stu_aca_year);
-    
+
+            // Make the second AJAX request to fetch additional details based on the data from the first request
+            $.ajax({
+                url: 'action/actBook.php', // Ensure this is the correct endpoint
+                type: 'POST',
+                data: {
+                    year: response.stu_aca_year, // Corrected the parameter name to match what you want to send
+                    admissionId: response.stu_apply_no,
+                    typeExam: response.cou_fees_type
                 },
-                error: function(xhr, status, error) {
-                    // Handle errors here
-                    console.error('AJAX request failed:', status, error);
+                dataType: 'json',
+                success: function(response) {
+                          // Handle the response data
+                          console.log(response);
+                    
+                    
+                    // Populate the select element with final subjects from the response array
+                     var $select = $('#bookIssue');
+                     var $select1 = $('#bookUniReceived');
+     
+                     // Clear existing options if any
+                     $select.empty();
+                     $select1.empty();
+     
+                     
+     
+                         // Add filtered subjects to the select element
+                         response.final_subjects.forEach(function(subject) {
+                             var $option = $('<option>').val(subject).text(subject);
+                             $select.append($option);
+                         });
+     
+                            // Add filtered subjects to the select element
+                            response.Uni_final_subjects.forEach(function(subject) {
+                             var $option = $('<option>').val(subject).text(subject);
+                             $select1.append($option);
+                         });
+     
+                         // Initialize Select2 on the select element
+                         $select.select2();
+                         $select1.select2();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error in second AJAX request:', textStatus, errorThrown);
                 }
             });
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error('Error in first AJAX request:', status, error);
         }
+    });
+}
 
 
         $(document).ready(function() {
@@ -300,6 +350,7 @@ session_start();
     $('#courseyear').change(function() {
         var selectedYear = $(this).val(); // Get the selected value
         var admissionId = $('#admissionId').val(); // Get the selected value
+        var studentId = $('#studentId').val(); // Get the selected value
         var typeExam = $('#typeExam').val(); // Get the selected value
         
         // Make sure a valid year is selected
@@ -308,9 +359,10 @@ session_start();
                 url: 'action/actBook.php',
                 method: 'POST',
                 data: {
-                    year: selectedYear,
-                    admissionId: admissionId,
-                    typeExam: typeExam
+                    addyear: selectedYear,
+                    addadmissionId: admissionId,
+                    addtypeExam: typeExam,
+                    addstudentId: studentId,
                 },
                 // dataType: 'json',
                 success: function(response) {

@@ -33,7 +33,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     
     $universityId = $_POST['university'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId;";
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_status = 'Active'";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
