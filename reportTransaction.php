@@ -50,31 +50,34 @@ session_start();
                             <div class="page-title-box">
                                
                                 <h4 class="page-title">Income Report</h4> 
-                                <div class="row mt-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="startDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" id="startDate">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="endDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" id="endDate">
-                        </div>
-                        <div class="col-sm-3">
-                                <div class="form-group ">
-                                    <label for="university" class="form-label"><b>Transaction </b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="university" id="university" required="required">
-                                    <option value="All">--All Transaction--</option>
-                                    <option value="Income">Income</option>
-                                    <option value="Expense">Expense</option>
-                                      
-
-                                    </select>
-                                </div>
-                            </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                        </div>
-                    </div>
+                                <form class="needs-validation" novalidate>
+                                    <div class="row mt-3 mb-3">
+                                        <div class="col-md-3">
+                                            <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="startDate" required>
+                                            <div class="invalid-feedback">Please enter a start date.</div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="endDate" required>
+                                            <div class="invalid-feedback">Please enter an end date.</div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
+                                                <select class="form-control" name="transaction" id="university" required>
+                                                    <option value="">--Select Transaction--</option>
+                                                    <option value="Income">Income</option>
+                                                    <option value="Expense">Expense</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select a transaction type.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
 
                             </div>
                         </div>
@@ -225,22 +228,54 @@ $(document).ready(function() {
         var endDate = $('#endDate').val();
         var university = $('#university').val();
 
-        $.ajax({
-            url: 'action/actTransaction.php',
-            method: 'POST',
-            data: {
-                startDate: startDate,
-                endDate: endDate,
-                university: university
-            },
-            dataType: 'json',
-            success: function(response) {
-                updateTable(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX request failed:', status, error);
-            }
-        });
+        // Validate fields
+        var isValid = true;
+
+        if (!startDate) {
+            $('#startDate').addClass('is-invalid');
+            $('#startDateError').show();
+            isValid = false;
+        } else {
+            $('#startDate').removeClass('is-invalid');
+            $('#startDateError').hide();
+        }
+
+        if (!endDate) {
+            $('#endDate').addClass('is-invalid');
+            $('#endDateError').show();
+            isValid = false;
+        } else {
+            $('#endDate').removeClass('is-invalid');
+            $('#endDateError').hide();
+        }
+
+        if (!university) {
+            $('#university').addClass('is-invalid');
+            $('#universityError').show();
+            isValid = false;
+        } else {
+            $('#university').removeClass('is-invalid');
+            $('#universityError').hide();
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: 'action/actTransaction.php',
+                method: 'POST',
+                data: {
+                    startDate: startDate,
+                    endDate: endDate,
+                    university: university
+                },
+                dataType: 'json',
+                success: function(response) {
+                    updateTable(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
+        }
     });
 
     function updateTable(data) {
@@ -254,7 +289,7 @@ $(document).ready(function() {
                 row.tran_category,
                 row.tran_reason,
                 row.tran_method,
-                row.tran_amount,
+                row.tran_amount
             ]);
         });
 
