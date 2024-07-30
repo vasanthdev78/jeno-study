@@ -40,7 +40,7 @@
                        
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="paidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
+                                <label for="paidMethod" class="form-label"><b>Payment Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="paidMethod" id="paidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
                                     <option value="Online">Online</option>
@@ -150,7 +150,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
-                                <label for="editPaidMethod" class="form-label"><b>Paid Method</b><span class="text-danger">*</span></label>
+                                <label for="editPaidMethod" class="form-label"><b>Payment Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="editPaidMethod" id="editPaidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
                                     <option value="Online">Online</option>
@@ -263,17 +263,17 @@
                         <span class="detail" id="viewUniversityTotalFees"></span>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="card p-3">
-                        <h4>University Paid Fees</h4>
-                        <span class="detail" id="viewUniversityFees"></span>
-                    </div>
-                </div>
 
                 <div class="col-sm-3">
                     <div class="card p-3">
                         <h4>Study Center Total Fees</h4>
                         <span class="detail" id="viewStudyCenterTotalFees"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card p-3">
+                        <h4>University Paid Fees</h4>
+                        <span class="detail" id="viewUniversityFees"></span>
                     </div>
                 </div>
 
