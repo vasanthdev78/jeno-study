@@ -92,7 +92,7 @@
                                     <select class="form-control" name="editCourseName" id="editCourseName" required disabled>
                                             
                                             <?php
-                                            $query = "SELECT * FROM jeno_course";
+                                            $query = "SELECT cou_id , cou_name FROM `jeno_course` WHERE cou_status = 'Active';";
                                             $result = $conn->query($query);
                                             
                                             if ($result->num_rows > 0) {
