@@ -67,9 +67,10 @@ include("class.php");
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Transaction Tyoe</th>
+                                    <th scope="col">Transaction Type</th>
+                                    <th scope="col">Reason</th>
                                     <th scope="col">Amount</th>
-                                    <th scope="col"> Date</th>
+                                    <th scope="col">Date</th>
                                     <th scope="col">Payment Method</th>
                                     <th scope="col">Action</th>
                                     
@@ -90,8 +91,9 @@ include("class.php");
                      <tr>
                         <td><?php echo $i ; $i++ ?></td>
                         <td><?php echo $row['tran_category'] ?></td>
-                        <td><?php echo $row['tran_date'] ?></td>
+                        <td><?php echo $row['tran_reason'] ?></td>
                         <td><?php echo $row['tran_amount'] ?></td>
+                        <td><?php echo $row['tran_date'] ?></td>
                         <td><?php echo $row['tran_method'] ?></td>
                     
                         <td>
@@ -164,7 +166,6 @@ include("class.php");
     
             // Function to handle editing a transaction
             function editTran(editId) {
-                alert("dad"); // Debugging alert
                 $.ajax({
                     url: 'action/actTransaction.php',
                     method: 'POST',
@@ -174,7 +175,7 @@ include("class.php");
                         console.log(response); // Debugging console log
                         $('#editTransactionId').val(response.tran_id);
                         $('#editCategory').val(response.tran_category);
-                        $('#expenseReasonInput').val(response.tran_reason);
+                        $('#editIncomeReasonInput').val(response.tran_reason);
                         $('#editDate').val(response.tran_date);
                         $('#editAmount').val(response.tran_amount);
                         $('#editPaidMethod').val(response.tran_method);

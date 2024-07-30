@@ -139,7 +139,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editTransaction') {
             $editTransactionId = $_POST['editTransactionId'];
             $editCategory = $_POST['editCategory'];
-            $editExpenseReason = $_POST['editExpenseReason'];
+            $editExpenseReason = $_POST['editIncomeReason'];
             $editDate = $_POST['editDate'];
             $editAmount = $_POST['editAmount'];
             $editPaidMethod = $_POST['editPaidMethod'];

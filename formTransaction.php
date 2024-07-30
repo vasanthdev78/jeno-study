@@ -14,7 +14,7 @@
 
                         <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="category" class="form-label"><b>Category</b></label>
+                                <label for="category" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" id="category" required="required">
                                     <option value="">--Select Category--</option>
                                     <option value="Income">Income</option>
@@ -23,31 +23,31 @@
                             </div>
                         </div>
                         <!-- Input field for expense reason -->
-                    <div class="col-sm-12" id="expenseReason">
+                    <div class="col-sm-12">
                         <div class="form-group pb-1">
-                            <label for="expenseReasonInput" class="form-label"><b>Ex / In Reason</b></label>
-                            <textarea class="form-control" placeholder="Enter Expense Reason" name="expenseReason" id="expenseReasonInput"></textarea>
+                            <label for="expenseReasonInput" class="form-label"><b>Ex / In Reason</b><span class="text-danger">*</span></label>
+                            <textarea class="form-control" placeholder="Enter Expense Reason" name="expenseReason" id="expenseReasonInput" required></textarea>
                         </div>
                     </div>
 
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="date" class="form-label"><b>Date </b></label>
+                                    <label for="date" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
                                     <input type="date" class="form-control"  name="date" id="date" required="required">
                                 </div>
                             </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="amount" class="form-label"><b>Amount</b></label>
+                                    <label for="amount" class="form-label"><b>Amount</b><span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" placeholder="Enter Amount" name="amount" id="amount" required="required">
                                 </div>
                             </div>
 
                             <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="paidMethod" class="form-label"><b>Paid Method</b></label>
+                                <label for="paidMethod" class="form-label"><b>Payment Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="paidMethod" id="paidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
                                     <option value="online">Online</option>
@@ -58,8 +58,8 @@
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="transactionId" class="form-label"><b>Transaction Id</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter Expense Amount" name="transactionId" id="transactionId" >
+                                    <label for="transactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter Expense Amount" name="transactionId" id="transactionId" required>
                                 </div>
                             </div>
 
@@ -92,7 +92,7 @@
                     <input type="hidden" name="hdnAction" value="editTransaction">
                     <input type="hidden" name="editTransactionId" id="editTransactionId">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Add Transaction</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Edit Transaction</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3">
@@ -100,7 +100,7 @@
 
                         <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="editCategory" class="form-label"><b>Category</b></label>
+                                <label for="editCategory" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="editCategory" id="editCategory" required="required">
                                     <option value="">--Select Category--</option>
                                     <option value="Income">Income</option>
@@ -113,31 +113,31 @@
                             <!-- Input field for income reason -->
                             <div class="col-sm-12" id="editIncomeReason">
                                 <div class="form-group pb-1">
-                                    <label for="editIncomeReasonInput" class="form-label"><b>Income Reason</b></label>
-                                    <textarea class="form-control" placeholder="Enter Income Reason" name="editIncomeReason" id="editIncomeReasonInput"></textarea>
+                                    <label for="editIncomeReasonInput" class="form-label"><b>Income Reason</b><span class="text-danger">*</span></label>
+                                    <textarea class="form-control" placeholder="Enter Income Reason" name="editIncomeReason" id="editIncomeReasonInput" required></textarea>
                                 </div>
                             </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="editDate" class="form-label"><b>Date </b></label>
+                                    <label for="editDate" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
                                     <input type="date" class="form-control"  name="editDate" id="editDate" required="required">
                                 </div>
                             </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="editAmount" class="form-label"><b>Amount</b></label>
+                                    <label for="editAmount" class="form-label"><b>Amount</b><span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" placeholder="Enter Amount" name="editAmount" id="editAmount" required="required">
                                 </div>
                             </div>
 
                             <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="editPaidMethod" class="form-label"><b>Paid Method</b></label>
+                                <label for="editPaidMethod" class="form-label"><b>Payment Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="editPaidMethod" id="editPaidMethod" required="required">
                                     <option value="">--Select Payment Method--</option>
-                                    <option value="online">Online</option>
+                                    <option value="Online">Online</option>
                                     <option value="Cash">Cash</option>
                                 </select>
                             </div>
@@ -145,7 +145,7 @@
 
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="editTranId" class="form-label"><b>Transaction Id</b></label>
+                                    <label for="editTranId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Enter Expense Amount" name="editTranId" id="editTranId" required="required">
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
         <form name="frm" method="post">
             <input type="hidden" name="hdnAction" value="">
             <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel">Enquiry Details</h3>
+                <h3 class="modal-title" id="myModalLabel">View Transaction</h3>
             </div>  
             <div class="modal-footer mb-3">
                 <button type="button" class="btn btn-danger" id="backButtonTransaction">Back</button>
@@ -212,7 +212,7 @@
 
                     <div class="col-sm-3">
                         <div class="card p-3">
-                            <h4>Paid Method</h4>
+                            <h4>Payment Method</h4>
                             <span class="detail" id="viewPaidMethod"></span>
                         </div>
                     </div>

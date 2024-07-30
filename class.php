@@ -238,7 +238,7 @@ function electiveTable() {
     
     
        // Query to retrieve course name based on course_id
-       $transaction_query = "SELECT `tran_id`, `tran_category`, `tran_date`, `tran_amount`, `tran_method` FROM `jeno_transaction` WHERE tran_status ='Active'";
+       $transaction_query = "SELECT `tran_id`, `tran_category`, `tran_date`, `tran_amount`, `tran_method`, `tran_reason` FROM `jeno_transaction` WHERE tran_status ='Active'";
     
        // Execute the query
        $transaction_result = $conn->query($transaction_query);
