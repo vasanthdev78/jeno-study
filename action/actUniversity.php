@@ -21,21 +21,40 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addUniversity') {
     $dep = json_encode($department);
     $con = json_encode($contact);
 
-    $university_sql = "INSERT INTO `jeno_university`
-        (`uni_study_code`, `uni_name`, `uni_department`, `uni_contact`, `uni_center_id`, `uni_created_by`) 
-        VALUES 
-        ('$studyCode', '$universityName', '$dep', '$con', '$uniCenterId', '$createdBy')";
+    // Check if the university name already exists
+    $check_sql = "SELECT COUNT(*) as count FROM `jeno_university` WHERE `uni_name` = ?";
+    $stmt = $conn->prepare($check_sql);
+    $stmt->bind_param("s", $universityName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $exists = $row['count'] > 0;
 
-    if ($conn->query($university_sql) === TRUE) {
-        $response['success'] = true;
-        $response['message'] = "University added successfully!";
+    if ($exists) {
+        $response['success'] = false;
+        $response['message'] = "University name already exists!";
     } else {
-        $response['message'] = "Error adding university: " . $conn->error;
+        // Insert the new university if it doesn't exist
+        $university_sql = "INSERT INTO `jeno_university`
+            (`uni_study_code`, `uni_name`, `uni_department`, `uni_contact`, `uni_center_id`, `uni_created_by`) 
+            VALUES 
+            (?, ?, ?, ?, ?, ?)";
+
+        $stmt = $conn->prepare($university_sql);
+        $stmt->bind_param("ssssii", $studyCode, $universityName, $dep, $con, $uniCenterId, $createdBy);
+
+        if ($stmt->execute()) {
+            $response['success'] = true;
+            $response['message'] = "University added successfully!";
+        } else {
+            $response['message'] = "Error adding university: " . $stmt->error;
+        }
     }
 
     echo json_encode($response);
     exit();
 }
+
 
 // Handle fetching university details for editing
 if (isset($_POST['editId']) && $_POST['editId'] != '') {

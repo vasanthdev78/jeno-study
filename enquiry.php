@@ -116,7 +116,7 @@ $enquiry_result = enquiryTable();
                         <td><?php echo $i ; $i++ ?></td>
                         <td><?php echo $row['enq_stu_name'] ?></td>
                         <td><?php echo  universityName($row['enq_uni_id']) ?></td>
-                        <td><?php echo $row['enq_cou_id'] ?></td>
+                        <td><?php echo courseNameOnly($row['enq_cou_id']) ?></td>
                         <td><?php echo $row['enq_mobile'] ?></td>
                         <td><?php echo $row['enq_adminsion_status'] ?></td>
                     
