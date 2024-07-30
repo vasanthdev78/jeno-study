@@ -284,7 +284,7 @@ session_start();
 
             courseYearSelect.append(html);
             // courseYearSelect.val(response.stu_study_year); // Set the selected value to the current study year if it exists in the options
-
+            $('#courseyear').val(response.stu_aca_year);
     
                 },
                 error: function(xhr, status, error) {
@@ -358,6 +358,10 @@ session_start();
 
     $('#addBookissue').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
+    $('#addBookissue').removeClass('was-validated');
+    $('#addBookissue').addClass('needs-validation');
+
+    $('#courseyear').prop('disabled', false);
 
     var formData = new FormData(this);
     $.ajax({

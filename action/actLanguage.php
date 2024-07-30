@@ -3,8 +3,51 @@ include '../db/dbConnection.php'; // Adjust the path to your database connection
 
 header('Content-Type: application/json');
 
+
+if (isset($_POST['id']) && !empty($_POST['id'])) {
+    $id = intval($_POST['id']); // Sanitize input
+
+    $sql = "SELECT ele_elective FROM jeno_elective WHERE ele_id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $response = [
+                'success' => true,
+                'name' => $row['ele_elective']
+            ];
+        } else {
+            $response = [
+                'success' => false,
+                'message' => 'Name not found'
+            ];
+        }
+
+        $stmt->close();
+    } else {
+        $response = [
+            'success' => false,
+            'message' => 'Database error'
+        ];
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+
+
+
 // Check if the request method is GET
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST['course_id']) && !empty($_POST['course_id'])) {
+
+
+   
+
+
 
     $id = $_POST['course_id'];
 

@@ -920,6 +920,29 @@ $('#backButtonSubject').click(function() {
     });
 
 
+    // Function to fetch name from the server based on ID
+function fetchNameById(id, callback) {
+    $.ajax({
+        url: 'action/actLanguage.php', // Replace with your actual server endpoint
+        type: 'POST',
+        data: { id: id },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                callback(response.name);
+            } else {
+                console.error('Failed to fetch name for ID:', id);
+                callback('Unknown');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching name:', textStatus, errorThrown);
+            callback('Error');
+        }
+    });
+}
+
+
 function goViewCourse(id) 
     {
     //location.href = "clientDetail.php?clientId="+id;
@@ -988,10 +1011,14 @@ function goViewCourse(id)
             var input1Div = $('<div class="col-sm-4"></div>');
             var input1Card = $('<div class="card p-3"></div>');
             var input1Label = $('<h4>Additional Language Name</h4>');
-            var input1 = $('<span class="detail"></span>').text(languageName);
+            var input1 = $('<span class="detail"></span>').text('languageName');
             input1Card.append(input1Label);
             input1Card.append(input1);
             input1Div.append(input1Card);
+
+            fetchNameById(languageName, function(name) {
+            input1.text(name);
+        });
 
             var input2Div = $('<div class="col-sm-4"></div>');
             var input2Card = $('<div class="card p-3"></div>');
@@ -1014,6 +1041,8 @@ function goViewCourse(id)
             newInputDiv.append(input3Div);
 
             $('#viewAdditionSubjectInputs').append(newInputDiv);
+                   
+        
         });
     } else {
         if (Array.isArray(response.sub_addition_sub_code) && Array.isArray(response.sub_addition_sub_name)) {
@@ -1046,6 +1075,8 @@ function goViewCourse(id)
                 newInputDiv.append(input2Div);
 
                 $('#viewAdditionSubjectInputs').append(newInputDiv);
+
+          
             });
         } else {
             console.error('sub_addition_sub_code or sub_addition_sub_name is not an array.');

@@ -410,6 +410,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     $row = mysqli_fetch_assoc($result1);
 
                     if(!empty($row['sub_addition_lag_name'])){
+
+                   
+                     
              // Prepare university details array
         $enquiryDetails = [
             'sub_uni_id' => universityName($row['sub_uni_id']),
@@ -424,6 +427,8 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'sub_type' => $row['sub_type'],
             
         ];
+
+        
 
     }else {
               // Prepare university details array
