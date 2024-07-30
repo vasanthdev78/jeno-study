@@ -36,7 +36,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="email" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" required="required">
+                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="email" id="email" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -150,7 +150,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="emailEdit" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" placeholder="Enter Email" name="emailEdit" id="emailEdit" required="required">
+                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="emailEdit" id="emailEdit" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-12">

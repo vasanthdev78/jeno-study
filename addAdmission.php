@@ -56,7 +56,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                                 <label for="email" class="form-label"><b>Email</b></label>
-                                                                <input type="email" class="form-control" placeholder="Enter Email Id" name="email" id="email" required="required">
+                                                                <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email Id" name="email" id="email" required="required">
                                                             </div>
                                                             </div>
 
@@ -417,7 +417,7 @@
                                         <input type="hidden" name="hdnAction" value="editAdmission">
                                         <input type="hidden" name="hdnAdmissionId" id="admissionId">
 
-                                            <div id="rootwizard">
+                                            <div id="progressbarwizard">
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
                                                     <li class="nav-item" data-target-form="#editAdmission">
                                                         <a href="#first" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1 active">
@@ -454,7 +454,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                                 <label for="emailEdit" class="form-label"><b>Email</b></label>
-                                                                <input type="email" class="form-control" pattern="^\S.*$" placeholder="Enter Email Id" name="emailEdit" id="emailEdit" required="required">
+                                                                <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email Id" name="emailEdit" id="emailEdit" required="required">
                                                             </div>
                                                             </div>
 
