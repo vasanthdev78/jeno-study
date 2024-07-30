@@ -13,7 +13,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="staffName" class="form-label"><b>Name</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Staff Name" name="staffName" id="staffName" required="required">
+                                    <input type="text" class="form-control" pattern="^[a-zA-Z]+( [a-zA-Z]+)?(\.[a-zA-Z]+)?$" title="Please enter only letters (A-Z, a-z), with at most one space and one dot."  placeholder="Enter Staff Name" name="staffName" id="staffName" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -122,7 +122,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="staffNameEdit" class="form-label"><b>Name</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Staff Name" name="staffNameEdit" id="staffNameEdit" required="required">
+                                    <input type="text" class="form-control" pattern="^[a-zA-Z]+( [a-zA-Z]+)?(\.[a-zA-Z]+)?$" title="Please enter only letters (A-Z, a-z), with at most one space and one dot." placeholder="Enter Staff Name" name="staffNameEdit" id="staffNameEdit" required="required">
                                 </div>
                             </div>
                             <div class="col-sm-6">
