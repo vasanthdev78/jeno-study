@@ -218,7 +218,8 @@ session_start();
     // edit function -------------------------
 function editUiversity(editId) {
     // alert("afa");
-
+    $('#editUniversity').removeClass('was-validated');
+    $('#editUniversity').addClass('needs-validation');
 
     $.ajax({
         url: 'action/actUniversity.php',
