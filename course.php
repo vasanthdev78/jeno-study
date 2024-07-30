@@ -246,7 +246,9 @@ session_start();
 
       // edit function -------------------------
 function editCourse(editId) {
-    alert("afa");
+    // alert("afa");
+    $('#editCourse').removeClass('was-validated');
+    $('#editCourse').addClass('needs-validation');
 
     $.ajax({
         url: 'action/actCourse.php',
@@ -331,6 +333,18 @@ if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_st
 document.addEventListener('DOMContentLoaded', function() {
     $('#editCourse').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
+
+        $('#editFessType').prop('disabled', false);
+        $('#ediDuration').prop('disabled', false);
+        alert("imput");
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
+
 
         var formData = new FormData(this);
         $.ajax({

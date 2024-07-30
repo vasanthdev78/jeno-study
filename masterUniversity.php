@@ -217,7 +217,8 @@ session_start();
 
     // edit function -------------------------
 function editUiversity(editId) {
-    alert("afa");
+    // alert("afa");
+
 
     $.ajax({
         url: 'action/actUniversity.php',
@@ -346,6 +347,13 @@ function editUiversity(editId) {
 document.addEventListener('DOMContentLoaded', function() {
     $('#editUniversity').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
+
+        var form = this; // Get the form element
+            if (form.checkValidity() === false) {
+                // If the form is invalid, display validation errors
+                form.reportValidity();
+                return;
+            }
 
         var formData = new FormData(this);
         $.ajax({

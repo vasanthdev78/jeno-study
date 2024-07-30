@@ -137,7 +137,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="editCourseName" class="form-label"><b>Course Name</b><span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="editCourseName" id="editCourseName" required placeholder="Enter Course Name">
+                    <input type="text" class="form-control" name="editCourseName" id="editCourseName" required placeholder="Enter Course Name" >
                 </div>
             </div>
             <div class="col-sm-6">
@@ -166,7 +166,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="editFessType" class="form-label"><b>Fees Type</b><span class="text-danger">*</span></label>
-                    <select class="form-control" name="editFessType" id="editFessType" required>
+                    <select class="form-control" name="editFessType" id="editFessType" required disabled>
                         <option value="">--Select the Fees Type--</option>
                         <option value="Year">Year</option>
                         <option value="Semester">Semester</option>
@@ -178,7 +178,7 @@
             <div class="col-sm-6">
                     <div class="form-group">
                         <label for="ediDuration" class="form-label"><b>Duration (Years)</b></label>
-                        <select class="form-control" name="ediDuration" id="ediDuration" required>
+                        <select class="form-control" name="ediDuration" id="ediDuration" required disabled>
                             <option value="">--Select the Duration--</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
