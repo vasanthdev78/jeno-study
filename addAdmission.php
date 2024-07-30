@@ -13,10 +13,10 @@
                                         <form class="needs-validation" novalidate name="frmAddAdmission" id="addAdmission" enctype="multipart/form-data">
                                         <input type="hidden" name="hdnAction" value="addAdmission">
 
-                                            <div id="progressbarwizard">
+                                            <div id="rootwizard">
 
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
-                                                    <li class="nav-item">
+                                                    <li class="nav-item" data-target-form="#addAdmission">
                                                         <a href="#account-2" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1">
                                                             <i class="ri-account-circle-line fw-normal fs-18 align-middle me-1"></i>
                                                             <span class="d-none d-sm-inline">Primary Info</span>
@@ -95,7 +95,7 @@
                                                             <div class="form-group">
                                                             <label for="medium" class="form-label"><b>Medium </b><span class="text-danger">*</span></label>
                                                             <select class="form-control" name="medium" id="medium" required="required">
-                                                            <option value="0">--Select the Medium--</option>
+                                                            <option value="">--Select the Medium--</option>
                                                             <option value="1">Tamil</option>
                                                             <option value="2">English</option>
 
@@ -117,7 +117,7 @@
                                                             <label for="applicationNo" class="form-label"><b>Application No.</b><span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" placeholder="Enter Student Application No." name="applicationNo" id="applicationNo" required="required">
                                                             <div class="invalid-feedback">
-                                                                This Application No. is already exists.
+                                                                This Application No. is required or already exists.
                                                             </div>
                                                             </div>
                                                             </div>
@@ -202,12 +202,11 @@
                                                             </div>
 
                                                             <div class="col-sm-4">
-                                                            <div class="form-group pb-1">
-                                                            <label for="pincode" class="form-label"><b>Pincode</b></label>
-                                                            <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode" >
+                                                                <div class="form-group pb-1">
+                                                                    <label for="pincode" class="form-label"><b>Pincode</b></label>
+                                                                    <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincode" id="pincode">
+                                                                </div>
                                                             </div>
-                                                            </div>
-
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="fathername" class="form-label"><b>Father Name</b></label>
@@ -231,7 +230,11 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="nationality" class="form-label"><b>Nationality</b></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Nationality" name="nationality" id="nationality" >
+                                                            <select class="form-control" name="nationality" id="nationality">
+                                                                <option value="">--Select Nationality--</option>
+                                                                <option value="India">India</option>
+                                                                <option value="Sri Lanka">Sri Lanka</option>
+                                                            </select>
                                                             </div>
                                                             </div>
 
@@ -293,8 +296,8 @@
                                                             <label for="qualification" class="form-label"><b>Highest Qualifiaction</b></label>
                                                             <select class="form-control" id="qualification" name="qualification" >
                                                             <option value="">--Select the Qualifiaction--</option>
-                                                            <option value="Diploma">Diploma</option>
                                                             <option value="12">12TH</option>
+                                                            <option value="Diploma">Diploma</option>
                                                             <option value="UG">UG</option>
                                                             <option value="PG">PG</option>
                                                             </select>
@@ -332,7 +335,7 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="sslc" class="form-label"><b>SSLC Marksheet</b></label>
+                                                            <label for="sslc" class="form-label"><b>SSLC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslc" id="sslc">
                                                             </div>
                                                             </div>
@@ -341,21 +344,21 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="hsc" class="form-label"><b>HSC Marksheet</b></label>
+                                                            <label for="hsc" class="form-label"><b>HSC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hsc" id="hsc" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6"> 
                                                             <div class="form-group pb-1">
-                                                            <label for="community" class="form-label"><b>Community Certificate</b></label>
+                                                            <label for="community" class="form-label"><b>Community Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="tc" class="form-label"><b>Transfer Certificate</b></label>
+                                                            <label for="tc" class="form-label"><b>Transfer Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tc" id="tc" >
                                                             </div>
                                                             </div>
@@ -363,14 +366,14 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="aadhar" class="form-label"><b>Aathar Card</b></label>
+                                                            <label for="aadhar" class="form-label"><b>Aathar Card</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadhar" id="aadhar">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="photo" class="form-label"><b>Passport Size Photo</b></label>
+                                                            <label for="photo" class="form-label"><b>Passport Size Photo</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" >
                                                             </div>
                                                             </div>
@@ -417,7 +420,7 @@
                                             <div id="rootwizard">
                                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
                                                     <li class="nav-item" data-target-form="#editAdmission">
-                                                        <a href="#first" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1">
+                                                        <a href="#first" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-1 active">
                                                             <i class="ri-account-circle-line fw-normal fs-18 align-middle me-1"></i>
                                                             <span class="d-none d-sm-inline">Primary Info</span>
                                                         </a>
@@ -432,7 +435,7 @@
 
                                                 <div class="tab-content mb-0 b-0">
 
-                                                    <div class="tab-pane" id="first">
+                                                    <div class="tab-pane active show" id="first">
                                                             <div class="row">
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
@@ -589,7 +592,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="pincodeEdit" class="form-label"><b>Pincode</b></label>
-                                                            <input type="text" class="form-control" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincodeEdit" id="pincodeEdit" >
+                                                            <input type="text" class="form-control" pattern="^\d{6}$" title="Please enter a 6-digit pincode" placeholder="Enter Pincode" name="pincodeEdit" id="pincodeEdit" >
                                                             </div>
                                                             </div>
 
@@ -609,14 +612,18 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharNumberEdit" class="form-label"><b>Aadhar Number</b></label>
-                                                            <input type="text" class="form-control" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
+                                                            <input type="text" class="form-control" pattern="^\d{16}$" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="nationalityEdit" class="form-label"><b>Nationality</b></label>
-                                                            <input type="text" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Nationality" name="nationalityEdit" id="nationalityEdit" >
+                                                            <select class="form-control" name="nationalityEdit" id="nationalityEdit">
+                                                                <option value="">--Select Nationality--</option>
+                                                                <option value="India">India</option>
+                                                                <option value="Sri Lanka">Sri Lanka</option>
+                                                            </select>
                                                             </div>
                                                             </div>
 
@@ -678,8 +685,8 @@
                                                             <label for="qualificationEdit" class="form-label"><b>Highest Qualifiaction</b></label>
                                                             <select class="form-control" id="qualificationEdit" name="qualificationEdit" >
                                                             <option value="">--Select the Qualifiaction--</option>
-                                                            <option value="Diploma">Diploma</option>
                                                             <option value="12">12TH</option>
+                                                            <option value="Diploma">Diploma</option>
                                                             <option value="UG">UG</option>
                                                             <option value="PG">PG</option>
                                                             </select>
@@ -717,7 +724,7 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="sslcEdit" class="form-label"><b>SSLC Marksheet</b></label>
+                                                            <label for="sslcEdit" class="form-label"><b>SSLC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslcEdit" id="sslcEdit">
                                                             </div>
                                                             </div>
@@ -726,21 +733,21 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="hscEdit" class="form-label"><b>HSC Marksheet</b></label>
+                                                            <label for="hscEdit" class="form-label"><b>HSC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hscEdit" id="hscEdit" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6"> 
                                                             <div class="form-group pb-1">
-                                                            <label for="communityEdit" class="form-label"><b>Community Certificate</b></label>
+                                                            <label for="communityEdit" class="form-label"><b>Community Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="communityEdit" id="communityEdit" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="tcEdit" class="form-label"><b>Transfer Certificate</b></label>
+                                                            <label for="tcEdit" class="form-label"><b>Transfer Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tcEdit" id="tcEdit" >
                                                             </div>
                                                             </div>
@@ -748,14 +755,14 @@
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="aadharEdit" class="form-label"><b>Aathar Card</b></label>
+                                                            <label for="aadharEdit" class="form-label"><b>Aathar Card</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadharEdit" id="aadharEdit">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="photoEdit" class="form-label"><b>Passport Size Photo</b></label>
+                                                            <label for="photoEdit" class="form-label"><b>Passport Size Photo</b>(Allowed formats: jpg, jpeg, png)</label>
                                                             <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photoEdit" id="photoEdit" >
                                                             </div>
                                                             </div>
