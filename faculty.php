@@ -155,6 +155,19 @@ session_start();
     <!-------Start Add Student--->
     <script>
 
+// Function to set the max attribute to today's date
+function setMaxDate() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('dateofjoin').setAttribute('max', today);
+        document.getElementById('dateofjoinEdit').setAttribute('max', today);
+    }
+
+    // Call setMaxDate when the window loads
+    window.onload = setMaxDate;
+
+</script>
+    <script>
+
 $(document).ready(function () {
 
   $('#addFacultytBtn').click(function() {
