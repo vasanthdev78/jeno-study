@@ -56,7 +56,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                                 <label for="email" class="form-label"><b>Email</b></label>
-                                                                <input type="email" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Email Id" name="email" id="email" required="required">
+                                                                <input type="email" class="form-control" placeholder="Enter Email Id" name="email" id="email" required="required">
                                                             </div>
                                                             </div>
 
