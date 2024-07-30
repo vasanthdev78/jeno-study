@@ -50,38 +50,40 @@ session_start();
                             <div class="page-title-box">
                                
                                 <h4 class="page-title">Income Report</h4> 
+                                <form class="needs-validation" novalidate> 
                                 <div class="row mt-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="startDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" id="startDate">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="endDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" id="endDate">
-                        </div>
-                        <div class="col-sm-3">
-                                <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="university" id="university" required="required">
-                                    <option value="All">--All University--</option>
-                                        <?php 
-                                     $university_result = universityTable(); // Call the function to fetch universities 
-                                     while ($row = $university_result->fetch_assoc()) {
-                                     $id = $row['uni_id']; 
-                                    $name = $row['uni_name'];    
-                        
-                                      ?>
-                        
-                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
-
-                        <?php } ?>
-                                    </select>
+                                    <div class="col-md-3">
+                                        <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="startDate" required>
+                                        <div class="invalid-feedback" id="startDateError">Please enter a start date.</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="endDate" required>
+                                        <div class="invalid-feedback" id="endDateError">Please enter an end date.</div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                            <select class="form-control" name="university" id="university" required>
+                                                <option value="">--Select University--</option>
+                                                <?php 
+                                                $university_result = universityTable(); // Call the function to fetch universities 
+                                                while ($row = $university_result->fetch_assoc()) {
+                                                    $id = $row['uni_id']; 
+                                                    $name = $row['uni_name'];    
+                                                ?>
+                                                <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <div class="invalid-feedback" id="universityError">Please select a university.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
+                                    </div>
                                 </div>
-                            </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
-                        </div>
-                    </div>
+                                </form>
 
                             </div>
                         </div>
@@ -230,22 +232,54 @@ $(document).ready(function() {
         var endDate = $('#endDate').val();
         var university = $('#university').val();
 
-        $.ajax({
-            url: 'action/actIncome.php',
-            method: 'POST',
-            data: {
-                startDate: startDate,
-                endDate: endDate,
-                university: university
-            },
-            dataType: 'json',
-            success: function(response) {
-                updateTable(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX request failed:', status, error);
-            }
-        });
+        var isValid = true;
+
+        // Validate fields
+        if (!startDate) {
+            $('#startDate').addClass('is-invalid');
+            $('#startDateError').show();
+            isValid = false;
+        } else {
+            $('#startDate').removeClass('is-invalid');
+            $('#startDateError').hide();
+        }
+
+        if (!endDate) {
+            $('#endDate').addClass('is-invalid');
+            $('#endDateError').show();
+            isValid = false;
+        } else {
+            $('#endDate').removeClass('is-invalid');
+            $('#endDateError').hide();
+        }
+
+        if (!university) {
+            $('#university').addClass('is-invalid');
+            $('#universityError').show();
+            isValid = false;
+        } else {
+            $('#university').removeClass('is-invalid');
+            $('#universityError').hide();
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: 'action/actIncome.php',
+                method: 'POST',
+                data: {
+                    startDate: startDate,
+                    endDate: endDate,
+                    university: university
+                },
+                dataType: 'json',
+                success: function(response) {
+                    updateTable(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
+        }
     });
 
     function updateTable(data) {
