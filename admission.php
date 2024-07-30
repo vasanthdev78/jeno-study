@@ -67,6 +67,7 @@ session_start();
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
+                                    <th scope="col">Application No.</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">University</th>
                                     <th scope="col">Course</th>
@@ -80,15 +81,16 @@ session_start();
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($admission_result , MYSQLI_ASSOC)) { 
                         $id = $row['stu_id'];  $name = $row['stu_name']; $phone = $row['stu_phone'];  $university=$row['uni_name'];  
-                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; 
+                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; $apply = $row['stu_apply_no'];
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
+                        <td><?php echo $apply; ?></td>
                         <td><?php echo $name; ?></td>
                         <td><?php echo $university; ?></td>
                         <td><?php echo $course; ?></td>
                         <td><?php echo $phone; ?></td>
-                        <td><?php echo $enroll; ?></td>
+                        <td><?php echo !empty($enroll) ? $enroll : 'Pending'; ?></td>
                     
                         <td>
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" id="editAdmissionBtn" onclick="goEditAdmission(<?php echo $id; ?>);"><i class='bi bi-pencil-square'></i></button>
@@ -544,16 +546,16 @@ function goViewAdmission(id)
                     $('#applicationView').text(response.apply_no);
                     $('#acaYearView').text(response.acaYear);
                     $('#lagView').text(response.joinYear);
-                    $('#enrollView').text(response.enroll);
+                    $('#enrollView').text(response.enroll ? response.enroll : 'Pending');
                     $('#yearTypeView').text(response.year_type);
                     $('#languageView').text(response.language);
                     $('#digilockerView').text(response.digilocker);
-                    $('#admitDateView').text(response.admit_date);
-                    $('#dobView').text(response.dob);
+                    $('#admitDateView').text(response.admit_date && response.admit_date !== '0000-00-00' ? response.admit_date : '');
+                    $('#dobView').text(response.dob && response.dob !== '0000-00-00' ? response.dob : '');
                     $('#genderView').text(response.gender);
                     $('#fatherNameView').text(response.father_name);
                     $('#motherNameView').text(response.mother_name);
-                    $('#aadharNoView').text(response.aadhar_no);
+                    $('#aadharNoView').text(response.aadhar_no && response.aadhar_no !== '0' ? response.aadhar_no : '');
                     $('#nationalityView').text(response.nationality);
                     $('#motherTongueView').text(response.mother_tongue);
                     $('#religionView').text(response.religion);
@@ -567,7 +569,7 @@ function goViewAdmission(id)
                     $('#studyFieldView').text(response.study_field);
                     $('#gradeView').text(response.grade);
                     $('#addressView').text(response.address);
-                    $('#pincodeView').text(response.pincode);
+                    $('#pincodeView').text(response.pincode && response.pincode !== '0' ? response.pincode : '');
 
                     var basePath = 'assets/images/student/';
 
