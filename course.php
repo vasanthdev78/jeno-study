@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $('#editFessType').prop('disabled', false);
         $('#ediDuration').prop('disabled', false);
-        alert("imput");
+        
 
         var form = this; // Get the form element
             if (form.checkValidity() === false) {
@@ -407,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function goViewCourse(id) 
     {
-      alert('sdafda');
+    //   alert('sdafda');
     //location.href = "clientDetail.php?clientId="+id;
     $.ajax({
         url: 'action/actCourse.php',
@@ -426,29 +426,47 @@ document.addEventListener('DOMContentLoaded', function() {
           $('#viewMedium').text(response.cou_medium);
           $('#viewExamType').text(response.cou_exam_type);
           $('#viewFeesType').text(response.cou_fees_type);
-          $('#viewDuration').text(response.cou_duration +" Years");
+          $('#viewDuration').text(response.cou_duration + " " + response.cou_fees_type);
 
      // Clear previous input fields
      $('#viewCourseInputs').empty();
 
-            // Assuming uni_department and uni_contact arrays are of equal length and matched by index
-            if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_study_fees)) {
-                response.cou_university_fess.forEach(function(department, index) {
-                    var contact = response.cou_study_fees[index];
+             // Check if cou_university_fess and cou_study_fees are arrays
+             if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_study_fees)) {
+                let duration = parseInt(response.cou_duration, 10); // Convert duration to integer
+                let feeType = response.cou_fees_type; // Get the fee type (Year/Semester)
+
+                // Calculate and display fees
+                for (let i = 1; i <= duration; i++) {
+                    let universityFee = 0;
+                    let studyCenterFee = 0;
+
+                    if (feeType === 'Year') {
+                        universityFee = response.cou_university_fess[i - 1] ?? 0;
+                        studyCenterFee = response.cou_study_fees[i - 1] ?? 0;
+                    } else if (feeType === 'Semester') {
+                        universityFee = response.cou_university_fess[(i - 1) * 2] ?? 0 + response.cou_university_fess[(i - 1) * 2 + 1] ?? 0;
+                        studyCenterFee = response.cou_study_fees[(i - 1) * 2] ?? 0 + response.cou_study_fees[(i - 1) * 2 + 1] ?? 0;
+                    }
+
                     var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
 
                     var input1Div = $('<div class="col-sm-6"></div>');
                     var input1Card = $('<div class="card p-3"></div>');
-                    var input1Label = $('<h4>University Fees</h4>');
-                    var input1 = $('<span class="detail"></span>').text(department);
+                    var input1Label1 = $('<h5> ' + i + ' ' + feeType + '</h5>');
+                    var input1Label = $('<h4>University Fees for </h4>');
+                    var input1 = $('<span class="detail"></span>').text(universityFee);
+                    input1Card.append(input1Label1);
                     input1Card.append(input1Label);
                     input1Card.append(input1);
-                    input1Div.append(input1Card);
+                    input1Div.append(input1Card);   
 
                     var input2Div = $('<div class="col-sm-6"></div>');
                     var input2Card = $('<div class="card p-3"></div>');
-                    var input2Label = $('<h4>Study Center Fees</h4>');
-                    var input2 = $('<span class="detail"></span>').text(contact);
+                    var input2Label1 = $('<h5> ' + i + ' ' + feeType + '</h5>');
+                    var input2Label = $('<h4>Study Center Fees for </h4>');
+                    var input2 = $('<span class="detail"></span>').text(studyCenterFee);
+                    input2Card.append(input2Label1);
                     input2Card.append(input2Label);
                     input2Card.append(input2);
                     input2Div.append(input2Card);
@@ -457,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     newInputDiv.append(input2Div);
 
                     $('#viewCourseInputs').append(newInputDiv);
-                });
+                }
             } else {
                 // If not arrays or lengths do not match, handle the error accordingly
                 console.error('Fees and contact arrays are not properly matched.');
