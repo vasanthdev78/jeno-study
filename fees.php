@@ -253,6 +253,8 @@ $('#addCourse').removeClass('was-validated');
 $('#addCourse').addClass('needs-validation');
 $('#addCourse')[0].reset(); // Reset the form
 $('#fessType').val('');
+$('#universityPaid').removeClass('is-invalid is-valid');
+$('#studyPaid').removeClass('is-invalid is-valid');
 
 });
 
@@ -503,6 +505,7 @@ resetField('#studyPaid');
             if (form.checkValidity() === false) {
                 // If the form is invalid, display validation errors
                 form.reportValidity();
+                $('#year').prop('disabled', true);
                 return;
             }
 
