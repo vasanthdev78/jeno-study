@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="aadhar" class="form-label"><b>Aadhar card</b><span class="text-danger">*</span></label>
+                                    <label for="aadhar" class="form-label"><b>Aadhar card</b>(Allowed formats: jpg, jpeg, png)<span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="aadhar" id="aadhar" required="required">
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                     <label for="username" class="form-label"><b>Username</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control"  placeholder="Enter Username" name="username" id="username" required="required">
                                     <div class="invalid-feedback">
-                                        The username already exists.
+                                        The username is invalid or already exists.
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="aadharEdit" class="form-label"><b>Aadhar card</b><span class="text-danger">*</span></label>
+                                    <label for="aadharEdit" class="form-label"><b>Aadhar card</b>(Allowed formats: jpg, jpeg, png)<span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="aadharEdit" id="aadharEdit" required="required">
                                 </div>
                             </div>
@@ -191,9 +191,7 @@
                                 <div class="form-group">
                                     <label for="usernameEdit" class="form-label"><b>Username</b><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control"  placeholder="Enter Username" name="usernameEdit" id="usernameEdit" required="required">
-                                    <div class="invalid-feedback">
-                                        The username already exists.
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-sm-6">

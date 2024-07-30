@@ -250,9 +250,6 @@
                 <a href="reportIncome.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Income</a>
             </li>
             <li>
-                <a href="reportExpense.php" class="side-nav-link"><i class="bi bi-wallet2"></i>Expense</a>
-            </li>
-            <li>
                 <a href="reportTransaction.php" class="side-nav-link"><i class="bi bi-sign-intersection-t-fill"></i>Transaction</a>
             </li>
 
