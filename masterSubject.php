@@ -529,14 +529,14 @@ session_start();
         } else if (buttonType === 'elective') {
             var newInputDiv = $('<div class="row mt-3"></div>');
 
-            var inputDiv1 = $('<div class="col-sm-5"></div>');
+            var inputDiv1 = $('<div class="col-sm-4"></div>');
             var inputLabel1 = $('<label class="form-label"><b>Elective Subject Code</b></label>');
             var input1 = $('<input type="text" class="form-control" name="editAdditionSubCode[]">');
             inputDiv1.append(inputLabel1);
             inputDiv1.append(input1);
             newInputDiv.append(inputDiv1);
 
-            var inputDiv2 = $('<div class="col-sm-5"></div>');
+            var inputDiv2 = $('<div class="col-sm-4"></div>');
             var inputLabel2 = $('<label class="form-label"><b>Elective Subject Name</b></label>');
             var input2 = $('<input type="text" class="form-control" name="editAdditionSubName[]">');
             inputDiv2.append(inputLabel2);
@@ -1142,7 +1142,7 @@ function goViewCourse(id)
     document.getElementById('addSubjectBtn').addEventListener('click', function() {
         document.getElementById('StuContent').classList.add('d-none');
         document.getElementById('addSubjectModal').classList.remove('d-none');
-        
+
     });
     document.getElementById('backToMainBtn').addEventListener('click', function() {
             document.getElementById('StuContent').classList.remove('d-none');
