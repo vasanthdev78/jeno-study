@@ -224,13 +224,14 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
 
                 if($result1) {
                     $row = mysqli_fetch_assoc($result1);
+                    $tran_date = date('d-m-Y', strtotime($row['tran_date']));
 
              // Prepare university details array
         $enquiryDetails = [
 
             'tran_id' => $row['tran_id'],
             'tran_category' => $row['tran_category'],
-            'tran_date' => $row['tran_date'],
+            'tran_date' => $tran_date,
             'tran_amount' => $row['tran_amount'],
             'tran_method' => $row['tran_method'],
             'tran_transaction_id' => $row['tran_transaction_id'],

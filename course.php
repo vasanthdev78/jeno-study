@@ -275,6 +275,7 @@ if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_st
     response.cou_university_fess.forEach(function(universityFee, index) {
         var studyFee = response.cou_study_fees[index];
         var totalFee = response.cou_total_fees[index];
+
         
         var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
 
@@ -451,21 +452,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     var newInputDiv = $('<div class="row mb-3"></div>'); // Added mb-3 class for some margin
 
-                    var input1Div = $('<div class="col-sm-6"></div>');
+                    var input1Div = $('<div class="col-sm-4"></div>');
                     var input1Card = $('<div class="card p-3"></div>');
                     var input1Label1 = $('<h5> ' + i + ' ' + feeType + '</h5>');
                     var input1Label = $('<h4>University Fees for </h4>');
-                    var input1 = $('<span class="detail"></span>').text(universityFee);
+                    var input1 = $('<span class="detail"></span>').text('₹ ' + universityFee);
                     input1Card.append(input1Label1);
                     input1Card.append(input1Label);
                     input1Card.append(input1);
-                    input1Div.append(input1Card);   
+                    input1Div.append(input1Card);
 
-                    var input2Div = $('<div class="col-sm-6"></div>');
+                    var input2Div = $('<div class="col-sm-4"></div>');
                     var input2Card = $('<div class="card p-3"></div>');
                     var input2Label1 = $('<h5> ' + i + ' ' + feeType + '</h5>');
                     var input2Label = $('<h4>Study Center Fees for </h4>');
-                    var input2 = $('<span class="detail"></span>').text(studyCenterFee);
+                    var input2 = $('<span class="detail"></span>').text('₹ ' + parseFloat(studyCenterFee).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
                     input2Card.append(input2Label1);
                     input2Card.append(input2Label);
                     input2Card.append(input2);
@@ -473,6 +474,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     newInputDiv.append(input1Div);
                     newInputDiv.append(input2Div);
+
+                    // Calculate the total fees
+                    var totalFees = parseFloat(universityFee) + parseFloat(studyCenterFee);
+
+                    // Create the total fees div
+                    var totalFeesDiv = $('<div class="col-4 mt-3"></div>');
+                    var totalFeesCard = $('<div class="card p-3"></div>');
+                    var totalFeesLabel = $('<h4>Total Fees</h4>');
+                    var totalFeesSpan = $('<span class="detail"></span>').text('₹ ' + parseFloat(totalFees).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+                    totalFeesCard.append(totalFeesLabel);
+                    totalFeesCard.append(totalFeesSpan);
+                    totalFeesDiv.append(totalFeesCard);
+
+                    // Append the total fees div to the new input div
+                    newInputDiv.append(totalFeesDiv);
 
                     $('#viewCourseInputs').append(newInputDiv);
                 }

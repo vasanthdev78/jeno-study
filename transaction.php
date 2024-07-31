@@ -83,7 +83,8 @@ include("class.php");
 
                         while ($row = $transactionResult->fetch_assoc()) {
                             $id = $row['tran_id'];
-                            
+                            $date = new DateTime($row['tran_date']);
+                            $formattedDate = $date->format('d-m-Y');
 
                         ?>
 
@@ -93,7 +94,7 @@ include("class.php");
                         <td><?php echo $row['tran_category'] ?></td>
                         <td><?php echo $row['tran_reason'] ?></td>
                         <td><?php echo $row['tran_amount'] ?></td>
-                        <td><?php echo $row['tran_date'] ?></td>
+                        <td><?php echo $formattedDate ?></td>
                         <td><?php echo $row['tran_method'] ?></td>
                     
                         <td>
@@ -160,6 +161,22 @@ include("class.php");
 
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
+
+<script>
+
+    // Function to set the max attribute to today's date
+    function setMaxDate() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('max', today);
+            document.getElementById('editDate').setAttribute('max', today);
+        }
+
+        // Call setMaxDate when the window loads
+        window.onload = setMaxDate;
+
+      
+
+    </script>
 
     <script>
 

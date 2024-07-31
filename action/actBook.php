@@ -9,6 +9,10 @@ $response = ['success' => false, 'message' => ''];
 
 // Handle adding a book issue
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
+    // Database connection
+    
+
+    // Retrieve POST data
     $studentId = $_POST['studentId'];
     $bookReceived = $_POST['bookReceived'];
     $bookUniReceived = $_POST['bookUniReceived'];
@@ -16,55 +20,72 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     $idCard = $_POST['idCard'];
     $bookId = $_POST['bookId'];
     $courseyear = $_POST['courseyear'];
-    $bookIssueAll = json_encode($bookIssue);
-    $bookIssueUni = json_encode($bookUniReceived);
     $createdBy = $_SESSION['userId'];
 
-    // Check if a row already exists for the given studentId and courseyear
-    $check_sql = "SELECT * FROM `jeno_book` WHERE `book_stu_id` = '$studentId' AND `book_year` = '$courseyear'";
-    $check_result = $conn->query($check_sql);
-
-    if ($check_result->num_rows > 0) {
-        // Row exists, update it
-        $history_sql = "UPDATE `jeno_book`
-                        SET 
-                            `book_received` = '$bookReceived',
-                            `book_uni_received` ='$bookIssueUni',
-                            `book_issued` = '$bookIssueAll',
-                            `book_id_card` = '$idCard',
-                            `book_updated_by` = '$createdBy'
-                        WHERE `book_stu_id` = '$studentId' AND `book_year` = '$courseyear'";
-    } else {
-        // Row does not exist, insert a new row
-        $history_sql = "INSERT INTO `jeno_book` (
-                            `book_stu_id`, 
-                            `book_received`, 
-                            `book_uni_received`, 
-                            `book_issued`, 
-                            `book_id_card`, 
-                            `book_year`, 
-                            `book_created_by`
-                        ) VALUES (
-                            '$studentId', 
-                            '$bookReceived', 
-                            '$bookIssueUni', 
-                            '$bookIssueAll', 
-                            '$idCard', 
-                            '$courseyear', 
-                            '$createdBy'
-                        )";
+    // Validate inputs (basic validation, more checks may be needed)
+    if (empty($studentId) || empty($bookReceived) || empty($bookUniReceived) || empty($bookIssue) || empty($idCard) || empty($courseyear)) {
+        $response['success'] = false;
+        $response['message'] = 'All fields are required.';
+        echo json_encode($response);
+        exit();
     }
 
-    if ($conn->query($history_sql) === TRUE) {
-        $response['success'] = true;
-        $response['message'] = "Book Issue added/updated successfully!";
+    
+    // Fetch current book issue data
+    $select_book = "SELECT `book_id`, `book_issued`, `book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$studentId' AND book_year = '$courseyear'";
+    $result_select_book = mysqli_query($conn, $select_book);
+    
+    if ($result_select_book) {
+        $book_count = mysqli_fetch_assoc($result_select_book);
+
+        if ($book_count) {
+             // Decode JSON values, or initialize as empty arrays if null
+             $book_uni_received = json_decode($book_count['book_uni_received'], true) ?? [];
+             $book_issued = json_decode($book_count['book_issued'], true) ?? [];
+ 
+             // Ensure POST data is also an array
+             $bookUniReceived = is_array($bookUniReceived) ? $bookUniReceived : [];
+             $bookIssue = is_array($bookIssue) ? $bookIssue : [];
+ 
+             // Merge arrays
+             $book_count_uni_received = array_merge($book_uni_received, $bookUniReceived);
+             $book_count_book_received = array_merge($book_issued, $bookIssue);
+ 
+             // Encode back to JSON
+             $bookIssueAll = json_encode($book_count_uni_received);
+             $bookIssueUni = json_encode($book_count_book_received);
+
+            // Update record
+            $history_sql = "UPDATE `jeno_book`
+                            SET `book_received` = '$bookReceived',
+                                `book_uni_received` = '$bookIssueUni',
+                                `book_issued` = '$bookIssueUni',
+                                `book_id_card` = '$idCard',
+                                `book_updated_by` = '$createdBy'
+                            WHERE `book_stu_id` = '$studentId' AND `book_year` = '$courseyear'";
+
+            if (mysqli_query($conn, $history_sql)) {
+                $response['success'] = true;
+                $response['message'] = "Book Issue added/updated successfully!";
+            } else {
+                $response['success'] = false;
+                $response['message'] = "Error adding/updating Book Issue: " . mysqli_error($conn);
+            }
+        } else {
+            $response['success'] = false;
+            $response['message'] = "No record found for the given student and year.";
+        }
     } else {
-        $response['message'] = "Error adding/updating Book Issue: " . $conn->error;
+        $response['success'] = false;
+        $response['message'] = "Error fetching book data: " . mysqli_error($conn);
     }
+
+    // Close connection
+    mysqli_close($conn);
 
     echo json_encode($response);
     exit();
-    }
+}
 
     // Handle fetching university details for editing
     if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
@@ -103,10 +124,11 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     if ($result) {
         $row = mysqli_fetch_assoc($result);
         $student = $row['stu_id'];
-        $payId_sql ="SELECT `book_id`,`book_issued` FROM `jeno_book` WHERE book_stu_id = $student";
+        $payId_sql ="SELECT `book_id`,`book_received` ,`book_issued`,`book_id_card`,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = $student";
         $result1 = mysqli_query($conn, $payId_sql);
         $pay = mysqli_fetch_assoc($result1);
-        $totall_books =json_decode($pay['book_issued']);
+        $total_received_books =json_decode($pay['book_issued']);
+        $total_uni_books =json_decode($pay['book_uni_received']);
 
         // Prepare university details array
         $courseDetails = [
@@ -125,9 +147,12 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
             'cou_name' => $row['cou_name'],
             'cou_duration' => $row['cou_duration'],
             'book_id' => $pay['book_id'],
-            'total_book' => $totall_books,
+            'total_book' => $total_received_books,
+            'total_uni_books' => $total_uni_books,
             'fee_uni_fee_total' => $row['fee_uni_fee_total'],
             'fee_uni_fee' => $row['fee_uni_fee'],
+            'book_received' => $pay['book_received'],
+            'book_id_card' => $pay['book_id_card'],
         
         ];
 
@@ -591,7 +616,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
                             FROM `jeno_book` AS a
                             LEFT JOIN jeno_student AS b
                             ON a.book_stu_id = b.stu_id  
-                            WHERE book_id = $uniId";
+                            WHERE a.book_stu_id = $uniId";
                 
                 $result1 = $conn->query($selQuery);
 

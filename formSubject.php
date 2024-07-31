@@ -194,7 +194,7 @@
 <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
 
-<div class="table-responsive d-none " id="SubjectView">
+<div class=" d-none " id="SubjectView">
         
         <form name="frm" method="post">
             <input type="hidden" name="hdnAction" value="">

@@ -148,6 +148,7 @@ session_start();
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
                         $id = $row['book_id']; 
+                        $book_stu_id = $row['book_stu_id']; 
                         $name = $row['stu_name']; 
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; 
@@ -169,7 +170,7 @@ session_start();
                         <td>
                         <button type="button" onclick="goAddBook('<?php echo $stu_apply_no; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
 
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
+                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(<?php echo $book_stu_id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
                       </tr>
                       <?php 
@@ -266,6 +267,19 @@ session_start();
             $('#year').val(response.stu_aca_year);
             $('#typeExam').val(response.cou_fees_type);
             $('#bookId').val(response.book_id);
+                // Set the corresponding radio button based on the response value
+                if (response.book_received === "Received") {
+                    $('#bookReceived').prop('checked', true);
+                } else if (response.book_received === "Not Received") {
+                    $('#bookNotReceived').prop('checked', true);
+                }   
+                 // Set the corresponding radio button based on the response value
+                 if (response.book_id_card === "Issued") {
+                    $('#Issue').prop('checked', true);
+                } else if (response.book_id_card === "Not Issued") {
+                    $('#notIssue').prop('checked', true);
+                } 
+            
 
             if(response.fee_uni_fee_total == response.fee_uni_fee){
 

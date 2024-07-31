@@ -52,16 +52,16 @@ session_start();
                                 <h4 class="page-title">Income Report</h4> 
                                 <form class="needs-validation" novalidate>
                                     <div class="row mt-3 mb-3">
-                                        <div class="col-md-3">
-                                            <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="startDate" required>
-                                            <div class="invalid-feedback">Please enter a start date.</div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="endDate" required>
-                                            <div class="invalid-feedback">Please enter an end date.</div>
-                                        </div>
+                                    <div class="col-md-3">
+                                    <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="startDate" required>
+                                    <div class="invalid-feedback" id="startDateError">Please enter a start date.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="endDate" required>
+                                    <div class="invalid-feedback" id="endDateError">End date cannot be before the start date.</div>
+                                </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
@@ -183,6 +183,51 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <!-------Start Add Student--->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const startDateError = document.getElementById('startDateError');
+    const endDateError = document.getElementById('endDateError');
+
+    function validateDates() {
+        const startDateValue = new Date(startDateInput.value);
+        const endDateValue = new Date(endDateInput.value);
+
+        if (startDateInput.value) {
+            startDateInput.classList.remove('is-invalid');
+            startDateError.style.display = 'none';
+        } else {
+            startDateInput.classList.add('is-invalid');
+            startDateError.style.display = 'block';
+        }
+
+        if (endDateInput.value) {
+            if (endDateValue < startDateValue) {
+                endDateInput.classList.add('is-invalid');
+                endDateError.style.display = 'block';
+            } else {
+                endDateInput.classList.remove('is-invalid');
+                endDateError.style.display = 'none';
+            }
+        } else {
+            endDateInput.classList.add('is-invalid');
+            endDateError.style.display = 'block';
+        }
+    }
+
+    function validateForm(event) {
+        validateDates();
+        if (document.querySelectorAll('.is-invalid').length > 0) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    }
+
+    startDateInput.addEventListener('change', validateDates);
+    endDateInput.addEventListener('change', validateDates);
+    document.querySelector('.needs-validation').addEventListener('submit', validateForm);
+});
+    </script>
     <script>
 
 $(document).ready(function() {
