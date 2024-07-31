@@ -336,7 +336,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="sslc" class="form-label"><b>SSLC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslc" id="sslc">
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslc" id="sslc" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
@@ -345,21 +345,21 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="hsc" class="form-label"><b>HSC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hsc" id="hsc" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hsc" id="hsc" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6"> 
                                                             <div class="form-group pb-1">
                                                             <label for="community" class="form-label"><b>Community Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="community" id="community" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="tc" class="form-label"><b>Transfer Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tc" id="tc" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tc" id="tc" accept=".jpg,.jpeg,.png" >
                                                             </div>
                                                             </div>
 
@@ -367,14 +367,14 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="aadhar" class="form-label"><b>Aathar Card</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadhar" id="aadhar">
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadhar" id="aadhar" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="photo" class="form-label"><b>Passport Size Photo</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photo" id="photo" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
@@ -725,7 +725,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="sslcEdit" class="form-label"><b>SSLC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslcEdit" id="sslcEdit">
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter SSLC" name="sslcEdit" id="sslcEdit" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
@@ -734,21 +734,21 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="hscEdit" class="form-label"><b>HSC Marksheet</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hscEdit" id="hscEdit" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter HSC" name="hscEdit" id="hscEdit"  accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6"> 
                                                             <div class="form-group pb-1">
                                                             <label for="communityEdit" class="form-label"><b>Community Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="communityEdit" id="communityEdit" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Community" name="communityEdit" id="communityEdit" accept=".jpg,.jpeg,.png" >
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="tcEdit" class="form-label"><b>Transfer Certificate</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tcEdit" id="tcEdit" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter TC" name="tcEdit" id="tcEdit" accept=".jpg,.jpeg,.png" >
                                                             </div>
                                                             </div>
 
@@ -756,14 +756,14 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharEdit" class="form-label"><b>Aathar Card</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadharEdit" id="aadharEdit">
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Aadhar" name="aadharEdit" id="aadharEdit" accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="photoEdit" class="form-label"><b>Passport Size Photo</b>(Allowed formats: jpg, jpeg, png)</label>
-                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photoEdit" id="photoEdit" >
+                                                            <input type="file" class="form-control" pattern="^\S.*$" title="Please enter a value with no leading or trailing spaces" placeholder="Enter Photo" name="photoEdit" id="photoEdit"  accept=".jpg,.jpeg,.png">
                                                             </div>
                                                             </div>
                                                                 <!-- end col -->

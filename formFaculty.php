@@ -73,7 +73,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="aadhar" class="form-label"><b>Aadhar Card (JPG , JPEG , PNG )</b><span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" placeholder="Enter Aadhar" name="aadhar" id="aadhar" required="required">
+                                    <input type="file" class="form-control" placeholder="Enter Aadhar" name="aadhar" id="aadhar" required="required" accept=".jpg,.jpeg,.png">
                                 </div>
                             </div>
 
@@ -187,7 +187,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="aadharEdit" class="form-label"><b>Aadhar Card (JPG , JPEG , PNG )</b></label>
-                                    <input type="file" class="form-control" placeholder="Enter Aadhar" name="aadharEdit" id="aadharEdit">
+                                    <input type="file" class="form-control" placeholder="Enter Aadhar" name="aadharEdit" id="aadharEdit" accept=".jpg,.jpeg,.png">
                                 </div>
                             </div>
 
