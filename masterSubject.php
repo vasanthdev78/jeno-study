@@ -169,7 +169,8 @@ session_start();
       $('#addSubject').removeClass('was-validated');
             $('#addSubject').addClass('needs-validation');
             $('#addSubject')[0].reset(); // Reset the form
-
+            $('#additionalInputs').empty();
+            $('#electiveInputs').empty();
 
         $('#addSubjectModal').addClass('d-none');
         $('#StuContent').removeClass('d-none');
@@ -179,6 +180,8 @@ session_start();
       $('#addSubject').removeClass('was-validated');
             $('#addSubject').addClass('needs-validation');
             $('#addSubject')[0].reset(); // Reset the form
+            $('#additionalInputs').empty();
+            $('#electiveInputs').empty();
 
 
         $('#StuContent').addClass('d-none');
@@ -1139,6 +1142,7 @@ function goViewCourse(id)
     document.getElementById('addSubjectBtn').addEventListener('click', function() {
         document.getElementById('StuContent').classList.add('d-none');
         document.getElementById('addSubjectModal').classList.remove('d-none');
+        
     });
     document.getElementById('backToMainBtn').addEventListener('click', function() {
             document.getElementById('StuContent').classList.remove('d-none');
