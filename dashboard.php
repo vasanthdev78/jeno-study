@@ -68,6 +68,35 @@ $user_role = $_SESSION['role'];
 
                         <div class="row">
         
+
+                        <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total University </h5>
+                                                <h3 class="my-1 py-1" id="allUniversity"></h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+        
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Courses </h5>
+                                                <h3 class="my-1 py-1" id="allCourses"></h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -248,6 +277,8 @@ $(document).ready(function() {
                 $('#allStaff').text(response.data.total_active_staff);
                 $('#allExpense').text("₹" + response.data.tran_amount_expense);
                 $('#allIncome').text("₹" + response.data.total_income);
+                $('#allUniversity').text(response.data.total_active_university);
+                $('#allCourses').text(response.data.total_active_course);
                 // Other response data can be set here similarly
             } else {
                 console.error('Failed to fetch data:', response.message);

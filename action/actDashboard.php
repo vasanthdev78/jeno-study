@@ -42,6 +42,14 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
                   FROM `jeno_fees` 
                   WHERE fee_status = 'Active'";  
 
+    $selQuery9 = "SELECT COUNT(*) AS total_active_university
+                  FROM `jeno_university`
+                  WHERE `uni_status` = 'Active';";
+
+    $selQuery10 = "SELECT COUNT(*) AS total_active_course
+                 FROM `jeno_course`
+                 WHERE `cou_status` = 'Active';";
+
     // Execute the queries
     $result1 = mysqli_query($conn, $selQuery1);
     $result2 = mysqli_query($conn, $selQuery2);
@@ -51,8 +59,11 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
     $result6 = mysqli_query($conn, $selQuery6);
     $result7 = mysqli_query($conn, $selQuery7);
     $result8 = mysqli_query($conn, $selQuery8);
+    $result9 = mysqli_query($conn, $selQuery9);
+    $result10 = mysqli_query($conn, $selQuery10);
 
-    if ($result1 && $result2 && $result3 && $result4 && $result5 && $result6 && $result7 && $result8) {
+
+    if ($result1 && $result2 && $result3 && $result4 && $result5 && $result6 && $result7 && $result8 && $result9 && $result10) {
         $row1 = mysqli_fetch_assoc($result1) ?? [];
         $row2 = mysqli_fetch_assoc($result2) ?? [];
         $row3 = mysqli_fetch_assoc($result3) ?? [];
@@ -61,6 +72,8 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         $row6 = mysqli_fetch_assoc($result6) ?? [];
         $row7 = mysqli_fetch_assoc($result7) ?? [];
         $row8 = mysqli_fetch_assoc($result8) ?? [];
+        $row9 = mysqli_fetch_assoc($result9) ?? [];
+        $row10 = mysqli_fetch_assoc($result10) ?? [];
 
         $tran_income = $row7['tran_amount'] ?? 0;
         $fee_uni_fee = $row8['fee_uni_fee'] ?? 0;
@@ -76,7 +89,9 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
             'total_active_faculty' => $row4['total_active_faculty'] ?? 0,
             'total_active_staff' => $row5['total_active_staff'] ?? 0,
             'tran_amount_expense' => $row6['tran_amount'] ?? 0,
-            'total_income' => $total_income
+            'total_income' => $total_income,
+            'total_active_university' => $row9['total_active_university'] ?? 0,
+            'total_active_course' => $row10['total_active_course'] ?? 0
         );
 
         $response['success'] = true;
