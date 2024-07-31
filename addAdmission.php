@@ -171,13 +171,13 @@
                                                             <div class="col-sm-4">
                                                                 <div class="form-group pb-1">
                                                                     <label for="admitDate" class="form-label"><b>Admission Date</b></label>
-                                                                    <input type="date" class="form-control" placeholder="Enter Date of Admission" name="admitDate" id="admitDate" required>
+                                                                    <input type="date" class="form-control" placeholder="Enter Date of Admission" name="admitDate" id="admitDate">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <div class="form-group pb-1">
                                                                     <label for="dob" class="form-label"><b>Date of Birth</b></label>
-                                                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" id="dob" required>
+                                                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" id="dob">
                                                                 </div>
                                                             </div>
 
@@ -558,13 +558,13 @@
                                                             <div class="col-sm-4">
                                                                 <div class="form-group pb-1">
                                                                     <label for="admitDateEdit" class="form-label"><b>Admission Date</b></label>
-                                                                    <input type="date" class="form-control" placeholder="Enter Date of Admission" name="admitDateEdit" id="admitDateEdit" required>
+                                                                    <input type="date" class="form-control" placeholder="Enter Date of Admission" name="admitDateEdit" id="admitDateEdit">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <div class="form-group pb-1">
                                                                     <label for="dobEdit" class="form-label"><b>Date of Birth</b></label>
-                                                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dobEdit" id="dobEdit" required>
+                                                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dobEdit" id="dobEdit">
                                                                 </div>
                                                             </div>
 
