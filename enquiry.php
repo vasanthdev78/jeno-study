@@ -256,9 +256,17 @@ $(document).ready(function() {
         //         table.column(2).search('').draw();
         //     }
         // });
+        var today = new Date().toISOString().split('T')[0];
 
+// Calculate the date 10 years ago
+var tenYearsAgo = new Date();
+tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+var tenYearsAgoDate = tenYearsAgo.toISOString().split('T')[0];
 
-   
+// Set the max attribute for the DOB input
+document.getElementById('dob').setAttribute('max', tenYearsAgoDate);
+document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
+ 
 
         $('#addEnquiryBtn').click(function() {
 
