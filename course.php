@@ -87,7 +87,7 @@ session_start();
               ?>  
                       <tr>
                       <td ><?php echo $i ; $i++ ?></td>
-                        <td><?php echo universityName($id); ?></td>
+                        <td><?php echo $row['uni_name'] ?></td>
                         <td><?php echo $row['cou_name'] ?></td>
                         <td><?php echo $row['cou_duration'] ." Years" ?></td>
                         <td><?php echo $row['cou_exam_type'] ?></td>

@@ -56,7 +56,15 @@ function electiveTable() {
 
 
    // Query to retrieve course name based on course_id
-   $course_query = "SELECT `cou_id` ,`cou_uni_id`, `cou_name`, `cou_medium`, `cou_exam_type` ,`cou_duration`  FROM jeno_course  WHERE cou_status ='Active';";
+   $course_query = "SELECT 
+   a.cou_id 
+   ,a.cou_uni_id
+   , a.cou_name
+   , a.cou_medium
+   , a.cou_exam_type 
+   ,a.cou_duration 
+   ,b.uni_name 
+   FROM jeno_course AS a LEFT JOIN jeno_university AS b ON a.cou_uni_id = b.uni_id  WHERE cou_status ='Active';";
 
    // Execute the query
    $course_result = $conn->query($course_query);
