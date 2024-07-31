@@ -40,6 +40,7 @@
         $pay_university_fees = $row['pay_university_fees'];
         $pay_study_fees = $row['pay_study_fees'];
         $pay_date = $row['pay_date'];
+        $formattedDate = date('d-m-Y', strtotime($pay_date));
 
     
     } else {
@@ -237,7 +238,7 @@
 
     // Add invoice content
     $pdf->Cell(0, 10, 'Name: '.$pay_student_name, 'T', 0,'L');
-    $pdf->Cell(0, 10, 'Date: ' . $pay_date, 'T', 1,'R');
+    $pdf->Cell(0, 10, 'Date: ' . $formattedDate, 'T', 1,'R');
     $pdf->Cell(0, 10, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
     $pdf->Cell(0, 10, 'Admission No:'.$admisionId, 0, 1,'R');
     $pdf->Cell(0, 10, 'Student Course :'.$Student_course, 0, 1,'L');
@@ -270,6 +271,7 @@
 
     // Convert total amount to words
     $totalAmtInWords = numberToWords($totalAmt);
+    $totalAmtInWords = preg_replace('/\bzero\b/', '', $totalAmtInWords); // Remove 'zero' if present
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell(110, 15, ucfirst($totalAmtInWords), 1, 0, 'C'); // No border, aligned left, and move to next line
     // Add the cell with the "Total:" label
