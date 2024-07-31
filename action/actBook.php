@@ -227,6 +227,11 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         $sub_subject_name = json_decode($row['sub_subject_name'], true);
         $sub_addition_sub_name = json_decode($row['sub_addition_sub_name'], true);
         $sub_addition_lag_name = json_decode($row['sub_addition_lag_name'], true);
+        // Ensure that the variables are initialized as arrays
+            $sub_subject_name = is_array($sub_subject_name) ? $sub_subject_name : [];
+            $sub_addition_sub_name = is_array($sub_addition_sub_name) ? $sub_addition_sub_name : [];
+            $sub_addition_lag_name = is_array($sub_addition_lag_name) ? $sub_addition_lag_name : [];
+
         $add_language = $row['add_language'];
         $sub_ele_id = $row['sub_ele_id'];
 
@@ -278,6 +283,12 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
           $uni_sub_subject_name = json_decode($row['sub_subject_name'], true);
           $uni_sub_addition_sub_name = json_decode($row['sub_addition_sub_name'], true);
           $uni_sub_addition_lag_name = json_decode($row['sub_addition_lag_name'], true);
+
+          // Ensure that the variables are initialized as arrays
+            $uni_sub_subject_name = is_array($uni_sub_subject_name) ? $uni_sub_subject_name : [];
+            $uni_sub_addition_sub_name = is_array($uni_sub_addition_sub_name) ? $uni_sub_addition_sub_name : [];
+            $uni_sub_addition_lag_name = is_array($uni_sub_addition_lag_name) ? $uni_sub_addition_lag_name : [];
+
           $uni_add_language = $row['add_language'];
           $uni_sub_ele_id = $row['sub_ele_id'];
  
