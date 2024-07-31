@@ -182,7 +182,7 @@
 <li class="side-nav-item">
     <a href="transaction.php" class="side-nav-link">
     <i class="bi bi-currency-exchange"></i>
-        <span> transaction </span>
+        <span> Transaction </span>
     </a>
 </li>
 <!-- <li class="side-nav-item">
