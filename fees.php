@@ -306,7 +306,7 @@ response.hostory_table.forEach(function(payment, index) {
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
     html += '<td>';
     html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Jeno Bill</button></a> &nbsp;';
-    html += '<a href="action/actStudentReceipt.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Student Bill</button></a>';
+    html += '<a href="action/actStudentReceipt.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Student Bill</button></a> &nbsp;';
 
     <?php if ($user_role == 'Admin') { ?>
         // Add delete button conditionally based on the student's current year

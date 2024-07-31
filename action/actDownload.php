@@ -284,7 +284,8 @@
     $pdf->Cell(150, 15, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
     $pdf->Cell(40, 15, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
 
+    $filename = $pay_student_name . "_jenoBill.pdf";
     // No need to specify the file path
-    $pdf->Output("BillRecipt.pdf", 'D'); // Force download the PDF
+    $pdf->Output("$filename", 'D'); // Force download the PDF
     //echo "PDF invoice created successfully.";
 ?>

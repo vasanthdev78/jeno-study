@@ -218,6 +218,16 @@ session_start();
         }
     }
 
+    var today = new Date().toISOString().split('T')[0];
+            var tenYearsAgo = new Date();
+            tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+            var tenYearsAgoDate = tenYearsAgo.toISOString().split('T')[0];
+
+            $('#admitDate').attr('max', today);
+            $('#dob').attr('max', tenYearsAgoDate);
+            $('#admitDateEdit').attr('max', today);
+            $('#dobEdit').attr('max', tenYearsAgoDate);
+
     // Validate application number on input
     $('#applicationNo').on('input', function() {
         var applicationNo = $(this).val();
