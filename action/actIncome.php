@@ -54,7 +54,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         $fees = [];
 
         while ($row = $result->fetch_assoc()) {
-
+            $pay_date = date('d-m-Y', strtotime($row['pay_date']));
             $fees[] = [
                 'fee_id' => $row['fee_id'],
                 'fee_admision_id' => $row['fee_admision_id'],
@@ -64,7 +64,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'fee_uni_fee' => $row['fee_uni_fee'],
                 'fee_sty_fee' => $row['fee_sty_fee'],
                 'pay_total_amount' => $row['pay_total_amount'],
-                'pay_date' => $row['pay_date'],
+                'pay_date' => $pay_date,
                 
                 
             ];

@@ -289,14 +289,14 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         $fees = [];
 
         while ($row = $result->fetch_assoc()) {
-
+            $tran_date = date('d-m-Y', strtotime($row['tran_date']));
             $fees[] = [
                 'tran_id' => $row['tran_id'],
                 'tran_category' => $row['tran_category'],
                 'tran_reason' => $row['tran_reason'],
                 'tran_method' => $row['tran_method'],
                 'tran_amount' => $row['tran_amount'],
-                'tran_date' => $row['tran_date'], // Course ID for pre-selecting the course in the dropdown            
+                'tran_date' => $tran_date, // Course ID for pre-selecting the course in the dropdown            
                 
             ];
 
