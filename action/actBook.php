@@ -107,8 +107,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
         , b.cou_id 
         , b.cou_name 
         , b.cou_duration
-        , c.fee_uni_fee_total
-        , c.fee_uni_fee
+        , c.fee_sdy_fee_total
+        , c.fee_sty_fee
         FROM `jeno_student` AS a 
         LEFT JOIN jeno_course AS b 
         ON a.stu_cou_id = b.cou_id
@@ -149,8 +149,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
             'book_id' => $pay['book_id'],
             'total_book' => $total_received_books,
             'total_uni_books' => $total_uni_books,
-            'fee_uni_fee_total' => $row['fee_uni_fee_total'],
-            'fee_uni_fee' => $row['fee_uni_fee'],
+            'fee_sdy_fee_total' => $row['fee_sdy_fee_total'],
+            'fee_sty_fee' => $row['fee_sty_fee'],
             'book_received' => $pay['book_received'],
             'book_id_card' => $pay['book_id_card'],
         
@@ -596,54 +596,53 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     
 
 
+    // Fetching book details
+    if (isset($_POST['id']) && $_POST['id'] != '') {
+    $uniId = $_POST['id'];
 
-          
-            // Check if employee id is provided
-            if(isset($_POST['id']) && $_POST['id'] != '') {
-                $uniId = $_POST['id'];
+    // Prepare and execute the SQL query
+    $selQuery = "SELECT 
+                a.book_id,
+                a.book_stu_id,
+                a.book_received,
+                a.book_uni_received,
+                a.book_issued,
+                a.book_id_card,
+                a.book_year,
+                b.stu_name,
+                b.stu_apply_no
+                FROM `jeno_book` AS a
+                LEFT JOIN jeno_student AS b
+                ON a.book_stu_id = b.stu_id  
+                WHERE a.book_stu_id = $uniId";
 
-                // Prepare and execute the SQL query
-                $selQuery = "SELECT 
-                            a.book_id
-                            , a.book_stu_id
-                            , a.book_received
-                            , a.book_uni_received
-                            , a.book_issued
-                            , a.book_id_card
-                            , a.book_year
-                            ,b.stu_name 
-                            , b.stu_apply_no
-                            FROM `jeno_book` AS a
-                            LEFT JOIN jeno_student AS b
-                            ON a.book_stu_id = b.stu_id  
-                            WHERE a.book_stu_id = $uniId";
-                
-                $result1 = $conn->query($selQuery);
+    $result1 = $conn->query($selQuery);
 
-                if($result1) {
-                    $row = mysqli_fetch_assoc($result1);
-                    
-           // Prepare university details array
-        $courseViewDetails = [
-            'book_id' => $row['book_id'],
-            'stu_name' => $row['stu_name'],
-            'book_issued' => json_decode($row['book_issued']),
-            'book_uni_received' => json_decode($row['book_uni_received']),
-            'book_received' => $row['book_received'],
-            'book_id_card' => $row['book_id_card'],
-            'book_year' => $row['book_year'],
-            'stu_apply_no' => $row['stu_apply_no'],
-           
-        ];
+    if ($result1) {
+        $courseViewDetail = [];
 
-          echo json_encode($courseViewDetails);
-          exit();
-                      
-                } else {
-                    echo "Error executing query: " . $conn->error;
-                }
-            }
+        // Fetch all rows
+        while ($row = mysqli_fetch_assoc($result1)) {
+            // Prepare book details array
+            $courseViewDetails = array(
+                'book_id' => $row['book_id'],
+                'stu_name' => $row['stu_name'],
+                'book_issued' => json_decode($row['book_issued'], true) ?? [], // Ensure it's an array
+                'book_uni_received' => json_decode($row['book_uni_received'], true) ?? [], // Ensure it's an array
+                'book_received' => $row['book_received'],
+                'book_id_card' => $row['book_id_card'],
+                'book_year' => $row['book_year'],
+                'stu_apply_no' => $row['stu_apply_no'],
+            );
+            $courseViewDetail[] = $courseViewDetails;
+        }
 
+        echo json_encode($courseViewDetail);
+        exit();
+    } else {
+        echo "Error executing query: " . $conn->error;
+    }
+    }
 
 
             // Default response if no action specified
