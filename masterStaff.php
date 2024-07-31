@@ -82,13 +82,16 @@ session_start();
                         $stf_role = $row['stf_role'];  
                         $stf_joining_date  = $row['stf_joining_date']; 
                         $stf_email = $row['stf_email'];  
+
+                        $date = new DateTime($stf_joining_date);
+                        $formattedDate = $date->format('d-m-Y');
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
                         <td><?php echo $stf_name; ?></td>
                         <td><?php echo $stf_mobile; ?></td>
                         <td><?php echo $stf_role; ?></td>
-                        <td><?php echo $stf_joining_date; ?></td>
+                        <td><?php echo $formattedDate; ?></td>
                         <td><?php echo $stf_email; ?></td>
                     
                         <td>
@@ -162,6 +165,16 @@ session_start();
 
         // Call setMaxDate when the window loads
         window.onload = setMaxDate;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+    const dobInput = document.getElementById('dob');
+    const dobInput1 = document.getElementById('dobEdit');
+    const today = new Date();
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const maxDate = eighteenYearsAgo.toISOString().split('T')[0];
+    dobInput.setAttribute('max', maxDate);
+    dobInput1.setAttribute('max', maxDate);
+    });
 
     </script>
 
