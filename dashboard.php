@@ -153,13 +153,11 @@ $user_role = $_SESSION['role'];
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
-                        </div>
                         
                 <!-- ------------------------admin view ----------------- -->
-                <?php if ($user_role == 'Admin') { ?>
+                
 
-                <div class="row">
-        
+        <?php if ($user_role == 'Admin') { ?>
                             
         
                             <div class="col-sm-6 col-xxl-3">
@@ -205,8 +203,9 @@ $user_role = $_SESSION['role'];
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
+                         <?php } ?>
                         </div>
-                        <?php } ?>
+                       
                         <!-- -----------------------admin view end -------------------- -->
 
                     </div>
