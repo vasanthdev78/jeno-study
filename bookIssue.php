@@ -518,6 +518,7 @@ function goViewBook(id) {
                 // Group books by year
                 bookList.forEach(function(item) {
                     var year = item.book_year;
+                    if (year === "0") return; // Exclude year 0
                     var books = (type === 'received') ? item.book_uni_received : item.book_issued;
                     
                     if (!groupedBooks[year]) {
@@ -556,6 +557,7 @@ function goViewBook(id) {
         }
     });
 }
+
 
         
     </script>
