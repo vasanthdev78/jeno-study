@@ -287,7 +287,6 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
             $(document).ready(function() {
     $('#university').change(function() {
         var universityId = $(this).val();
-        alert(universityId);
         
         if (universityId === "") {
             $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
