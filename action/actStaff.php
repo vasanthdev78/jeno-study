@@ -9,6 +9,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
 
     $targetDir = "../assets/images/staff/";
 
+    $newFileName = '';
     if (!empty($_FILES["aadhar"]["name"])) {
         $fileName = $_FILES["aadhar"]["name"];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -16,7 +17,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
         // Check if the file extension is allowed
         $allowedExtensions = array('jpg', 'jpeg', 'png');
         if (!in_array($fileExtension, $allowedExtensions)) {
-            echo "Sorry, only JPG, JPEG, and PNG files are allowed.";
+            echo json_encode(["success" => false, "message" => "Sorry, only JPG, JPEG, and PNG files are allowed."]);
+            exit();
         }
 
         // Get current date and time
@@ -25,10 +27,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
         $targetFilePath = $targetDir . $newFileName;
 
         // Upload file to server
-        if (move_uploaded_file($_FILES["aadhar"]["tmp_name"], $targetFilePath)) {
-            // File uploaded successfully
-        } else {
-            echo "Sorry, there was an error uploading your file.";
+        if (!move_uploaded_file($_FILES["aadhar"]["tmp_name"], $targetFilePath)) {
+            echo json_encode(["success" => false, "message" => "Sorry, there was an error uploading your file."]);
+            exit();
         }
     }
 
@@ -41,35 +42,38 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     $role = $_POST['designation'];
     $email = $_POST['email'];
     $address = $_POST['address'];
-    $aadhar = $newFileName;
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $userId = $_SESSION['userId'];
 
-        // First, insert the username and password into the jeno_user table
-        $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_by) VALUES ('$name', '$username', '$password', 'Staff', '$userId')";
-        
-        if ($conn->query($user_insert) === TRUE) {
-            // Get the last inserted ID
-            $last_user_id = $conn->insert_id;
+    $response = ["success" => false, "message" => ""];
 
-            // Now, insert the remaining data into the jeno_staff table
-            $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_userId, stf_created_by) 
-                VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$aadhar', '$last_user_id', '$userId')";
-            
-            if ($conn->query($staff_insert) === TRUE) {
-                $_SESSION['message'] = "Staff details added successfully!";
-                $response['success'] = true;
-                $response['message'] = "Staff details added successfully!";
-            } else {
-                $response['message'] = "Error: " . $staff_insert . "<br>" . $conn->error;
-            }
+    // Insert the username and password into the jeno_user table
+    $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_by) 
+                    VALUES ('$name', '$username', '$password', 'Staff', '$userId')";
+
+    if ($conn->query($user_insert) === TRUE) {
+        // Get the last inserted ID
+        $last_user_id = $conn->insert_id;
+
+        // Insert the remaining data into the jeno_staff table
+        $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_userId, stf_created_by) 
+                        VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$newFileName', '$last_user_id', '$userId')";
+
+        if ($conn->query($staff_insert) === TRUE) {
+            $_SESSION['message'] = "Staff details added successfully!";
+            $response['success'] = true;
+            $response['message'] = "Staff details added successfully!";
         } else {
-            $response['message'] = "Error: " . $user_insert . "<br>" . $conn->error;
+            $response['message'] = "Error: " . $staff_insert . "<br>" . $conn->error;
         }
+    } else {
+        $response['message'] = "Error: " . $user_insert . "<br>" . $conn->error;
+    }
 
     echo json_encode($response);
     exit();
-}
+    } 
 
 
 
@@ -120,7 +124,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         // Check if the file extension is allowed
         $allowedExtensions = array('jpg', 'jpeg', 'png');
         if (!in_array($fileExtension, $allowedExtensions)) {
-            echo "Sorry, only JPG, JPEG, and PNG files are allowed.";
+            echo json_encode(["success" => false, "message" => "Sorry, only JPG, JPEG, and PNG files are allowed."]);
             exit();
         }
 
@@ -131,7 +135,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
 
         // Upload file to server
         if (!move_uploaded_file($_FILES["aadharEdit"]["tmp_name"], $targetFilePath)) {
-            echo "Sorry, there was an error uploading your file.";
+            echo json_encode(["success" => false, "message" => "Sorry, there was an error uploading your file."]);
             exit();
         }
     }
@@ -216,19 +220,21 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
 
     if($result1) {
         $row = mysqli_fetch_assoc($result1);
+        $stf_birth = date('d-m-Y', strtotime($row['stf_birth']));
+        $joiningDate = date('d-m-Y', strtotime($row['stf_joining_date']));
 
     // Prepare university details array
     $staffDetails = [
            
             'nameView' => $row['stf_name'],
-            'birthView' => $row['stf_birth'],
+            'birthView' => $stf_birth,
             'mobileView' => $row['stf_mobile'],
             'emailView' => $row['stf_email'],
             'addressView' => $row['stf_address'],
             'genderView' => $row['stf_gender'],
             'roleView' => $row['stf_role'],
             'salaryView' => $row['stf_salary'],
-            'joining_dateView' => $row['stf_joining_date'], 
+            'joining_dateView' => $joiningDate, 
             'aadharView' => $row['stf_image'],
             'usernameView' => $row['user_username'],
             'passwordView' => $row['user_password'],

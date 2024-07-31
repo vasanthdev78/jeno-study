@@ -24,7 +24,7 @@
                             </div>
                             
                         </div><hr>
-                        <button type="button" id="addInputButton" class="btn btn-primary">Add Input</button>
+                        <button type="button" id="addInputButton" class="btn btn-primary">Add Contact Details</button>
                         <div id="additionalInputs"></div>
                     </div>
                     <div class="modal-footer">
@@ -80,7 +80,7 @@
     <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
 
     
-        <div class="table-responsive d-none " id="universityView">
+        <div class="d-none " id="universityView">
         
         <form name="frm" method="post">
             <input type="hidden" name="hdnAction" value="">
