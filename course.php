@@ -167,7 +167,7 @@ session_start();
         $('#addCourse').removeClass('was-validated');
         $('#addCourse').addClass('needs-validation');
         $('#addCourse')[0].reset(); // Reset the form
-        $('#fessType').val('');
+        $('#additionalInputs').empty();
         
     });
 

@@ -172,7 +172,8 @@ session_start();
             $('#addUniversity').removeClass('was-validated');
             $('#addUniversity').addClass('needs-validation');
             $('#addUniversity')[0].reset(); // Reset the form
-            // $('#fessType').val('');
+            $('#additionalInputs').empty();
+            
 
             });
 
