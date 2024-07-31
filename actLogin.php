@@ -14,7 +14,7 @@ if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $role = htmlspecialchars($_POST['role']);
     $_SESSION['centerId']   = $centerId;
 
-    $stmt = mysqli_prepare($conn, "SELECT * FROM `jeno_user` WHERE `user_username` = ? AND `user_password` = ? AND `user_role` = ?");
+    $stmt = mysqli_prepare($conn, "SELECT * FROM `jeno_user` WHERE `user_username` = ? AND `user_password` = ? AND `user_role` = ? AND user_status = 'Active'");
     mysqli_stmt_bind_param($stmt, "sss", $username, $password,$role);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
