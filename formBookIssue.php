@@ -157,12 +157,7 @@
                             <span class="detail" id="viewStudentName"></span>
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        <div class="card p-3">
-                            <h4>Student year</h4>
-                            <span class="detail" id="viewStudentYear"></span>
-                        </div>
-                    </div>
+                    
                     <div class="col-sm-3">
                         <div class="card p-3">
                             <h4>ID Card University</h4>

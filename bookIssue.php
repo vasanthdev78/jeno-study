@@ -281,7 +281,7 @@ session_start();
                 } 
             
 
-            if(response.fee_uni_fee_total == response.fee_uni_fee){
+            if(response.fee_sdy_fee_total == response.fee_sty_fee){
 
                 $('#courseyear').prop('disabled', false);
             }
@@ -487,85 +487,75 @@ session_start();
 
 
 
-    function goViewBook(id) 
-    {
-      
-    //location.href = "clientDetail.php?clientId="+id;
+function goViewBook(id) {
     $.ajax({
         url: 'action/actBook.php',
         method: 'POST',
-        data: {
-            id: id
-        },
+        data: { id: id },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          
-          $('#StuContent').hide();
-          $('#bookView').removeClass('d-none');
+            $('#StuContent').hide();
+            $('#bookView').removeClass('d-none');
         
-          $('#viewAdmissionId').text(response.stu_apply_no);
-          $('#viewStudentName').text(response.stu_name);
-          
-          $('#viewStudentYear').text(response.book_year);
-          $('#viewIdCardStu').text(response.book_id_card);
-          $('#viewIdCardUni').text(response.book_received);
-         
-          
-     // Function to populate the div with book_uni_received values
-function populateBooksUniReceived(bookList) {
-    var $viewUniBook = $('#viewUniBook');
-    $viewUniBook.empty(); // Clear existing content
+            // Clear previous content
+            $('#viewAdmissionId').text(response[0].stu_apply_no);
+            $('#viewStudentName').text(response[0].stu_name);
+            $('#viewIdCardStu').text(response[0].book_id_card);
+            $('#viewIdCardUni').text(response[0].book_received);
 
-    if (!Array.isArray(bookList) || bookList.length === 0) {
-        $viewUniBook.html('<p>No university books received.</p>');
-        return;
-    }
+            // Function to populate the div with book details grouped by year
+            function populateBooksGroupedByYear(bookList, type) {
+                var $viewBooks = (type === 'received') ? $('#viewUniBook') : $('#viewStuBook');
+                $viewBooks.empty(); // Clear existing content
 
-    var $list = $('<ul>'); // Create an unordered list to hold book items
-    bookList.forEach(function(book) {
-        var $listItem = $('<li>').text(book); // Create a list item for each book
-        $list.append($listItem); // Append the list item to the list
-    });
+                if (!Array.isArray(bookList) || bookList.length === 0) {
+                    $viewBooks.html('<p>No books available.</p>');
+                    return;
+                }
 
-    
-    $viewUniBook.append($list); // Append the list to the div
-}
+                var groupedBooks = {};
+                
+                // Group books by year
+                bookList.forEach(function(item) {
+                    var year = item.book_year;
+                    var books = (type === 'received') ? item.book_uni_received : item.book_issued;
+                    
+                    if (!groupedBooks[year]) {
+                        groupedBooks[year] = [];
+                    }
+                    
+                    groupedBooks[year] = groupedBooks[year].concat(books);
+                });
 
-// Function to populate the div with book_received values
-function populateBooksReceived(bookList) {
-    var $viewStuBook = $('#viewStuBook');
-    $viewStuBook.empty(); // Clear existing content
+                var $list = $('<ul>'); // Create an unordered list to hold book items
+                
+                // Create list items for each year and its books
+                $.each(groupedBooks, function(year, books) {
+                    var $yearItem = $('<li>').text('Year ' + year + ':');
+                    var $bookList = $('<ul>'); // Create a nested list for books
+                    
+                    books.forEach(function(book) {
+                        var $bookItem = $('<li>').text(book);
+                        $bookList.append($bookItem); // Append book item to the nested list
+                    });
 
-    if (!Array.isArray(bookList) || bookList.length === 0) {
-        $viewStuBook.html('<p>No books received.</p>');
-        return;
-    }
+                    $yearItem.append($bookList); // Append the nested list to the year item
+                    $list.append($yearItem); // Append the year item to the main list
+                });
 
-    var $list = $('<ul>'); // Create an unordered list to hold book items
-    bookList.forEach(function(book) {
-        var $listItem = $('<li>').text(book); // Create a list item for each book
-        $list.append($listItem); // Append the list item to the list
-    });
+                $viewBooks.append($list); // Append the list to the div
+            }
 
-    
-    $viewStuBook.append($list); // Append the list to the div
-}
-
-
-
-        populateBooksReceived(response.book_issued);
-        populateBooksUniReceived(response.book_uni_received);
-
-
-
-
-    },
+            // Prepare and populate the lists
+            populateBooksGroupedByYear(response, 'received'); // For university received books
+            populateBooksGroupedByYear(response, 'issued');   // For student issued books
+        },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);
         }
     });
-    }
+}
 
         
     </script>
