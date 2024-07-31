@@ -250,7 +250,7 @@ session_start();
     $('#addBookissue').removeClass('was-validated');
     $('#addBookissue').addClass('needs-validation');
     $('#addBookissue')[0].reset();
-
+    
     // First AJAX request to fetch student and course details
     $.ajax({
         url: 'action/actBook.php',
@@ -281,10 +281,10 @@ session_start();
                 } 
             
 
-            if(response.fee_sdy_fee_total == response.fee_sty_fee){
+            // if(response.fee_sdy_fee_total == response.fee_sty_fee){
 
-                $('#courseyear').prop('disabled', false);
-            }
+            //     $('#courseyear').prop('disabled', false);
+            // }
 
             // Populate the select input with study years or semesters based on course duration and fees type
             var courseYearSelect = $('#courseyear');
