@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     var input1Card = $('<div class="card p-3"></div>');
                     var input1Label1 = $('<h5> ' + i + ' ' + feeType + '</h5>');
                     var input1Label = $('<h4>University Fees for </h4>');
-                    var input1 = $('<span class="detail"></span>').text('₹ ' + universityFee);
+                    var input1 = $('<span class="detail"></span>').text('₹ ' + parseFloat(universityFee).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
                     input1Card.append(input1Label1);
                     input1Card.append(input1Label);
                     input1Card.append(input1);
