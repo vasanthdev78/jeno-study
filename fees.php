@@ -230,13 +230,26 @@ ORDER BY a.fee_created_at DESC";
 }
 
 function showAlert(type, message) {
-    $('#alertContainer').append(
-        '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
-        message +
-        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-        '</div>'
-    );
-}
+        // Remove the oldest alert if more than 2 alerts are displayed
+        var alerts = $('#alertContainer .alert');
+        if (alerts.length >= 2) {
+            alerts.first().remove();
+        }
+
+        var alertId = 'alert-' + Date.now();
+        var alertHtml = 
+            '<div id="' + alertId + '" class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+            message +
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+            '</div>';
+        
+        $('#alertContainer').append(alertHtml);
+
+        // Automatically remove the alert after 3 seconds
+        setTimeout(function() {
+            $('#' + alertId).alert('close');
+        }, 3000);
+    }
 
 $('#universityPaid, #studyPaid, #amountPaid').on('input', calculateTotalAndBalance);
 
@@ -447,13 +460,26 @@ response.hostory_table.forEach(function(payment, index) {
                 }
 
                 function showAlert(type, message) {
-                    $('#alertContainer').append(
-                        '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
-                        message +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                        '</div>'
-                    );
+                // Remove the oldest alert if more than 2 alerts are displayed
+                var alerts = $('#alertContainer .alert');
+                if (alerts.length >= 2) {
+                    alerts.first().remove();
                 }
+
+                var alertId = 'alert-' + Date.now();
+                var alertHtml = 
+                    '<div id="' + alertId + '" class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+                    message +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>';
+                
+                $('#alertContainer').append(alertHtml);
+
+                // Automatically remove the alert after 3 seconds
+                setTimeout(function() {
+                    $('#' + alertId).alert('close');
+                }, 3000);
+            }
             } else {
                 console.error('Invalid response data');
                 $('#alertContainer').append(
