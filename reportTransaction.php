@@ -66,7 +66,7 @@ session_start();
                                             <div class="form-group">
                                                 <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
                                                 <select class="form-control" name="transaction" id="university" required>
-                                                    <option value="">--Select Transaction--</option>
+                                                    <option value="All">--Select Transaction--</option>
                                                     <option value="Income">Income</option>
                                                     <option value="Expense">Expense</option>
                                                 </select>
@@ -77,7 +77,7 @@ session_start();
                                             <div class="form-group">
                                                 <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
                                                 <select class="form-control" name="location" id="location" required>
-                                                    <option value="">--Select Location--</option>
+                                                    <option value="All">--Select Location--</option>
                                                     <?php 
                                                         $location_result = getLocation(); // Call the function to fetch universities 
                                                         while ($row = $location_result->fetch_assoc()) {
@@ -359,19 +359,33 @@ $(document).ready(function() {
         table.clear(); // Clear existing data
 
         data.forEach(function(row, index) {
-            table.row.add([
-                index + 1,
-                row.tran_date,
-                row.tran_category,
-                row.tran_reason,
-                row.tran_method,
-                row.tran_amount
-            ]);
+            var rowData = [];
+
+            // Add common fields
+            rowData.push(index + 1); // Serial number
+            rowData.push(row.date); // Date
+
+            if (row.type === 'transaction') {
+                // Transaction specific fields
+                rowData.push(row.tran_category); // Category
+                rowData.push(row.tran_reason); // Reason
+                rowData.push(row.tran_method); // Method
+                rowData.push(row.tran_amount); // Amount
+            } else if (row.type === 'payment') {
+                // Payment specific fields
+                rowData.push('Income'); // Use a static category name or fetch the appropriate one
+                rowData.push('Admission'); // Student Name
+                rowData.push(row.pay_paid_method); // Paid Method
+                rowData.push(row.pay_study_fees); // Study Fees
+            }
+
+            table.row.add(rowData);
         });
 
         table.draw();
     }
-});
+    });
+
 
 
 </script>

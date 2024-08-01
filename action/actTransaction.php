@@ -260,61 +260,100 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $startDate = $_POST['startDate'];
     $university = $_POST['university'];
     $location = $_POST['location'];
-    
-  
-    // Construct the SQL query
-    $selQuery = "SELECT 
-    `tran_id`
-    , `tran_category`
-    , `tran_date`
-    , `tran_amount`
-    , `tran_method`
-    , `tran_transaction_id`
-    , `tran_description`
-    , `tran_reason` 
-    FROM `jeno_transaction`
-     WHERE tran_status ='Active' AND tran_center_id = $location
-     AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
-     // Append condition for `tran_category` if `university` is not 'All'
-     if ($university !== 'All') {
+    // Fetch payment history data
+    $select_pay = "SELECT 
+        `pay_id`,
+        `pay_admission_id`,
+        `pay_student_name`,
+        `pay_year`,
+        `pay_paid_method`,
+        `pay_study_fees`,
+        `pay_total_amount`,
+        `pay_balance`,
+        `pay_date`,
+        `pay_center_id` 
+    FROM `jeno_payment_history`
+    WHERE pay_status = 'Active'
+    AND pay_date BETWEEN '$startDate' AND '$endDate'";
+
+    $pay_result = mysqli_query($conn, $select_pay);
+
+    // Fetch transaction data
+    $selQuery = "SELECT 
+        `tran_id`,
+        `tran_category`,
+        `tran_date`,
+        `tran_amount`,
+        `tran_method`,
+        `tran_transaction_id`,
+        `tran_description`,
+        `tran_reason`
+    FROM `jeno_transaction`
+    WHERE tran_status = 'Active'
+    AND tran_date BETWEEN '$startDate' AND '$endDate'";
+
+    // Append condition for `tran_category` if `university` is not 'All'
+    if ($university !== 'All') {
         $selQuery .= " AND `tran_category` = '$university'";
     }
 
+    if ($location !== 'All') {
+        $selQuery .= " AND tran_center_id = $location";
+    }
 
-    $result = mysqli_query($conn, $selQuery);
+    $tran_result = mysqli_query($conn, $selQuery);
 
-    if ($result) {
-        
-        
-        $fees = [];
+    if ($pay_result && $tran_result) {
+        $merged_data = [];
 
-        while ($row = $result->fetch_assoc()) {
+        // Process payment history data
+        while ($row = $pay_result->fetch_assoc()) {
+            $pay_date = date('d-m-Y', strtotime($row['pay_date']));
+            $merged_data[] = [
+                'type' => 'payment',
+                'pay_id' => $row['pay_id'],
+                'pay_admission_id' => $row['pay_admission_id'],
+                'pay_student_name' => $row['pay_student_name'],
+                'pay_year' => $row['pay_year'],
+                'pay_paid_method' => $row['pay_paid_method'],
+                'pay_study_fees' => $row['pay_study_fees'],
+                'pay_total_amount' => $row['pay_total_amount'],
+                'pay_balance' => $row['pay_balance'],
+                'date' => $pay_date,
+                'pay_center_id' => $row['pay_center_id']
+            ];
+        }
+
+        // Process transaction data
+        while ($row = $tran_result->fetch_assoc()) {
             $tran_date = date('d-m-Y', strtotime($row['tran_date']));
-            $fees[] = [
+            $merged_data[] = [
+                'type' => 'transaction',
                 'tran_id' => $row['tran_id'],
                 'tran_category' => $row['tran_category'],
                 'tran_reason' => $row['tran_reason'],
                 'tran_method' => $row['tran_method'],
                 'tran_amount' => $row['tran_amount'],
-                'tran_date' => $tran_date, // Course ID for pre-selecting the course in the dropdown            
-                
+                'date' => $tran_date,
+                'tran_description' => $row['tran_description'],
+                'tran_transaction_id' => $row['tran_transaction_id']
             ];
-
-
-            
-
         }
-       
 
-        echo json_encode($fees);
+        // Sort merged data by date
+        usort($merged_data, function($a, $b) {
+            return strtotime($a['date']) - strtotime($b['date']);
+        });
+
+        echo json_encode($merged_data);
     } else {
-        $response['message'] = "Error fetching Enquiry details: " . mysqli_error($conn);
+        $response['message'] = "Error fetching data: " . mysqli_error($conn);
         echo json_encode($response);
     }
 
     exit();
-    }
+}
 
 
 
