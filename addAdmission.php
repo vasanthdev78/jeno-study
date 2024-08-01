@@ -112,7 +112,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-sm-6">
+                                                            <!-- <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="applicationNo" class="form-label"><b>Application No.</b><span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" placeholder="Enter Student Application No." name="applicationNo" id="applicationNo" required="required">
@@ -120,7 +120,7 @@
                                                                 This Application No. is required or already exists.
                                                             </div>
                                                             </div>
-                                                            </div>
+                                                            </div> -->
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group">
@@ -129,6 +129,25 @@
                                                             <option value="">--Select the Specification--</option>                                                           
                                                             </select>
                                                             </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group pb-1">
+                                                                    <label for="applicationYear" class="form-label"><b>Application Year</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="applicationYear" id="applicationYear" required="required">
+                                                                        <option value="">--Select Application Year--</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group pb-1">
+                                                                    <label for="applicationType" class="form-label"><b>Application Type</b><span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="applicationType" id="applicationType" required="required">
+                                                                        <option value="">--Select Application Type--</option>
+                                                                        <option value="AC">AC</option>
+                                                                        <option value="CA">CA</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
 
                                                         </div> <!-- end row -->
