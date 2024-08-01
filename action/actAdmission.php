@@ -17,7 +17,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $courseName = $_POST['courseName'];
     $medium = $_POST['medium'];
     $academicYear = $_POST['academicYear'];
-    $applicationNo = $_POST['applicationNo'];
+    $applicationYear = $_POST['applicationYear'];
+    $applicationType = $_POST['applicationType'];
     $yearType = $_POST['yearType'];
     $language = $_POST['language'];
     $digilocker = $_POST['digilocker'];
@@ -92,11 +93,19 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_enquiry_sql);
     }
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_apply_no`, `stu_aca_year`, `stu_join_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$applicationNo', '$academicYear', '$academicYear', '$enroll', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_aca_year`, `stu_join_year`, `stu_enroll`, `stu_created_by`) 
+                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$academicYear', '$academicYear', '$enroll', '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
+
+         // Construct the value for stu_apply column
+        $stuApply = $applicationYear . $applicationType . $studentId;
+
+        // Update the inserted row with the constructed value
+        $update_sql = "UPDATE `jeno_student` SET `stu_apply_no` = '$stuApply' WHERE `stu_id` = $studentId";
+
+        $conn->query($update_sql);
 
         // Insert into additional table
         $additional_sql = "INSERT INTO `jeno_stu_additional`(`add_stu_id`, `add_year_type`, `add_language`, `add_digilocker`, `add_admit_date`, `add_dob`, `add_gender`, `add_address`, `add_pincode`, `add_father_name`, `add_mother_name`, `add_aadhar_no`, `add_nationality`, `add_mother_tongue`, `add_religion`, `add_caste`, `add_community`, `add_marital_status`, `add_employed`, `add_qualifiaction`, `add_institute`, `add_comp_year`, `add_study_field`, `add_grade`, `add_created_by`) 
