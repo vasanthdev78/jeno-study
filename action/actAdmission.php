@@ -100,10 +100,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $studentId = $conn->insert_id;
 
          // Construct the value for stu_apply column
-        $stuApply = $applicationYear . $applicationType . $studentId;
+        $applicationNo = $applicationYear . $applicationType . $studentId;
 
         // Update the inserted row with the constructed value
-        $update_sql = "UPDATE `jeno_student` SET `stu_apply_no` = '$stuApply' WHERE `stu_id` = $studentId";
+        $update_sql = "UPDATE `jeno_student` SET `stu_apply_no` = '$applicationNo' WHERE `stu_id` = $studentId";
 
         $conn->query($update_sql);
 
