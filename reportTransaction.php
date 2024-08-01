@@ -52,12 +52,12 @@ session_start();
                                 <h4 class="page-title">Income Report</h4> 
                                 <form class="needs-validation" novalidate>
                                     <div class="row mt-3 mb-3">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                     <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="startDate" required>
                                     <div class="invalid-feedback" id="startDateError">Please enter a start date.</div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="endDate" required>
                                     <div class="invalid-feedback" id="endDateError">End date cannot be before the start date.</div>
@@ -71,6 +71,26 @@ session_start();
                                                     <option value="Expense">Expense</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select a transaction type.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
+                                                <select class="form-control" name="location" id="location" required>
+                                                    <option value="">--Select Location--</option>
+                                                    <?php 
+                                                        $location_result = getLocation(); // Call the function to fetch universities 
+                                                        while ($row = $location_result->fetch_assoc()) {
+                                                        $id = $row['loc_id']; 
+                                                        $name = $row['loc_short_name'];    
+                                            
+                                                        ?>
+                                            
+                                                <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                                            <?php } ?>
+                                                </select>
+                                                <div class="invalid-feedback">Please select a location.</div>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -272,6 +292,7 @@ $(document).ready(function() {
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
         var university = $('#university').val();
+        var location = $('#location').val();
 
         // Validate fields
         var isValid = true;
@@ -303,6 +324,15 @@ $(document).ready(function() {
             $('#universityError').hide();
         }
 
+        if (!location) {
+            $('#location').addClass('is-invalid');
+            $('#locationError').show();
+            isValid = false;
+        } else {
+            $('#location').removeClass('is-invalid');
+            $('#locationError').hide();
+        }
+
         if (isValid) {
             $.ajax({
                 url: 'action/actTransaction.php',
@@ -310,7 +340,8 @@ $(document).ready(function() {
                 data: {
                     startDate: startDate,
                     endDate: endDate,
-                    university: university
+                    university: university,
+                    location: location
                 },
                 dataType: 'json',
                 success: function(response) {

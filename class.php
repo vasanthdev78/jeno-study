@@ -1,6 +1,29 @@
 <?php 
 include("db/dbConnection.php");
 
+
+function getLocation() {
+    global $conn; // Assuming $conn is your database connection variable
+
+
+   // Query to retrieve course name based on course_id
+   $location_query = "SELECT `loc_id`, `loc_name`, `loc_short_name` FROM `jeno_location` WHERE loc_status='Active';";
+
+   // Execute the query
+   $location_result = $conn->query($location_query);
+
+   // Check if query was successful
+   if ($location_result) {
+       // Fetch the course name
+       
+
+       return $location_result;
+   } else {
+       // Query execution failed
+       return "Query failed: " . $conn->error;
+   }
+}
+
 function universityTable() {
     global $conn; // Assuming $conn is your database connection variable
 

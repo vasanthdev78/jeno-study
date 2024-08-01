@@ -1,6 +1,8 @@
 
 <?php 
 session_start();
+    include("class.php");
+
 if(isset($_SESSION['user']) && $_SESSION['user'] != '')
     {
         header("Location:dashboard.php");
@@ -249,8 +251,18 @@ if(isset($_SESSION['user']) && $_SESSION['user'] != '')
                         <label for="location">Location</label>
                         <select id="location" name="location">
                             <option value="">----select----</option>
-                            <option value="1">SMP</option>
-                            <option value="2">MKI</option>
+                            <?php 
+                                     $location_result = getLocation(); // Call the function to fetch universities 
+                                     while ($row = $location_result->fetch_assoc()) {
+                                     $id = $row['loc_id']; 
+                                    $name = $row['loc_short_name'];    
+                        
+                                      ?>
+                        
+                            <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+
                         </select>
                         <span class="error-message" id="locationError"></span>
 

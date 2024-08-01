@@ -259,6 +259,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $endDate = $_POST['endDate'];
     $startDate = $_POST['startDate'];
     $university = $_POST['university'];
+    $location = $_POST['location'];
     
   
     // Construct the SQL query
