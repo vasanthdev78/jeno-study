@@ -5,7 +5,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>RORIRI PVT LTD</title>
+        <title>JENO Study Center</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
 
@@ -32,11 +32,11 @@
 
                             <!-- Logo-->
                             <div class="auth-brand text-center">
-                                <a href="index.html" class="logo-light">
+                                <a href="index.php" class="logo-light">
                                     <img src="assets/images/logo.png" alt="logo" height="22">
                                 </a>
-                                <a href="index.html" class="logo-dark">
-                                    <img src="assets/images/logo-dark.png" alt="dark logo" height="22">
+                                <a href="index.php" class="logo-dark">
+                                    <img src="assets/images/logo.png" alt="dark logo" height="22">
                                 </a>
                             </div>
 
