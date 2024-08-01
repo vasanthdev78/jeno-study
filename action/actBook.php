@@ -32,7 +32,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
 
     
     // Fetch current book issue data
-    $select_book = "SELECT `book_id`, `book_issued`, `book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$studentId' AND book_year = '$courseyear'";
+    $select_book = "SELECT `book_id`, `book_issued`, `book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$studentId' AND book_year = $courseyear";
     $result_select_book = mysqli_query($conn, $select_book);
     
     if ($result_select_book) {
@@ -52,14 +52,14 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
              $book_count_book_received = array_merge($book_issued, $bookIssue);
  
              // Encode back to JSON
-             $bookIssueAll = json_encode($book_count_uni_received);
-             $bookIssueUni = json_encode($book_count_book_received);
+             $bookIssueUni = json_encode($book_count_uni_received);
+             $bookIssueAll = json_encode($book_count_book_received);
 
             // Update record
             $history_sql = "UPDATE `jeno_book`
                             SET `book_received` = '$bookReceived',
                                 `book_uni_received` = '$bookIssueUni',
-                                `book_issued` = '$bookIssueUni',
+                                `book_issued` = '$bookIssueAll',
                                 `book_id_card` = '$idCard',
                                 `book_updated_by` = '$createdBy'
                             WHERE `book_stu_id` = '$studentId' AND `book_year` = '$courseyear'";
@@ -103,6 +103,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
         , a.stu_apply_no
         , a.stu_enroll
         , a.stu_aca_year 
+        , a.stu_join_year  
         , b.cou_fees_type
         , b.cou_id 
         , b.cou_name 
@@ -142,6 +143,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
             'stu_apply_no' => $row['stu_apply_no'],
             'stu_enroll' => $row['stu_enroll'],
             'stu_aca_year' => $row['stu_aca_year'],
+            'stu_join_year' => $row['stu_join_year'],
             'cou_fees_type' => $row['cou_fees_type'],
             'cou_id' => $row['cou_id'],
             'cou_name' => $row['cou_name'],
@@ -395,7 +397,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     // Check the number of books for the given year
     $select_year = "SELECT COUNT(book_id) AS total_books
                     FROM `jeno_book`
-                    WHERE `book_year` = '$year';";
+                    WHERE `book_year` = $year AND book_stu_id = $addstudentId AND book_status ='Active';";
     $select_year_result = mysqli_query($conn, $select_year);
 
     if ($select_year_result) {

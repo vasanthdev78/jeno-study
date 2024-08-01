@@ -31,7 +31,7 @@
                             <div class="col-lg-12">
                             <div class="form-group">
                                             <label for="courseyear" class="form-label"><b>Year of Study</b></label>
-                                            <select class="form-control" name="courseyear" id="courseyear" disabled>
+                                            <select class="form-control" name="courseyear" id="courseyear" >
                                                         
                                                         
                                                 

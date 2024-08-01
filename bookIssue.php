@@ -267,6 +267,8 @@ session_start();
             $('#year').val(response.stu_aca_year);
             $('#typeExam').val(response.cou_fees_type);
             $('#bookId').val(response.book_id);
+
+            
                 // Set the corresponding radio button based on the response value
                 if (response.book_received === "Received") {
                     $('#bookReceived').prop('checked', true);
@@ -285,25 +287,32 @@ session_start();
 
             //     $('#courseyear').prop('disabled', false);
             // }
+            var joining_year = parseInt(response.stu_join_year);
+                var current_year = parseInt(response.stu_aca_year);
 
-            // Populate the select input with study years or semesters based on course duration and fees type
-            var courseYearSelect = $('#courseyear');
-            courseYearSelect.empty(); // Clear existing options
-            courseYearSelect.append(new Option('--select year--', '')); // Add default option
+                // Populate the select input with study years or semesters based on course duration and fees type
+                var courseYearSelect = $('#courseyear');
+                courseYearSelect.empty(); // Clear existing options
+                courseYearSelect.append(new Option('--select year--', '')); // Add default option
 
-            var html = '';
-            if (response.cou_fees_type === 'Year') {
-                for (var i = 1; i <= response.cou_duration; i++) {
-                    html += '<option value="' + i + '">' + i + ' Year</option>';
+                var html = '';
+                if (response.cou_fees_type === 'Year') {
+                    for (var i = 1; i <= response.cou_duration; i++) {
+                        if (i >= joining_year) {
+                            html += '<option value="' + i + '">' + i + ' Year</option>';
+                        }
+                    }
+                } else if (response.cou_fees_type === 'Semester') {
+                    for (var i = 1; i <= response.cou_duration * 2; i++) {
+                        if (Math.ceil(i / 2) >= joining_year) { // Convert semester to year and check
+                            html += '<option value="' + i + '">' + i + ' Semester</option>';
+                        }
+                    }
                 }
-            } else if (response.cou_fees_type === 'Semester') {
-                for (var i = 1; i <= response.cou_duration * 2; i++) {
-                    html += '<option value="' + i + '">' + i + ' Semester</option>';
-                }
-            }
-            courseYearSelect.append(html);
-            // Set the selected value to the current study year if it exists in the options
-            $('#courseyear').val(response.stu_aca_year);
+                courseYearSelect.append(html);
+
+                // Set the selected value to the current study year if it exists in the options
+                $('#courseyear').val(current_year);
 
             // Make the second AJAX request to fetch additional details based on the data from the first request
             $.ajax({
