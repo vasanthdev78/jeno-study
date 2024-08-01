@@ -20,8 +20,8 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="gender" class="form-label"><b>Gender</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" id="gender" name="gender" required="required">
+                                    <label for="gender" class="form-label"><b>Gender</b></label>
+                                    <select class="form-control" id="gender" name="gender" >
                                          <option value="">----select----</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -32,8 +32,8 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="dob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" id="dob" required="required">
+                                    <label for="dob" class="form-label"><b>Date of Birth</b></label>
+                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" id="dob" >
                                 </div>
                             </div>
 
@@ -46,16 +46,16 @@
                             
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="email" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="email" id="email" required="required">
+                                    <label for="email" class="form-label"><b>Email</b></label>
+                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="email" id="email">
                                 </div>
                             </div>
                            
                             
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
-                                    <label for="address" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                    <textarea class="form-control" placeholder="Enter address" name="address" id="address" required="required"></textarea>
+                                    <label for="address" class="form-label"><b>Address</b></label>
+                                    <textarea class="form-control" placeholder="Enter address" name="address" id="address"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -145,8 +145,8 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="editGender" class="form-label"><b>Gender</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" id="editGender" name="editGender" required="required">
+                                    <label for="editGender" class="form-label"><b>Gender</b></label>
+                                    <select class="form-control" id="editGender" name="editGender" >
                                          <option value="">----select----</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -157,8 +157,8 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="editDob" class="form-label"><b>Date of Birth</b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" required="required">
+                                    <label for="editDob" class="form-label"><b>Date of Birth</b></label>
+                                    <input type="date" class="form-control" placeholder="Enter Date of Birth" name="editDob" id="editDob" >
                                 </div>
                             </div>
 
@@ -171,16 +171,16 @@
                             
                             <div class="col-sm-6">
                                 <div class="form-group pb-1">
-                                    <label for="editEmail" class="form-label"><b>Email</b><span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="editEmail" id="editEmail" required="required">
+                                    <label for="editEmail" class="form-label"><b>Email</b></label>
+                                    <input type="email" class="form-control" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Enter Email" name="editEmail" id="editEmail" >
                                 </div>
                             </div>
                            
                             
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
-                                    <label for="editAddress" class="form-label"><b>Address</b><span class="text-danger">*</span></label>
-                                    <textarea class="form-control" placeholder="Enter address" name="editAddress" id="editAddress" required="required"></textarea>
+                                    <label for="editAddress" class="form-label"><b>Address</b></label>
+                                    <textarea class="form-control" placeholder="Enter address" name="editAddress" id="editAddress" ></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">

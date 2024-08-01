@@ -227,7 +227,7 @@
 
    <!-- View Modal -->
 
-   <div class="table-responsive d-none " id="facultyView">
+   <div class="d-none " id="facultyView">
         
         <form name="frmViewStaff" method="post">
             <div class="page-title-box">

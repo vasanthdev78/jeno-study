@@ -206,6 +206,39 @@ session_start();
 
             $('#additionalInputs').append(newInputDiv);
         });
+
+        //---------------------------------------------------------------------------------------------------\
+
+        $('#editInputButton').click(function() {
+            var newInputDiv = $('<div class="row"></div>');
+
+            var input1Div = $('<div class="col-sm-5"></div>');
+            var input1Label = $('<label class="form-label"><b>Department</b></label>');
+            var input1 = $('<input type="text" class="form-control" name="editdepartment[]" required>');
+            input1Div.append(input1Label);
+            input1Div.append(input1);
+
+            var input2Div = $('<div class="col-sm-5"></div>');
+            var input2Label = $('<label class="form-label"><b>Contact No.</b></label>');
+            var input2 = $('<input type="tel" class="form-control" pattern="[0-9]{10}" name="editcontact[]" required>');
+            input2Div.append(input2Label);
+            input2Div.append(input2);
+
+            var deleteButtonDiv = $('<div class="col-sm-2 d-flex align-items-end"></div>');
+            var deleteButton = $('<button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>');
+            deleteButton.click(function() {
+                newInputDiv.remove();
+            });
+            deleteButtonDiv.append(deleteButton);
+
+            newInputDiv.append(input1Div);
+            newInputDiv.append(input2Div);
+            newInputDiv.append(deleteButtonDiv);
+
+            $('#editItionalInputs').append(newInputDiv);
+        });
+
+
     });
 
  

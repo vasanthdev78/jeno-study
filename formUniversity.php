@@ -65,7 +65,7 @@
                             </div>
                             
                         </div><hr>
-                        
+                        <button type="button" id="editInputButton" class="btn btn-primary">Add Contact Details</button>
                         <div id="editItionalInputs"></div>
                     </div>
                     <div class="modal-footer">
