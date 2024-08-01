@@ -273,7 +273,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     , `tran_description`
     , `tran_reason` 
     FROM `jeno_transaction`
-     WHERE tran_status ='Active' 
+     WHERE tran_status ='Active' AND tran_center_id = $location
      AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
      // Append condition for `tran_category` if `university` is not 'All'
