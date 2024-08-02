@@ -17,7 +17,8 @@
                     <select class="form-control" name="university" id="university" required>
                     <option value="">--Select the University--</option>
                         <?php 
-                         $university_result = universityTable(); // Call the function to fetch universities 
+                        $uniCenterId = $_SESSION['centerId'];
+                         $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
                          while ($row = $university_result->fetch_assoc()) {
                             $id = $row['uni_id']; 
                             $name = $row['uni_name'];    
@@ -120,7 +121,8 @@
                     <select class="form-control" name="editUniversity" id="editUniversity" required>
                     <option value="">--Select the University--</option>
                         <?php 
-                         $university_result = universityTable(); // Call the function to fetch universities 
+                        $uniCenterId = $_SESSION['centerId'];
+                         $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
                          while ($row = $university_result->fetch_assoc()) {
                             $id = $row['uni_id']; 
                             $name = $row['uni_name'];    

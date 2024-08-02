@@ -67,7 +67,8 @@ $enquiry_result = enquiryTable();
                   <select id="universityFilter" class="form-control">
                 <option value="">--All University--</option>
                                         <?php 
-                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                     $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
                                      while ($row = $university_result->fetch_assoc()) {
                                      $id = $row['uni_id']; 
                                     $name = $row['uni_name'];    

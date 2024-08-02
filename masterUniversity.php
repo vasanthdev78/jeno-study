@@ -2,8 +2,8 @@
 session_start();
     
     include("class.php");
-
-    $university_result = universityTable(); // Call the function to fetch universities 
+    $uniCenterId = $_SESSION['centerId'];
+    $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
     
     
 ?>

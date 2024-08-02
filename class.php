@@ -24,12 +24,12 @@ function getLocation() {
    }
 }
 
-function universityTable() {
+function universityTable($location) {
     global $conn; // Assuming $conn is your database connection variable
 
 
    // Query to retrieve course name based on course_id
-   $university_query = "SELECT * FROM `jeno_university` WHERE uni_status ='Active';";
+   $university_query = "SELECT * FROM `jeno_university` WHERE uni_status ='Active' AND `uni_center_id`= $location ;";
 
    // Execute the query
    $university_result = $conn->query($university_query);
@@ -74,7 +74,7 @@ function electiveTable() {
     //----course table ------------------
 
         
-    function courseTable() {    
+    function courseTable($location) {    
     global $conn; // Assuming $conn is your database connection variable
 
 
@@ -87,7 +87,7 @@ function electiveTable() {
    , a.cou_exam_type 
    ,a.cou_duration 
    ,b.uni_name 
-   FROM jeno_course AS a LEFT JOIN jeno_university AS b ON a.cou_uni_id = b.uni_id  WHERE cou_status ='Active';";
+   FROM jeno_course AS a LEFT JOIN jeno_university AS b ON a.cou_uni_id = b.uni_id  WHERE cou_status ='Active' AND cou_center_id = $location;";
 
    // Execute the query
    $course_result = $conn->query($course_query);
