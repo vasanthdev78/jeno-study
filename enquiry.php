@@ -1,8 +1,8 @@
 <?php
 session_start();
 include("class.php");
-
-$enquiry_result = enquiryTable();
+$centerId = $_SESSION['centerId'];
+$enquiry_result = enquiryTable($centerId);
     
 ?>
 <!DOCTYPE html>
@@ -318,7 +318,7 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
     $('#editUniversity').change(function() {
         var universityId = $(this).val();
-        alert(universityId);
+        // alert(universityId);
         
         if (universityId === "") {
             $('#editCourse').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
@@ -419,7 +419,9 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
           // edit function -------------------------
     function editEnquiry(editId) {
-    
+
+        $('#editEnquiry').removeClass('was-validated');
+            $('#editEnquiry').addClass('needs-validation');
 
     $.ajax({
         url: 'action/actEnquiry.php',

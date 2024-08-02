@@ -21,6 +21,7 @@ $response = ['success' => false, 'message' => ''];
         $description = $_POST['description'];
         $universityPaid = $_POST['universityPaid'];
         $studyPaid = $_POST['studyPaid'];
+        $centerId = $_SESSION['centerId'];
     
         $totalFees = $universityPaid + $studyPaid;
         $payYear = $year . ' ' . $feesType;
@@ -32,7 +33,7 @@ $response = ['success' => false, 'message' => ''];
             `fee_uni_fee`,
             `fee_sty_fee`
             FROM `jeno_fees` 
-            WHERE fee_id = $feesid;";
+            WHERE fee_id = $feesid AND fee_center_id =$centerId;";
     
         $fees_res = mysqli_query($conn, $fees_select);
         $fees = mysqli_fetch_array($fees_res, MYSQLI_ASSOC);
@@ -50,11 +51,31 @@ $response = ['success' => false, 'message' => ''];
     
         // Insert into payment history
         $history_sql = "INSERT INTO `jeno_payment_history`
-        (`pay_admission_id`, `pay_student_name`, `pay_year`, `pay_paid_method`, `pay_transaction_id`,
-        `pay_description`, `pay_university_fees`, `pay_study_fees`, `pay_total_amount`, `pay_date`, `pay_created_by`)
+        (`pay_admission_id`
+        , `pay_student_name`
+        , `pay_year`
+        , `pay_paid_method`
+        , `pay_transaction_id`
+        , `pay_description`
+        , `pay_university_fees`
+        , `pay_study_fees`
+        , `pay_total_amount`
+        , `pay_date`
+        , `pay_center_id`
+        , `pay_created_by`)
         VALUES 
-        ('$admissionId', '$studentName', '$payYear', '$paidMethod', '$transactionId', '$description',
-        '$universityPaid', '$studyPaid', '$totalFees', '$paidDate', '$createdBy')";
+        ('$admissionId'
+        , '$studentName'
+        , '$payYear'
+        , '$paidMethod'
+        , '$transactionId'
+        , '$description'
+        ,'$universityPaid'
+        , '$studyPaid'
+        , '$totalFees'
+        , '$paidDate'
+        , '$centerId'
+        , '$createdBy')";
     
         if ($conn->query($history_sql) === TRUE) {
             // Conditionally update fees if they are not disabled
@@ -96,6 +117,7 @@ $response = ['success' => false, 'message' => ''];
 
 if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     $addGetId = $_POST['addGetId'];
+    $centerId = $_SESSION['centerId'];
 
     $selQuery = "SELECT 
         a.fee_id,
@@ -119,7 +141,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         ON a.fee_stu_id = b.stu_id 
     LEFT JOIN jeno_course AS c 
         ON b.stu_cou_id = c.cou_id 
-    WHERE a.fee_id = $addGetId";
+    WHERE a.fee_id = $addGetId AND a.fee_center_id = $centerId";
 
     $result = mysqli_query($conn, $selQuery);
 
@@ -158,7 +180,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
 
     if (isset($_POST['studentId']) && $_POST['studentId'] != '') {
         $studentId = $_POST['studentId'];
-    
+        $centerId = $_SESSION['centerId'];
         // Fetch payment history from the database
         $payment_history_sql = "SELECT 
         a.pay_id
@@ -187,7 +209,8 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 WHERE a2.fee_stu_id = b.fee_stu_id
                 AND a2.fee_status = 'Active'
             )
-         AND a.pay_status ='Active' 
+         AND a.pay_status ='Active'
+         AND a.pay_center_id = $centerId 
          AND b.fee_status = 'Active'";
         $payment_history_res = mysqli_query($conn, $payment_history_sql);
 
@@ -204,7 +227,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         , `pay_balance`
         , `pay_date` 
         FROM `jeno_payment_history`
-         WHERE pay_admission_id = '$studentId' AND pay_status = 'Active';";
+         WHERE pay_admission_id = '$studentId' AND pay_status = 'Active' AND pay_center_id = $centerId;";
 
         $payment_res = mysqli_query($conn, $history);
 
@@ -332,6 +355,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             // Check if employee id is provided
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
+                $centerId = $_SESSION['centerId'];
 
                 // Prepare and execute the SQL query
                 $selQuery = "SELECT `cou_id`
@@ -344,7 +368,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 , `cou_university_fess`
                 , `cou_study_fees`
                 , `cou_total_fees` 
-                FROM `jeno_course` WHERE cou_id = $uniId";
+                FROM `jeno_course` WHERE cou_id = $uniId AND cou_center_id = $centerId";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -379,7 +403,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
-
+    $centerId = $_SESSION['centerId'];
     $selQuery = "SELECT 
     a.fee_id
     , a.fee_admision_id
@@ -405,7 +429,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     ON a.fee_stu_id = b.stu_id 
     LEFT JOIN jeno_course AS c 
     ON b.stu_cou_id = c.cou_id 
-    WHERE a.fee_id= $editId";
+    WHERE a.fee_id= $editId AND a.fee_center_id = $centerId ";
 
     $result = mysqli_query($conn, $selQuery);
 

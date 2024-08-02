@@ -393,6 +393,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     $typeExam = $_POST['addtypeExam'];
     $addstudentId = $_POST['addstudentId'];
     $createdBy = $_SESSION['userId'];
+    $centerId = $_SESSION['centerId'];
 
     // Check the number of books for the given year
     $select_year = "SELECT COUNT(book_id) AS total_books
@@ -407,8 +408,17 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
         // Check if there are no books for the specified year
         if ($total_books_count == 0) {
             // Insert a new record into `jeno_book` table
-            $book_insert = "INSERT INTO `jeno_book`(`book_stu_id`, `book_year`, `book_created_by`) 
-                            VALUES ('$addstudentId', '$year', '$createdBy')";
+            $book_insert = "INSERT INTO `jeno_book`
+            (`book_stu_id`
+            , `book_year`
+            , `book_center_id`
+            , `book_created_by`) 
+            VALUES 
+            ('$addstudentId'
+            , '$year'
+            , '$centerId'
+            , '$createdBy')";
+
             $book_insert_result = mysqli_query($conn, $book_insert);
 
             if (!$book_insert_result) {

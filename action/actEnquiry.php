@@ -16,8 +16,9 @@ $response = ['success' => false, 'message' => ''];
 if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
     $universityId = $_POST['universityID'];
+    $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId;";
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_center_id =$centerId ;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -98,6 +99,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
 // Handle fetching university details for editing
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
+    $centerId = $_SESSION['centerId'];
 
     $selQuery = "SELECT `enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_stu_name`, `enq_email`, 
         `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_medium` 
@@ -106,7 +108,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        $courseName = courseName($row['enq_uni_id']);
+        $courseName = courseName($row['enq_uni_id'] ,$centerId);
 
         $courseDetails = [
             'enq_id' => $row['enq_id'],

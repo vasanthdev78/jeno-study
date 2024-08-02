@@ -1,7 +1,9 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    
+
+    $centerId = $_SESSION['centerId'];
+
     $selQuery = "SELECT 
     b.book_id,
     b.book_stu_id,
@@ -28,7 +30,7 @@ session_start();
      GROUP BY 
         book_stu_id) sub 
     ON 
-    b.book_id = sub.max_book_id LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id WHERE b.book_status ='Active';";
+    b.book_id = sub.max_book_id LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id WHERE b.book_status ='Active' AND b.book_center_id = $centerId;";
 
     $resQuery = mysqli_query($conn , $selQuery); 
     

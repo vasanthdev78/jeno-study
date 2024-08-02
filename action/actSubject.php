@@ -18,8 +18,9 @@ $response = ['success' => false, 'message' => ''];
 if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     
     $universitySub = $_POST['universitySub'];
+    $centerId = $_SESSION['centerId'];
 
-    $universitySubQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universitySub;";
+    $universitySubQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universitySub AND cou_center_id = $centerId AND cou_status = 'Active';";
     $universitySubResult = mysqli_query($conn, $universitySubQuery);
 
     if ($universitySubResult) {
@@ -45,13 +46,14 @@ if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
 // Handle fetching university details for editing
 if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
     $electiveSub = $_POST['electiveSub'];
+    $centerId = $_SESSION['centerId'];
 
     // Query to fetch course details
-    $courseQuery = "SELECT `cou_id`, `cou_name`, `cou_exam_type`, `cou_duration` FROM `jeno_course` WHERE cou_id = $electiveSub;";
+    $courseQuery = "SELECT `cou_id`, `cou_name`, `cou_exam_type`, `cou_duration` FROM `jeno_course` WHERE cou_id = $electiveSub AND cou_center_id = $centerId ;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     // Query to fetch elective details
-    $electiveQuery = "SELECT `ele_id`, `ele_elective`, `ele_lag_elec` FROM `jeno_elective` WHERE ele_cou_id = $electiveSub  AND ele_status = 'Active';";
+    $electiveQuery = "SELECT `ele_id`, `ele_elective`, `ele_lag_elec` FROM `jeno_elective` WHERE ele_center_id = $centerId  AND ele_cou_id = $electiveSub  AND ele_status = 'Active';";
     $electiveResult = mysqli_query($conn, $electiveQuery);
 
     // Initialize response array

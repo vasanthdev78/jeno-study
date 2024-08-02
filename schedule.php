@@ -1,7 +1,18 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    $selQuery = "SELECT a.*, b.fac_name, c.cou_name FROM `jeno_schedule` AS a LEFT JOIN jeno_faculty AS b ON a.sch_fac_id = b.fac_id LEFT JOIN jeno_course AS c ON a.sch_cou_id = c.cou_id WHERE a.sch_status = 'Active'";
+    $centerId = $_SESSION['centerId'];
+    
+    $selQuery = "SELECT 
+    a.*
+    , b.fac_name
+    , c.cou_name 
+    FROM `jeno_schedule` AS a
+    LEFT JOIN jeno_faculty AS b
+    ON a.sch_fac_id = b.fac_id 
+    LEFT JOIN jeno_course AS c
+    ON a.sch_cou_id = c.cou_id 
+    WHERE a.sch_status = 'Active' AND a.sch_center_id = $centerId";
     $resQuery = mysqli_query($conn , $selQuery);
   
 ?>
