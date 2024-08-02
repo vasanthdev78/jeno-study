@@ -75,7 +75,27 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="aadhar" class="form-label"><b>Aadhar card</b>(Allowed formats: jpg, jpeg, png)<span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="aadhar" id="aadhar" required="required">
+                                    <input type="file" class="form-control" name="aadhar" id="aadhar" required="required" accept=".jpg,.jpeg,.png">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" id="location" name="location" required="required">
+                                        <option value="">--Select the Location--</option>
+                                        
+                                        <?php 
+                                     $location_result = getLocation(); // Call the function to fetch universities 
+                                     while ($row = $location_result->fetch_assoc()) {
+                                     $id = $row['loc_id']; 
+                                    $name = $row['loc_short_name'];    
+                        
+                                      ?>
+                        
+                                <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                                <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -184,7 +204,28 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="aadharEdit" class="form-label"><b>Aadhar card</b>(Allowed formats: jpg, jpeg, png)<span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="aadharEdit" id="aadharEdit" required="required">
+                                    <input type="file" class="form-control" name="aadharEdit" id="aadharEdit" required="required" accept=".jpg,.jpeg,.png">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="editLocation" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" id="editLocation" name="editLocation" required="required">
+                                        <option value="">--Select the Location--</option>
+                                        
+                                        <?php 
+                                     $location_result = getLocation(); // Call the function to fetch universities 
+                                     while ($row = $location_result->fetch_assoc()) {
+                                     $id = $row['loc_id']; 
+                                    $name = $row['loc_short_name'];    
+                        
+                                      ?>
+                        
+                                <option value="<?php echo $id;?>"><?php echo $name;?></option>
+
+                                <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -285,6 +326,11 @@
                         <div class="card p-3">
                             <h4>Aadhar card</h4>
                             <span class="detail"><a id="aadharView" href="#" target="_blank">View Aadhar Card</a></span>
+                        </div>
+                    </div> <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Location </h4>
+                            <span class="detail" id="viewLocation"></span>
                         </div>
                     </div>
                     <div class="col-sm-3">

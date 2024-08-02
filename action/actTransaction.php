@@ -16,8 +16,9 @@ $response = ['success' => false, 'message' => ''];
 if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
     $universityId = $_POST['universityID'];
+    $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId;";
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_center_id = $centerId;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -94,7 +95,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                 // Handle fetching university details for editing
                 if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     $editId = $_POST['editId'];
-
+                    $centerId = $_SESSION['centerId'];
                     $selQuery = "SELECT 
                     `tran_id`
                     , `tran_category`
@@ -105,7 +106,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                     , `tran_description`
                     , `tran_reason`
                      FROM `jeno_transaction` 
-                     WHERE tran_id = $editId";
+                     WHERE tran_id = $editId AND tran_center_id =$centerId";
 
                     $result = mysqli_query($conn, $selQuery);
 
@@ -218,7 +219,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                 , `tran_transaction_id`
                 , `tran_description`
                 , `tran_reason` 
-                FROM `jeno_transaction` WHERE tran_id = $uniId;";
+                FROM `jeno_transaction` WHERE tran_id = $uniId AND tran_center_id =$centerId;";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -274,7 +275,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         `pay_date`,
         `pay_center_id` 
     FROM `jeno_payment_history`
-    WHERE pay_status = 'Active'
+    WHERE pay_status = 'Active' AND pay_center_id =$centerId
     AND pay_date BETWEEN '$startDate' AND '$endDate'";
 
     $pay_result = mysqli_query($conn, $select_pay);
@@ -290,7 +291,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         `tran_description`,
         `tran_reason`
     FROM `jeno_transaction`
-    WHERE tran_status = 'Active'
+    WHERE tran_status = 'Active' AND tran_center_id =$centerId
     AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
     // Append condition for `tran_category` if `university` is not 'All'

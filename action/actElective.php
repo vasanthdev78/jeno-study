@@ -14,9 +14,20 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
     $electiveLanguage = $_POST['electiveLanguage'];
 
     $createdBy = $_SESSION['userId'];
-    
+    $centerId = $_SESSION['centerId'];
 
-    $elective_sql = "INSERT INTO `jeno_elective`(`ele_cou_id`,`ele_elective` , `ele_lag_elec`,`ele_created_by`) VALUES ('$courseName','$electiveName', '$electiveLanguage' ,'$createdBy')";
+    $elective_sql = "INSERT INTO `jeno_elective`
+    (`ele_cou_id`
+    ,`ele_elective` 
+    , `ele_lag_elec`
+    , `ele_center_id`
+    ,`ele_created_by`)
+     VALUES 
+     ('$courseName'
+     ,'$electiveName'
+     , '$electiveLanguage'
+     , '$centerId' 
+     , '$createdBy')";
 
     if ($conn->query($elective_sql) === TRUE) {
         $response['success'] = true;
@@ -32,8 +43,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
 if (isset($_POST['university']) && $_POST['university'] != '') {
     
     $universityId = $_POST['university'];
+    $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_status = 'Active'";
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_status = 'Active' AND cou_center_id = $centerId ";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {

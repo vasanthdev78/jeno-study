@@ -2,8 +2,8 @@
 session_start();
 
     include "class.php";
-    
-    $admission_result = admission(); 
+    $centerId = $_SESSION['centerId'];
+    $admission_result = admission($centerId); 
     
 ?>
 <!DOCTYPE html>

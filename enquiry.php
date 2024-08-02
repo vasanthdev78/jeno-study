@@ -1,8 +1,8 @@
 <?php
 session_start();
 include("class.php");
-
-$enquiry_result = enquiryTable();
+$centerId = $_SESSION['centerId'];
+$enquiry_result = enquiryTable($centerId);
     
 ?>
 <!DOCTYPE html>
@@ -67,7 +67,8 @@ $enquiry_result = enquiryTable();
                   <select id="universityFilter" class="form-control">
                 <option value="">--All University--</option>
                                         <?php 
-                                     $university_result = universityTable(); // Call the function to fetch universities 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                     $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
                                      while ($row = $university_result->fetch_assoc()) {
                                      $id = $row['uni_id']; 
                                     $name = $row['uni_name'];    
@@ -317,7 +318,7 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
     $('#editUniversity').change(function() {
         var universityId = $(this).val();
-        alert(universityId);
+        // alert(universityId);
         
         if (universityId === "") {
             $('#editCourse').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
@@ -418,7 +419,9 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
           // edit function -------------------------
     function editEnquiry(editId) {
-    
+
+        $('#editEnquiry').removeClass('was-validated');
+            $('#editEnquiry').addClass('needs-validation');
 
     $.ajax({
         url: 'action/actEnquiry.php',

@@ -44,6 +44,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $grade = $_POST['grade'];
     $enroll = $_POST['enroll'];
     $createdBy = $_SESSION['userId'];
+    $centerId = $_SESSION['centerId'];
 
     $uploadDir = '../assets/images/student/';
     $sslcName = '';
@@ -84,7 +85,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     }
     
     // Check if the name and phone number exist in the enquiry table
-    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_adminsion_status` = 'Pending'";
+    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_center_id` = '$$centerId' AND `enq_adminsion_status` = 'Pending'";
     $enquiry_check_result = $conn->query($enquiry_check_sql);
 
     if ($enquiry_check_result->num_rows > 0) {
@@ -93,8 +94,30 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_enquiry_sql);
     }
 
-    $student_sql = "INSERT INTO `jeno_student`(`stu_name`, `stu_phone`, `stu_email`, `stu_uni_id`, `stu_cou_id`, `stu_medium_id`, `stu_aca_year`, `stu_join_year`, `stu_enroll`, `stu_created_by`) 
-                VALUES ('$stuName', '$mobileNo', '$email', '$university', '$courseName', '$medium', '$academicYear', '$academicYear', '$enroll', '$createdBy')";
+    $student_sql = "INSERT INTO `jeno_student`
+    (`stu_name`
+    , `stu_phone`
+    , `stu_email`
+    , `stu_uni_id`
+    , `stu_cou_id`
+    , `stu_medium_id`
+    , `stu_aca_year`
+    , `stu_join_year`
+    , `stu_enroll`
+    , `stu_center_id`
+    , `stu_created_by`) 
+     VALUES
+      ('$stuName'
+      , '$mobileNo'
+      , '$email'
+      , '$university'
+      , '$courseName'
+      , '$medium'
+      , '$academicYear'
+      , '$academicYear'
+      , '$enroll'
+      , '$centerId'
+      , '$createdBy')";
 
     if ($conn->query($student_sql) === TRUE) {
         $studentId = $conn->insert_id;
@@ -108,21 +131,91 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($update_sql);
 
         // Insert into additional table
-        $additional_sql = "INSERT INTO `jeno_stu_additional`(`add_stu_id`, `add_year_type`, `add_language`, `add_digilocker`, `add_admit_date`, `add_dob`, `add_gender`, `add_address`, `add_pincode`, `add_father_name`, `add_mother_name`, `add_aadhar_no`, `add_nationality`, `add_mother_tongue`, `add_religion`, `add_caste`, `add_community`, `add_marital_status`, `add_employed`, `add_qualifiaction`, `add_institute`, `add_comp_year`, `add_study_field`, `add_grade`, `add_created_by`) 
-                        VALUES ('$studentId', '$yearType', '$language', '$digilocker', '$admitDate', '$dob', '$gender', '$address', '$pincode', '$fathername', '$mothername', '$aadharNumber', '$nationality', '$motherTongue', '$religion', '$caste', '$community', '$marital', '$employed', '$qualification', '$previous', '$completed', '$study', '$grade', '$createdBy')";
+        $additional_sql = "INSERT INTO `jeno_stu_additional`
+        (`add_stu_id`
+        , `add_year_type`
+        , `add_language`
+        , `add_digilocker`
+        , `add_admit_date`
+        , `add_dob`
+        , `add_gender`
+        , `add_address`
+        , `add_pincode`
+        , `add_father_name`
+        , `add_mother_name`
+        , `add_aadhar_no`
+        , `add_nationality`
+        , `add_mother_tongue`
+        , `add_religion`
+        , `add_caste`
+        , `add_community`
+        , `add_marital_status`
+        , `add_employed`
+        , `add_qualifiaction`
+        , `add_institute`
+        , `add_comp_year`
+        , `add_study_field`
+        , `add_grade`
+        , `add_center_id`
+        , `add_created_by`) 
+        VALUES 
+        ('$studentId'
+        , '$yearType'
+        , '$language'
+        , '$digilocker'
+        , '$admitDate'
+        , '$dob'
+        , '$gender'
+        , '$address'
+        , '$pincode'
+        , '$fathername'
+        , '$mothername'
+        , '$aadharNumber'
+        , '$nationality'
+        , '$motherTongue'
+        , '$religion'
+        , '$caste'
+        , '$community'
+        , '$marital'
+        , '$employed'
+        , '$qualification'
+        , '$previous'
+        , '$completed'
+        , '$study'
+        , '$grade'
+        , '$centerId'
+        , '$createdBy')";
 
         $conn->query($additional_sql);
 
         // Insert into documents table
-        $documents_sql = "INSERT INTO `jeno_document`(`doc_stu_id`, `doc_sslc`, `doc_hsc`, `doc_community`, `doc_tc`, `doc_aadhar`, `doc_photo`, `doc_created_by`) 
-                        VALUES ('$studentId', '$sslcName', '$hscName', '$communityName', '$tcName', '$aadharName', '$photoName', '$createdBy')";
+        $documents_sql = "INSERT INTO `jeno_document`
+        (`doc_stu_id`
+        , `doc_sslc`
+        , `doc_hsc`
+        , `doc_community`
+        , `doc_tc`
+        , `doc_aadhar`
+        , `doc_photo`
+        , `doc_center_id`
+        , `doc_created_by`) 
+        VALUES 
+        ('$studentId'
+        , '$sslcName'
+        , '$hscName'
+        , '$communityName'
+        , '$tcName'
+        , '$aadharName'
+        , '$photoName'
+        , '$centerId'
+        , '$createdBy')";
 
         $conn->query($documents_sql);
 
         // Retrieve course details including fees arrays
             $courseQuery = "SELECT `cou_university_fess`, `cou_study_fees` 
             FROM `jeno_course` 
-            WHERE `cou_id` = '$courseName'";
+            WHERE `cou_id` = '$courseName' AND cou_center_id =$centerId";
 
         $courseResult = $conn->query($courseQuery);
 
@@ -141,14 +234,36 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         }
 
         // Insert into fees table
-        $fees_sql = "INSERT INTO `jeno_fees`(`fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_sdy_fee_total`, `fee_stu_year`, `fee_created_by`) 
-        VALUES ('$applicationNo', '$studentId', '$universityFee', '$studyFee', '$academicYear', '$createdBy')";
+        $fees_sql = "INSERT INTO `jeno_fees`
+        (`fee_admision_id`
+        , `fee_stu_id`
+        , `fee_uni_fee_total`
+        , `fee_sdy_fee_total`
+        , `fee_stu_year`
+        , `fee_center_id`
+        , `fee_created_by`) 
+        VALUES 
+        ('$applicationNo'
+        , '$studentId'
+        , '$universityFee'
+        , '$studyFee'
+        , '$academicYear'
+        , '$centerId'
+        , '$createdBy')";
 
         $conn->query($fees_sql);
 
         // Insert into book table
-        $book_sql = "INSERT INTO `jeno_book`(`book_stu_id`, `book_year`, `book_created_by`) 
-                    VALUES ('$studentId', '$academicYear', '$createdBy')"; // Modify as per your requirements
+        $book_sql = "INSERT INTO `jeno_book`
+        (`book_stu_id`
+        , `book_year`
+        , `book_center_id`
+        , `book_created_by`) 
+        VALUES 
+        ('$studentId'
+        , '$academicYear'
+        , '$centerId'
+        , '$createdBy')"; // Modify as per your requirements
 
         $conn->query($book_sql);
 
@@ -165,8 +280,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
 if (isset($_POST['university']) && $_POST['university'] != '') {
     
     $universityId = $_POST['university'];
+    $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_status = 'Active' AND cou_uni_id = $universityId;";
+    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_status = 'Active' AND cou_uni_id = $universityId AND cou_center_id = $centerId;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -191,9 +307,10 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     if (isset($_POST['courseId']) && $_POST['courseId'] != '') 
     {
         $courseId = $_POST['courseId'];
+        $centerId = $_SESSION['centerId'];
     
         // Fetch course details
-        $courseQuery = "SELECT cou_duration, cou_fees_type FROM `jeno_course` WHERE cou_id = '$courseId'";
+        $courseQuery = "SELECT cou_duration, cou_fees_type FROM `jeno_course` WHERE cou_id = '$courseId' AND cou_center_id = $centerId";
         $courseResult = mysqli_query($conn, $courseQuery);
     
         if ($courseResult) {
@@ -207,7 +324,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         }
     
         // Fetch electives based on course_id
-        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId";
+        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId AND ele_center_id = $centerId";
         $eleResult = mysqli_query($conn, $eleQuery);
     
         if ($eleResult) {
@@ -238,11 +355,12 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
             $editId = $_POST['editId'];
+            $centerId = $_SESSION['centerId'];
         
             $selQuery = "SELECT a.*, b.*  
                          FROM `jeno_student` AS a 
                          LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id 
-                         WHERE a.stu_id = $editId";
+                         WHERE a.stu_id = $editId AND a.stu_center_id = $centerId";
             $result = mysqli_query($conn, $selQuery);
         
             if ($result) {
@@ -475,6 +593,7 @@ if (isset($_POST['deleteId'])) {
 
 if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
     $studentId = $_POST['viewId'];
+    $centerId = $_SESSION['centerId'];
 
     // Prepare and execute the SQL query
     $selQuery1 = "SELECT a.*, b.*, c.*, d.*, e.*, f.*  
@@ -484,7 +603,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                          LEFT JOIN `jeno_university` AS d ON a.stu_uni_id = d.uni_id 
                          LEFT JOIN `jeno_course` AS e ON a.stu_cou_id = e.cou_id
                          LEFT JOIN `jeno_elective` AS f ON b.add_language = f.ele_id
-                         WHERE a.stu_id = $studentId";
+                         WHERE a.stu_id = $studentId AND a.stu_center_id = $centerId";
     
     $result1 = $conn->query($selQuery1);
 
@@ -501,7 +620,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
         , `fee_sty_fee`
         , `fee_stu_year`
          FROM `jeno_fees` 
-         WHERE fee_stu_id = '$studentId';";
+         WHERE fee_stu_id = '$studentId' AND fee_center_id = $centerId ;";
     $result2 = $conn->query($select_fees_sql);
     
 

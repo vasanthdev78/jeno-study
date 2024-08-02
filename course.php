@@ -2,8 +2,8 @@
 session_start();
     
     include "class.php";
-    
-    $course_result = courseTable(); 
+    $curseId = $_SESSION['centerId'];
+    $course_result = courseTable($curseId); 
     
 ?>
 <!DOCTYPE html>
