@@ -332,4 +332,24 @@ function electiveTable() {
         }
         
 
+        //--location name only get ---------------
+        function locationName($locID) {
+            global $conn; // Assuming $conn is your database connection variable
+        
+            // Query to retrieve university name based on uni_id
+            $loc_name = "SELECT `loc_name` FROM `jeno_location` WHERE `loc_id` = $locID";
+        
+            // Execute the query
+            $loc_result = $conn->query($loc_name);
+        
+            // Check if query was successful and there is a result
+            if ($loc_result && $loc_result->num_rows > 0) {
+                // Fetch the university name
+                $loc = $loc_result->fetch_assoc();
+                return $loc['loc_name'];
+            } else {
+                // Query execution failed or no results found
+                return "No location found with the given ID.";
+            }
+        }
 ?>

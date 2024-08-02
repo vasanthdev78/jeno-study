@@ -1,6 +1,6 @@
 <?php
 session_start();
-    include "db/dbConnection.php" ;
+    include "class.php" ;
     
     $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'";
     $resQuery = mysqli_query($conn , $selQuery); 
@@ -320,6 +320,7 @@ function goEditStaff(editId)
           $('#designationEdit').val(response.role);
           $('#salaryEdit').val(response.salary);
           $('#dateofjoinEdit').val(response.joining_date);
+          $('#editLocation').val(response.sft_center_id);
           $('#usernameEdit').val(response.username).prop('disabled', true);
           $('#passwordEdit').val(response.password);
           // Remove the 'required' attribute from the aadhar field
@@ -391,6 +392,7 @@ function goViewStaff(id)
           $('#dateofjoinView').text(response.joining_dateView);
           $('#usernameView').text(response.usernameView);
           $('#passwordView').text(response.passwordView);
+          $('#viewLocation').text(response.center_name);
 
           var aadharImageUrl = 'assets/images/staff/' + response.aadharView;
 

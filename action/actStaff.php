@@ -1,5 +1,5 @@
 <?php
-include "../db/dbConnection.php";
+include "../class.php";
 session_start();
 
 $userId = $_SESSION['userId'];
@@ -42,6 +42,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     $role = $_POST['designation'];
     $email = $_POST['email'];
     $address = $_POST['address'];
+    $location = $_POST['location'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $userId = $_SESSION['userId'];
@@ -49,16 +50,42 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     $response = ["success" => false, "message" => ""];
 
     // Insert the username and password into the jeno_user table
-    $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_by) 
-                    VALUES ('$name', '$username', '$password', 'Staff', '$userId')";
+    $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_center_id ,user_created_by) 
+                    VALUES ('$name', '$username', '$password', 'Staff', '$location' ,'$userId')";
 
     if ($conn->query($user_insert) === TRUE) {
         // Get the last inserted ID
         $last_user_id = $conn->insert_id;
 
         // Insert the remaining data into the jeno_staff table
-        $staff_insert = "INSERT INTO jeno_staff (stf_name, stf_birth, stf_mobile, stf_email, stf_address, stf_gender, stf_role, stf_salary, stf_joining_date, stf_image, stf_userId, stf_created_by) 
-                        VALUES ('$name', '$dob', '$mobile', '$email', '$address', '$gender', '$role', '$salary', '$dateofjoin', '$newFileName', '$last_user_id', '$userId')";
+        $staff_insert = "INSERT INTO jeno_staff 
+        (stf_name
+        , stf_birth
+        , stf_mobile
+        , stf_email
+        , stf_address
+        , stf_gender
+        , stf_role
+        , stf_salary
+        , stf_joining_date
+        , stf_image
+        , sft_center_id
+        , stf_userId
+        , stf_created_by) 
+        VALUES 
+        ('$name'
+        , '$dob'
+        , '$mobile'
+        , '$email'
+        , '$address'
+        , '$gender'
+        , '$role'
+        , '$salary'
+        , '$dateofjoin'
+        , '$newFileName'
+        , '$location'
+        , '$last_user_id'
+        , '$userId')";
 
         if ($conn->query($staff_insert) === TRUE) {
             $_SESSION['message'] = "Staff details added successfully!";
@@ -98,6 +125,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'role' => $row['stf_role'],
             'salary' => $row['stf_salary'],
             'joining_date' => $row['stf_joining_date'],
+            'sft_center_id' => $row['sft_center_id'],
             'username' => $row['user_username'],
             'password' => $row['user_password'],
         );
@@ -149,6 +177,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     $role = $_POST['designationEdit'];
     $email = $_POST['emailEdit'];
     $address = $_POST['addressEdit'];
+    $editLocation = $_POST['editLocation'];
     $password = $_POST['passwordEdit'];
     $staffId = $_POST['hdnStaffId']; // Assuming staffId is passed in the form
 
@@ -169,6 +198,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         s.stf_role = '$role',
         s.stf_email = '$email',
         s.stf_address = '$address',
+        s.sft_center_id = '$editLocation',
         s.stf_updated_by = '$userId'";
 
     if (!empty($newFileName)) {
@@ -236,6 +266,7 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
             'salaryView' => $row['stf_salary'],
             'joining_dateView' => $joiningDate, 
             'aadharView' => $row['stf_image'],
+            'center_name' => locationName($row['sft_center_id']),
             'usernameView' => $row['user_username'],
             'passwordView' => $row['user_password'],
     ];
