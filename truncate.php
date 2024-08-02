@@ -16,12 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['truncate'])) {
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            // Loop through all tables and truncate each one
+            // Loop through all tables and truncate each one except 'jeno_location'
             while ($row = $result->fetch_array()) {
                 $table = $row[0];
-                $truncate_sql = "TRUNCATE TABLE `$table`";
-                if ($conn->query($truncate_sql) !== TRUE) {
-                    throw new Exception("Error truncating table $table: " . $conn->error . "<br>");
+                if ($table != 'jeno_location') {
+                    $truncate_sql = "TRUNCATE TABLE `$table`";
+                    if ($conn->query($truncate_sql) !== TRUE) {
+                        throw new Exception("Error truncating table $table: " . $conn->error . "<br>");
+                    }
                 }
             }
         } else {
@@ -31,16 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['truncate'])) {
         // Re-enable foreign key checks
         $conn->query("SET FOREIGN_KEY_CHECKS = 1");
 
-        // Insert two new rows into the jeno_user table
-        $insert_sql = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_created_at, user_created_by, user_updated_at, user_updated_by, user_status) VALUES
-                       ('admin', 'admin', 'admin', 'Admin', NOW(), 0, NOW(), 0, 'Active'),
-                       ('staff', 'staff', 'staff', 'Staff', NOW(), 0, NOW(), 0, 'Active')";
+        // Insert four new rows into the jeno_user table
+        $insert_sql = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_center_id, user_created_at, user_created_by, user_updated_at, user_updated_by, user_status) VALUES
+                       ('admin', 'admin1', 'admin', 'Admin', 1, NOW(), 0, NOW(), 0, 'Active'),
+                       ('admin', 'admin2', 'admin', 'Admin', 2, NOW(), 0, NOW(), 0, 'Active'),
+                       ('staff', 'staff1', 'staff', 'Staff', 1, NOW(), 0, NOW(), 0, 'Active'),
+                       ('staff', 'staff2', 'staff', 'Staff', 2, NOW(), 0, NOW(), 0, 'Active')";
 
         if ($conn->query($insert_sql) !== TRUE) {
             throw new Exception("Error inserting new rows: " . $conn->error . "<br>");
         }
 
-        echo "All tables truncated and new rows inserted successfully.";
+        echo "All tables truncated (except jeno_location) and new rows inserted successfully.";
 
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -70,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['truncate'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function truncateTables() {
-            if (confirm('Are you sure you want to truncate all tables and reset data?')) {
+            if (confirm('Are you sure you want to truncate all tables (except jeno_location) and reset data?')) {
                 $.ajax({
                     url: '', // Same page URL
                     type: 'POST',
