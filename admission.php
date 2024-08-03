@@ -167,6 +167,7 @@ session_start();
         $('#addAdmission').removeClass('was-validated');
         $('#addAdmission').addClass('needs-validation');
         $('#applicationNo').removeClass('is-invalid is-valid');
+        $('#language').attr('required', 'required');
         $('#addAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
         $('#addAdmissionModal').removeClass('d-none');
@@ -182,6 +183,7 @@ session_start();
     $(document).on('click', '#editAdmissionBtn', function() {
         $('#editAdmission').removeClass('was-validated');
         $('#editAdmission').addClass('needs-validation');
+        $('#languageEdit').attr('required', 'required');
         $('#editAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
         $('#editAdmissionModal').removeClass('d-none');
@@ -307,9 +309,14 @@ session_start();
             dataType: 'json',
             success: function(response) {
                 var options = '<option value="">--Select the Specification--</option>';
-                $.each(response.electives, function(index, elective) {
-                    options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
-                });
+                if (response.electives.length > 0) {
+                    $.each(response.electives, function(index, elective) {
+                        options += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+                    });
+                    $('#language').attr('required', 'required'); // Add required attribute if electives are available
+                } else {
+                    $('#language').removeAttr('required'); // Remove required attribute if no electives
+                }
                 $('#language').html(options); // Update the elective dropdown
 
                 // Assuming response contains course details
@@ -379,12 +386,16 @@ $('#courseNameEdit').change(function() {
         data: { courseId: courseId },
         dataType: 'json',
         success: function(response) {
-            var electiveOptions = '<option value="">--Select the Specification--</option>';
-            $.each(response.electives, function(index, elective) {
-                electiveOptions += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
-            });
+            var electiveOptions = '<option value="0">--Select the Specification--</option>';
+            if (response.electives.length > 0) {
+                $.each(response.electives, function(index, elective) {
+                    electiveOptions += '<option value="' + elective.ele_id + '">' + elective.ele_elective + '</option>';
+                });
+                $('#languageEdit').attr('required', 'required'); // Add required attribute if electives are available
+            } else {
+                $('#languageEdit').removeAttr('required'); // Remove required attribute if no electives
+            }
             $('#languageEdit').html(electiveOptions); // Update the language dropdown
-
             // Generate options for academic year/sem based on duration and pattern
             var academicYearOptions = '<option value="">--Select Academic Year/Sem--</option>';
             var courseDuration = response.courseDuration; // e.g., 3

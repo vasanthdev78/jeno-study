@@ -51,15 +51,15 @@
 
                         <div class="col-sm-12">
                             <div class="form-group pb-1">
-                                <label for="transactionId" class="form-label"><b>Transaction Id</b><span class="text-danger">*</span></label>
-                                <input type="text" class="form-control"  placeholder="Enter Transaction ID" name="transactionId" id="transactionId" required="required">
+                                <label for="transactionId" class="form-label"><b>Transaction Id</b></label>
+                                <input type="text" class="form-control"  placeholder="Enter Transaction ID" name="transactionId" id="transactionId">
                             </div>
                         </div>
 
                         <!-- New input field for online payment method -->
                         <div class="col-sm-12" id="onlinePaymentDetails" style="display:none;">
                             <div class="form-group pb-1">
-                                <label for="description" class="form-label"><b>Description</b><span class="text-danger">*</span></label>
+                                <label for="description" class="form-label"><b>Description</b></label>
                                 <textarea class="form-control"  placeholder="Enter Description" name="description" id="description"></textarea>                                
                             </div>
                         </div>
