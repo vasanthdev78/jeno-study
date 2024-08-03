@@ -7,48 +7,50 @@ header('Content-Type: application/json');
 // Initialize the response array
 $response = ['success' => false, 'message' => ''];
 
+$centerId = $_SESSION['centerId'];
+
 if (isset($_POST['data']) && $_POST['data'] != '') {
     // Construct the SQL queries for each table
     $selQuery1 = "SELECT COUNT(*) AS total_active_students 
                   FROM `jeno_student` AS a 
                   LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
-                  WHERE a.stu_status = 'Active' AND b.uni_status = 'Active';";
+                  WHERE a.stu_status = 'Active' AND b.uni_status = 'Active' AND a.stu_center_id = $centerId;";
 
     $selQuery2 = "SELECT COUNT(*) AS total_active_enquiry
                   FROM `jeno_enquiry`
-                  WHERE `enq_status` = 'Active';";
+                  WHERE `enq_status` = 'Active' AND enq_center_id = $centerId;";
 
     $selQuery3 = "SELECT COUNT(*) AS total_active_admission
                   FROM `jeno_student`
-                  WHERE `stu_status` = 'Active';";
+                  WHERE `stu_status` = 'Active' AND stu_center_id = $centerId;";
 
     $selQuery4 = "SELECT COUNT(*) AS total_active_faculty
                   FROM `jeno_faculty`
-                  WHERE `fac_status` = 'Active';";
+                  WHERE `fac_status` = 'Active' AND fac_center_id = $centerId;";
 
     $selQuery5 = "SELECT COUNT(*) AS total_active_staff
                   FROM `jeno_staff`
-                  WHERE `stf_status` = 'Active';";  
+                  WHERE `stf_status` = 'Active' AND sft_center_id = $centerId;";  
 
     $selQuery6 = "SELECT `tran_amount` 
                   FROM `jeno_transaction` 
-                  WHERE tran_status = 'Active' AND tran_category = 'Expense';";  
+                  WHERE tran_status = 'Active' AND tran_category = 'Expense' AND tran_center_id = $centerId;";  
 
     $selQuery7 = "SELECT `tran_amount` 
                   FROM `jeno_transaction` 
-                  WHERE tran_status = 'Active' AND tran_category = 'Income';";  
+                  WHERE tran_status = 'Active' AND tran_category = 'Income' AND tran_center_id = $centerId;";  
 
     $selQuery8 = "SELECT `fee_uni_fee_total`, `fee_uni_fee`, `fee_sdy_fee_total`, `fee_sty_fee` 
                   FROM `jeno_fees` 
-                  WHERE fee_status = 'Active'";  
+                  WHERE fee_status = 'Active' AND fee_center_id = $centerId";  
 
     $selQuery9 = "SELECT COUNT(*) AS total_active_university
                   FROM `jeno_university`
-                  WHERE `uni_status` = 'Active';";
+                  WHERE `uni_status` = 'Active' AND uni_center_id = $centerId;";
 
     $selQuery10 = "SELECT COUNT(*) AS total_active_course
                  FROM `jeno_course`
-                 WHERE `cou_status` = 'Active';";
+                 WHERE `cou_status` = 'Active' AND cou_center_id = $centerId;";
 
     // Execute the queries
     $result1 = mysqli_query($conn, $selQuery1);
