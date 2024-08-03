@@ -3,6 +3,7 @@ include("db/dbConnection.php");
 
 session_start();
 $createdBy = $_SESSION['userId'];
+$centerId = $_SESSION['centerId'];
 
 if (isset($_POST['studentId']) && isset($_POST['selectedYear'])) {
     $studentId = $_POST['studentId'];
@@ -40,8 +41,8 @@ if (isset($_POST['studentId']) && isset($_POST['selectedYear'])) {
             }
 
             // Insert into fees table
-            $fees_sql = "INSERT INTO `jeno_fees` (`fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_sdy_fee_total`, `fee_stu_year`, `fee_created_by`) 
-            VALUES ('$applicationNo', '$studentId', '$universityFee', '$studyFee', '$selectedYear', '$createdBy')";
+            $fees_sql = "INSERT INTO `jeno_fees` (`fee_admision_id`, `fee_stu_id`, `fee_uni_fee_total`, `fee_sdy_fee_total`, `fee_stu_year`, `fee_center_id`, `fee_created_by`) 
+            VALUES ('$applicationNo', '$studentId', '$universityFee', '$studyFee', '$selectedYear', '$centerId', '$createdBy')";
 
             if ($conn->query($fees_sql) === TRUE) {
                 $newFeeId = $conn->insert_id;
