@@ -221,10 +221,7 @@
             
             // Position at 1.5 cm from bottom
             $this->SetY(-15);
-            // Arial italic 8
-            $this->SetFont('Arial', 'I', 8);
-            // Page number
-            $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+           
         }
     }
 
@@ -241,7 +238,8 @@
     $pdf->Cell(0, 8, 'Date: ' . $formattedDate, 'T', 1,'R');
     $pdf->Cell(0, 8, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
     $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
-    $pdf->Cell(0, 8, 'Student Course :'.$Student_course, 0, 1,'L');
+    $pdf->Cell(0, 8, 'Student Course :'.$Student_course, 0, 0,'L');
+    $pdf->Cell(0, 8, 'Study Year :'.$pay_year, 0, 1,'R');
     
     $pdf->Ln(2); // Move to the next line
 
@@ -287,7 +285,7 @@
     $pdf->Cell(150, 8, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
     $pdf->Cell(40, 8, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
 
-    $filename = $pay_student_name . "_studentBill.pdf";
+    $filename = $pay_student_name . "_JenoBill.pdf";
     // No need to specify the file path
     $pdf->Output("$filename", 'D'); // Force download the PDF
     //echo "PDF invoice created successfully.";
