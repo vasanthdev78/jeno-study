@@ -18,7 +18,7 @@
     , `pay_paid_method`
     , `pay_transaction_id`
     , `pay_description`
-    , `pay_university_fees`
+    , `pay_university_fees` 
     , `pay_study_fees`
     , `pay_total_amount`
     , `pay_balance`
@@ -170,46 +170,46 @@
     function Header()
     {
         // Set font to Arial bold 15
-        $this->SetFont('Arial', 'B', 20);
+        $this->SetFont('Arial', 'B', 16);
 
         // Title
-        $this->Cell(0, 10, 'Bill Receipt', 0, 1, 'C');
-        $this->Ln(5);
+        $this->Cell(0, 8, 'Bill Receipt', 0, 1, 'C');
+        $this->Ln(1);
 
         // Move to the right
         $this->Cell(70);
 
         // Left logo
-        $this->Image('../image/jenoLogopng.png', 10, 4, 50); // Adjust the path and size as needed
+        $this->Image('../image/jenoLogopng.png', 10, 4, 40); // Adjust the path and size as needed
 
         
         // Company name
         $this->SetFont('Arial', 'B', 12);
-        $this->Cell(0, 10, 'JENO STUDY CENTER MS UNIVERSITY', 0, 1, 'R');
+        $this->Cell(0, 8, 'JENO STUDY CENTER MS UNIVERSITY', 0, 1, 'R');
         
 
         // Address
         $this->SetFont('Arial', '', 8);
-        $this->Cell(0, 10, 'RORIRI IT PARK, NALLANATHAPURAM, Kalakkad, Keela Karuvelankulam, Tamil Nadu 627502', 0, 1, 'R');
+        $this->Cell(0, 10, 'Westen Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601', 0, 1, 'R');
         // Line break
-        $this->Ln(10);
+        $this->Ln(2);
     }
 
     // Footer
         function Footer()
         {
-            $this->SetY(-70);
+            $this->SetY(-35);
             $this->SetFont('Arial', 'B', 12);
             $this->SetFont('Arial', 'B', 12);
-            $this->Image('../image/seal.png', 90, 190, 45);
-            $this->Image('../image/sign.png', 150, 193, 40);
-            $this->Cell(0,10,"Authorized Signature",0,1,"R");
+            $this->Cell(0,10,"Checked By",0,1,"C");
+            $this->SetY(-35);
+            $this->Cell(0,10,"For JEO",0,1,"R");
             
             
             
             
             
-            $this->Ln(10);
+            $this->Ln(1);
             $this->SetY(-25);
             $this->Cell(0,10,"",'B',1);
             $this->Ln(10); // Adjust the line height as needed
@@ -229,7 +229,7 @@
     }
 
     // Create a new PDF instance
-    $pdf = new PDF();
+    $pdf = new PDF('L', 'mm', array(148, 210));
     $pdf->AliasNbPages();
     $pdf->AddPage();
 
@@ -237,31 +237,32 @@
     $pdf->SetFont('Arial', '', 12);
 
     // Add invoice content
-    $pdf->Cell(0, 10, 'Name: '.$pay_student_name, 'T', 0,'L');
-    $pdf->Cell(0, 10, 'Date: ' . $formattedDate, 'T', 1,'R');
-    $pdf->Cell(0, 10, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
-    $pdf->Cell(0, 10, 'Admission No:'.$admisionId, 0, 1,'R');
-    $pdf->Cell(0, 10, 'Student Course :'.$Student_course, 0, 1,'L');
+    $pdf->Cell(0, 8, 'Name: '.$pay_student_name, 'T', 0,'L');
+    $pdf->Cell(0, 8, 'Date: ' . $formattedDate, 'T', 1,'R');
+    $pdf->Cell(0, 8, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
+    $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
+    $pdf->Cell(0, 8, 'Student Course :'.$Student_course, 0, 1,'L');
     
-    $pdf->Ln(); // Move to the next line
+    $pdf->Ln(2); // Move to the next line
 
     // Add item details to the table
     
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(30, 15, 'S.No', 1, 0, 'C'); 
-    $pdf->Cell(40, 15, 'Payment Method', 1, 0, 'C');// Changed alignment to center
-    $pdf->Cell(40, 15, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center
-    $pdf->Cell(40, 15, 'Study Center Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center
-    $pdf->Cell(40, 15, 'Total Fees', 1, 1, 'C'); // Adjusted width and changed alignment to center
+    $pdf->Cell(30, 8, 'S.No', 1, 0, 'C'); 
+    $pdf->Cell(40, 8, 'Payment Method', 1, 0, 'C');// Changed alignment to center
+    $pdf->Cell(40, 8, 'University Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center 
+    $pdf->Cell(40, 8, 'Study Center Fees', 1, 0, 'C'); // Adjusted width and changed alignment to center   
+    $pdf->Cell(40, 8, 'Total Fees', 1, 1, 'C'); // Adjusted width and changed alignment to center
     $pdf->SetFont('Arial', '', 10);
 
     
-    $pdf->Cell(30, 12, 1, 1);
-    $pdf->Cell(40, 12, $pay_paid_method, 1); 
-    $pdf->Cell(40, 12, $pay_university_fees, 1,0,'R'); 
-    $pdf->Cell(40, 12, $pay_study_fees, 1,0,'R');  
+    $pdf->Cell(30, 8, 1, 1);
+    $pdf->Cell(40, 8, $pay_paid_method, 1); 
+    $pdf->Cell(40, 8, $pay_university_fees, 1,0,'R');  
     $totalAmt =$pay_university_fees + $pay_study_fees ;
-    $pdf->Cell(40, 12, $totalAmt, 1, 0,'R'); // Border on the left and right sides
+    $pdf->Cell(40, 8, $pay_study_fees, 1,0,'R');  
+
+    $pdf->Cell(40, 8, $totalAmt, 1, 0,'R'); // Border on the left and right sides
 
     $pdf->Ln();
  
@@ -273,20 +274,20 @@
     $totalAmtInWords = numberToWords($totalAmt);
     $totalAmtInWords = preg_replace('/\bzero\b/', '', $totalAmtInWords); // Remove 'zero' if present
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(110, 15, ucfirst($totalAmtInWords), 1, 0, 'C'); // No border, aligned left, and move to next line
+    $pdf->Cell(110, 8, ucfirst($totalAmtInWords), 1, 0, 'C'); // No border, aligned left, and move to next line
     // Add the cell with the "Total:" label
-    $pdf->Cell(40, 15, 'Total:', 1, 0, 'R'); // Adjusted alignment to left for the label
+    $pdf->Cell(40, 8, 'Total:', 1, 0, 'R'); // Adjusted alignment to left for the label
     // Add the cell with the formatted total amount, aligned to the right
-    $pdf->Cell(40, 15, $formattedTotalAmt, 1, 1, 'R'); // Adjusted alignment to right for the total amount
+    $pdf->Cell(40, 8, $formattedTotalAmt, 1, 1, 'R'); // Adjusted alignment to right for the total amount
 
     // Add the cell with the total amount in words
 
 
     
-    $pdf->Cell(150, 15, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
-    $pdf->Cell(40, 15, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
+    $pdf->Cell(150, 8, 'Balance:', 1, 0, 'R'); // Adjusted alignment to right
+    $pdf->Cell(40, 8, '' . $balanceFees, 1, 1, 'R'); // Adjusted alignment to right and added line break
 
-    $filename = $pay_student_name . "_jenoBill.pdf";
+    $filename = $pay_student_name . "_studentBill.pdf";
     // No need to specify the file path
     $pdf->Output("$filename", 'D'); // Force download the PDF
     //echo "PDF invoice created successfully.";

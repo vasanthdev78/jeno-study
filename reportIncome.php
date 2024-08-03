@@ -68,7 +68,8 @@ session_start();
                                             <select class="form-control" name="university" id="university" required>
                                                 <option value="All">--Select All University--</option>
                                                 <?php 
-                                                $university_result = universityTable(); // Call the function to fetch universities 
+                                                $centerId = $_SESSION['centerId'];
+                                                $university_result = universityTable($centerId); // Call the function to fetch universities 
                                                 while ($row = $university_result->fetch_assoc()) {
                                                     $id = $row['uni_id']; 
                                                     $name = $row['uni_name'];    
