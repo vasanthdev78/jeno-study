@@ -208,6 +208,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
             // Check if employee id is provided
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
+                $centerId = $_SESSION['centerId'];
 
                 // Prepare and execute the SQL query
                 $selQuery = "SELECT 

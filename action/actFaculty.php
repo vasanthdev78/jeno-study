@@ -42,10 +42,36 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POS
     $aadhar = $newFileName;
     $clgName = $_POST['clgName'];
     $course = $_POST['course'];
+    $centerId = $_SESSION['centerId'];
 
         
-            $faculty_insert = "INSERT INTO jeno_faculty (fac_name, fac_gender, fac_mobile, fac_email, fac_address, fac_date_of_join, fac_salary, fac_qualification, fac_clg, fac_aadhar, fac_cou_id, fac_created_by) 
-                VALUES ('$name', '$gender', '$mobile', '$email', '$address', '$dateofjoin', '$salary', '$qualification', '$clgName', '$aadhar', '$course', '$userId')";
+            $faculty_insert = "INSERT INTO jeno_faculty 
+            (fac_name
+            , fac_gender
+            , fac_mobile
+            , fac_email
+            , fac_address
+            , fac_date_of_join
+            , fac_salary
+            , fac_qualification
+            , fac_clg, fac_aadhar
+            , fac_cou_id
+            , fac_center_id
+            , fac_created_by) 
+            VALUES 
+            ('$name'
+            , '$gender'
+            , '$mobile'
+            , '$email'
+            , '$address'
+            , '$dateofjoin'
+            , '$salary'
+            , '$qualification'
+            , '$clgName'
+            , '$aadhar'
+            , '$course'
+            , '$centerId'
+            , '$userId')";
             
             if ($conn->query($faculty_insert) === TRUE) {
                 $_SESSION['message'] = "Faculty details added successfully!";

@@ -45,9 +45,26 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
     $timing = $_POST['timing'];
     $course = $_POST['course'];
     $subject = json_encode($_POST['subject']); // Converting subject array to JSON
+    $centerId = $_SESSION['centerId'];
         
-            $schedule_insert = "INSERT INTO jeno_schedule (sch_fac_id, sch_date, sch_session, sch_timing, sch_cou_id, sch_sub_id, sch_created_by) 
-                VALUES ('$name', '$date', '$session', '$timing', '$course', '$subject', '$userId')";
+            $schedule_insert = "INSERT INTO jeno_schedule 
+            (sch_fac_id
+            , sch_date
+            , sch_session
+            , sch_timing
+            , sch_cou_id
+            , sch_sub_id
+            , sch_center_id
+            , sch_created_by) 
+             VALUES 
+             ('$name'
+             , '$date'
+             , '$session'
+             , '$timing'
+             , '$course'
+             , '$subject'
+             , '$centerId'
+             , '$userId')";
             
             if ($conn->query($schedule_insert) === TRUE) {
                 $_SESSION['message'] = "Schedule details added successfully!";
