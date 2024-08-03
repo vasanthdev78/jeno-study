@@ -232,6 +232,14 @@
                             <span class="detail" id="viewDescription"></span>
                         </div>
                     </div>
+
+                    <div class="col-sm-3 d-none" id="incomeReceiptDiv">
+                        <div class="card p-3">
+                            <h4>Receipt Bill</h4>
+                            <a id="incomeReceipt" href="#"><button type="button" class="btn btn-primary">Download Bill</button></a>
+
+                        </div>
+                    </div>
                     
                 </div>
             </div>
