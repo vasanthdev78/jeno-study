@@ -3,6 +3,16 @@ session_start();
 include("class.php");
     $centerId = $_SESSION['centerId'];
     $transactionResult = transactionTable($centerId);
+    $current_date = date('Y-m-d');
+    // Create a DateTime object for the current date
+    $date = new DateTime($current_date);
+
+    // Subtract one day from the current date
+    $date->modify('-1 day');
+
+    // Get the modified date in 'Y-m-d' format
+    $previous_date = $date->format('Y-m-d');
+    $openingBalance = getTransactionAmounts($centerId,$previous_date);
     
 ?>
 <!DOCTYPE html>
@@ -53,9 +63,14 @@ include("class.php");
                                         <button type="button" id="addEnquiryBtn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addaddTransactionModal">
                                             Add New Transaction
                                         </button>
+                                        
                                     </div>
                                 </div>
-                                <h3 class="page-title">Transaction</h3> 
+                                <div class="row">
+                                <h3 class="page-title col-2">Transaction</h3> 
+                                <h4 class="col-6 mt-4 text-success">Today Opening Balance - Cash : <span class="text-info"><?php echo $openingBalance['online_total'] ?></span> Online : <span class="text-info"><?php echo $openingBalance['cash_total'] ?></span></h4>
+                                </div>
+                                
                                
                             </div>
                         </div>

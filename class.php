@@ -377,4 +377,55 @@ function electiveTable() {
                 return "No location found with the given ID.";
             }
         }
+
+
+
+        //----------------------------------------------------------------------------------------
+        function getTransactionAmounts($location, $date) {
+            global $conn; // Assuming $conn is your database connection variable
+        
+            // Query to retrieve the sum of online transaction amounts
+            $online_query = "SELECT 
+                                SUM(`tran_amount`) as online_total
+                             FROM `jeno_transaction`
+                             WHERE tran_category ='Income'
+                               AND tran_status ='Active'
+                               AND tran_date = '$date'
+                               AND tran_center_id = $location
+                               AND tran_method = 'Online';";
+        
+            // Query to retrieve the sum of cash transaction amounts
+            $cash_query = "SELECT 
+                              SUM(`tran_amount`) as cash_total
+                           FROM `jeno_transaction`
+                           WHERE tran_category ='Income'
+                             AND tran_status ='Active'
+                             AND tran_date = '$date'
+                             AND tran_center_id = $location
+                             AND tran_method = 'Cash';";
+        
+            // Execute the queries
+            $online_result = $conn->query($online_query);
+            $cash_result = $conn->query($cash_query);
+        
+            $online_total = 0;
+            $cash_total = 0;
+        
+            // Check if the online query was successful and there is a result
+            if ($online_result && $online_result->num_rows > 0) {
+                $row = $online_result->fetch_assoc();
+                $online_total = $row['online_total'];
+            }
+        
+            // Check if the cash query was successful and there is a result
+            if ($cash_result && $cash_result->num_rows > 0) {
+                $row = $cash_result->fetch_assoc();
+                $cash_total = $row['cash_total'];
+            }
+        
+            return [
+                'online_total' => $online_total,
+                'cash_total' => $cash_total
+            ];
+        }
 ?>
