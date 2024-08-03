@@ -39,6 +39,7 @@
         $pay_paid_method = $row['pay_paid_method'];
         $pay_university_fees = $row['pay_university_fees'];
         $pay_study_fees = $row['pay_study_fees'];
+        $pay_transaction_id = $row['pay_transaction_id'];
         $pay_date = $row['pay_date'];
         $formattedDate = date('d-m-Y', strtotime($pay_date));
 
@@ -238,8 +239,13 @@
     $pdf->Cell(0, 8, 'Date: ' . $formattedDate, 'T', 1,'R');
     $pdf->Cell(0, 8, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
     $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
-    $pdf->Cell(0, 8, 'Student Course :'.$Student_course, 0, 0,'L');
-    $pdf->Cell(0, 8, 'Study Year :'.$pay_year, 0, 1,'R');
+    $pdf->Cell(0, 8, 'Student Course :'.$Student_course. ' (' .$pay_year. ')' , 0, 0,'L');
+
+    if($pay_paid_method =='Online'){
+        $pdf->Cell(0, 8, 'Transaction Id  :'.$pay_transaction_id, 0, 1,'R');
+    }else {
+        $pdf->Cell(0, 8, '', 0, 1,'R');
+    }
     
     $pdf->Ln(2); // Move to the next line
 

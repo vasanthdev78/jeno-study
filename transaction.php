@@ -432,8 +432,14 @@ document.addEventListener('DOMContentLoaded', function() {
           $('#viewPaidMethod').text(response.tran_method);
           $('#viewTransactionId').text(response.tran_transaction_id);
           $('#viewDescription').text(response.tran_description);
-         
 
+        // Show the receipt div and update the href attribute if the category is 'Income'
+         if (response.tran_category === 'Income') {
+                $('#incomeReceiptDiv').removeClass('d-none'); // Show the div and remove d-none class
+                $('#incomeReceipt').attr('href', 'action/actIncomeReceipt.php?tran_id=' + response.tran_id);
+            } else{
+                $('#incomeReceiptDiv').addClass('d-none'); // Show the div and remove d-none class
+            }
     
 
         },
