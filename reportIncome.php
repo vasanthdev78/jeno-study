@@ -95,8 +95,11 @@ session_start();
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Paid Date</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">University</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Study Year</th>
+                                    <th scope="col">University Name</th>
+                                    <th scope="col">University Fees</th>
+                                    <th scope="col">Study Center Fees</th>
                                     <th scope="col">Amount</th>
                                     
                                     
@@ -120,7 +123,10 @@ session_start();
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
             <th>Total:</th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </tfoot>
@@ -263,13 +269,23 @@ $(document).ready(function() {
         footerCallback: function(row, data, start, end, display) {
             var api = this.api();
             
-            // Calculate the total for the "Amount" column (index 4)
-            var total = api.column(4, { page: 'current' }).data().reduce(function(a, b) {
+            var calculateTotal = function(index) {
+            return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
                 return parseFloat(a) + parseFloat(b);
             }, 0);
+        };
 
-            // Update the footer with the total for the "Amount" column only
-            $(api.column(4).footer()).html(total.toFixed(2));
+        // Calculate the total for the "Amount" column (index 4)
+        var totalAmount = calculateTotal(5);
+        // Calculate the total for the "University Fees" column (index 5)
+        var totalUniversityFees = calculateTotal(6);
+        // Calculate the total for the "Study Center Fees" column (index 6)
+        var totalStudyCenterFees = calculateTotal(7);
+
+        // Update the footer with the totals
+        $(api.column(5).footer()).html(totalAmount.toFixed(2));
+        $(api.column(6).footer()).html(totalUniversityFees.toFixed(2));
+        $(api.column(7).footer()).html(totalStudyCenterFees.toFixed(2));
         }
     });
 
@@ -336,8 +352,11 @@ $(document).ready(function() {
             table.row.add([
                 index + 1,
                 row.pay_date,
-                row.description,
+                row.StuName,
+                row.pay_year,
                 row.uni_name,
+                row.fee_uni_fee,
+                row.fee_sty_fee,
                 row.pay_total_amount
             ]);
         });
