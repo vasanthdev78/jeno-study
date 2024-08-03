@@ -37,6 +37,8 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         a.fee_sty_fee, 
         c.pay_total_amount,
         b.stu_uni_id ,
+        b.stu_name ,
+        c.pay_year ,
         c.pay_date
     FROM 
         jeno_fees AS a 
@@ -58,7 +60,8 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
             $fees[] = [
                 'fee_id' => $row['fee_id'],
                 'fee_admision_id' => $row['fee_admision_id'],
-                'description' => 'Admission',
+                'StuName' => $row['stu_name'],
+                'pay_year' => $row['pay_year'],
                 'uni_name' => universityName($row['stu_uni_id']),
                 'fee_stu_id' => $row['fee_stu_id'], // Course ID for pre-selecting the course in the dropdown            
                 'fee_uni_fee' => $row['fee_uni_fee'],
