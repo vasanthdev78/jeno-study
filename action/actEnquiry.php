@@ -17,6 +17,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
     $universityId = $_POST['universityID'];
     $centerId = $_SESSION['centerId'];
+    
 
     $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_center_id =$centerId ;";
     $courseResult = mysqli_query($conn, $courseQuery);
@@ -56,6 +57,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     // Other fields
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
+    $date =date("Y/m/d");
 
     
 
@@ -69,6 +71,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     , `enq_mobile`
     , `enq_address`
     , `enq_medium`
+    , `enq_date`
     , `enq_center_id`
     , `enq_created_by`) 
     VALUES 
@@ -81,6 +84,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     ,'$mobile'
     ,'$address'
     ,'$medium'
+    ,'$date'
     ,'$uniCenterId'
     ,'$createdBy')";
 

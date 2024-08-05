@@ -148,19 +148,7 @@ $user_role = $_SESSION['role'];
                                   </div>
                              </div>
 
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
-                                                <h3 class="my-1 py-1" id="allStudent"></h3>
-                                            </div>
-                                            
-                                        </div> <!-- end row-->
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card -->
-                            </div> <!-- end col -->
+                           
         
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">
@@ -296,7 +284,7 @@ $(document).ready(function() {
             console.log(response);
             if (response.success) {
                 // Assuming response contains the total_active_students count
-                $('#allStudent').text(response.data.total_active_students);
+                // $('#allStudent').text(response.data.total_active_students);
                 $('#allEnquiry').text(response.data.total_active_enquiry);
                 $('#allAdmission').text(response.data.total_active_admission);
                 $('#allfaculty').text(response.data.total_active_faculty);
@@ -321,10 +309,7 @@ $(document).ready(function() {
     $('#university').change(function() {
         var universityId = $(this).val();
         
-        if (universityId === "") {
-            $('#courseName').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
-            return; // No university selected, exit the function
-        }
+        
 
         $.ajax({
             url: "action/actDashboard.php", // URL of the PHP script to handle the request
@@ -333,7 +318,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 
-                $('#allStudent').text(response.data.total_active_students);
+                // $('#allStudent').text(response.data.total_active_students);
                 $('#allEnquiry').text(response.data.total_active_enquiry);
                 $('#allAdmission').text(response.data.total_active_admission);
                 $('#allExpense').text("₹" + response.data.tran_amount_expense);
