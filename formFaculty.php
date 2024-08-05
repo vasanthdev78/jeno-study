@@ -83,7 +83,7 @@
                                     <select class="form-control" name="course" id="course" required="required">
                                         <option value="">--Select the Course--</option>
                                             <?php 
-                                            $couQuery = "SELECT * FROM `jeno_course` WHERE cou_status='Active'";
+                                            $couQuery = "SELECT * FROM `jeno_course` WHERE cou_status='Active' AND cou_center_id = $centerId";
                                             $course_result = mysqli_query($conn , $couQuery);
                                             while ($row = $course_result->fetch_assoc()) {
                                                 $id = $row['cou_id']; 
@@ -197,7 +197,7 @@
                                     <select class="form-control" name="courseEdit" id="courseEdit" required="required">
                                         <option value="">--Select the Course--</option>
                                             <?php 
-                                            $couEditQuery = "SELECT * FROM `jeno_course` WHERE cou_status='Active'";
+                                            $couEditQuery = "SELECT * FROM `jeno_course` WHERE cou_status='Active' AND cou_center_id = $centerId";
                                             $courseResult = mysqli_query($conn , $couEditQuery);
                                             while ($row = $courseResult->fetch_assoc()) {
                                                 $id = $row['cou_id']; 

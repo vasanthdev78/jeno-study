@@ -43,6 +43,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
     $date = $_POST['fromDate'];
     $session = $_POST['session'];
     $timing = $_POST['timing'];
+    $university = $_POST['university'];
     $course = $_POST['course'];
     $subject = json_encode($_POST['subject']); // Converting subject array to JSON
     $centerId = $_SESSION['centerId'];
@@ -52,6 +53,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
             , sch_date
             , sch_session
             , sch_timing
+            , sch_uni_id
             , sch_cou_id
             , sch_sub_id
             , sch_center_id
@@ -61,6 +63,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
              , '$date'
              , '$session'
              , '$timing'
+             , '$university'
              , '$course'
              , '$subject'
              , '$centerId'
@@ -93,6 +96,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'date' => $row['sch_date'],
             'session' => $row['sch_session'],
             'timing' => $row['sch_timing'],
+            'uniId' => $row['sch_uni_id'],
             'couId' => $row['sch_cou_id'],
             'subId' => $row['sch_sub_id'],
         );
@@ -132,6 +136,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_P
     $date = $_POST['fromDateEdit'];
     $session = $_POST['sessionEdit'];
     $timing = $_POST['timingEdit'];
+    $university = $_POST['universityEdit'];
     $course = $_POST['courseEdit'];
     $subject = json_encode($_POST['subjectEdit']);
 
@@ -142,6 +147,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_P
         sch_date = '$date',
         sch_session = '$session',
         sch_timing = '$timing',
+        sch_uni_id = '$university',
         sch_cou_id = '$course',
         sch_sub_id = '$subject',
         sch_updated_by = '$userId'

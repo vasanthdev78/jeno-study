@@ -107,7 +107,7 @@ session_start();
                         <td class="text-wrap"><?php echo $subject; ?></td>
 
                         <td>
-                          <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteSchedule(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                            
                         </td>
@@ -184,9 +184,41 @@ $('#addSchedule')[0].reset(); // Reset the form
 
 });
 
+$('#university').change(function() {
+        var universityId = $(this).val();
+        
+        if (universityId === "") {
+            $('#course').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actAdmission.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { university: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select the Course--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+                });
+                $('#course').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
 $('#course').change(function() {
         var courseId = $(this).val();
-        if (courseId) {
+        if (courseId === "") {
+            $('#subject').html('<option value="">--Select the Subject--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
             $.ajax({
                 type: 'POST',
                 url: 'action/actSchedule.php', // The PHP file that fetches the subjects
@@ -195,10 +227,37 @@ $('#course').change(function() {
                     $('#subject').html(response);
                 }
             });
-        } else {
-            $('#subject').html('<option value="">--Select the Subject--</option>');
+       
+    });
+
+    $('#universityEdit').change(function() {
+    var universityId = $(this).val();
+    
+    if (universityId === "") {
+        $('#courseEdit').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+        return; // No university selected, exit the function
+    }
+
+    $.ajax({
+        url: "action/actAdmission.php", // URL of the PHP script to handle the request
+        type: "POST",
+        data: { university: universityId },
+        dataType: 'json',
+        success: function(response) {
+            
+            var options = '<option value="">--Select the Course--</option>';
+            
+             // Loop through each course in the response and append to options
+             $.each(response, function(index, course) {
+                options += '<option value="' + course.cou_id + '">' + course.cou_name + '</option>';
+            });
+            $('#courseEdit').html(options); // Update the course dropdown
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX request failed: " + status + ", " + error);
         }
     });
+});
 
    
 $('#addSchedule').off('submit').on('submit', function(e) {
@@ -284,6 +343,8 @@ function goEditSchedule(editId) {
             $('#fromDateEdit').val(response.date);
             $('#sessionEdit').val(response.session);
             $('#timingEdit').val(response.timing);
+            $('#universityEdit').val(response.uniId).trigger('change');
+            setTimeout(function() {
             $('#courseEdit').val(response.couId);
             $('#courseEdit').trigger('change'); // This will trigger the change event to load subjects
 
@@ -305,6 +366,8 @@ function goEditSchedule(editId) {
                     console.error('AJAX request failed:', status, error);
                 }
             });
+        }, 500)
+
         },
         error: function(xhr, status, error) {
             // Handle errors here
