@@ -381,7 +381,7 @@ function electiveTable() {
 
 
         //----------------------------------------------------------------------------------------
-        function getTransactionAmounts($location, $date) {
+        function getTransactionAmounts($location, $date ,$current_date) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve the sum of online transaction amounts
@@ -423,9 +423,23 @@ function electiveTable() {
                 $cash_total = $row['cash_total'];
             }
         
+            // Insert the values into the jeno_opening table
+            $insert_qry = "INSERT INTO `jeno_opening` (
+                               `open_date`
+                               , `open_open_online`
+                               , `open_open_cash`
+                           ) VALUES (
+                               '$current_date'
+                               , $online_total
+                               , $cash_total
+                           )";
+            
+            $conn->query($insert_qry);
+        
             return [
                 'online_total' => $online_total,
                 'cash_total' => $cash_total
             ];
         }
+        
 ?>
