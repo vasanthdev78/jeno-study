@@ -77,7 +77,8 @@ ORDER BY a.fee_created_at DESC";
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Balance</th>
-                                    <th scope="col">Payment Status</th> 
+                                    <th scope="col">University Fees Status</th>
+                                    <th scope="col">Jeno Fees Status</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -103,9 +104,12 @@ ORDER BY a.fee_created_at DESC";
         $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
         $paidFees = $fee_uni_fee + $fee_sty_fee;
         $balance = $totalFees - $paidFees;
+        $balance1 = $fee_uni_fee_total - $fee_uni_fee;
+        $balance2 = $fee_sty_fee_total - $fee_sty_fee;
     
         // Determine the status
-        $status = $balance > 0 ? 'Pending' : 'Completed';
+        $status1 = $balance1 > 0 ? 'Pending' : 'Completed';
+        $status2 = $balance2 > 0 ? 'Pending' : 'Completed';
         ?>
         <tr>
             <td><?php echo $i; $i++; ?></td>
@@ -114,7 +118,8 @@ ORDER BY a.fee_created_at DESC";
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
             <td><?php echo $balance; ?></td> 
-            <td><?php echo $status; ?></td> 
+            <td><?php echo $status1; ?></td> 
+            <td><?php echo $status2; ?></td>
             <td>
                 <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                 <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
