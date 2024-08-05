@@ -16,7 +16,7 @@
                                     <select class="form-control" id="facultyName" name="facultyName" required="required">
                                         <option value="">--Select the Faculty--</option>
                                         <?php 
-                                            $facQuery = "SELECT * FROM `jeno_faculty` WHERE fac_status = 'Active'";
+                                            $facQuery = "SELECT * FROM `jeno_faculty` WHERE fac_status = 'Active' AND fac_center_id = $centerId";
                                             $fac_result = mysqli_query($conn , $facQuery);
                                             while ($row = $fac_result->fetch_assoc()) {
                                                 $id = $row['fac_id']; 
@@ -55,18 +55,26 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
-                                    <label for="course" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="course" id="course" required="required">
-                                        <option value="">--Select the Course--</option>
+                                    <label for="university" class="form-label"><b>University</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="university" id="university" required="required">
+                                        <option value="">--Select the University--</option>
                                         <?php 
-                                            $couQuery = "SELECT * FROM `jeno_course` WHERE cou_status='Active'";
+                                            $couQuery = "SELECT * FROM `jeno_university` WHERE uni_status = 'Active' AND uni_center_id = $centerId";
                                             $course_result = mysqli_query($conn , $couQuery);
                                             while ($row = $course_result->fetch_assoc()) {
-                                                $id = $row['cou_id']; 
-                                                $name = $row['cou_name'];    
+                                                $id = $row['uni_id']; 
+                                                $name = $row['uni_name'];    
                                             ?>
                                         <option value="<?php echo $id;?>"><?php echo $name;?></option>
                                             <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="course" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="course" id="course" required="required">
+                                        <option value="">--Select the Course--</option>
                                     </select>
                                 </div>
                             </div>
@@ -110,7 +118,7 @@
                                     <select class="form-control" id="facultyNameEdit" name="facultyNameEdit" required="required">
                                         <option value="">--Select the Faculty--</option>
                                         <?php 
-                                            $facQuery1 = "SELECT * FROM `jeno_faculty` WHERE fac_status = 'Active'";
+                                            $facQuery1 = "SELECT * FROM `jeno_faculty` WHERE fac_status = 'Active' AND fac_center_id = $centerId";
                                             $fac_result1 = mysqli_query($conn , $facQuery1);
                                             while ($row = $fac_result1->fetch_assoc()) {
                                                 $id = $row['fac_id']; 
@@ -149,18 +157,26 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group pb-1">
-                                    <label for="courseEdit" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="courseEdit" id="courseEdit" required="required">
-                                        <option value="">--Select the Course--</option>
+                                    <label for="universityEdit" class="form-label"><b>University</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="universityEdit" id="universityEdit" required="required">
+                                        <option value="">--Select the University--</option>
                                         <?php 
-                                            $couQuery1 = "SELECT * FROM `jeno_course` WHERE cou_status='Active'";
-                                            $course_result1 = mysqli_query($conn , $couQuery1);
-                                            while ($row = $course_result1->fetch_assoc()) {
-                                                $id = $row['cou_id']; 
-                                                $name = $row['cou_name'];    
+                                            $couQuery = "SELECT * FROM `jeno_university` WHERE uni_status = 'Active' AND uni_center_id = $centerId";
+                                            $course_result = mysqli_query($conn , $couQuery);
+                                            while ($row = $course_result->fetch_assoc()) {
+                                                $id = $row['uni_id']; 
+                                                $name = $row['uni_name'];    
                                             ?>
                                         <option value="<?php echo $id;?>"><?php echo $name;?></option>
                                             <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="courseEdit" class="form-label"><b>Course</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="courseEdit" id="courseEdit" required="required">
+                                        <option value="">--Select the Course--</option>
                                     </select>
                                 </div>
                             </div>
