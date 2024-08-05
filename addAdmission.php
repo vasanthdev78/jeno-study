@@ -145,8 +145,8 @@
                                                                     <label for="applicationType" class="form-label"><b>Application Type</b><span class="text-danger">*</span></label>
                                                                     <select class="form-control" name="applicationType" id="applicationType" required="required">
                                                                         <option value="">--Select Application Type--</option>
-                                                                        <option value="AC">AC</option>
-                                                                        <option value="CA">CA</option>
+                                                                        <option value="AC">Academic Year</option>
+                                                                        <option value="CA">Calander Year</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

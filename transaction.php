@@ -12,7 +12,7 @@ include("class.php");
 
     // Get the modified date in 'Y-m-d' format
     $previous_date = $date->format('Y-m-d');
-    $openingBalance = getTransactionAmounts($centerId,$previous_date ,$current_date);
+    $openingBalance = getTransactionAmounts($centerId,$previous_date);
     
 ?>
 <!DOCTYPE html>

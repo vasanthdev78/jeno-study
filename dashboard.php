@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+include "class.php";
 $user_role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
@@ -48,6 +49,7 @@ $user_role = $_SESSION['role'];
                                 <div class="page-title-box">                                    
                                     <h4 class="page-title">Dashboard</h4>
                                 </div>
+                               
                             </div>
                         </div>
 
@@ -102,6 +104,55 @@ $user_role = $_SESSION['role'];
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
+                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Staff </h5>
+                                                <h3 class="my-1 py-1" id="allStaff"></h3>
+                                            </div>
+                                            
+                                        </div> <!-- end row-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+
+                            <div class="col-sm-12">
+                                     <div class="form-group ">
+                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="actDashboard" id="university" required="required">
+                                    
+                             <option value="All">--Select the University--</option>
+                                 <?php 
+                              $uniCenterId = $_SESSION['centerId'];
+                                $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
+                                  while ($row = $university_result->fetch_assoc()) {
+                                  $id = $row['uni_id']; 
+                                  $name = $row['uni_name'];        
+                                                
+                                    ?>
+                                                       
+                                 <option value="<?php echo $id;?>"><?php echo $name;?></option>
+                                   <?php } ?>
+                                   </select>
+                                  </div>
+                             </div>
+
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
                                                 <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Students </h5>
                                                 <h3 class="my-1 py-1" id="allStudent"></h3>
                                             </div>
@@ -125,19 +176,7 @@ $user_role = $_SESSION['role'];
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
 
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Total Faculties </h5>
-                                                <h3 class="my-1 py-1" id="allfaculty"></h3>
-                                            </div>
-                                            
-                                        </div> <!-- end row-->
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card -->
-                            </div> <!-- end col -->
+                           
 
                            
                             <div class="col-sm-6 col-xxl-3">
@@ -160,19 +199,7 @@ $user_role = $_SESSION['role'];
         <?php if ($user_role == 'Admin') { ?>
                             
         
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="New Leads">Total Staff </h5>
-                                                <h3 class="my-1 py-1" id="allStaff"></h3>
-                                            </div>
-                                            
-                                        </div> <!-- end row-->
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card -->
-                            </div> <!-- end col -->
+                          
 
                             
 
@@ -288,6 +315,37 @@ $(document).ready(function() {
             console.error('Response text:', xhr.responseText);
         }
     });
+
+    //----------onchange university --------------------------
+
+    $('#university').change(function() {
+        var universityId = $(this).val();
+        
+        if (universityId === "") {
+            $('#courseName').html('<option value="">--Select the Course--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actDashboard.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { university: universityId },
+            dataType: 'json',
+            success: function(response) {
+                
+                $('#allStudent').text(response.data.total_active_students);
+                $('#allEnquiry').text(response.data.total_active_enquiry);
+                $('#allAdmission').text(response.data.total_active_admission);
+                $('#allExpense').text("₹" + response.data.tran_amount_expense);
+                $('#allIncome').text("₹" + response.data.total_income);
+
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
 });
 </script>
 
