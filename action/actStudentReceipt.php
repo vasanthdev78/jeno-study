@@ -82,6 +82,7 @@
         $fee_uni_fee_total = $fee['fee_uni_fee_total'];
         $fee_uni_fee = $fee['fee_uni_fee'];
         $fee_sty_fee = $fee['fee_sty_fee'];
+        $uni_name = $fee['uni_name'];
 
         $fees_toral = $fee_sdy_fee_total + $fee_uni_fee_total ;
 
