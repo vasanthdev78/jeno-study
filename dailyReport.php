@@ -276,42 +276,140 @@ $previous_date = $date->format('Y-m-d');
 
     <script>
         $(document).ready(function() {
-    var table = $('#example').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            { extend: 'copy', footer: true },
-            { extend: 'csv', footer: true },
-            { extend: 'excel', footer: true },
-            { extend: 'pdf', footer: true },
-            { extend: 'print', footer: true }
-        ],
-        footerCallback: function(row, data, start, end, display) {
-            var api = this.api();
+            var openingBalanceCash = <?php echo $open_open_cash ?? 0; ?>;
+            var openingBalanceOnline = <?php echo $open_open_online ?? 0; ?>;
+            var closingBalanceCash = <?php echo $closing_cash ?? 0; ?>;
+            var closingBalanceOnline = <?php echo $closing_online ?? 0; ?>;
+            
+            var table = $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        footer: true,
+                        customize: function (data) {
+                            // Append custom rows for copy
+                            var footerHtml = '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
+                            return data + '\n' + footerHtml;
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        footer: true,
+                        exportOptions: {
+                            format: {
+                                body: function(data, row, column, node) {
+                                    if (column === 5) { // For "Amount" column
+                                        return data;
+                                    }
+                                    return data;
+                                }
+                            }
+                        },
+                        customize: function (csv) {
+                            // Add custom rows for CSV
+                            return csv + '\nOpening Balance - Cash,' + openingBalanceCash.toFixed(2) +
+                                         '\nOpening Balance - Online,' + openingBalanceOnline.toFixed(2) +
+                                         '\nClosing Balance - Cash,' + closingBalanceCash.toFixed(2) +
+                                         '\nClosing Balance - Online,' + closingBalanceOnline.toFixed(2);
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        footer: true,
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            
+                            // Add custom rows for Excel
+                            var additionalRows = [
+                                ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
+                                ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
+                                ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
+                                ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
+                            ];
+                            
+                            var sheetData = sheet.getElementsByTagName('sheetData')[0];
+                            var rowCount = sheetData.getElementsByTagName('row').length;
+                            additionalRows.forEach(function(row, index) {
+                                var rowElement = sheetData.appendChild(document.createElement('row'));
+                                row.forEach(function(cell) {
+                                    var cellElement = document.createElement('c');
+                                    cellElement.setAttribute('t', 'inlineStr');
+                                    var cellData = document.createElement('is');
+                                    var cellText = document.createElement('t');
+                                    cellText.textContent = cell;
+                                    cellData.appendChild(cellText);
+                                    cellElement.appendChild(cellData);
+                                    rowElement.appendChild(cellElement);
+                                });
+                            });
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        footer: true,
+                        customize: function (doc) {
+                            // Add custom rows for PDF
+                            doc.content.splice(1, 0, {
+                                table: {
+                                    widths: ['*', '*'],
+                                    body: [
+                                        ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
+                                        ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
+                                        ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
+                                        ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
+                                    ]
+                                },
+                                layout: 'noBorders'
+                            });
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        footer: true,
+                        customize: function (win) {
+                            var table = $(win.document.body).find('table');
+                            table.addClass('display').css('font-size', '10px');
 
-            // Function to calculate the total for a specific column
-            var calculateTotal = function(index) {
-                return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
-                    return parseFloat(a) + parseFloat(b);
-                }, 0);
-            };
+                            // Add custom rows for Print after the table
+                            $(table).append(
+                                '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                                '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                                '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                                '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>'
+                            );
+                        }
+                    }
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
 
-            // Calculate the total for the "Amount" column (index 5)
-            var totalAmount = calculateTotal(5);
+                    // Function to calculate the total for a specific column
+                    var calculateTotal = function(index) {
+                        return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0);
+                    };
 
-            // Update the footer with the totals
-            $(api.column(5).footer()).html(totalAmount.toFixed(2));
+                    // Calculate the total for the "Amount" column (index 5)
+                    var totalAmount = calculateTotal(5);
 
-            // Append rows for opening and closing balances
-            $(api.table().footer()).append(
-                '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>'
-            );
-        }
-    });
-});
+                    // Update the footer with the totals
+                    $(api.column(5).footer()).html(totalAmount.toFixed(2));
 
+                    // Append rows for opening and closing balances
+                    $(api.table().footer()).append(
+                        '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>'
+                    );
+                }
+            });
+        });
     </script>
 
 </body>
