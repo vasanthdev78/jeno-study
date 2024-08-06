@@ -59,12 +59,15 @@
     , a.fee_sdy_fee_total 
     , a.fee_sty_fee
     ,b.stu_cou_id 
+    ,c.uni_name
     FROM `jeno_fees` AS a
-     LEFT JOIN jeno_student AS b
-      ON a.fee_stu_id = b.stu_id 
-      WHERE a.fee_admision_id = '$admisionId'
-       AND a.fee_status ='Active'
-        AND b.stu_status ='Active'; ";
+    LEFT JOIN jeno_student AS b
+    ON a.fee_stu_id = b.stu_id 
+    LEFT JOIN jeno_university AS c
+    ON b.stu_uni_id = c.uni_id
+    WHERE a.fee_admision_id = '$admisionId'
+    AND a.fee_status ='Active'
+    AND b.stu_status ='Active'; ";
 
 
     $fees_result = $conn->query($fees_select_sql);
@@ -79,6 +82,7 @@
         $fee_uni_fee_total = $fee['fee_uni_fee_total'];
         $fee_uni_fee = $fee['fee_uni_fee'];
         $fee_sty_fee = $fee['fee_sty_fee'];
+        $uni_name = $fee['uni_name'];
 
         $fees_toral = $fee_sdy_fee_total + $fee_uni_fee_total ;
 
@@ -167,6 +171,13 @@
     // Create a class extending FPDF
     class PDF extends FPDF
     {
+        protected $uni_name;
+
+        function __construct($uni_name, $orientation='L', $unit='mm', $size=array(148, 210))
+        {
+            parent::__construct($orientation, $unit, $size);
+            $this->uni_name = $uni_name;
+        }
     // Header
     function Header()
     {
@@ -186,7 +197,7 @@
         
         // Company name
         $this->SetFont('Arial', 'B', 12);
-        $this->Cell(0, 8, 'JENO STUDY CENTER MS UNIVERSITY', 0, 1, 'R');
+        $this->Cell(0, 8, 'JENO STUDY CENTER ' . $this->uni_name, 0, 1, 'R');
         
 
         // Address
@@ -216,9 +227,9 @@
             $this->Ln(10); // Adjust the line height as needed
             $this->SetY(-25);
             $this->SetFont('Arial', '', 10);
-            $this->Cell(0,10,"Mobile : 9894653254  || email : contact@jeno.com   ",0,1,"c");
+            $this->Cell(0,10,"Mobile : 04622912601 ",0,1,"c");
             $this->SetY(-23);
-            $this->Cell(0,6,"Thankyou from Jeno Study Center MS University.",0,1,"R");
+            $this->Cell(0,6,"Thankyou from Jeno Study Center " . $this->uni_name,0,1,"R");
             
             // Position at 1.5 cm from bottom
             $this->SetY(-15);
@@ -228,7 +239,7 @@
     }
 
     // Create a new PDF instance
-    $pdf = new PDF('L', 'mm', array(148, 210));
+    $pdf = new PDF($uni_name, 'L', 'mm', array(148, 210));
     $pdf->AliasNbPages();
     $pdf->AddPage();
 

@@ -35,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['truncate'])) {
 
         // Insert four new rows into the jeno_user table
         $insert_sql = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_center_id, user_created_at, user_created_by, user_updated_at, user_updated_by, user_status) VALUES
-                       ('admin', 'admin1', 'admin', 'Admin', 1, NOW(), 0, NOW(), 0, 'Active'),
-                       ('admin', 'admin2', 'admin', 'Admin', 2, NOW(), 0, NOW(), 0, 'Active'),
+                       ('admin', 'admin', 'admin', 'Admin', 1, NOW(), 0, NOW(), 0, 'Active'),
+                       ('admin', 'admin', 'admin', 'Admin', 2, NOW(), 0, NOW(), 0, 'Active'),
                        ('staff', 'staff1', 'staff', 'Staff', 1, NOW(), 0, NOW(), 0, 'Active'),
                        ('staff', 'staff2', 'staff', 'Staff', 2, NOW(), 0, NOW(), 0, 'Active')";
 
