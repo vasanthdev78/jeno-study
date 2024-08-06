@@ -318,41 +318,41 @@ $previous_date = $date->format('Y-m-d');
                         }
                     },
                     {
-    extend: 'excelHtml5',
-    footer: true,
-    exportOptions: {
-        format: {
-            body: function(data, row, column, node) {
-                if (column === 5) { // For "Amount" column
-                    return data;
-                }
-                return data;
-            }
-        }
-    },
-    customize: function (xlsx) {
-        var sheet = xlsx.xl.worksheets['sheet1.xml'];
-        var sheetData = sheet.getElementsByTagName('sheetData')[0];
-        var rows = sheetData.getElementsByTagName('row');
-        
-        // Create new rows for opening and closing balances
-        var balanceRows = [
-            ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
-            ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
-            ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
-            ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
-        ];
-        
-        balanceRows.forEach(function(balance, index) {
-            var rowNumber = rows.length + index + 1; // Position after existing rows
-            var newRow = '<row r="' + rowNumber + '">';
-            newRow += '<c t="inlineStr"><is><t>' + balance[0] + '</t></is></c>';
-            newRow += '<c t="n"><v>' + balance[1] + '</v></c>';
-            newRow += '</row>';
-            sheetData.innerHTML += newRow;
-        });
-    }
-},
+                        extend: 'excelHtml5',
+                        footer: true,
+                        exportOptions: {
+                            format: {
+                                body: function(data, row, column, node) {
+                                    if (column === 5) { // For "Amount" column
+                                        return data;
+                                    }
+                                    return data;
+                                }
+                            }
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            var sheetData = sheet.getElementsByTagName('sheetData')[0];
+                            var rows = sheetData.getElementsByTagName('row');
+                            
+                            // Create new rows for opening and closing balances
+                            var balanceRows = [
+                                ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
+                                ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
+                                ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
+                                ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
+                            ];
+                            
+                            balanceRows.forEach(function(balance, index) {
+                                var rowNumber = rows.length + index + 1; // Position after existing rows
+                                var newRow = '<row r="' + rowNumber + '">';
+                                newRow += '<c t="inlineStr"><is><t>' + balance[0] + '</t></is></c>';
+                                newRow += '<c t="n"><v>' + balance[1] + '</v></c>';
+                                newRow += '</row>';
+                                sheetData.innerHTML += newRow;
+                            });
+                        }
+                    },
                     {
                         extend: 'pdf',
                         footer: true,
