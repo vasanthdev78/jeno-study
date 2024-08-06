@@ -142,7 +142,7 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
                ON a.pay_admission_id = b.stu_apply_no 
                LEFT JOIN jeno_university AS c
                 ON b.stu_uni_id = c.uni_id 
-                WHERE pay_date BETWEEN '2024-08-01' AND '2024-08-05'
+                WHERE pay_date BETWEEN '$date' AND '$date'
                  AND pay_status = 'Active'
                   AND b.stu_uni_id = $id AND C.uni_center_id = $centerId;"; 
 
