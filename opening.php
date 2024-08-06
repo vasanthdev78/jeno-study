@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "db/dbConnection.php";
 
 // echo "vasanth";

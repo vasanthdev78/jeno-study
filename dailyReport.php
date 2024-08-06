@@ -55,7 +55,7 @@ $previous_date = $date->format('Y-m-d');
         $opening_balance_qry = "SELECT 
         `open_id`, `open_date`, `open_open_online`, `open_open_cash`, `open_close_online`, `open_close_cash`
         FROM `jeno_opening`
-        WHERE open_date = '$previous_date' AND open_status = 'Active' AND open_center_id = $centerId;;";
+        WHERE open_date = '$previous_date' AND open_status = 'Active' AND open_center_id = $centerId;";
 
 
 
