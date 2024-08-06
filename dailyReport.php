@@ -276,42 +276,162 @@ $previous_date = $date->format('Y-m-d');
 
     <script>
         $(document).ready(function() {
-    var table = $('#example').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            { extend: 'copy', footer: true },
-            { extend: 'csv', footer: true },
-            { extend: 'excel', footer: true },
-            { extend: 'pdf', footer: true },
-            { extend: 'print', footer: true }
-        ],
-        footerCallback: function(row, data, start, end, display) {
-            var api = this.api();
-
-            // Function to calculate the total for a specific column
-            var calculateTotal = function(index) {
-                return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
-                    return parseFloat(a) + parseFloat(b);
-                }, 0);
-            };
-
-            // Calculate the total for the "Amount" column (index 5)
-            var totalAmount = calculateTotal(5);
-
-            // Update the footer with the totals
-            $(api.column(5).footer()).html(totalAmount.toFixed(2));
-
-            // Append rows for opening and closing balances
-            $(api.table().footer()).append(
-                '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>'
-            );
+            var openingBalanceCash = <?php echo $open_open_cash ?? 0; ?>;
+            var openingBalanceOnline = <?php echo $open_open_online ?? 0; ?>;
+            var closingBalanceCash = <?php echo $closing_cash ?? 0; ?>;
+            var closingBalanceOnline = <?php echo $closing_online ?? 0; ?>;
+            
+            var table = $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        footer: true,
+                        customize: function (data) {
+                            // Append custom rows for copy
+                            var footerHtml = '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                                             '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
+                            return data + '\n' + footerHtml;
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        footer: true,
+                        exportOptions: {
+                            format: {
+                                body: function(data, row, column, node) {
+                                    if (column === 5) { // For "Amount" column
+                                        return data;
+                                    }
+                                    return data;
+                                }
+                            }
+                        },
+                        customize: function (csv) {
+                            // Add custom rows for CSV
+                            return csv + '\nOpening Balance - Cash,' + openingBalanceCash.toFixed(2) +
+                                         '\nOpening Balance - Online,' + openingBalanceOnline.toFixed(2) +
+                                         '\nClosing Balance - Cash,' + closingBalanceCash.toFixed(2) +
+                                         '\nClosing Balance - Online,' + closingBalanceOnline.toFixed(2);
+                        }
+                    },
+                    {
+    extend: 'excelHtml5',
+    footer: true,
+    exportOptions: {
+        format: {
+            body: function(data, row, column, node) {
+                if (column === 5) { // For "Amount" column
+                    return data;
+                }
+                return data;
+            }
         }
-    });
-});
+    },
+    customize: function (xlsx) {
+        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+        var sheetData = sheet.getElementsByTagName('sheetData')[0];
+        var rows = sheetData.getElementsByTagName('row');
+        
+        // Create new rows for opening and closing balances
+        var balanceRows = [
+            ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
+            ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
+            ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
+            ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
+        ];
+        
+        balanceRows.forEach(function(balance, index) {
+            var rowNumber = rows.length + index + 1; // Position after existing rows
+            var newRow = '<row r="' + rowNumber + '">';
+            newRow += '<c t="inlineStr"><is><t>' + balance[0] + '</t></is></c>';
+            newRow += '<c t="n"><v>' + balance[1] + '</v></c>';
+            newRow += '</row>';
+            sheetData.innerHTML += newRow;
+        });
+    }
+},
+                    {
+                        extend: 'pdf',
+                        footer: true,
+                        customize: function (doc) {
+                            // Store the main content of the table
+                            var mainContent = doc.content[1];
 
+                            // Add custom rows for PDF at the end
+                            var customRows = {
+                                table: {
+                                    widths: ['*', '*'],
+                                    body: [
+                                        ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
+                                        ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
+                                        ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
+                                        ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
+                                    ]
+                                },
+                                layout: 'noBorders'
+                            };
+
+                            // Insert the main content first
+                            doc.content.splice(1, 1, mainContent);
+
+                            // Append the custom rows at the end
+                            doc.content.push(customRows);
+                        }
+                    },
+                    {
+                    extend: 'print',
+                    footer: true,
+                    customize: function (win) {
+                        var body = $(win.document.body);
+
+                        // Find the main table
+                        var table = body.find('table').eq(0); // Get the first table (main table)
+
+                        // Add custom rows for Print after the table
+                        body.append(
+                            '<br><table class="table" style="width: 100%; border-collapse: collapse;">' +
+                            '<tbody>' +
+                            '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
+                            '</tbody></table>'
+                        );
+
+                        // Adjust the styling of the main table if needed
+                        table.addClass('display').css('font-size', '10px');
+                    }
+                }
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Function to calculate the total for a specific column
+                    var calculateTotal = function(index) {
+                        return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0);
+                    };
+
+                    // Calculate the total for the "Amount" column (index 5)
+                    var totalAmount = calculateTotal(5);
+
+                    // Update the footer with the totals
+                    $(api.column(5).footer()).html(totalAmount.toFixed(2));
+
+                    // Append rows for opening and closing balances
+                    $(api.table().footer()).append(
+                        '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>'
+                    );
+                }
+            });
+        });
     </script>
 
 </body>
