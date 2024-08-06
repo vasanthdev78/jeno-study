@@ -1,7 +1,7 @@
 <?php
 include "db/dbConnection.php";
 
-echo "vasanth";
+// echo "vasanth";
 $current_date = date('Y-m-d');  // Correct date format
 $date = new DateTime($current_date);
 
@@ -10,18 +10,19 @@ $date->modify('-1 day');
 
 // Get the modified date in 'Y-m-d' format
 $previous_date = $date->format('Y-m-d');
+$centerId = $_SESSION['centerId'];
 
 $total_online_expense_qry = "SELECT 
     SUM(`tran_amount`) AS total_expense_online
 FROM `jeno_transaction`
-WHERE tran_status = 'Active' AND tran_center_id = 1
+WHERE tran_status = 'Active' AND tran_center_id = $centerId
 AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category = 'Expense' AND tran_method = 'Online';";
 
 $total_cash_expense_qry = "SELECT 
     SUM(`tran_amount`) AS total_expense_cash
 FROM `jeno_transaction` 
 WHERE tran_status = 'Active' 
-AND tran_center_id = 1 
+AND tran_center_id = $centerId 
 AND tran_date BETWEEN '$current_date' AND '$current_date'
 AND tran_category = 'Expense' 
 AND tran_method = 'Cash';";
@@ -29,31 +30,31 @@ AND tran_method = 'Cash';";
 $total_online_income_qry = "SELECT 
     SUM(`tran_amount`) AS total_income_online
 FROM `jeno_transaction`
-WHERE tran_status = 'Active' AND tran_center_id = 1
+WHERE tran_status = 'Active' AND tran_center_id = $centerId
 AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category = 'Income' AND tran_method = 'Online';";
 
 $total_cash_income_qry = "SELECT 
     SUM(`tran_amount`) AS total_income_cash
 FROM `jeno_transaction`
-WHERE tran_status = 'Active' AND tran_center_id = 1
+WHERE tran_status = 'Active' AND tran_center_id = $centerId
 AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category = 'Income' AND tran_method = 'Cash';";
 
 $total_fees_cash_income_qry = "SELECT 
     SUM(`pay_study_fees`) AS total_income_fees_cash
 FROM `jeno_payment_history`
-WHERE pay_status = 'Active' AND pay_center_id = 1
+WHERE pay_status = 'Active' AND pay_center_id = $centerId
 AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method = 'Cash';";
 
 $total_fees_online_income_qry = "SELECT 
     SUM(`pay_study_fees`) AS total_income_fees_online
 FROM `jeno_payment_history`
-WHERE pay_status = 'Active' AND pay_center_id = 1
+WHERE pay_status = 'Active' AND pay_center_id = $centerId
 AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method = 'Online';";
 
 $opening_balance_qry = "SELECT 
     `open_id`, `open_date`, `open_open_online`, `open_open_cash`, `open_close_online`, `open_close_cash`
 FROM `jeno_opening`
-WHERE open_date = '$previous_date' AND open_status = 'Active';";
+WHERE open_date = '$previous_date' AND open_status = 'Active' AND open_center_id = $centerId;";
 
 $expense_online_result = mysqli_query($conn, $total_online_expense_qry);
 $expense_cash_result = mysqli_query($conn, $total_cash_expense_qry);
