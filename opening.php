@@ -11,7 +11,10 @@ $date->modify('-1 day');
 
 // Get the modified date in 'Y-m-d' format
 $previous_date = $date->format('Y-m-d');
-$centerId = $_SESSION['centerId'];
+
+
+    $location = "SELECT `loc_id` FROM `jeno_location` WHERE loc_status = 'Active'";
+    $location_result = mysqli_query($conn, $location);
 
 $total_online_expense_qry = "SELECT 
     SUM(`tran_amount`) AS total_expense_online
