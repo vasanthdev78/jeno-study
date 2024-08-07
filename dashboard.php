@@ -320,7 +320,7 @@ $(document).ready(function() {
                 
                 // $('#allStudent').text(response.data.total_active_students);
                 $('#allEnquiry').text(response.data.total_active_enquiry);
-                $('#allAdmission').text(response.data.total_active_admission);
+                $('#allAdmission').text(response.data.total_active_student);
                 $('#allExpense').text("₹" + response.data.tran_amount_expense);
                 $('#allIncome').text("₹" + response.data.total_income);
 

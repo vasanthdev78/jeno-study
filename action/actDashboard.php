@@ -122,7 +122,7 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         LEFT JOIN jeno_university AS c
          ON b.stu_uni_id = c.uni_id 
          WHERE add_admit_date BETWEEN '$date' AND '$date' 
-         AND add_status ='Active' AND c.uni_id = $id AND C.uni_center_id = $centerId; ";
+         AND add_status ='Active' AND c.uni_id = $id AND b.stu_center_id = $centerId; ";
 
         $selQuery2 = "SELECT COUNT(*) AS total_active_enquiry 
                     FROM `jeno_enquiry` AS a
