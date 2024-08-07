@@ -313,8 +313,15 @@ function goViewFaculty(id)
           $('#addressView').text(response.addressView);
           $('#genderView').text(response.genderView);
           $('#qualificationView').text(response.qualificationView);
-          $('#salaryView').text(response.salaryView);
-          $('#dateofjoinView').text(response.date_of_joinView);
+          
+         
+      const salary = parseFloat(response.salaryView); // Convert to number if it's a string
+      $('#salaryView').text('₹ ' + salary.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+          let originalDate = response.date_of_joinView; // Assuming this is in the format YYYY-MM-DD
+        let dateParts = originalDate.split('-'); // Split the date string
+        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Reformat to DD-MM-YYYY
+          $('#dateofjoinView').text(formattedDate);
           $('#clgnameView').text(response.clgView);
           $('#courseView').text(response.cou_nameView);
 

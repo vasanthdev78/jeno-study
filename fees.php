@@ -117,7 +117,7 @@ ORDER BY a.fee_created_at DESC";
             <td><?php echo $name; ?></td>
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
-            <td><?php echo $balance; ?></td> 
+            <td><?php echo '₹ ' . number_format($balance, 2); ?></td> 
             <td><?php echo $status1; ?></td> 
             <td><?php echo $status2; ?></td>
             <td>
@@ -292,6 +292,10 @@ function goViewPayment(studentId) {
         dataType: 'json',
         success: function(response) {
 
+            function formatNumber(num, currencySymbol = '₹ ') {
+    return currencySymbol + Number(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
                  // Assuming response.data contains payment history array
                 var html = '';
 
@@ -303,15 +307,20 @@ var studentCurrentYear = response.pay_year;
 $('#viewAdmisionId').text(response.pay_admission_id);
 $('#viewStudentName').text(response.pay_student_name);
 $('#ViewYear').text(response.pay_year);
-$('#viewUniversityTotalFees').text(response.fee_uni_fee_total);
-$('#viewStudyCenterTotalFees').text(response.fee_sdy_fee_total);
-$('#viewUniversityFees').text(response.fee_uni_fee);
-$('#viewStudyCenterFees').text(response.fee_sty_fee);
-$('#viewTotalFees').text(response.totalAmount);
-$('#viewTotalPaid').text(response.totalPaid);
-$('#viewBalance').text(response.balance);
+$('#viewUniversityTotalFees').text(formatNumber(response.fee_uni_fee_total));
+$('#viewStudyCenterTotalFees').text(formatNumber(response.fee_sdy_fee_total));
+$('#viewUniversityFees').text(formatNumber(response.fee_uni_fee));
+$('#viewStudyCenterFees').text(formatNumber(response.fee_sty_fee));
+$('#viewTotalFees').text(formatNumber(response.totalAmount));
+$('#viewTotalPaid').text(formatNumber(response.totalPaid));
+$('#viewBalance').text(formatNumber(response.balance));
 
 console.log(response.hostory_table);
+
+function formatDate(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+}
 
 var html = '';
 
@@ -319,8 +328,8 @@ response.hostory_table.forEach(function(payment, index) {
     html += '<tr>';
     html += '<td>' + (index + 1) + '</td>'; // S.No.
     html += '<td>' + payment.pay_year + '</td>'; // Payment Year
-    html += '<td>' + payment.pay_date + '</td>'; // Payment Date
-    html += '<td>' + payment.pay_total_amount + '</td>'; // Amount Received
+    html += '<td>' + formatDate(payment.pay_date) + '</td>'; // Payment Date
+    html += '<td>' + formatNumber(payment.pay_total_amount) + '</td>'; // Amount Received
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
     html += '<td>';
     html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Jeno Bill</button></a> &nbsp;';

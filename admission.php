@@ -580,7 +580,11 @@ function goViewAdmission(id)
                     $('#yearTypeView').text(response.year_type ? response.year_type : '-');
                     $('#languageView').text(response.language ? response.language : '-');
                     $('#digilockerView').text(response.digilocker ? response.digilocker : '-');
-                    $('#admitDateView').text(response.admit_date && response.admit_date !== '0000-00-00' ? response.admit_date : '-');
+                    let originalDate = response.admit_date; // Assuming this is in the format YYYY-MM-DD
+        let dateParts = originalDate.split('-'); // Split the date string
+        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Reformat to DD-MM-YYYY
+
+                    $('#admitDateView').text(formattedDate && formattedDate !== '0000-00-00' ? formattedDate : '-');
                     $('#dobView').text(response.dob && response.dob !== '0000-00-00' ? response.dob : '-');
                     $('#genderView').text(response.gender ? response.gender : '-');
                     $('#fatherNameView').text(response.father_name ? response.father_name : '-');
@@ -621,11 +625,12 @@ function goViewAdmission(id)
 
                 html += '<tr>';
                 html += '<td>' + (index + 1) + '</td>'; // S.No.
-                html += '<td>' + payment.fee_uni_fee_total + '</td>'; // University Fee Total
-                html += '<td>' + payment.fee_uni_fee + '</td>'; // University Fee Received
-                html += '<td>' + payment.fee_sdy_fee_total + '</td>'; // Study Center Fee Total
-                html += '<td>' + payment.fee_sty_fee + '</td>'; // Study Center Fee Received
-                html += '<td>' + balance + '</td>'; // Balance
+                html += '<td>₹ ' + parseFloat(payment.fee_uni_fee_total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Total
+                html += '<td>₹ ' + parseFloat(payment.fee_uni_fee).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Received
+                html += '<td>₹ ' + parseFloat(payment.fee_sdy_fee_total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Study Center Fee Total
+                html += '<td>₹ ' + parseFloat(payment.fee_sty_fee).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Study Center Fee Received
+                html += '<td>₹ ' + parseFloat(balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Balance
+
                 html += '<td>' + status + '</td>'; // Status
                 html += '</tr>';
        });

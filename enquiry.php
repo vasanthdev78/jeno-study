@@ -604,7 +604,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
           $('#viewStudentName').text(response.enq_stu_name);
           $('#viewGender').text(response.enq_gender);
-          $('#viewDob').text(response.enq_dob);
+           // Change date format from YYYY-MM-DD to DD-MM-YYYY
+        let originalDate = response.enq_dob; // Assuming this is in the format YYYY-MM-DD
+        let dateParts = originalDate.split('-'); // Split the date string
+        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Reformat to DD-MM-YYYY
+        
+          $('#viewDob').text(formattedDate);
           $('#viewMobileNo').text(response.enq_mobile);
           $('#viewEmail').text(response.enq_email);
           $('#viewAddress').text(response.enq_address);

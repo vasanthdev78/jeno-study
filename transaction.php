@@ -68,7 +68,7 @@ include("class.php");
                                 </div>
                                 <div class="row">
                                 <h3 class="page-title col-2">Transaction</h3> 
-                                <h4 class="col-6 mt-4 text-success">Today Opening Balance - Cash : <span class="text-info"><?php echo $openingBalance['online_total'] ?></span> Online : <span class="text-info"><?php echo $openingBalance['cash_total'] ?></span></h4>
+                                <h4 class="col-6 mt-4 text-success">Today Opening Balance - Cash : <span class="text-info"><?php echo '₹ ' . number_format($openingBalance['online_total'], 2); ?></span> Online : <span class="text-info"><?php echo '₹ ' .number_format($openingBalance['cash_total'], 2); ?></span></h4>
                                 </div>
                                 
                                
@@ -108,7 +108,7 @@ include("class.php");
                         <td><?php echo $i ; $i++ ?></td>
                         <td><?php echo $row['tran_category'] ?></td>
                         <td><?php echo $row['tran_reason'] ?></td>
-                        <td><?php echo $row['tran_amount'] ?></td>
+                        <td><?php echo '₹ ' . number_format($row['tran_amount'], 2); ?></td>
                         <td><?php echo $formattedDate ?></td>
                         <td><?php echo $row['tran_method'] ?></td>
                     
@@ -443,7 +443,10 @@ document.addEventListener('DOMContentLoaded', function() {
           $('#viewCategory').text(response.tran_category);
           $('#viewExpenseReason').text(response.tran_reason);
           $('#viewDate').text(response.tran_date);
-          $('#viewAmount').text(response.tran_amount);
+         // Assuming response.tran_amount is a numeric value or a string representing a number
+        const amount = parseFloat(response.tran_amount); // Convert to number if it's a string
+        $('#viewAmount').text('₹ ' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
           $('#viewPaidMethod').text(response.tran_method);
           $('#viewTransactionId').text(response.tran_transaction_id);
           $('#viewDescription').text(response.tran_description);
