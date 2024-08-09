@@ -180,7 +180,7 @@ session_start();
 
   <script>
 
-    
+    //valitaion form------------------------------
     $(document).ready(function () {
 
      
@@ -199,6 +199,8 @@ session_start();
         $('#StaffContent').show();
     });
   
+
+    //---add staff details submit----------------------------------------
   $('#addStaff').off('submit').on('submit', function(e) {
     if (!isUsernameValid) {
         e.preventDefault();
@@ -294,7 +296,7 @@ $('#username').on('input', function() {
 
 });
 
-
+//--edit data get and load -------------------------------
 function goEditStaff(editId)
 { 
       $.ajax({
@@ -334,6 +336,8 @@ function goEditStaff(editId)
     
 }
 
+
+//--dalete staff ---------------------------------------
 function goDeleteStaff(id)
 {
     if(confirm("Are you sure you want to delete Staff?"))
@@ -367,6 +371,7 @@ function goDeleteStaff(id)
     }
 }
 
+//--view page data load ---------------------------------
 function goViewStaff(id)
 {
     $.ajax({
@@ -411,7 +416,7 @@ function goViewStaff(id)
 }
 
 
-
+//--edit form submit --------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editStaff').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally

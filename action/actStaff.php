@@ -4,7 +4,7 @@ session_start();
 
 $userId = $_SESSION['userId'];
 
-// Handle adding a client
+// Handle adding a staff details-------------------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST['staffName'] != '') {
 
     $targetDir = "../assets/images/staff/";
@@ -102,8 +102,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     exit();
     } 
 
+    //--Handle adding a staff details--end-------------------------------------------------
 
 
+    //---Handle edit data fetching ------------------------------------------------------------
 
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
@@ -138,8 +140,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     exit();
 }
 
+//---Handle edit data fetching--end-----------------------------------------------------
 
-// Handle updating staff details
+
+// Handle updating staff details-------------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['hdnStaffId'] != '') {
 
     $targetDir = "../assets/images/staff/";
@@ -219,6 +223,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     exit();
 }
 
+//-------Handle updating staff details--end--------------------------------------------
+
+
+//---Handle delete staff------------------------------------------------------------------
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
     $queryDel = "UPDATE `jeno_staff` AS a 
@@ -239,6 +247,11 @@ if (isset($_POST['deleteId'])) {
     echo json_encode($response);
     exit();
 }
+
+//--Handle delete staff--endd----------------------------------------
+
+
+//--Handle staff fetching data --------------------------------------------------
 
 if(isset($_POST['id']) && $_POST['id'] != '') {
     $staffId = $_POST['id'];
@@ -278,3 +291,4 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
         echo "Error executing query: " . $conn->error;
     }
 }
+//--Handle staff fetching data--end-------------------------------------------------------

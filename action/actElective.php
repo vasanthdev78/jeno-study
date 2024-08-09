@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a university
+// Handle adding a elective data add -------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
     $courseName = $_POST['courseName'];
     $electiveName = $_POST['electiveName'];
@@ -39,6 +39,12 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
     echo json_encode($response);
     exit();
 }
+
+
+//----Handle adding a elective data add -- end ------------------------
+
+
+//--handle university select course load ---------------------------------
 
 if (isset($_POST['university']) && $_POST['university'] != '') {
     
@@ -94,9 +100,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     exit(); 
     }
+    //----handle university select course load --end ---------------------
 
-
-    // Handle updating student details
+    // Handle updating elective  details----------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editElective') {
             $editid = $_POST['editid'];
             $editElectiveName = $_POST['editElectiveName'];
@@ -121,8 +127,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
+        //--Handle updating elective  details--end --------------------------------
 
-        // // Handle deleting a client
+
+        // // Handle deleting a elective -------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -144,7 +152,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 exit();
             }
 
-
+//----Handle deleting a elective --end -----------------------------------------------------------------
 
 
             // Default response if no action specified

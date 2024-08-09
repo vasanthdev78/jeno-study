@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a university
+// Handle adding a university-----------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addUniversity') {
     $universityName = $_POST['universityName'];
     $studyCode = $_POST['studyCode'];
@@ -55,8 +55,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addUniversity') {
     exit();
 }
 
+//----Handle adding a university--end--------------------------------------------
 
-// Handle fetching university details for editing
+
+// Handle fetching university details for editing---------------------------------
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
@@ -85,8 +87,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     exit(); 
     }
 
+    //---------Handle fetching university details for editing--end---------------------------
 
-    // Handle updating student details
+
+    // Handle updating university details=---------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editUniversity') {
             $editid = $_POST['editid'];
             $editUniversityName = $_POST['editUniversityName'];
@@ -127,8 +131,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
+        //Handle updating university details--end------------------------------------------
 
-        // // Handle deleting a client
+
+        // // Handle deleting a university-----------------------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -149,10 +155,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 echo json_encode($response);
                 exit();
             }
+//----Handle deleting a university--end-------------------------------------------------
 
 
-
-            // Check if employee id is provided
+            // Handle view university --------------------------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
 
@@ -181,7 +187,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 }
             }
 
-
+            //--Handle view university--end -----------------------------------
 
 
 

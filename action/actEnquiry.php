@@ -9,10 +9,7 @@ $response = ['success' => false, 'message' => ''];
 
 
 
-
-    //---get course --------------------------
-
-    // Handle fetching university details for editing
+    // Handle university select fetching course  details ----------------------
 if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
     $universityId = $_POST['universityID'];
@@ -41,9 +38,9 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     exit(); 
     }
 
+//---Handle university select fetching course  details --end ----------------------------------
 
-
-// Handle adding a university
+// Handle adding a enquuiry data -----------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     $name = $_POST['name'];
     $gender = $_POST['gender'];
@@ -99,8 +96,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     exit();
 }
 
+//--Handle adding a enquuiry data --end -----------------------------------
 
-// Handle fetching university details for editing
+
+// Handle fetching enquiry details for editing--------------------
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
     $centerId = $_SESSION['centerId'];
@@ -136,9 +135,11 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     exit();
 }
+//-----Handle fetching enquiry details for editing--end-----------------------------------------------
 
 
-    // Handle updating student details
+    // Handle updating enquiry  details -------------------------------------------
+
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
             $editEnquiryId = $_POST['editEnquiryId'];
             $editName = $_POST['editName'];
@@ -184,8 +185,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
+        //----Handle updating enquiry  details--end------------------------------------
 
-        // // Handle deleting a client
+
+        // // Handle deleting a enquiry -------------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -207,9 +210,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 exit();
             }
 
+            //--Handle deleting a enquiry --end------------------------------------------------
 
 
-            // Check if employee id is provided
+            // handle view data for enquiry view ------------------------------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
 
@@ -256,7 +260,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 }
             }
 
-
+            //----handle view data for enquiry view --end-----------------------------------------
 
 
 

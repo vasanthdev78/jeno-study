@@ -264,7 +264,7 @@ session_start();
         for (let year = startYear; year <= endYear; year++) {
             $select.append(new Option(year, year));
         }
-    
+    //--university selct course change -------------------------
     $('#university').change(function() {
         var universityId = $(this).val();
         
@@ -293,6 +293,8 @@ session_start();
             }
         });
     });
+
+    //course name select change -----------------------
     $('#courseName').change(function() {
         var courseId = $(this).val();
 
@@ -342,6 +344,8 @@ session_start();
             }
         });
     });
+
+    //--edit form univesity chnage course namme load------------------------
     $('#universityEdit').change(function() {
     var universityId = $(this).val();
     
@@ -371,6 +375,7 @@ session_start();
     });
 });
 
+//--edit couser name change eem / year change----------------------------------------
 $('#courseNameEdit').change(function() {
     var courseId = $(this).val();
     
@@ -422,7 +427,7 @@ $('#courseNameEdit').change(function() {
 
 });
 
-
+//--add admission form submit data -----------------------------------------------
 $('#addAdmission').off('submit').on('submit', function(e) {
     
     // Prevent default form submission to perform additional checks
@@ -490,7 +495,7 @@ $('#addAdmission').off('submit').on('submit', function(e) {
     });
 });
 
-
+//edit click get data -------------------------------------
 function goEditAdmission(editId) {
     $.ajax({
         url: 'action/actAdmission.php',
@@ -546,7 +551,7 @@ function goEditAdmission(editId) {
     });
 }
 
-
+    // view page get data -------------------------------------------
 function goViewAdmission(id)
 {
     $.ajax({
@@ -644,6 +649,8 @@ function goViewAdmission(id)
     });
 }
 
+
+//--detele  function -------------------------------
 function goDeleteAdmission(id)
 {
     if(confirm("Are you sure you want to delete Student?"))
@@ -678,7 +685,7 @@ function goDeleteAdmission(id)
 }
 
 
-
+//--edit form submition -----------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editAdmission').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally

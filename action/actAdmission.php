@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a university
+// Admission data add Start-----------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POST['stuName'] != '') {
 
     $stuName = $_POST['stuName'];
@@ -277,6 +277,11 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     exit();
 }
 
+//---end --admission add function -----------------------------
+
+
+//----University select this function trigger----------------
+
 if (isset($_POST['university']) && $_POST['university'] != '') {
     
     $universityId = $_POST['university'];
@@ -303,6 +308,11 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     exit(); 
     }
+
+    //---end function -----------------------
+
+
+    //----course select Durarion and elective or language show this function ------------------
     
     if (isset($_POST['courseId']) && $_POST['courseId'] != '') 
     {
@@ -351,9 +361,14 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     
         exit();
     }
-    
 
-if (isset($_POST['editId']) && $_POST['editId'] != '') {
+    //------function end----------------
+
+
+    
+    //--edit click edit data load this function ----------
+
+    if (isset($_POST['editId']) && $_POST['editId'] != '') {
             $editId = $_POST['editId'];
             $centerId = $_SESSION['centerId'];
         
@@ -410,7 +425,12 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
-// Handle updating student details
+
+        //---function end-----------------
+
+
+// Handle updating student details update student details ---------------
+
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_POST['hdnAdmissionId'] != '') {
     $admissionId = $_POST['hdnAdmissionId'];
     $stuName = $_POST['stuNameEdit'];
@@ -561,7 +581,12 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     exit();
 }
 
-// Handle deleting a client
+//----function end -------------------------------------------------------------------------------------
+
+
+
+
+// Handle deleting a student opration of delete----------------------------------------
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
     $queryDel = "UPDATE `jeno_student` AS a
@@ -590,6 +615,11 @@ if (isset($_POST['deleteId'])) {
     echo json_encode($response);
     exit();
 }
+
+//----function end --------------------------------------------------------------------------
+
+
+//---view function get student all data get -------------------------------------------------
 
 if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
     $studentId = $_POST['viewId'];
@@ -707,6 +737,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
         echo "Error executing query: " . $conn->error;
     }
 }
+//-funtion end ---------------------------------------------------------------------------------
 
         
 ?>

@@ -190,7 +190,7 @@ ORDER BY a.fee_created_at DESC";
     $(document).ready(function() {
     
 
-
+        //--calculate extra amount not entry-------------------------
     function calculateTotalAndBalance() {
     var uni_fee = parseFloat($('#universityFees').text().replace('₹ ', '')) || 0;
     var sty_fee = parseFloat($('#studyFees').text().replace('₹ ', '')) || 0;
@@ -281,7 +281,7 @@ window.location.href = "fees.php";
 
 });
 
-
+//----view page get data ---------------------------------
 function goViewPayment(studentId) {
     $('#feesContent').hide();
     $('#clientDetail').removeClass('d-none');
@@ -360,7 +360,7 @@ response.hostory_table.forEach(function(payment, index) {
         }
     });
 }
-
+//---payment method change ----------------------------
     document.getElementById('paidMethod').addEventListener('change', function() {
         var paymentMethod = this.value;
         var onlinePaymentDetails = document.getElementById('onlinePaymentDetails');
@@ -374,6 +374,8 @@ response.hostory_table.forEach(function(payment, index) {
         }
     });
 
+
+    //--edit fees details get data ---------------------------
     function goEditFees(addGetId) {
     $('#addFees').removeClass('was-validated').addClass('needs-validation');
     $('#addFees')[0].reset(); // Reset the form
@@ -519,7 +521,7 @@ response.hostory_table.forEach(function(payment, index) {
 
 
 
-
+//---add fees form submit----------------------
 $('#addFees').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
@@ -601,7 +603,7 @@ resetField('#studyPaid');
   });
 
 
-
+//---delete fees details----------------------------
   function goDeleteCourse(id)
         {
     //alert(id);

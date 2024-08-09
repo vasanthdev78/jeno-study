@@ -180,7 +180,7 @@ session_start();
 
     $(document).ready(function () {
  
-
+//--add course form submit --------------------------------------
   $('#addCourse').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
@@ -328,9 +328,9 @@ if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_st
 
 
 
-    //Edit Update Course Ajax
+    
 
-
+    //--edit form submit-----------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editCourse').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-
+//---------view page data get ---------------------------------------------
     
     function goViewCourse(id) 
     {
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-
+//----delete course ------------------------------------
     function goDeleteCourse(id)
         {
     //alert(id);
@@ -548,6 +548,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
+
+    //---course select duration change ------------------------------
     $(document).ready(function() {
         $('#duration, #fessType').on('input change', function() {
             $('#additionalInputs').empty(); // Clear previous inputs

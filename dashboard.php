@@ -272,6 +272,8 @@ $user_role = $_SESSION['role'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+
+        //--dashboard load----------------------------------------
 $(document).ready(function() {
     $.ajax({
         url: 'action/actDashboard.php',

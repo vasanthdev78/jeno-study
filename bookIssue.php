@@ -432,7 +432,7 @@ session_start();
 
 
 
-
+//--add book iisue form submit-------------------------------
     $('#addBookissue').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
     $('#addBookissue').removeClass('was-validated');
@@ -497,7 +497,7 @@ session_start();
 //   ____________________________________________________________________________________________________________
 
 
-
+//--view page data get -------------------------------------------
 function goViewBook(id) {
     $.ajax({
         url: 'action/actBook.php',

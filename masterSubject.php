@@ -443,6 +443,8 @@ session_start();
     });
 
 
+
+    //---edit button -----------------------------
     $('#editAddInputButton').click(function() {
         var newInputDiv = $('<div class="row mt-3"></div>');
 
@@ -560,7 +562,7 @@ session_start();
 
 
 
-// Ajax form submission
+// add subject add submit -----------------------------------------
 $('#addSubject').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -743,6 +745,7 @@ $('#addSubject').submit(function(event) {
     });
 }
 
+//--get language name --------------------------------
 function fetchLanguages(course_id, callback) {
     $.ajax({
         url: 'action/actLanguage.php',
@@ -840,7 +843,7 @@ function createElectiveInputDiv(subCode, subName) {
 
  
    
-          //Edit update subject form Ajax
+          //Edit update subject form Ajax-------------------------------------
 
 
           document.addEventListener('DOMContentLoaded', function() {
@@ -923,7 +926,7 @@ $('#backButtonSubject').click(function() {
     });
 
 
-    // Function to fetch name from the server based on ID
+    // Function to fetch name from the language-----------------------------------------
 function fetchNameById(id, callback) {
     $.ajax({
         url: 'action/actLanguage.php', // Replace with your actual server endpoint
@@ -945,7 +948,7 @@ function fetchNameById(id, callback) {
     });
 }
 
-
+//---view page data get and load ---------------------------------
 function goViewCourse(id) 
     {
     //location.href = "clientDetail.php?clientId="+id;
@@ -1091,7 +1094,7 @@ function goViewCourse(id)
         }
     });
     }
-
+//---detele subject -------------------------------
     function goDeleteSubject(id)
         {
     //alert(id);

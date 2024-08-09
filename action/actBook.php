@@ -7,9 +7,9 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a book issue
+
+// Handle adding a book issue ---------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
-    // Database connection
     
 
     // Retrieve POST data
@@ -86,8 +86,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     echo json_encode($response);
     exit();
 }
+//-----------function end -------------------------------------------------
 
-    // Handle fetching university details for editing
+
+    // Handle fetching book details for editing----------------------------------
     if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     
     $addGetId = $_POST['addGetId'];
@@ -167,10 +169,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     exit(); 
     }
 
-
+//----------function end ----------------------------------------
 
     
-// Check if necessary POST parameters are set
+// Handle insert new  details for Year change -----------------------
 if (isset($_POST['year']) && $_POST['year'] != '' &&
     isset($_POST['admissionId']) && $_POST['admissionId'] != '' &&
     isset($_POST['typeExam']) && $_POST['typeExam'] != '') {
@@ -335,12 +337,6 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
              }
          }
 
-
-
-
-        // ___________________________---------------------------------------------------------
-
-
         // Prepare response array
         $courseDetails = [
             'stu_id' => $row['stu_id'],
@@ -370,19 +366,13 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
     
     } 
 
+// -------function end --------------------------------------------------
 
-
-
-
-
-
-
-    // -------------------------------------------------------------------------------------------------
 
 
     
   
-// Check if necessary POST parameters are set
+// Handle Next year Move student shhow book details ------------------------------------
 if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     isset($_POST['addadmissionId']) && $_POST['addadmissionId'] != '' &&
     isset($_POST['addtypeExam']) && $_POST['addtypeExam'] != '' &&
@@ -529,8 +519,6 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
             }
         }
 
-
-        // ----------------------------------------------------------------------------
          
           // Decode JSON fields
           $uni_sub_subject_name = json_decode($row['sub_subject_name'], true);
@@ -582,10 +570,6 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
 
 
 
-
-        // ___________________________---------------------------------------------------------
-
-
         // Prepare response array
         $courseDetails = [
             'stu_id' => $row['stu_id'],
@@ -616,10 +600,10 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
 
 
     
-    
+    //-----------FUNCTION END --------------------------------------
 
 
-    // Fetching book details
+    // Fetching book details SHOW view page ---------------------------
     if (isset($_POST['id']) && $_POST['id'] != '') {
     $uniId = $_POST['id'];
 
@@ -666,6 +650,8 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
         echo "Error executing query: " . $conn->error;
     }
     }
+
+    //----function end -----------------------------------------------
 
 
             // Default response if no action specified

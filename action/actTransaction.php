@@ -12,7 +12,7 @@ $response = ['success' => false, 'message' => ''];
 
     //---get course --------------------------
 
-    // Handle fetching university details for editing
+    // Handle select university fetching course details-------------------------------------------
 if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     
     $universityId = $_POST['universityID'];
@@ -40,9 +40,11 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     exit(); 
     }
 
+    //--Handle select university fetching course details--end------------------------------------
 
 
-                        // Handle adding a university
+
+                        // Handle adding a Transaction -------------------------------------------
                         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addTransaction') {
                             $category = $_POST['category'];
                             
@@ -91,8 +93,10 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                             exit();
                         }
 
+                        //--Handle adding a Transaction--end---------------------------------------------
 
-                // Handle fetching university details for editing
+
+                // Handle fetching tarnsaction details for editing---------------------------------------------
                 if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     $editId = $_POST['editId'];
                     $centerId = $_SESSION['centerId'];
@@ -135,8 +139,10 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                     exit();
                 }
 
+                //--Handle fetching tarnsaction details for editing --end---------------------------------------
 
-    // Handle updating student details
+
+    // Handle updating Transaction details----------------------------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editTransaction') {
             $editTransactionId = $_POST['editTransactionId'];
             $editCategory = $_POST['editCategory'];
@@ -180,8 +186,10 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
             exit();
         }
 
+        //--Handle updating Transaction details--end-------------------------------------------
 
-        // // Handle deleting a client
+
+        // // Handle deleting a transaction-------------------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -203,9 +211,11 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                 exit();
             }
 
+            //--Handle deleting a transaction---end-----------------------------
 
 
-            // Check if employee id is provided
+
+            // Handle fetching data get transaction detaile--------------------------------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
                 $centerId = $_SESSION['centerId'];
@@ -250,12 +260,12 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                 }
             }
 
-
+            //--Handle fetching data get transaction detaile--end-----------------------------------
 
 
 
             
-// Handle fetching university details for editing
+// Handle fetching transacrion details for report page--------------------------------------------------------
 if (isset($_POST['university']) && $_POST['university'] != '') {
 
     $endDate = $_POST['endDate'];
@@ -356,6 +366,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     exit();
 }
+//-Handle fetching transacrion details for report page-end-----------------------------------
 
 
 

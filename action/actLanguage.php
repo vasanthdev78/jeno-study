@@ -3,7 +3,7 @@ include '../db/dbConnection.php'; // Adjust the path to your database connection
 session_start();
 header('Content-Type: application/json');
 
-
+//--handle view data ------------------------------------------
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     $id = intval($_POST['id']); // Sanitize input
 
@@ -38,15 +38,11 @@ if (isset($_POST['id']) && !empty($_POST['id'])) {
     exit();
 }
 
+//----handle view data --end ------------------------------------------
 
 
-
-// Check if the request method is GET
+// Handle course select elective show -------------------------------------
 if (isset($_POST['course_id']) && !empty($_POST['course_id'])) {
-
-
-   
-
 
 
     $id = $_POST['course_id'];
@@ -87,4 +83,6 @@ if (isset($_POST['course_id']) && !empty($_POST['course_id'])) {
     // Handle incorrect request method
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
+
+//---Handle course select elective show --end-----------------------------------------------------------------
 ?>

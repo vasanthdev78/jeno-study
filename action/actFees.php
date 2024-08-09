@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-    // Handle adding a university
+    // Handle adding a fees details -----------------------------------------
     if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFees') {
         $feesid = $_POST['feesid'];
         $studentId = $_POST['studentId'];
@@ -113,8 +113,10 @@ $response = ['success' => false, 'message' => ''];
         echo json_encode($response);
         exit();
     }
+    //-- Handle adding a fees details--end----------------------------------------------------
     
 
+    //--Handle get student details and course details and fess details -------------------------------------
 if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     $addGetId = $_POST['addGetId'];
     $centerId = $_SESSION['centerId'];
@@ -177,7 +179,11 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     exit(); 
 }
 
+//---Handle get student details and course details and fess details --end---------------------------------------------
 
+
+
+//---Handle fetching student details ---------------------------------
     if (isset($_POST['studentId']) && $_POST['studentId'] != '') {
         $studentId = $_POST['studentId'];
         $centerId = $_SESSION['centerId'];
@@ -291,9 +297,9 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         exit();
     }
 
+//---Handle fetching student details --end--------------------------------------------------------
 
-
-        // // Handle deleting a client
+           // Handle deleting a fees detaile ------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -350,9 +356,11 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                 exit();
             }
 
+            //--Handle deleting a fees detaile--end---------------------
 
 
-            // Check if employee id is provided
+
+            // Handle fetching fees details and show view page --------------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
                 $centerId = $_SESSION['centerId'];
@@ -396,10 +404,11 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
                     echo "Error executing query: " . $conn->error;
                 }
             }
+            //--Handle fetching fees details and show view page--end--------------------------------
 
 
 
-            // Handle fetching university details for editing
+        // Handle fetching fees  details for editing------------------------
     if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
@@ -461,7 +470,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
     exit(); 
     }
 
-
+//-----Handle fetching fees  details for editing--end-----------------------------------
 
 
 

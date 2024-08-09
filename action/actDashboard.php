@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 $centerId = $_SESSION['centerId'];
-
+    // get dashboard details get and show ----------------------
 if (isset($_POST['data']) && $_POST['data'] != '') {
     // Construct the SQL queries for each table
     $selQuery1 = "SELECT COUNT(*) AS total_active_students 
@@ -108,7 +108,9 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         $response['message'] = 'Required parameter is missing.';
     }
 
-//======================================================================================
+    //---get dashboard details get and show --end-----------------------------
+
+    //---handle one day dashboard show --------------------------------------
 
     if (isset($_POST['university']) && $_POST['university'] != '') {
         
@@ -183,7 +185,7 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
 
     }
 
-
+    //--------handle one day dashboard show --end------------------------------
 
 
 

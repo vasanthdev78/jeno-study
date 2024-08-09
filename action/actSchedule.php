@@ -3,7 +3,7 @@ include "../db/dbConnection.php";
 session_start();
 $userId = $_SESSION['userId'];
 
-
+//--Hadnle get subjects--------------------------------
 if(isset($_POST['course_id'])) {
     $courseId = $_POST['course_id'];
     $subQuery = "SELECT * FROM `jeno_subject` WHERE `sub_cou_id` = '$courseId' AND `sub_status`='Active'";
@@ -36,6 +36,12 @@ if(isset($_POST['course_id'])) {
     
     echo $options;
 }
+
+//-----------Hadnle get subjects--end--------------------------------------------------------------
+
+
+
+//--Handle shedule date add------------------------------------------------
 
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_POST['facultyName'] != '') {
 
@@ -81,6 +87,11 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_PO
     exit();
 }
 
+//---Handle shedule date add--end---------------------------------------------------
+
+
+//--handle edit date load----------------------------------------------------
+
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
 
@@ -108,6 +119,12 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     }
     exit();
 }
+
+//---handle edit date load--end ------------------------------------------
+
+
+
+//---Handle delete schedule opration ----------------------------------------
 
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
@@ -164,5 +181,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_P
     echo json_encode($response);
     exit();
 }
+
+//-----Handle delete schedule opration--end ----------------------------------------------
 
 ?>

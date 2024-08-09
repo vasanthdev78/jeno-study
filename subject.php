@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-//Student document ajax
+//edit form update -----------------
 $('#docStudent').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 

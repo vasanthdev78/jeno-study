@@ -6,7 +6,7 @@ if (isset($_REQUEST['logout'])) {
     session_destroy();
     header("Location: logout.php");
 }
-
+//--login check--------------------------
 if (isset($_POST['username']) && isset($_POST['username']) != '') {
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);

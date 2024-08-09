@@ -194,7 +194,7 @@ $enquiry_result = enquiryTable($centerId);
     <script src="assets/js/app.min.js"></script>
 
     <script>
-
+//---data table print pdf ,excel etc --------------------------------
 $(document).ready(function() {
     var table = $('#example').DataTable({
         dom: 'Bfrtip',
@@ -248,15 +248,9 @@ $(document).ready(function() {
     });
 });
 
-        // Event listener for the university filter dropdown
-        // $('#universityFilter').on('change', function() {
-        //     var selectedUniversity = $(this).val();
-        //     if (selectedUniversity) {
-        //         table.column(2).search(selectedUniversity).draw();
-        //     } else {
-        //         table.column(2).search('').draw();
-        //     }
-        // });
+        
+
+        //----date of birth select valitation opration ---------------------------------------
         var today = new Date().toISOString().split('T')[0];
 
 // Calculate the date 10 years ago
@@ -286,6 +280,9 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
 
             $(document).ready(function() {
+
+
+                //--add university university select -------------------------
     $('#university').change(function() {
         var universityId = $(this).val();
         
@@ -315,7 +312,7 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
         });
     });
 
-
+    //--edit university select ------------change course -----
     $('#editUniversity').change(function() {
         var universityId = $(this).val();
         // alert(universityId);
@@ -352,7 +349,7 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
 
 
-     // Ajax form submission
+     // Ajax form submission -----------------------------
      $('#addEnquiry').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -464,9 +461,9 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
 
 
-          //Edit update Enquiry form Ajax
+         
 
-
+    //--edit form submit -------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editEnquiry').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
@@ -542,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    //----delete ---
+    //----delete ----------------
     function goDeleteEnquiry(id)
         {
     //alert(id);

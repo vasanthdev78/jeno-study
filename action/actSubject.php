@@ -8,13 +8,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 
-
-
-
-
-    //---get course --------------------------
-
-    // Handle fetching university details for editing
+    // Handle fetching course details ----------------------------------------
 if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     
     $universitySub = $_POST['universitySub'];
@@ -42,8 +36,10 @@ if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     exit(); 
     }
 
-    //-----get elective pepar -------------------------------
-// Handle fetching university details for editing
+    //---Handle fetching course details--end-------------------------
+
+    
+// Handle fetching Select university so elective details -------------------------------------------------------
 if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
     $electiveSub = $_POST['electiveSub'];
     $centerId = $_SESSION['centerId'];
@@ -92,10 +88,12 @@ if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
     exit(); 
 }
 
+//--Handle fetching Select university so elective details --end----------------------------------------------
 
 
 
-// Handle adding a university
+
+// Handle adding a subject -----------------------------------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
     $university = $_POST['university'];
     $course = $_POST['course'];
@@ -199,10 +197,13 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
     exit();
 }
 
+//--Handle adding a subject--end--------------------------------------------------
 
-// Handle fetching university details for editing
+
+// Handle fetching subject details for editing-----------------------------------------------
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
+    $uniCenterId = $_SESSION['centerId'];
 
     $selQuery = "SELECT 
     `sub_id`
@@ -223,7 +224,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        $courseName = courseName($row['sub_uni_id']);
+        $courseName = courseName($row['sub_uni_id'] ,$uniCenterId);
         $electiveName = electiveName($row['sub_cou_id']);
 
 
@@ -273,9 +274,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     exit();
 }
+//--Handle fetching subject details for editing--end--------------------------------------
 
 
-    // Handle updating student details
+    // Handle updating subject details-----------------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editSubject') {
             $editSubId = $_POST['editSubId'];
             $editUniversity = $_POST['editUniversity'];
@@ -356,8 +358,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
+        //----Handle updating subject details--end----------------------------------------------------
 
-        // // Handle deleting a client
+
+        // // Handle deleting a subject----------------------------------------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -379,9 +383,11 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 exit();
             }
 
+            //---Handle deleting a subject--end-------------------------------------
 
 
-            // Check if employee id is provided
+
+            // handle fetching datafor view details-------------------------------------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
 
@@ -458,7 +464,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 }
             }
 
-
+            //---handle fetching datafor view details--end-----------------------------------------------------
 
 
 

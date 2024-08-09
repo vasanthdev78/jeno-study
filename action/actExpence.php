@@ -10,7 +10,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 
-// Handle fetching university details for editing
+// Handle select inoversity  fetching course  details ---------------------------
 if (isset($_POST['university']) && $_POST['university'] != '') {
 
     $endDate = $_POST['endDate'];
@@ -76,3 +76,5 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     exit();
 }
+
+//---Handle select inoversity  fetching course  details--end--------------------------

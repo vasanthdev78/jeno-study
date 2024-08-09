@@ -4,6 +4,8 @@ session_start();
 
 $userId = $_SESSION['userId'];
 
+//--Handle add faculty details -------------------------------------------
+
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POST['staffName'] != '') {
 
     $targetDir = "../assets/images/faculty/";
@@ -85,6 +87,10 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POS
     exit();
 }
 
+//----Handle add faculty details--end ------------------------------------------------------
+
+
+//--Handle edit detaile show ----------------------------------------------------------------
 
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
@@ -117,8 +123,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     exit();
 }
 
+//--------Handle edit detaile show--end------------------------------------------------------------
 
-// Handle updating faculty details
+// Handle updating faculty details ----------------------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editFaculty' && $_POST['hdnFacultyId'] != '') {
 
     $targetDir = "../assets/images/faculty/";
@@ -191,9 +198,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editFaculty' && $_POST
     echo json_encode($response);
     exit();
 }
+//--Handle updating faculty details--end------------------------------------------------------
 
-
-
+//--Handle delete action for fucalty ---------------------------------------------------
 if (isset($_POST['deleteId'])) {
     $id = $_POST['deleteId'];
     $queryDel = "UPDATE `jeno_faculty` 
@@ -249,3 +256,5 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
         echo "Error executing query: " . $conn->error;
     }
 }
+
+//---Handle delete action for fucalty--end -----------------------------------------------------------------

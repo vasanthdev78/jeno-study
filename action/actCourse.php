@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a university
+// Handle adding a Course detaile --------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addCourse') {
     $universityId = $_POST['university'];
     $courseName = $_POST['courseName'];
@@ -65,7 +65,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addCourse') {
     exit();
 }
 
-// Handle fetching university details for editing
+//-------Handle adding a Course detaile-- end -----------------------------------------------
+
+// Handle fetching course details for editing------------------------------------------------
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
@@ -164,8 +166,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             exit();
         }
 
+        //----------Handle fetching course details for editing-end ------------------------
 
-        // // Handle deleting a client
+
+    //----------------- Handle deleting a course-----------------------------------
             if (isset($_POST['deleteId'])) {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
@@ -187,9 +191,11 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 exit();
             }
 
+            //-- Handle deleting a course --end -------------------------
 
 
-            // Check if employee id is provided
+
+            // Handle view page details show ----------------------------
             if(isset($_POST['id']) && $_POST['id'] != '') {
                 $uniId = $_POST['id'];
 
@@ -234,7 +240,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             }
 
 
-
+    //--Handle view page details show  --end -------------------
 
 
             // Default response if no action specified

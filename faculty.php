@@ -193,6 +193,7 @@ $(document).ready(function () {
   });
   
 
+  //--add faculty fomr sumbit ---------------------------------------
   $('#addFaculty').off('submit').on('submit', function(e) {
 
     e.preventDefault(); 
@@ -258,6 +259,7 @@ $(document).ready(function () {
 
 });
 
+//---edit faculty data get anf load ----------------------------------
 function goEditFaculty(editId)
 { 
       $.ajax({
@@ -293,6 +295,7 @@ function goEditFaculty(editId)
     
 }
 
+//--view page load data------------------------------------
 function goViewFaculty(id)
 {
     $.ajax({
@@ -341,7 +344,7 @@ function goViewFaculty(id)
     });
 }
 
-
+//---detele faculty -----------------------------------------
 function goDeleteFaculty(id)
 {
     if(confirm("Are you sure you want to delete Faculty?"))
@@ -375,7 +378,7 @@ function goDeleteFaculty(id)
     }
 }
 
-
+  //--edit faculty form submit --------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editFaculty').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
