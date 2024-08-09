@@ -2,8 +2,8 @@
 session_start();
     
     include("class.php");
-
-    $elective_result = electiveTable(); // Call the function to fetch universities 
+    $centerId = $_SESSION['centerId'];
+    $elective_result = electiveTable($centerId); // Call the function to fetch universities 
     
     
 ?>

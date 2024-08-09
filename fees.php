@@ -1,7 +1,8 @@
 <?php
 session_start();
     include("db/dbConnection.php");
-    
+    $centerId = $_SESSION['centerId'];
+
     $selQuery = "SELECT a.*, b.*, c.*
 FROM `jeno_fees` AS a
 LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
@@ -12,6 +13,7 @@ AND a.fee_created_at = (
     FROM `jeno_fees` AS a2
     WHERE a2.fee_stu_id = a.fee_stu_id
     AND a2.fee_status = 'Active'
+    AND a.fee_center_id =$centerId 
 )
 ORDER BY a.fee_created_at DESC";
     $resQuery = mysqli_query($conn , $selQuery); 

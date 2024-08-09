@@ -1,8 +1,8 @@
 <?php
 session_start();
     include "class.php";
-    
-    $subject_result = subjectTable();
+    $centerId = $_SESSION['centerId'];
+    $subject_result = subjectTable($centerId);
     
 ?>
 <!DOCTYPE html>

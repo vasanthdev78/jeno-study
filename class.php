@@ -47,13 +47,13 @@ function universityTable($location) {
 }
 
 
-function electiveTable() {
+function electiveTable($location) {
     global $conn; // Assuming $conn is your database connection variable
 
 
    // Query to retrieve course name based on course_id
    $elective_query = "SELECT a.*, b.*, c.* FROM `jeno_elective` AS a LEFT JOIN `jeno_course` AS b ON a.ele_cou_id = b.cou_id
-   LEFT JOIN `jeno_university` AS c ON b.cou_uni_id = c.uni_id WHERE a.ele_status ='Active'";
+   LEFT JOIN `jeno_university` AS c ON b.cou_uni_id = c.uni_id WHERE a.ele_status ='Active' AND a.ele_center_id =$location;";
 
    // Execute the query
    $elective_result = $conn->query($elective_query);
@@ -335,12 +335,19 @@ function electiveTable() {
               //----elective language ------------------
 
         
-    function subjectTable() {    
+    function subjectTable($location) {    
         global $conn; // Assuming $conn is your database connection variable
     
     
        // Query to retrieve course name based on course_id
-       $subject_query = "SELECT `sub_id`, `sub_uni_id`, `sub_cou_id`, `sub_type` ,`sub_exam_patten` FROM `jeno_subject` WHERE sub_status = 'Active'";
+       $subject_query = "SELECT 
+       `sub_id`
+       , `sub_uni_id`
+       , `sub_cou_id`
+       , `sub_type` 
+       , `sub_exam_patten`
+        FROM `jeno_subject`
+         WHERE sub_status = 'Active' AND sub_center_id =$location;";
     
        // Execute the query
        $subject_result = $conn->query($subject_query);
