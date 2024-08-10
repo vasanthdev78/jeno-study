@@ -48,6 +48,16 @@
     echo "0 results";
     }
 
+    $select_rollNo ="SELECT `stu_enroll` FROM `jeno_student` WHERE `stu_apply_no` = '$admisionId' AND `stu_status` = 'Active'";
+
+    $select_rollNo_result = $conn->query($select_rollNo);
+    $stu_enroll = "";
+    if ($select_rollNo_result->num_rows > 0) {
+        $roll = $select_rollNo_result->fetch_assoc();
+        $stu_enroll = $roll['stu_enroll'];
+
+    }
+
 
 
     $fees_select_sql = "SELECT 
@@ -249,7 +259,14 @@
     $pdf->Cell(0, 8, 'Name: '.$pay_student_name, 'T', 0,'L');
     $pdf->Cell(0, 8, 'Date: ' . $formattedDate, 'T', 1,'R');
     $pdf->Cell(0, 8, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
-    $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
+
+        // Show Enrollment No if available, otherwise show Admission No
+        if (!empty($stu_enroll)) {
+            $pdf->Cell(0, 8, 'EnRoll No:'.$stu_enroll, 0, 1,'R');
+        } else {
+            $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
+        }
+
     $pdf->Cell(0, 8, 'Student Course :'.$Student_course. ' (' .$pay_year. ')' , 0, 0,'L');
 
     if($pay_paid_method =='Online'){

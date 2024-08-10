@@ -85,7 +85,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     }
     
     // Check if the name and phone number exist in the enquiry table
-    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_center_id` = '$$centerId' AND `enq_adminsion_status` = 'Pending'";
+    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_center_id` = '$centerId' AND `enq_adminsion_status` = 'Pending'";
     $enquiry_check_result = $conn->query($enquiry_check_sql);
 
     if ($enquiry_check_result->num_rows > 0) {
@@ -93,6 +93,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $update_enquiry_sql = "UPDATE `jeno_enquiry` SET `enq_adminsion_status` = 'Complete' WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo'";
         $conn->query($update_enquiry_sql);
     }
+    
 
     $student_sql = "INSERT INTO `jeno_student`
     (`stu_name`

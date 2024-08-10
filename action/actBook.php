@@ -107,6 +107,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
         , a.stu_aca_year 
         , a.stu_join_year  
         , b.cou_fees_type
+        , b.cou_exam_type
         , b.cou_id 
         , b.cou_name 
         , b.cou_duration
@@ -147,6 +148,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
             'stu_aca_year' => $row['stu_aca_year'],
             'stu_join_year' => $row['stu_join_year'],
             'cou_fees_type' => $row['cou_fees_type'],
+            'cou_exam_type' => $row['cou_exam_type'],
             'cou_id' => $row['cou_id'],
             'cou_name' => $row['cou_name'],
             'cou_duration' => $row['cou_duration'],

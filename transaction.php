@@ -12,7 +12,7 @@ include("class.php");
 
     // Get the modified date in 'Y-m-d' format
     $previous_date = $date->format('Y-m-d');
-    $openingBalance = getTransactionAmounts($centerId,$previous_date);
+    $openingBalance = getTransactionAmounts($centerId,$current_date);
     
 ?>
 <!DOCTYPE html>
@@ -68,7 +68,7 @@ include("class.php");
                                 </div>
                                 <div class="row">
                                 <h3 class="page-title col-2">Transaction</h3> 
-                                <h4 class="col-6 mt-4 text-success">Today Opening Balance - Cash : <span class="text-info"><?php echo '₹ ' . number_format($openingBalance['online_total'], 2); ?></span> Online : <span class="text-info"><?php echo '₹ ' .number_format($openingBalance['cash_total'], 2); ?></span></h4>
+                                <h4 class="col-10 mt-4 text-success">Today Opening Balance - Cash : <span class="text-info"><?php echo '₹ ' . number_format($openingBalance['cash_total'], 2); ?></span> Online : <span class="text-info"><?php echo '₹ ' .number_format($openingBalance['online_total'], 2); ?></span></h4>
                                 </div>
                                 
                                

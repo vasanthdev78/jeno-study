@@ -312,11 +312,12 @@ function electiveTable($location) {
         
         
            // Query to retrieve course name based on course_id
-           $admission_query = "SELECT a.*, b.*, c.* FROM `jeno_student` AS a 
-           LEFT JOIN jeno_university AS b 
-           ON a.stu_uni_id=b.uni_id 
-           LEFT JOIN jeno_course AS c ON a.stu_cou_id=c.cou_id 
-           WHERE stu_status = 'Active' AND stu_center_id =$location";
+           $admission_query = "SELECT a.*, b.*, c.*
+        FROM `jeno_student` AS a
+        LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
+        LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
+        WHERE a.stu_status = 'Active' AND a.stu_center_id = $location
+        ORDER BY a.stu_id DESC;";
         
            // Execute the query
            $admission_result = $conn->query($admission_query);
@@ -392,48 +393,25 @@ function electiveTable($location) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve the sum of online transaction amounts
-            $online_query = "SELECT 
-                                SUM(`tran_amount`) as online_total
-                             FROM `jeno_transaction`
-                             WHERE tran_category ='Income'
-                               AND tran_status ='Active'
-                               AND tran_date = '$date'
-                               AND tran_center_id = $location
-                               AND tran_method = 'Online';";
+            $opening_query = "SELECT `open_open_online`, `open_open_cash` FROM `jeno_opening` WHERE open_date ='$date' AND open_center_id =$location;";
         
-            // Query to retrieve the sum of cash transaction amounts
-            $cash_query = "SELECT 
-                              SUM(`tran_amount`) as cash_total
-                           FROM `jeno_transaction`
-                           WHERE tran_category ='Income'
-                             AND tran_status ='Active'
-                             AND tran_date = '$date'
-                             AND tran_center_id = $location
-                             AND tran_method = 'Cash';";
+            
         
             // Execute the queries
-            $online_result = $conn->query($online_query);
-            $cash_result = $conn->query($cash_query);
+            $opening_result = $conn->query($opening_query);
         
             $online_total = 0;
             $cash_total = 0;
 
-
-            
+  
         
             // Check if the online query was successful and there is a result
-            if ($online_result && $online_result->num_rows > 0) {
-                $row = $online_result->fetch_assoc();
-                $online_total = $row['online_total'];
+            if ($opening_result->num_rows > 0) {
+                $row = $opening_result->fetch_assoc();
+                $online_total = $row['open_open_online'];
+                $cash_total = $row['open_open_cash'];
             }
-        
-            // Check if the cash query was successful and there is a result
-            if ($cash_result && $cash_result->num_rows > 0) {
 
-
-                $row = $cash_result->fetch_assoc();
-                $cash_total = $row['cash_total'];
-            }
         
             return [
                 'online_total' => $online_total,

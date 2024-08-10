@@ -229,7 +229,9 @@
 </li>
 <?php } ?>
 
-<?php if ($user_role == 'Admin') { ?>
+<?php 
+// if ($user_role == 'Admin') { 
+    ?>
     <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarReport" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
         <i class="bi bi-person-vcard"></i>
@@ -264,7 +266,9 @@
         </ul>
     </div>
     </li>
-    <?php } ?>
+    <?php 
+// }
+ ?>
 </ul>
                     <!--- End Sidemenu -->
 

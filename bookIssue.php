@@ -543,7 +543,7 @@ function goViewBook(id) {
                 
                 // Create list items for each year and its books
                 $.each(groupedBooks, function(year, books) {
-                    var $yearItem = $('<li>').text('Year ' + year + ':');
+                    var $yearItem = $('<li>').text('Year / Semester : ' + year + '');
                     var $bookList = $('<ul>'); // Create a nested list for books
                     
                     books.forEach(function(book) {
