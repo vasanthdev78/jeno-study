@@ -1,5 +1,5 @@
 <?php 
-include("db/dbConnection.php");
+include "db/dbConnection.php";
 
 
 function getLocation() {
@@ -7,7 +7,12 @@ function getLocation() {
 
 
    // Query to retrieve course name based on course_id
-   $location_query = "SELECT `loc_id`, `loc_name`, `loc_short_name` FROM `jeno_location` WHERE loc_status='Active';";
+   $location_query = "SELECT 
+                    `loc_id`
+                    , `loc_name`
+                    , `loc_short_name` 
+                    FROM `jeno_location` 
+                    WHERE loc_status='Active';";
 
    // Execute the query
    $location_result = $conn->query($location_query);
@@ -29,7 +34,9 @@ function universityTable($location) {
 
 
    // Query to retrieve course name based on course_id
-   $university_query = "SELECT * FROM `jeno_university` WHERE uni_status ='Active' AND `uni_center_id`= $location ;";
+   $university_query = "SELECT * FROM `jeno_university` 
+   WHERE uni_status ='Active' 
+   AND `uni_center_id`= $location ;";
 
    // Execute the query
    $university_result = $conn->query($university_query);
@@ -52,8 +59,15 @@ function electiveTable($location) {
 
 
    // Query to retrieve course name based on course_id
-   $elective_query = "SELECT a.*, b.*, c.* FROM `jeno_elective` AS a LEFT JOIN `jeno_course` AS b ON a.ele_cou_id = b.cou_id
-   LEFT JOIN `jeno_university` AS c ON b.cou_uni_id = c.uni_id WHERE a.ele_status ='Active' AND a.ele_center_id =$location;";
+   $elective_query = "SELECT 
+   a.*
+   , b.*
+   , c.* 
+   FROM `jeno_elective` AS a
+   LEFT JOIN `jeno_course` AS b ON a.ele_cou_id = b.cou_id
+   LEFT JOIN `jeno_university` AS c ON b.cou_uni_id = c.uni_id 
+   WHERE a.ele_status ='Active' 
+   AND a.ele_center_id =$location;";
 
    // Execute the query
    $elective_result = $conn->query($elective_query);
@@ -87,7 +101,10 @@ function electiveTable($location) {
    , a.cou_exam_type 
    ,a.cou_duration 
    ,b.uni_name 
-   FROM jeno_course AS a LEFT JOIN jeno_university AS b ON a.cou_uni_id = b.uni_id  WHERE cou_status ='Active' AND cou_center_id = $location;";
+   FROM jeno_course AS a 
+   LEFT JOIN jeno_university AS b ON a.cou_uni_id = b.uni_id 
+   WHERE cou_status ='Active' 
+   AND cou_center_id = $location;";
 
    // Execute the query
    $course_result = $conn->query($course_query);
@@ -112,7 +129,10 @@ function electiveTable($location) {
         global $conn; // Assuming $conn is your database connection variable
     
         // Query to retrieve university name based on uni_id
-        $Uni_name = "SELECT `uni_name` FROM `jeno_university` WHERE `uni_id` = $uniID";
+        $Uni_name = "SELECT 
+        `uni_name`
+         FROM `jeno_university` 
+         WHERE `uni_id` = $uniID";
     
         // Execute the query
         $result = $conn->query($Uni_name);
@@ -136,7 +156,10 @@ function electiveTable($location) {
         global $conn; // Assuming $conn is your database connection variable
     
         // Query to retrieve university name based on uni_id
-        $enquiry_name = "SELECT `cou_name` FROM `jeno_course` WHERE `cou_id` = $couonlyID";
+        $enquiry_name = "SELECT 
+        `cou_name` 
+        FROM `jeno_course` 
+        WHERE `cou_id` = $couonlyID";
     
         // Execute the query
         $enquiry_result = $conn->query($enquiry_name);
@@ -160,7 +183,13 @@ function electiveTable($location) {
         global $conn; // Assuming $conn is your database connection variable
     
         // Query to retrieve university name based on uni_id
-        $elective_name = "SELECT `cou_id`, `cou_name`, `cou_exam_type`, `cou_duration` FROM `jeno_course` WHERE cou_id = $elective";
+        $elective_name = "SELECT 
+        `cou_id`
+        , `cou_name`
+        , `cou_exam_type`
+        , `cou_duration`
+         FROM `jeno_course` 
+         WHERE cou_id = $elective";
     
         // Execute the query
         $elective_result = $conn->query($elective_name);
@@ -198,7 +227,8 @@ function electiveTable($location) {
        , `enq_address`
        , `enq_adminsion_status`
         FROM `jeno_enquiry`
-         WHERE enq_status ='Active' AND enq_center_id = $location";
+        WHERE enq_status ='Active' 
+        AND enq_center_id = $location";
     
        // Execute the query
        $enquiry_result = $conn->query($enquiry_query);
@@ -221,7 +251,12 @@ function electiveTable($location) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve courses based on uni_id
-            $cou_name = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $couID AND cou_center_id = $location";
+            $cou_name = "SELECT 
+            `cou_id`
+            , `cou_name`
+             FROM `jeno_course`
+              WHERE cou_uni_id = $couID 
+              AND cou_center_id = $location";
             
             // Execute the query
             $cou_result = $conn->query($cou_name);
@@ -251,7 +286,14 @@ function electiveTable($location) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve courses based on uni_id
-            $ele_name = "SELECT `ele_id`, `ele_cou_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id =$eleID AND ele_lag_elec = 'E' AND ele_status = 'Active'";
+            $ele_name = "SELECT 
+            `ele_id`
+            , `ele_cou_id`
+            , `ele_elective` 
+            FROM `jeno_elective` 
+            WHERE ele_cou_id =$eleID 
+            AND ele_lag_elec = 'E' 
+            AND ele_status = 'Active'";
             
             // Execute the query
             $ele_result = $conn->query($ele_name);
@@ -290,7 +332,8 @@ function electiveTable($location) {
        , `tran_method`
        , `tran_reason` 
        FROM `jeno_transaction`
-        WHERE tran_status ='Active' AND tran_center_id = $location";
+        WHERE tran_status ='Active' 
+        AND tran_center_id = $location";
     
        // Execute the query
        $transaction_result = $conn->query($transaction_query);
@@ -348,7 +391,8 @@ function electiveTable($location) {
        , `sub_type` 
        , `sub_exam_patten`
         FROM `jeno_subject`
-         WHERE sub_status = 'Active' AND sub_center_id =$location;";
+         WHERE sub_status = 'Active' 
+         AND sub_center_id =$location;";
     
        // Execute the query
        $subject_result = $conn->query($subject_query);
@@ -370,7 +414,10 @@ function electiveTable($location) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve university name based on uni_id
-            $loc_name = "SELECT `loc_name` FROM `jeno_location` WHERE `loc_id` = $locID";
+            $loc_name = "SELECT 
+            `loc_name` 
+            FROM `jeno_location`
+             WHERE `loc_id` = $locID";
         
             // Execute the query
             $loc_result = $conn->query($loc_name);
@@ -393,7 +440,12 @@ function electiveTable($location) {
             global $conn; // Assuming $conn is your database connection variable
         
             // Query to retrieve the sum of online transaction amounts
-            $opening_query = "SELECT `open_open_online`, `open_open_cash` FROM `jeno_opening` WHERE open_date ='$date' AND open_center_id =$location;";
+            $opening_query = "SELECT 
+            `open_open_online`
+            , `open_open_cash` 
+            FROM `jeno_opening` 
+            WHERE open_date ='$date' 
+            AND open_center_id =$location;";
         
             
         

@@ -85,12 +85,19 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     }
     
     // Check if the name and phone number exist in the enquiry table
-    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo' AND `enq_center_id` = '$centerId' AND `enq_adminsion_status` = 'Pending'";
+    $enquiry_check_sql = "SELECT * FROM `jeno_enquiry` 
+    WHERE `enq_stu_name` = '$stuName' 
+    AND `enq_mobile` = '$mobileNo' 
+    AND `enq_center_id` = '$centerId' 
+    AND `enq_adminsion_status` = 'Pending'";
     $enquiry_check_result = $conn->query($enquiry_check_sql);
 
     if ($enquiry_check_result->num_rows > 0) {
         // Update enquiry status to complete
-        $update_enquiry_sql = "UPDATE `jeno_enquiry` SET `enq_adminsion_status` = 'Complete' WHERE `enq_stu_name` = '$stuName' AND `enq_mobile` = '$mobileNo'";
+        $update_enquiry_sql = "UPDATE `jeno_enquiry` 
+        SET `enq_adminsion_status` = 'Complete' 
+        WHERE `enq_stu_name` = '$stuName' 
+        AND `enq_mobile` = '$mobileNo'";
         $conn->query($update_enquiry_sql);
     }
     
@@ -214,9 +221,12 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($documents_sql);
 
         // Retrieve course details including fees arrays
-            $courseQuery = "SELECT `cou_university_fess`, `cou_study_fees` 
+            $courseQuery = "SELECT 
+            `cou_university_fess`
+            , `cou_study_fees` 
             FROM `jeno_course` 
-            WHERE `cou_id` = '$courseName' AND cou_center_id =$centerId";
+            WHERE `cou_id` = '$courseName' 
+            AND cou_center_id =$centerId";
 
         $courseResult = $conn->query($courseQuery);
 
@@ -288,7 +298,14 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $universityId = $_POST['university'];
     $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_status = 'Active' AND cou_uni_id = $universityId AND cou_center_id = $centerId;";
+    $courseQuery = "SELECT 
+    `cou_id`
+    , `cou_name` 
+    FROM `jeno_course` 
+    WHERE 
+    cou_status = 'Active' 
+    AND cou_uni_id = $universityId 
+    AND cou_center_id = $centerId;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -321,7 +338,12 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         $centerId = $_SESSION['centerId'];
     
         // Fetch course details
-        $courseQuery = "SELECT cou_duration, cou_fees_type FROM `jeno_course` WHERE cou_id = '$courseId' AND cou_center_id = $centerId";
+        $courseQuery = "SELECT 
+        cou_duration
+        , cou_fees_type 
+        FROM `jeno_course` 
+        WHERE cou_id = '$courseId' 
+        AND cou_center_id = $centerId";
         $courseResult = mysqli_query($conn, $courseQuery);
     
         if ($courseResult) {
@@ -335,7 +357,13 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         }
     
         // Fetch electives based on course_id
-        $eleQuery = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_status = 'Active' AND ele_cou_id = $courseId AND ele_center_id = $centerId";
+        $eleQuery = "SELECT 
+        `ele_id`
+        , `ele_elective` 
+        FROM `jeno_elective` 
+        WHERE ele_status = 'Active' 
+        AND ele_cou_id = $courseId 
+        AND ele_center_id = $centerId";
         $eleResult = mysqli_query($conn, $eleQuery);
     
         if ($eleResult) {
@@ -376,7 +404,8 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
             $selQuery = "SELECT a.*, b.*  
                          FROM `jeno_student` AS a 
                          LEFT JOIN `jeno_stu_additional` AS b ON a.stu_id = b.add_stu_id 
-                         WHERE a.stu_id = $editId AND a.stu_center_id = $centerId";
+                         WHERE a.stu_id = $editId 
+                         AND a.stu_center_id = $centerId";
             $result = mysqli_query($conn, $selQuery);
         
             if ($result) {
@@ -651,7 +680,8 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
         , `fee_sty_fee`
         , `fee_stu_year`
          FROM `jeno_fees` 
-         WHERE fee_stu_id = '$studentId' AND fee_center_id = $centerId ;";
+         WHERE fee_stu_id = '$studentId' 
+         AND fee_center_id = $centerId ;";
     $result2 = $conn->query($select_fees_sql);
     
 
