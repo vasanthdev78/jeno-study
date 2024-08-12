@@ -267,7 +267,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
             
 // Handle fetching transacrion details for report page--------------------------------------------------------
 if (isset($_POST['university']) && $_POST['university'] != '') {
-
+    $centerId = $_SESSION['centerId'];
     $endDate = $_POST['endDate'];
     $startDate = $_POST['startDate'];
     $university = $_POST['university'];

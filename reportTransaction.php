@@ -2,7 +2,20 @@
 session_start();
     include("class.php");
     
-    
+    $centerId = $_SESSION['centerId'];
+    $role = $_SESSION['role'];
+
+    function getLocationOptions($selectedId = null) {
+        $location_result = getLocation(); // Call the function to fetch locations
+        $options = '';
+        while ($row = $location_result->fetch_assoc()) {
+            $id = $row['loc_id']; 
+            $name = $row['loc_short_name'];
+            $selected = ($selectedId == $id) ? 'selected' : '';
+            $options .= "<option value=\"$id\" $selected>$name</option>";
+        }
+        return $options;
+    }
     
 ?>
 <!DOCTYPE html>
@@ -62,6 +75,10 @@ session_start();
                                     <input type="date" class="form-control" id="endDate" required>
                                     <div class="invalid-feedback" id="endDateError">End date cannot be before the start date.</div>
                                 </div>
+
+                                  
+                                    
+                                    
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
@@ -73,26 +90,28 @@ session_start();
                                                 <div class="invalid-feedback">Please select a transaction type.</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
-                                                <select class="form-control" name="location" id="location" required>
-                                                    <option value="All">--Select Location--</option>
-                                                    <?php 
-                                                        $location_result = getLocation(); // Call the function to fetch universities 
-                                                        while ($row = $location_result->fetch_assoc()) {
-                                                        $id = $row['loc_id']; 
-                                                        $name = $row['loc_short_name'];    
-                                            
-                                                        ?>
-                                            
-                                                <option value="<?php echo $id;?>"><?php echo $name;?></option>
 
-                                            <?php } ?>
-                                                </select>
-                                                <div class="invalid-feedback">Please select a location.</div>
-                                            </div>
-                                        </div>
+                                       
+
+                                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
+                                    <select class="form-control" name="location" id="location" required <?php if($role != 'Admin') echo 'readonly'; ?>>
+                                        <option value="All">--Select Location--</option>
+                                        <?php 
+                                            if($role == 'Admin') {
+                                                echo getLocationOptions();
+                                            } else {
+                                                echo getLocationOptions($centerId);
+                                            }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a location.</div>
+                                </div>
+                            </div>
+
+                                 
+
                                         <div class="col-md-2">
                                             <button type="button" class="btn btn-primary mt-4" id="searchBtn">Search</button>
                                         </div>
@@ -204,6 +223,12 @@ session_start();
 
     <!-------Start Add Student--->
     <script>
+
+         // If the role is not Admin, make the select dropdown read-only
+    <?php if($role != 'Admin'): ?>
+        document.getElementById('location').disabled = true;
+    <?php endif; ?>
+
     document.addEventListener('DOMContentLoaded', function() {
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
@@ -289,6 +314,7 @@ $(document).ready(function() {
     });
 
     $('#searchBtn').on('click', function() {
+        
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
         var university = $('#university').val();
