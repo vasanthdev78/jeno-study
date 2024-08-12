@@ -2,8 +2,9 @@
 session_start();
 
     include "class.php";
+    include "db/dbConnection.php";
     $centerId = $_SESSION['centerId'];
-    $admission_result = admission($centerId); 
+    $admission_result = admission($centerId); // student report show 
     
 ?>
 <!DOCTYPE html>

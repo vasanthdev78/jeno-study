@@ -9,7 +9,7 @@ session_start();
       LEFT JOIN `jeno_course` AS b
        ON a.fac_cou_id = b.cou_id 
        WHERE a.fac_status = 'Active'
-        AND a. 	fac_center_id = $centerId";
+        AND a. 	fac_center_id = $centerId";  // total faculty details show 
 
     $resQuery = mysqli_query($conn , $selQuery);
     

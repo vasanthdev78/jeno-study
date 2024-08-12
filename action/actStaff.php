@@ -1,5 +1,6 @@
 <?php
 include "../class.php";
+include "../db/dbConnection.php";
 session_start();
 
 $userId = $_SESSION['userId'];
@@ -50,8 +51,20 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
     $response = ["success" => false, "message" => ""];
 
     // Insert the username and password into the jeno_user table
-    $user_insert = "INSERT INTO jeno_user (user_name, user_username, user_password, user_role, user_center_id ,user_created_by) 
-                    VALUES ('$name', '$username', '$password', 'Staff', '$location' ,'$userId')";
+    $user_insert = "INSERT INTO jeno_user 
+                    (user_name
+                    , user_username
+                    , user_password
+                    , user_role
+                    , user_center_id 
+                    , user_created_by) 
+                    VALUES 
+                    ('$name'
+                    , '$username'
+                    , '$password'
+                    , 'Staff'
+                    , '$location' 
+                    , '$userId')";
 
     if ($conn->query($user_insert) === TRUE) {
         // Get the last inserted ID
@@ -110,7 +123,11 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
 if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $editId";
+    $selQuery = "SELECT a.*
+                    , b.* 
+                    FROM `jeno_staff` AS a 
+                    LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id 
+                    WHERE a.stf_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -257,7 +274,12 @@ if(isset($_POST['id']) && $_POST['id'] != '') {
     $staffId = $_POST['id'];
 
     // Prepare and execute the SQL query
-    $selQuery1 = "SELECT a.*, b.* FROM `jeno_staff` AS a LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id WHERE a.stf_id = $staffId";
+    $selQuery1 = "SELECT 
+                a.*
+                , b.* 
+                FROM `jeno_staff` AS a 
+                LEFT JOIN `jeno_user` AS b ON a.stf_userId = b.user_id 
+                WHERE a.stf_id = $staffId";
     
     $result1 = $conn->query($selQuery1);
 

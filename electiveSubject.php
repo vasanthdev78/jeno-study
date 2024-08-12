@@ -2,6 +2,7 @@
 session_start();
     
     include("class.php");
+    include "db/dbConnection.php";
     $centerId = $_SESSION['centerId'];
     $elective_result = electiveTable($centerId); // Call the function to fetch universities 
     

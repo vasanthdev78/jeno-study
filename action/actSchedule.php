@@ -1,5 +1,6 @@
 <?php
 include "../db/dbConnection.php";
+
 session_start();
 $userId = $_SESSION['userId'];
 

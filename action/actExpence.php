@@ -77,4 +77,4 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     exit();
 }
 
-//---Handle select inoversity  fetching course  details--end--------------------------
+//---Handle select inoversity  fetching course  details--end--------------------------                                                          

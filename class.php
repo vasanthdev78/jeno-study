@@ -1,5 +1,4 @@
 <?php 
-include "db/dbConnection.php";
 
 
 function getLocation() {

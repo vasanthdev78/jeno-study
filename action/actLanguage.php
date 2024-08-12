@@ -53,7 +53,13 @@ if (isset($_POST['course_id']) && !empty($_POST['course_id'])) {
         global $conn; // Assuming $conn is your database connection variable
 
         // Query to retrieve elective languages
-        $language_query = "SELECT `ele_id`, `ele_elective` FROM `jeno_elective` WHERE ele_cou_id = $id AND ele_center_id = $centerId  AND ele_status ='Active';";
+        $language_query = "SELECT 
+        `ele_id`
+        , `ele_elective`
+         FROM `jeno_elective`
+          WHERE ele_cou_id = $id 
+          AND ele_center_id = $centerId  
+          AND ele_status ='Active';";
 
         // Execute the query
         $language_result = $conn->query($language_query);

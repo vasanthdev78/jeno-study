@@ -2,8 +2,9 @@
 session_start();
     
     include "class.php";
+    include "db/dbConnection.php";
     $curseId = $_SESSION['centerId'];
-    $course_result = courseTable($curseId); 
+    $course_result = courseTable($curseId); // course list show 
     
 ?>
 <!DOCTYPE html>

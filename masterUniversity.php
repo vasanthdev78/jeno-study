@@ -2,6 +2,7 @@
 session_start();
     
     include("class.php");
+    include "db/dbConnection.php";
     $uniCenterId = $_SESSION['centerId'];
     $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
     

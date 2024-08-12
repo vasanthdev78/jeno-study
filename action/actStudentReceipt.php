@@ -1,5 +1,6 @@
 <?php
     include "../class.php";
+    include "../db/dbConnection.php";
 
 //    echo  $id = $_GET['payment_id'];
    $id = $_GET['payment_id'];
@@ -48,7 +49,11 @@
     echo "0 results";
     }
 
-    $select_rollNo ="SELECT `stu_enroll` FROM `jeno_student` WHERE `stu_apply_no` = '$admisionId' AND `stu_status` = 'Active'";
+    $select_rollNo ="SELECT 
+    `stu_enroll` 
+    FROM `jeno_student` 
+    WHERE `stu_apply_no` = '$admisionId' 
+    AND `stu_status` = 'Active'";
 
     $select_rollNo_result = $conn->query($select_rollNo);
     $stu_enroll = "";

@@ -2,7 +2,7 @@
 
 <?php
 include("../class.php");
-
+include "../db/dbConnection.php";
 
 session_start();
 header('Content-Type: application/json');

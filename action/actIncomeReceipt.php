@@ -1,6 +1,6 @@
 <?php
     include "../class.php";
-
+    include "../db/dbConnection.php";
 //    echo  $id = $_GET['payment_id'];
    $id = $_GET['tran_id'];
     // $id = 1;

@@ -1,6 +1,7 @@
 <?php
 session_start();
-    include("class.php");
+    include "class.php";
+    include "db/dbConnection.php";
     
     
     

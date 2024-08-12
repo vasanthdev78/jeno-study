@@ -1,6 +1,6 @@
 <?php
 include("../class.php");
-
+include "../db/dbConnection.php";
 
 session_start();
 header('Content-Type: application/json');
@@ -18,7 +18,12 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     $universityId = $_POST['universityID'];
     $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_center_id = $centerId;";
+    $courseQuery = "SELECT 
+    `cou_id`
+    , `cou_name` 
+    FROM `jeno_course` 
+    WHERE cou_uni_id = $universityId 
+    AND cou_center_id = $centerId;";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {

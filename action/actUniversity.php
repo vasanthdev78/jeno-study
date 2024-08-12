@@ -63,7 +63,14 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT `uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact` FROM `jeno_university` WHERE uni_id = $editId";
+    $selQuery = "SELECT 
+    `uni_id`
+    , `uni_study_code`
+    , `uni_name`
+    , `uni_department`
+    , `uni_contact` 
+    FROM `jeno_university` 
+    WHERE uni_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -139,7 +146,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $id = $_POST['deleteId'];
                 $updatedBy = $_SESSION['userId'];
 
-                $queryDel = "UPDATE `jeno_university` SET `uni_updated_by`='$updatedBy',`uni_status`='Inactive' WHERE uni_id = $id;";
+                $queryDel = "UPDATE `jeno_university` 
+                SET `uni_updated_by`='$updatedBy'
+                ,`uni_status`='Inactive' 
+                WHERE uni_id = $id;";
                 $reDel = mysqli_query($conn, $queryDel);
 
                 if ($reDel) {
@@ -163,7 +173,14 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $uniId = $_POST['id'];
 
                 // Prepare and execute the SQL query
-                $selQuery = "SELECT `uni_id`, `uni_study_code`, `uni_name`, `uni_department`, `uni_contact` FROM `jeno_university` WHERE uni_id = $uniId;";
+                $selQuery = "SELECT 
+                `uni_id`
+                , `uni_study_code`
+                , `uni_name`
+                , `uni_department`
+                , `uni_contact` 
+                FROM `jeno_university` 
+                WHERE uni_id = $uniId;";
                 
                 $result1 = $conn->query($selQuery);
 

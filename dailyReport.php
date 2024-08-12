@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("class.php");
+include "db/dbConnection.php";
 $centerId = $_SESSION['centerId'];
 $current_date = date('Y-m-d');  // Correct date format
 $date = new DateTime($current_date);

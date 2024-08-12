@@ -1,8 +1,9 @@
 <?php
 session_start();
     include "class.php" ;
+    include "db/dbConnection.php";
     
-    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'";
+    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'"; // staff details show
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
