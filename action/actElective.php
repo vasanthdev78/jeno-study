@@ -1,5 +1,5 @@
 <?php
-include("../db/dbConnection.php");
+include "../db/dbConnection.php";
 
 
 session_start();
@@ -9,9 +9,9 @@ $response = ['success' => false, 'message' => ''];
 
 // Handle adding a elective data add -------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addElective') {
-    $courseName = $_POST['courseName'];
-    $electiveName = $_POST['electiveName'];
-    $electiveLanguage = $_POST['electiveLanguage'];
+    $courseName = htmlspecialchars($_POST['courseName'], ENT_QUOTES, 'UTF-8');
+    $electiveName = htmlspecialchars($_POST['electiveName'], ENT_QUOTES, 'UTF-8');
+    $electiveLanguage = htmlspecialchars($_POST['electiveLanguage'], ENT_QUOTES, 'UTF-8');
 
     $createdBy = $_SESSION['userId'];
     $centerId = $_SESSION['centerId'];
@@ -51,7 +51,13 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $universityId = $_POST['university'];
     $centerId = $_SESSION['centerId'];
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_status = 'Active' AND cou_center_id = $centerId ";
+    $courseQuery = "SELECT 
+    `cou_id`
+    , `cou_name` 
+    FROM `jeno_course`
+     WHERE cou_uni_id = $universityId
+      AND cou_status = 'Active' 
+      AND cou_center_id = $centerId ";
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -104,8 +110,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     // Handle updating elective  details----------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editElective') {
-            $editid = $_POST['editid'];
-            $editElectiveName = $_POST['editElectiveName'];
+            $editid = htmlspecialchars($_POST['editid'], ENT_QUOTES, 'UTF-8');
+            $editElectiveName = htmlspecialchars($_POST['editElectiveName'], ENT_QUOTES, 'UTF-8');
+            
             
             $updatedBy = $_SESSION['userId'];
           

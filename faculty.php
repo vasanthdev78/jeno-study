@@ -1,15 +1,20 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php";
     $centerId = $_SESSION['centerId'];
+
     $selQuery = "SELECT 
-    a.*
-    , b.*
+    a.fac_id 
+    , a.fac_name
+    , a.fac_qualification 
+    , a.fac_email
+    , a.fac_mobile
+    , b.cou_name
      FROM `jeno_faculty` AS a
       LEFT JOIN `jeno_course` AS b
        ON a.fac_cou_id = b.cou_id 
        WHERE a.fac_status = 'Active'
-        AND a. 	fac_center_id = $centerId";  // total faculty details show 
+        AND a. 	fac_center_id = $centerId;";  // total faculty details show 
 
     $resQuery = mysqli_query($conn , $selQuery);
     
@@ -17,20 +22,20 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -86,9 +91,12 @@ session_start();
                     <tbody>
                     <?php 
                         $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['fac_id'];  $name = $row['fac_name']; 
-                        $qualification = $row['fac_qualification'];   $cou_name=$row['cou_name'];  
-                        $email = $row['fac_email'];  $mobile  = $row['fac_mobile']; 
+                        $id = $row['fac_id']; 
+                         $name = $row['fac_name']; 
+                        $qualification = $row['fac_qualification'];  
+                         $cou_name=$row['cou_name'];
+                        $email = $row['fac_email'];
+                          $mobile  = $row['fac_mobile']; 
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
@@ -120,7 +128,7 @@ session_start();
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -153,7 +161,8 @@ session_start();
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>

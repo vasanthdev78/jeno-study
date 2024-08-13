@@ -1,10 +1,10 @@
 <?php
 session_start();
     
-    include("class.php");
+    include "class.php"; // function 
     include "db/dbConnection.php";
-    $centerId = $_SESSION['centerId'];
-    $elective_result = electiveTable($centerId); // Call the function to fetch universities 
+    $location = $_SESSION['centerId'];
+    $elective_result = electiveTable($location); // Call the function to fetch universities 
     
     
 ?>
@@ -18,13 +18,13 @@ session_start();
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
         <!-- ============================================================== -->
@@ -34,7 +34,7 @@ session_start();
         <div class="content-page">
             <div class="content">
             <div id="studentDetail"></div>
-            <?php include("formElectiveSubject.php");?> <!---add Student popup--->
+            <?php include "formElectiveSubject.php";?> <!---add Student popup--->
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent" >
@@ -155,7 +155,8 @@ session_start();
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>

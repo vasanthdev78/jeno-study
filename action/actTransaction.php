@@ -1,6 +1,6 @@
 <?php
-include("../class.php");
-include "../db/dbConnection.php";
+include "../class.php"; // function class
+include "../db/dbConnection.php"; // database connection
 
 session_start();
 header('Content-Type: application/json');
@@ -23,7 +23,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     , `cou_name` 
     FROM `jeno_course` 
     WHERE cou_uni_id = $universityId 
-    AND cou_center_id = $centerId;";
+    AND cou_center_id = $centerId;"; // get course id and name 
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -51,14 +51,14 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
 
                         // Handle adding a Transaction -------------------------------------------
                         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addTransaction') {
-                            $category = $_POST['category'];
-                            
-                            $expenseReason = $_POST['expenseReason'];
-                            $date = $_POST['date'];
-                            $amount = $_POST['amount'];
-                            $paidMethod = $_POST['paidMethod'];
-                            $transactionId = $_POST['transactionId'];
-                            $description = $_POST['description'];
+
+                           $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
+                            $expenseReason = htmlspecialchars($_POST['expenseReason'], ENT_QUOTES, 'UTF-8');
+                            $date = htmlspecialchars($_POST['date'], ENT_QUOTES, 'UTF-8');
+                            $amount = htmlspecialchars($_POST['amount'], ENT_QUOTES, 'UTF-8');
+                            $paidMethod = htmlspecialchars($_POST['paidMethod'], ENT_QUOTES, 'UTF-8');
+                            $transactionId = htmlspecialchars($_POST['transactionId'], ENT_QUOTES, 'UTF-8');
+                            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
                            
                             // Other fields
                             $uniCenterId = $_SESSION['centerId'];
@@ -149,14 +149,14 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
 
     // Handle updating Transaction details----------------------------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editTransaction') {
-            $editTransactionId = $_POST['editTransactionId'];
-            $editCategory = $_POST['editCategory'];
-            $editExpenseReason = $_POST['editIncomeReason'];
-            $editDate = $_POST['editDate'];
-            $editAmount = $_POST['editAmount'];
-            $editPaidMethod = $_POST['editPaidMethod'];
-            $editTranId = $_POST['editTranId'];
-            $editDescription = $_POST['editDescription'];
+            $editTransactionId = htmlspecialchars($_POST['editTransactionId'], ENT_QUOTES, 'UTF-8');
+            $editCategory = htmlspecialchars($_POST['editCategory'], ENT_QUOTES, 'UTF-8');
+            $editExpenseReason = htmlspecialchars($_POST['editIncomeReason'], ENT_QUOTES, 'UTF-8');
+            $editDate = htmlspecialchars($_POST['editDate'], ENT_QUOTES, 'UTF-8');
+            $editAmount = htmlspecialchars($_POST['editAmount'], ENT_QUOTES, 'UTF-8');
+            $editPaidMethod = htmlspecialchars($_POST['editPaidMethod'], ENT_QUOTES, 'UTF-8');
+            $editTranId = htmlspecialchars($_POST['editTranId'], ENT_QUOTES, 'UTF-8');
+            $editDescription = htmlspecialchars($_POST['editDescription'], ENT_QUOTES, 'UTF-8');
             
          
             // Other fields

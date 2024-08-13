@@ -1,6 +1,6 @@
 <?php
-include("../class.php");
-
+include "../class.php"; // function file 
+include "../db/dbConnection.php"; // databse connection
 session_start();
 header('Content-Type: application/json');
 
@@ -14,43 +14,43 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
     $selQuery1 = "SELECT COUNT(*) AS total_active_students 
                   FROM `jeno_student` AS a 
                   LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
-                  WHERE a.stu_status = 'Active' AND b.uni_status = 'Active' AND a.stu_center_id = $centerId;";
+                  WHERE a.stu_status = 'Active' AND b.uni_status = 'Active' AND a.stu_center_id = $centerId;"; // total student
 
     $selQuery2 = "SELECT COUNT(*) AS total_active_enquiry
                   FROM `jeno_enquiry`
-                  WHERE `enq_status` = 'Active' AND enq_center_id = $centerId;";
+                  WHERE `enq_status` = 'Active' AND enq_center_id = $centerId;"; // total enquiry 
 
     $selQuery3 = "SELECT COUNT(*) AS total_active_admission
                   FROM `jeno_student`
-                  WHERE `stu_status` = 'Active' AND stu_center_id = $centerId;";
+                  WHERE `stu_status` = 'Active' AND stu_center_id = $centerId;"; // total admission 
 
     $selQuery4 = "SELECT COUNT(*) AS total_active_faculty
                   FROM `jeno_faculty`
-                  WHERE `fac_status` = 'Active' AND fac_center_id = $centerId;";
+                  WHERE `fac_status` = 'Active' AND fac_center_id = $centerId;"; // total faculty 
 
     $selQuery5 = "SELECT COUNT(*) AS total_active_staff
                   FROM `jeno_staff`
-                  WHERE `stf_status` = 'Active' AND sft_center_id = $centerId;";  
+                  WHERE `stf_status` = 'Active' AND sft_center_id = $centerId;";  // total staff 
 
     $selQuery6 = "SELECT `tran_amount` 
                   FROM `jeno_transaction` 
-                  WHERE tran_status = 'Active' AND tran_category = 'Expense' AND tran_center_id = $centerId;";  
+                  WHERE tran_status = 'Active' AND tran_category = 'Expense' AND tran_center_id = $centerId;";  // total expense 
 
     $selQuery7 = "SELECT `tran_amount` 
                   FROM `jeno_transaction` 
-                  WHERE tran_status = 'Active' AND tran_category = 'Income' AND tran_center_id = $centerId;";  
+                  WHERE tran_status = 'Active' AND tran_category = 'Income' AND tran_center_id = $centerId;";   // total transaction income only 
 
     $selQuery8 = "SELECT `fee_uni_fee_total`, `fee_uni_fee`, `fee_sdy_fee_total`, `fee_sty_fee` 
                   FROM `jeno_fees` 
-                  WHERE fee_status = 'Active' AND fee_center_id = $centerId";  
+                  WHERE fee_status = 'Active' AND fee_center_id = $centerId";  // total fees income only
 
     $selQuery9 = "SELECT COUNT(*) AS total_active_university
                   FROM `jeno_university`
-                  WHERE `uni_status` = 'Active' AND uni_center_id = $centerId;";
+                  WHERE `uni_status` = 'Active' AND uni_center_id = $centerId;"; // total university 
 
     $selQuery10 = "SELECT COUNT(*) AS total_active_course
                  FROM `jeno_course`
-                 WHERE `cou_status` = 'Active' AND cou_center_id = $centerId;";
+                 WHERE `cou_status` = 'Active' AND cou_center_id = $centerId;"; // total course 
 
     // Execute the queries
     $result1 = mysqli_query($conn, $selQuery1);
@@ -124,19 +124,21 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         LEFT JOIN jeno_university AS c
          ON b.stu_uni_id = c.uni_id 
          WHERE add_admit_date BETWEEN '$date' AND '$date' 
-         AND add_status ='Active' AND c.uni_id = $id AND b.stu_center_id = $centerId; ";
+         AND add_status ='Active' AND c.uni_id = $id AND b.stu_center_id = $centerId; "; // total student today only 
 
         $selQuery2 = "SELECT COUNT(*) AS total_active_enquiry 
                     FROM `jeno_enquiry` AS a
                     LEFT JOIN jeno_university AS b ON a.enq_uni_id = b.uni_id
                     WHERE a.enq_date BETWEEN '$date' AND '$date'
                     AND a.enq_status = 'Active' 
-                    AND a.enq_uni_id = $id AND a.enq_center_id = $centerId;";  
+                    AND a.enq_uni_id = $id AND a.enq_center_id = $centerId;";   // total enquiry today only
                          
                          
          $selQuery3 = "SELECT `tran_amount` 
                          FROM `jeno_transaction` 
-                         WHERE tran_status = 'Active' AND tran_category = 'Expense' AND tran_date BETWEEN '$date' AND '$date' AND tran_center_id = $centerId";  
+                         WHERE tran_status = 'Active' AND tran_category = 'Expense' 
+                         AND tran_date BETWEEN '$date' AND '$date' 
+                         AND tran_center_id = $centerId";   // total transaction income today only
             
             $selQuery4 = "SELECT SUM(pay_study_fees) AS total_income
              FROM `jeno_payment_history` AS a
@@ -146,7 +148,7 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
                 ON b.stu_uni_id = c.uni_id 
                 WHERE pay_date BETWEEN '$date' AND '$date'
                  AND pay_status = 'Active'
-                  AND b.stu_uni_id = $id AND C.uni_center_id = $centerId;"; 
+                  AND b.stu_uni_id = $id AND C.uni_center_id = $centerId;";  // total fees today only
 
         $result1 = mysqli_query($conn, $selQuery1);
         $result2 = mysqli_query($conn, $selQuery2);

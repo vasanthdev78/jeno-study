@@ -1,6 +1,6 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php"; // database connection
 
     $centerId = $_SESSION['centerId'];
 
@@ -30,7 +30,9 @@ session_start();
      GROUP BY 
         book_stu_id) sub 
     ON 
-    b.book_id = sub.max_book_id LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id WHERE b.book_status ='Active' AND b.book_center_id = $centerId;";
+    b.book_id = sub.max_book_id 
+    LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id 
+    WHERE b.book_status ='Active' AND b.book_center_id = $centerId;"; // book issue student list show
 
     $resQuery = mysqli_query($conn , $selQuery); 
     
@@ -38,20 +40,20 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -61,7 +63,7 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <?php include("formBookIssue.php");?>
+            <?php include "formBookIssue.php";?>
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
 
@@ -83,48 +85,7 @@ session_start();
                         </div>
                     </div>
 
-                      <!-- Filters -->
-                      <!-- <div class="row mb-3">
-                        <div class="col-md-3">
-                            <label for="universityFilter">University</label>
-                            <select id="universityFilter" class="form-control">
-                                <option value="">All</option>
-                                <option value="University1">University Of Madras</option>
-                                <option value="University2">Anna University</option>
-                                <option value="University3">MS University</option>
-                                <option value="University4">Alagappa University</option>
-                                
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="courseFilter">Course</label>
-                            <select id="courseFilter" class="form-control">
-                                <option value="">All</option>
-                                <option value="Course1">BBA</option>
-                                <option value="Course2">BCA</option>
-                                <option value="Course3">MBA</option>
-                                <option value="Course4">MCA</option>
-                                <option value="Course5">BSc</option>
-                                
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="yearFilter">Year</label>
-                            <select id="yearFilter" class="form-control">
-                                <option value="">All</option>
-                                <option value="1stYear">1st Year</option>
-                                <option value="2ndYear">2nd Year</option>
-                                <option value="3rdYear">3rd Year</option>
-                                <option value="4thYear">4th Year</option>
-                                <option value="5thYear">5th Year</option>
-                                
-                            </select>
-                        </div>
-                        <div class="col-md-2 mt-4">
-                            <button id="searchButton" class="btn btn-primary">Search</button>
-                            </div>  
-                        
-                    </div> -->
+                      
 
 
             
@@ -190,7 +151,7 @@ session_start();
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -223,7 +184,8 @@ session_start();
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert/2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
 
   <!--  Select2 Plugin Js -->
   <script src="assets/vendor/select2/js/select2.min.js"></script>

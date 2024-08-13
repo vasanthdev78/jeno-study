@@ -1,6 +1,6 @@
 <?php
-include ("../class.php");
-
+include "../class.php"; // function page
+include "../db/dbConnection.php"; // database connection 
 
 session_start();
 header('Content-Type: application/json');
@@ -16,7 +16,12 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
     $centerId = $_SESSION['centerId'];
     
 
-    $courseQuery = "SELECT `cou_id`, `cou_name` FROM `jeno_course` WHERE cou_uni_id = $universityId AND cou_center_id =$centerId ;";
+    $courseQuery = "SELECT 
+    `cou_id`
+    , `cou_name` 
+    FROM `jeno_course` 
+    WHERE cou_uni_id = $universityId 
+    AND cou_center_id =$centerId ;"; // get course name and id 
     $courseResult = mysqli_query($conn, $courseQuery);
 
     if ($courseResult) {
@@ -42,15 +47,15 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
 
 // Handle adding a enquuiry data -----------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
-    $name = $_POST['name'];
-    $gender = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $mobile = $_POST['mobile'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $university = $_POST['university'];
-    $course = $_POST['course'];
-    $medium = $_POST['medium'];
+    $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['gender'], ENT_QUOTES, 'UTF-8');
+    $dob = htmlspecialchars($_POST['dob'], ENT_QUOTES, 'UTF-8');
+    $mobile = htmlspecialchars($_POST['mobile'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+    $university = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['course'], ENT_QUOTES, 'UTF-8');
+    $medium = htmlspecialchars($_POST['medium'], ENT_QUOTES, 'UTF-8');
     // Other fields
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
@@ -104,9 +109,19 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     $editId = $_POST['editId'];
     $centerId = $_SESSION['centerId'];
 
-    $selQuery = "SELECT `enq_id`, `enq_uni_id`, `enq_cou_id`, `enq_stu_name`, `enq_email`, 
-        `enq_dob`, `enq_gender`, `enq_mobile`, `enq_address`, `enq_medium` 
-        FROM `jeno_enquiry` WHERE enq_id = $editId";
+    $selQuery = "SELECT 
+    `enq_id`
+    , `enq_uni_id`
+    , `enq_cou_id`
+    , `enq_stu_name`
+    , `enq_email`
+    , `enq_dob`
+    , `enq_gender`
+    , `enq_mobile`
+    , `enq_address`
+    , `enq_medium` 
+    FROM `jeno_enquiry` 
+    WHERE enq_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -141,16 +156,16 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     // Handle updating enquiry  details -------------------------------------------
 
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
-            $editEnquiryId = $_POST['editEnquiryId'];
-            $editName = $_POST['editName'];
-            $editGender = $_POST['editGender'];
-            $editDob = $_POST['editDob'];
-            $editMobile = $_POST['editMobile'];
-            $editEmail = $_POST['editEmail'];
-            $editAddress = $_POST['editAddress'];
-            $editUniversity = $_POST['editUniversity'];
-            $editCourse = $_POST['editCourse'];
-            $editMedium = $_POST['editMedium'];
+            $editEnquiryId = htmlspecialchars($_POST['editEnquiryId'], ENT_QUOTES, 'UTF-8');
+            $editName = htmlspecialchars($_POST['editName'], ENT_QUOTES, 'UTF-8');
+            $editGender = htmlspecialchars($_POST['editGender'], ENT_QUOTES, 'UTF-8');
+            $editDob = htmlspecialchars($_POST['editDob'], ENT_QUOTES, 'UTF-8');
+            $editMobile = htmlspecialchars($_POST['editMobile'], ENT_QUOTES, 'UTF-8');
+            $editEmail = htmlspecialchars($_POST['editEmail'], ENT_QUOTES, 'UTF-8');
+            $editAddress = htmlspecialchars($_POST['editAddress'], ENT_QUOTES, 'UTF-8');
+            $editUniversity = htmlspecialchars($_POST['editUniversity'], ENT_QUOTES, 'UTF-8');
+            $editCourse = htmlspecialchars($_POST['editCourse'], ENT_QUOTES, 'UTF-8');
+            $editMedium = htmlspecialchars($_POST['editMedium'], ENT_QUOTES, 'UTF-8');
             // Other fields
             
             $updatedBy = $_SESSION['userId'];

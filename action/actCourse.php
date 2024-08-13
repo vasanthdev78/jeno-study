@@ -1,6 +1,6 @@
 <?php
 include "../class.php";
-
+include "../db/dbConnection.php";
 
 session_start();
 header('Content-Type: application/json');
@@ -9,17 +9,17 @@ $response = ['success' => false, 'message' => ''];
 
 // Handle adding a Course detaile --------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addCourse') {
-    $universityId = $_POST['university'];
-    $courseName = $_POST['courseName'];
-    $medium = $_POST['medium'];
-    $examType = $_POST['examType'];
-    $fessType = $_POST['fessType'];
-    $duration = $_POST['duration'];
+    $universityId = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
+    $courseName = htmlspecialchars($_POST['courseName'], ENT_QUOTES, 'UTF-8');
+    $medium = htmlspecialchars($_POST['medium'], ENT_QUOTES, 'UTF-8');
+    $examType = htmlspecialchars($_POST['examType'], ENT_QUOTES, 'UTF-8');
+    $fessType = htmlspecialchars($_POST['fessType'], ENT_QUOTES, 'UTF-8');
+    $duration = htmlspecialchars($_POST['duration'], ENT_QUOTES, 'UTF-8');
 
 
-    $universityFees = $_POST['universityFees'];
-    $studyCenterFees = $_POST['studyCenterFees'];
-    $totalFees = $_POST['totalFees'];
+    $universityFees = $_POST['universityFees'] ?? [];
+    $studyCenterFees = $_POST['studyCenterFees'] ?? [];
+    $totalFees = $_POST['totalFees'] ?? [];
     // Other fields
     $centerId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
@@ -115,16 +115,18 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     // Handle updating student details
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editCourse') {
-            $editCouseId = $_POST['editCouseId'];
-            $editUniversity = $_POST['editUniversity'];
-            $editCourseName = $_POST['editCourseName'];
-            $editMedium = $_POST['editMedium'];
-            $editExamType = $_POST['editExamType'];
-            $editFessType = $_POST['editFessType'];
-            $ediDuration = $_POST['ediDuration'];
-            $editUniversityFees = $_POST['editUniversityFees'];
-            $editStudyFees = $_POST['editStudyFees'];
-            $editTotalFees = $_POST['editTotalFees'];
+            
+            $editCouseId = htmlspecialchars($_POST['editCouseId'], ENT_QUOTES, 'UTF-8');
+            $editUniversity = htmlspecialchars($_POST['editUniversity'], ENT_QUOTES, 'UTF-8');
+            $editCourseName = htmlspecialchars($_POST['editCourseName'], ENT_QUOTES, 'UTF-8');
+            $editMedium = htmlspecialchars($_POST['editMedium'], ENT_QUOTES, 'UTF-8');
+            $editExamType = htmlspecialchars($_POST['editExamType'], ENT_QUOTES, 'UTF-8');
+            $editFessType = htmlspecialchars($_POST['editFessType'], ENT_QUOTES, 'UTF-8');
+            $ediDuration = htmlspecialchars($_POST['ediDuration'], ENT_QUOTES, 'UTF-8');
+
+            $editUniversityFees = $_POST['editUniversityFees'] ?? [];
+            $editStudyFees = $_POST['editStudyFees'] ?? [];
+            $editTotalFees = $_POST['editTotalFees'] ?? [];
 
             // Other fields
             

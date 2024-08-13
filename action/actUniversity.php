@@ -1,5 +1,5 @@
 <?php
-include("../db/dbConnection.php");
+include "../db/dbConnection.php";
 
 
 session_start();
@@ -9,10 +9,10 @@ $response = ['success' => false, 'message' => ''];
 
 // Handle adding a university-----------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addUniversity') {
-    $universityName = $_POST['universityName'];
-    $studyCode = $_POST['studyCode'];
-    $department = $_POST['department'];
-    $contact = $_POST['contact'];
+    $universityName = htmlspecialchars($_POST['universityName']);
+    $studyCode = htmlspecialchars($_POST['studyCode']);
+    $department = $_POST['department'] ?? [];
+    $contact = $_POST['contact'] ?? [];
     // Other fields
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
@@ -100,10 +100,10 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     // Handle updating university details=---------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editUniversity') {
             $editid = $_POST['editid'];
-            $editUniversityName = $_POST['editUniversityName'];
-            $editStudyCode = $_POST['editStudyCode'];
-            $editdepartment = $_POST['editdepartment'];
-            $editcontact = $_POST['editcontact'];
+            $editUniversityName =htmlspecialchars($_POST['editUniversityName']);
+            $editStudyCode =htmlspecialchars($_POST['editStudyCode']);
+            $editdepartment = $_POST['editdepartment'] ?? [];
+            $editcontact = $_POST['editcontact'] ?? [];
             // Other fields
             
             $updatedBy = $_SESSION['userId'];

@@ -1,7 +1,7 @@
 <?php
 session_start();
-include("class.php");
-include "db/dbConnection.php";
+include "class.php"; // function page
+include "db/dbConnection.php"; // database connection
 $centerId = $_SESSION['centerId'];
 $current_date = date('Y-m-d');  // Correct date format
 $date = new DateTime($current_date);
@@ -18,7 +18,7 @@ $previous_date = $date->format('Y-m-d');
         SUM(`tran_amount`) AS total_expense_online
     FROM `jeno_transaction`
     WHERE tran_status = 'Active' AND tran_center_id =$centerId
-    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Expense' AND tran_method ='Online';";
+    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Expense' AND tran_method ='Online';"; // get online trasaction amount
 
     $total_cash_epense_qry="SELECT SUM(`tran_amount`) AS total_expense_cash 
     FROM `jeno_transaction` 
@@ -26,37 +26,37 @@ $previous_date = $date->format('Y-m-d');
     AND tran_center_id =$centerId 
     AND tran_date BETWEEN '$current_date' AND '$current_date'
      AND tran_category ='Expense' 
-     AND tran_method ='Cash'; ";
+     AND tran_method ='Cash'; "; // get cash trasaction income amount
 
         $total_online_income_qry="SELECT 
         SUM(`tran_amount`) AS total_income_online
     FROM `jeno_transaction`
     WHERE tran_status = 'Active' AND tran_center_id =$centerId
-    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Income' AND tran_method ='Online';";
+    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Income' AND tran_method ='Online';"; // get online trasaction expense amount
 
 
         $total_cash_income_qry="SELECT 
         SUM(`tran_amount`) AS total_income_cash
     FROM `jeno_transaction`
     WHERE tran_status = 'Active' AND tran_center_id =$centerId
-    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Income' AND tran_method ='Cash';";
+    AND tran_date BETWEEN '$current_date' AND '$current_date' AND tran_category ='Income' AND tran_method ='Cash';"; // get cash trasaction expense amount
 
         $total_fees_cash_income_qry="SELECT 
         SUM(`pay_study_fees`) AS total_income_fees_cash
     FROM `jeno_payment_history`
     WHERE pay_status = 'Active' AND pay_center_id =$centerId
-    AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method ='Cash';";
+    AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method ='Cash';"; // get fess total in cash
 
         $total_fees_online_income_qry="SELECT 
         SUM(`pay_study_fees`) AS total_income_fees_online
         FROM `jeno_payment_history`
         WHERE pay_status = 'Active' AND pay_center_id =$centerId
-        AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method ='Online';";
+        AND pay_date BETWEEN '$current_date' AND '$current_date' AND pay_paid_method ='Online';"; // get fess total in online
 
         $opening_balance_qry = "SELECT 
         `open_id`, `open_date`, `open_open_online`, `open_open_cash`, `open_close_online`, `open_close_cash`
         FROM `jeno_opening`
-        WHERE open_date = '$previous_date' AND open_status = 'Active' AND open_center_id = $centerId;";
+        WHERE open_date = '$previous_date' AND open_status = 'Active' AND open_center_id = $centerId;"; // openin balance
 
 
 
@@ -111,13 +111,13 @@ $previous_date = $date->format('Y-m-d');
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head2.php"); ?>
+<?php include "head2.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
@@ -231,7 +231,7 @@ $previous_date = $date->format('Y-m-d');
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -261,17 +261,27 @@ $previous_date = $date->format('Y-m-d');
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+    <script src="assets/addlink/sweetalert.js"></script>
 
     <!-- pdf and excel print -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
+
+    <script src="assets/addlink/jquery.3.6.0.js"></script>
+    <script src="assets/addlink/datatable.1.11.5.js"></script>
+    <script src="assets/addlink/datatablebutton.2.2.2.js"></script>
+    <script src="assets/addlink/jszip.js"></script>
+    <script src="assets/addlink/pdf.js"></script>
+    <script src="assets/addlink/pdffount.js"></script>
+    <script src="assets/addlink/datatablehtml.js"></script>
+    <script src="assets/addlink/print.js"></script>
 
     <!-- Datatable Demo App js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>

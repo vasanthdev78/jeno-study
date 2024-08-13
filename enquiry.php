@@ -1,28 +1,28 @@
 <?php
 session_start();
-include("class.php");
-include "db/dbConnection.php";
+include "class.php"; // function class
+include "db/dbConnection.php"; // database connection
 $centerId = $_SESSION['centerId'];
-$enquiry_result = enquiryTable($centerId);
+$enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head2.php"); ?>
+<?php include "head2.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -33,7 +33,7 @@ $enquiry_result = enquiryTable($centerId);
         <div class="content-page">
             <div class="content">
             <div id="studentDetail"></div>
-            <?php include("formEnquiry.php");?> <!---add Student popup--->
+            <?php include "formEnquiry.php";?> <!---add Student popup--->
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
@@ -61,31 +61,6 @@ $enquiry_result = enquiryTable($centerId);
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="row mb-3">
-                   <div class="col-md-5">
-                   <label for="universityFilter">University</label>
-                  <select id="universityFilter" class="form-control">
-                <option value="">--All University--</option>
-                                        <?php 
-                                        $uniCenterId = $_SESSION['centerId'];
-                                     $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
-                                     while ($row = $university_result->fetch_assoc()) {
-                                     $id = $row['uni_id']; 
-                                    $name = $row['uni_name'];    
-                        
-                                      ?>
-                        
-                        <option value="<?php  $name;?>"><?php  $name;?></option>
-
-                        <?php } ?>
-            
-        </select>
-    </div>                 
-    </div> -->
-
-             
-             
              
              
              <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -142,7 +117,7 @@ $enquiry_result = enquiryTable($centerId);
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -175,20 +150,30 @@ $enquiry_result = enquiryTable($centerId);
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
                 <!--   pdf and excel print  -->
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="assets/addlink/jquery.3.6.0.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+    <script src="assets/addlink/datatable.1.11.5.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script> -->
+    <script src="assets/addlink/datatablebutton.2.2.2.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
+    <script src="assets/addlink/jszip.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> -->
+    <script src="assets/addlink/pdf.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
+    <script src="assets/addlink/pdffount.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script> -->
+    <script src="assets/addlink/datatablehtml.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
+    <script src="assets/addlink/print.js"></script>
 
 
     <!-- App js -->

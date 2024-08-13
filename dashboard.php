@@ -1,14 +1,14 @@
 
 <?php
 session_start();
-include "class.php";
-include "db/dbConnection.php";
+include "class.php"; // function file
+include "db/dbConnection.php"; // database connection
 $user_role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-   <?php include("head.php"); ?>
+   <?php include "head.php"; ?>
 
     <body>
         <!-- Begin page -->
@@ -16,14 +16,14 @@ $user_role = $_SESSION['role'];
 
             
             <!-- ========== Topbar Start ========== -->
-            <?php include("top.php") ?>
+            <?php include "top.php" ?>
             <!-- ========== Topbar End ========== -->
 
             <!-- ========== Left Sidebar Start ========== -->
             <div class="leftside-menu">
 
                 <!-- Brand Logo Light -->
-                <?php include("left.php"); ?>
+                <?php include "left.php"; ?>
             </div>
             <!-- ========== Left Sidebar End ========== -->
 
@@ -252,12 +252,16 @@ $user_role = $_SESSION['role'];
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
         <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+    <script src="assets/addlink/jquery3.5.1.js"></script>
     <!-- Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="assets/addlink/npm.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> -->
     <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/addlink/boostrap.4.5.2.js"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+    <script src="assets/addlink/jquery.3.6.0.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
     <script>
 

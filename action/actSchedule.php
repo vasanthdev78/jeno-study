@@ -1,5 +1,5 @@
 <?php
-include "../db/dbConnection.php";
+include "../db/dbConnection.php"; // database connection 
 
 session_start();
 $userId = $_SESSION['userId'];
@@ -46,12 +46,12 @@ if(isset($_POST['course_id'])) {
 
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addScheduleId' && $_POST['facultyName'] != '') {
 
-    $name = $_POST['facultyName'];
-    $date = $_POST['fromDate'];
-    $session = $_POST['session'];
-    $timing = $_POST['timing'];
-    $university = $_POST['university'];
-    $course = $_POST['course'];
+    $name = htmlspecialchars($_POST['facultyName'], ENT_QUOTES, 'UTF-8');
+    $date = htmlspecialchars($_POST['fromDate'], ENT_QUOTES, 'UTF-8');
+    $session = htmlspecialchars($_POST['session'], ENT_QUOTES, 'UTF-8');
+    $timing = htmlspecialchars($_POST['timing'], ENT_QUOTES, 'UTF-8');
+    $university = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['course'], ENT_QUOTES, 'UTF-8');
     $subject = json_encode($_POST['subject']); // Converting subject array to JSON
     $centerId = $_SESSION['centerId'];
         
@@ -149,13 +149,13 @@ if (isset($_POST['deleteId'])) {
 
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editScheduleId' && $_POST['hdnScheduleId'] != '') {
 
-    $schId = $_POST['hdnScheduleId'];
-    $name = $_POST['facultyNameEdit'];
-    $date = $_POST['fromDateEdit'];
-    $session = $_POST['sessionEdit'];
-    $timing = $_POST['timingEdit'];
-    $university = $_POST['universityEdit'];
-    $course = $_POST['courseEdit'];
+    $schId = htmlspecialchars($_POST['hdnScheduleId'], ENT_QUOTES, 'UTF-8');
+    $name = htmlspecialchars($_POST['facultyNameEdit'], ENT_QUOTES, 'UTF-8');
+    $date = htmlspecialchars($_POST['fromDateEdit'], ENT_QUOTES, 'UTF-8');
+    $session = htmlspecialchars($_POST['sessionEdit'], ENT_QUOTES, 'UTF-8');
+    $timing = htmlspecialchars($_POST['timingEdit'], ENT_QUOTES, 'UTF-8');
+    $university = htmlspecialchars($_POST['universityEdit'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['courseEdit'], ENT_QUOTES, 'UTF-8');
     $subject = json_encode($_POST['subjectEdit']);
 
     // Base query

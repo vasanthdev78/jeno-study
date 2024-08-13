@@ -1,10 +1,14 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php"; // database connection 
     $centerId = $_SESSION['centerId'];
     
     $selQuery = "SELECT 
-    a.*
+    a.sch_id 
+    ,a.sch_date 
+    ,a.sch_session 
+    ,a.sch_timing
+    ,a.sch_sub_id
     , b.fac_name
     , c.cou_name 
     FROM `jeno_schedule` AS a
@@ -12,27 +16,27 @@ session_start();
     ON a.sch_fac_id = b.fac_id 
     LEFT JOIN jeno_course AS c
     ON a.sch_cou_id = c.cou_id 
-    WHERE a.sch_status = 'Active' AND a.sch_center_id = $centerId";
+    WHERE a.sch_status = 'Active' AND a.sch_center_id = $centerId;";  // shedule list show
     $resQuery = mysqli_query($conn , $selQuery);
   
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -89,9 +93,13 @@ session_start();
                     <tbody>
                     <?php 
                         $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['sch_id'];  $name = $row['fac_name']; 
-                        $date = $row['sch_date']; $session=$row['sch_session'];  
-                        $timing = $row['sch_timing'];  $course  = $row['cou_name']; $subject = $row['sch_sub_id']; 
+                        $id = $row['sch_id'];  
+                        $name = $row['fac_name']; 
+                        $date = $row['sch_date']; 
+                        $session=$row['sch_session'];  
+                        $timing = $row['sch_timing'];  
+                        $course  = $row['cou_name']; 
+                        $subject = $row['sch_sub_id']; 
                         $subject_names = json_decode($subject, true); // If it's JSON array
                         if (is_array($subject_names)) {
                             $subject = implode(', ', $subject_names); // Convert array to comma-separated string
@@ -128,7 +136,7 @@ session_start();
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -161,8 +169,8 @@ session_start();
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
     <!--  Select2 Plugin Js -->
     <script src="assets/vendor/select2/js/select2.min.js"></script>
 

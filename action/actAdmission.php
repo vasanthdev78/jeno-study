@@ -1,5 +1,5 @@
 <?php
-include("../db/dbConnection.php");
+include "../db/dbConnection.php";
 
 
 session_start();
@@ -10,39 +10,41 @@ $response = ['success' => false, 'message' => ''];
 // Admission data add Start-----------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POST['stuName'] != '') {
 
-    $stuName = $_POST['stuName'];
-    $mobileNo = $_POST['mobileNo'];
-    $email = $_POST['email'];
-    $university = $_POST['university'];
-    $courseName = $_POST['courseName'];
-    $medium = $_POST['medium'];
-    $academicYear = $_POST['academicYear'];
-    $applicationYear = $_POST['applicationYear'];
-    $applicationType = $_POST['applicationType'];
-    $yearType = $_POST['yearType'];
-    $language = $_POST['language'];
-    $digilocker = $_POST['digilocker'];
-    $admitDate = $_POST['admitDate'];
-    $dob = $_POST['dob'];
-    $gender = $_POST['gender'];
-    $address = $_POST['address'];
-    $pincode = $_POST['pincode'];
-    $fathername = $_POST['fathername'];
-    $mothername = $_POST['mothername'];
-    $aadharNumber = $_POST['aadharNumber'];
-    $nationality = $_POST['nationality'];
-    $motherTongue = $_POST['motherTongue'];
-    $religion = $_POST['religion'];
-    $caste = $_POST['caste'];
-    $community = $_POST['community'];
-    $marital = $_POST['marital'];
-    $employed = $_POST['employed'];
-    $qualification = $_POST['qualification'];
-    $previous = $_POST['previous'];
-    $completed = $_POST['completed'];
-    $study = $_POST['study'];
-    $grade = $_POST['grade'];
-    $enroll = $_POST['enroll'];
+    $stuName = htmlspecialchars($_POST['stuName'], ENT_QUOTES, 'UTF-8');
+    $mobileNo = htmlspecialchars($_POST['mobileNo'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $university = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
+    $courseName = htmlspecialchars($_POST['courseName'], ENT_QUOTES, 'UTF-8');
+    $medium = htmlspecialchars($_POST['medium'], ENT_QUOTES, 'UTF-8');
+    $academicYear = htmlspecialchars($_POST['academicYear'], ENT_QUOTES, 'UTF-8');
+    $applicationYear = htmlspecialchars($_POST['applicationYear'], ENT_QUOTES, 'UTF-8');
+    $applicationType = htmlspecialchars($_POST['applicationType'], ENT_QUOTES, 'UTF-8');
+    $yearType = htmlspecialchars($_POST['yearType'], ENT_QUOTES, 'UTF-8');
+    $language = htmlspecialchars($_POST['language'], ENT_QUOTES, 'UTF-8');
+    $digilocker = htmlspecialchars($_POST['digilocker'], ENT_QUOTES, 'UTF-8');
+    $admitDate = htmlspecialchars($_POST['admitDate'], ENT_QUOTES, 'UTF-8');
+    $dob = htmlspecialchars($_POST['dob'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['gender'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+    $pincode = htmlspecialchars($_POST['pincode'], ENT_QUOTES, 'UTF-8');
+    $fathername = htmlspecialchars($_POST['fathername'], ENT_QUOTES, 'UTF-8');
+    $mothername = htmlspecialchars($_POST['mothername'], ENT_QUOTES, 'UTF-8');
+    $aadharNumber = htmlspecialchars($_POST['aadharNumber'], ENT_QUOTES, 'UTF-8');
+    $nationality = htmlspecialchars($_POST['nationality'], ENT_QUOTES, 'UTF-8');
+    $motherTongue = htmlspecialchars($_POST['motherTongue'], ENT_QUOTES, 'UTF-8');
+    $religion = htmlspecialchars($_POST['religion'], ENT_QUOTES, 'UTF-8');
+    $caste = htmlspecialchars($_POST['caste'], ENT_QUOTES, 'UTF-8');
+    $community = htmlspecialchars($_POST['community'], ENT_QUOTES, 'UTF-8');
+    $marital = htmlspecialchars($_POST['marital'], ENT_QUOTES, 'UTF-8');
+    $employed = htmlspecialchars($_POST['employed'], ENT_QUOTES, 'UTF-8');
+    $qualification = htmlspecialchars($_POST['qualification'], ENT_QUOTES, 'UTF-8');
+    $previous = htmlspecialchars($_POST['previous'], ENT_QUOTES, 'UTF-8');
+    $completed = htmlspecialchars($_POST['completed'], ENT_QUOTES, 'UTF-8');
+    $study = htmlspecialchars($_POST['study'], ENT_QUOTES, 'UTF-8');
+    $grade = htmlspecialchars($_POST['grade'], ENT_QUOTES, 'UTF-8');
+    $enroll = htmlspecialchars($_POST['enroll'], ENT_QUOTES, 'UTF-8');
+
+
     $createdBy = $_SESSION['userId'];
     $centerId = $_SESSION['centerId'];
 
@@ -462,38 +464,39 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 // Handle updating student details update student details ---------------
 
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_POST['hdnAdmissionId'] != '') {
-    $admissionId = $_POST['hdnAdmissionId'];
-    $stuName = $_POST['stuNameEdit'];
-    $mobileNo = $_POST['mobileNoEdit'];
-    $email = $_POST['emailEdit'];
-    $university = $_POST['universityEdit'];
-    $courseName = $_POST['courseNameEdit'];
-    $medium = $_POST['mediumEdit'];
-    $acaYear = $_POST['academicYearEdit'];
-    $yearType = $_POST['yearTypeEdit'];
-    $language = $_POST['languageEdit'];
-    $digilocker = $_POST['digilockerEdit'];
-    $admitDate = $_POST['admitDateEdit'];
-    $dob = $_POST['dobEdit'];
-    $gender = $_POST['genderEdit'];
-    $address = $_POST['addressEdit'];
-    $pincode = $_POST['pincodeEdit'];
-    $fathername = $_POST['fathernameEdit'];
-    $mothername = $_POST['mothernameEdit'];
-    $aadharNumber = $_POST['aadharNumberEdit'];
-    $nationality = $_POST['nationalityEdit'];
-    $motherTongue = $_POST['motherTongueEdit'];
-    $religion = $_POST['religionEdit'];
-    $caste = $_POST['casteEdit'];
-    $community = $_POST['communityEdit'];
-    $marital = $_POST['maritalEdit'];
-    $employed = $_POST['employedEdit'];
-    $qualification = $_POST['qualificationEdit'];
-    $previous = $_POST['previousEdit'];
-    $completed = $_POST['completedEdit'];
-    $study = $_POST['studyEdit'];
-    $grade = $_POST['gradeEdit'];
-    $enroll = $_POST['enrollEdit'];
+    $admissionId = htmlspecialchars($_POST['hdnAdmissionId'], ENT_QUOTES, 'UTF-8');
+    $stuName = htmlspecialchars($_POST['stuNameEdit'], ENT_QUOTES, 'UTF-8');
+    $mobileNo = htmlspecialchars($_POST['mobileNoEdit'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['emailEdit'], ENT_QUOTES, 'UTF-8');
+    $university = htmlspecialchars($_POST['universityEdit'], ENT_QUOTES, 'UTF-8');
+    $courseName = htmlspecialchars($_POST['courseNameEdit'], ENT_QUOTES, 'UTF-8');
+    $medium = htmlspecialchars($_POST['mediumEdit'], ENT_QUOTES, 'UTF-8');
+    $acaYear = htmlspecialchars($_POST['academicYearEdit'], ENT_QUOTES, 'UTF-8');
+    $yearType = htmlspecialchars($_POST['yearTypeEdit'], ENT_QUOTES, 'UTF-8');
+    $language = htmlspecialchars($_POST['languageEdit'], ENT_QUOTES, 'UTF-8');
+    $digilocker = htmlspecialchars($_POST['digilockerEdit'], ENT_QUOTES, 'UTF-8');
+    $admitDate = htmlspecialchars($_POST['admitDateEdit'], ENT_QUOTES, 'UTF-8');
+    $dob = htmlspecialchars($_POST['dobEdit'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['genderEdit'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['addressEdit'], ENT_QUOTES, 'UTF-8');
+    $pincode = htmlspecialchars($_POST['pincodeEdit'], ENT_QUOTES, 'UTF-8');
+    $fathername = htmlspecialchars($_POST['fathernameEdit'], ENT_QUOTES, 'UTF-8');
+    $mothername = htmlspecialchars($_POST['mothernameEdit'], ENT_QUOTES, 'UTF-8');
+    $aadharNumber = htmlspecialchars($_POST['aadharNumberEdit'], ENT_QUOTES, 'UTF-8');
+    $nationality = htmlspecialchars($_POST['nationalityEdit'], ENT_QUOTES, 'UTF-8');
+    $motherTongue = htmlspecialchars($_POST['motherTongueEdit'], ENT_QUOTES, 'UTF-8');
+    $religion = htmlspecialchars($_POST['religionEdit'], ENT_QUOTES, 'UTF-8');
+    $caste = htmlspecialchars($_POST['casteEdit'], ENT_QUOTES, 'UTF-8');
+    $community = htmlspecialchars($_POST['communityEdit'], ENT_QUOTES, 'UTF-8');
+    $marital = htmlspecialchars($_POST['maritalEdit'], ENT_QUOTES, 'UTF-8');
+    $employed = htmlspecialchars($_POST['employedEdit'], ENT_QUOTES, 'UTF-8');
+    $qualification = htmlspecialchars($_POST['qualificationEdit'], ENT_QUOTES, 'UTF-8');
+    $previous = htmlspecialchars($_POST['previousEdit'], ENT_QUOTES, 'UTF-8');
+    $completed = htmlspecialchars($_POST['completedEdit'], ENT_QUOTES, 'UTF-8');
+    $study = htmlspecialchars($_POST['studyEdit'], ENT_QUOTES, 'UTF-8');
+    $grade = htmlspecialchars($_POST['gradeEdit'], ENT_QUOTES, 'UTF-8');
+    $enroll = htmlspecialchars($_POST['enrollEdit'], ENT_QUOTES, 'UTF-8');
+
     $updatedBy = $_SESSION['userId'];
 
     $uploadDir = '../assets/images/student/';

@@ -1,9 +1,20 @@
 <?php
 session_start();
-    include "class.php" ;
-    include "db/dbConnection.php";
+    include "class.php" ; // function page
+    include "db/dbConnection.php"; // database connection
+    $location = $_SESSION['centerId'];
     
-    $selQuery = "SELECT * FROM `jeno_staff` WHERE stf_status='Active'"; // staff details show
+    $selQuery = "SELECT 
+    `stf_id`
+    , `stf_name`
+    , `stf_mobile`
+    , `stf_email`
+    , `stf_role`
+    , `stf_salary`
+    , `stf_joining_date` 
+    FROM `jeno_staff` 
+    WHERE stf_status='Active' 
+    AND sft_center_id = $location;"; // staff details show 
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
@@ -147,7 +158,8 @@ session_start();
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
   
 
     <!-- Datatable Demo Aapp js -->

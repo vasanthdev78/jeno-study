@@ -33,17 +33,18 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFacultyId' && $_POS
         }
     }
 
-    $name = $_POST['staffName'];
-    $gender = $_POST['gender'];
-    $mobile = $_POST['mobile'];
-    $dateofjoin = $_POST['dateofjoin'];
-    $salary = $_POST['salary'];
-    $qualification = $_POST['qualification'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $aadhar = $newFileName;
-    $clgName = $_POST['clgName'];
-    $course = $_POST['course'];
+    $name = htmlspecialchars($_POST['staffName'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['gender'], ENT_QUOTES, 'UTF-8');
+    $mobile = htmlspecialchars($_POST['mobile'], ENT_QUOTES, 'UTF-8');
+    $dateofjoin = htmlspecialchars($_POST['dateofjoin'], ENT_QUOTES, 'UTF-8');
+    $salary = htmlspecialchars($_POST['salary'], ENT_QUOTES, 'UTF-8');
+    $qualification = htmlspecialchars($_POST['qualification'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+    $aadhar = $newFileName; // Assuming $newFileName should be sanitized
+    $clgName = htmlspecialchars($_POST['clgName'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['course'], ENT_QUOTES, 'UTF-8');
+
     $centerId = $_SESSION['centerId'];
 
         
@@ -154,17 +155,17 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editFaculty' && $_POST
         }
     }
 
-    $facId = $_POST['hdnFacultyId'];
-    $name = $_POST['staffNameEdit'];
-    $gender = $_POST['genderEdit'];
-    $mobile = $_POST['mobileEdit'];
-    $dateofjoin = $_POST['dateofjoinEdit'];
-    $salary = $_POST['salaryEdit'];
-    $qualification = $_POST['qualificationEdit'];
-    $email = $_POST['emailEdit'];
-    $address = $_POST['addressEdit'];
-    $clgName = $_POST['clgNameEdit'];
-    $course = $_POST['courseEdit'];
+    $facId = htmlspecialchars($_POST['hdnFacultyId'], ENT_QUOTES, 'UTF-8');
+    $name = htmlspecialchars($_POST['staffNameEdit'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['genderEdit'], ENT_QUOTES, 'UTF-8');
+    $mobile = htmlspecialchars($_POST['mobileEdit'], ENT_QUOTES, 'UTF-8');
+    $dateofjoin = htmlspecialchars($_POST['dateofjoinEdit'], ENT_QUOTES, 'UTF-8');
+    $salary = htmlspecialchars($_POST['salaryEdit'], ENT_QUOTES, 'UTF-8');
+    $qualification = htmlspecialchars($_POST['qualificationEdit'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['emailEdit'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['addressEdit'], ENT_QUOTES, 'UTF-8');
+    $clgName = htmlspecialchars($_POST['clgNameEdit'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['courseEdit'], ENT_QUOTES, 'UTF-8');
 
     // Base query
     $updateQuery = "UPDATE jeno_faculty 

@@ -34,18 +34,18 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addStaffId' && $_POST[
         }
     }
 
-    $name = $_POST['staffName'];
-    $dob = $_POST['dob'];
-    $gender = $_POST['gender'];
-    $mobile = $_POST['mobile'];
-    $dateofjoin = $_POST['dateofjoin'];
-    $salary = $_POST['salary'];
-    $role = $_POST['designation'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $location = $_POST['location'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $name = htmlspecialchars($_POST['staffName'], ENT_QUOTES, 'UTF-8');
+    $dob = htmlspecialchars($_POST['dob'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['gender'], ENT_QUOTES, 'UTF-8');
+    $mobile = htmlspecialchars($_POST['mobile'], ENT_QUOTES, 'UTF-8');
+    $dateofjoin = htmlspecialchars($_POST['dateofjoin'], ENT_QUOTES, 'UTF-8');
+    $salary = htmlspecialchars($_POST['salary'], ENT_QUOTES, 'UTF-8');
+    $role = htmlspecialchars($_POST['designation'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+    $location = htmlspecialchars($_POST['location'], ENT_QUOTES, 'UTF-8');
+    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
     $userId = $_SESSION['userId'];
 
     $response = ["success" => false, "message" => ""];
@@ -189,18 +189,18 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         }
     }
 
-    $name = $_POST['staffNameEdit'];
-    $dob = $_POST['dobEdit'];
-    $gender = $_POST['genderEdit'];
-    $mobile = $_POST['mobileEdit'];
-    $dateofjoin = $_POST['dateofjoinEdit'];
-    $salary = $_POST['salaryEdit'];
-    $role = $_POST['designationEdit'];
-    $email = $_POST['emailEdit'];
-    $address = $_POST['addressEdit'];
-    $editLocation = $_POST['editLocation'];
-    $password = $_POST['passwordEdit'];
-    $staffId = $_POST['hdnStaffId']; // Assuming staffId is passed in the form
+    $name = htmlspecialchars($_POST['staffNameEdit'], ENT_QUOTES, 'UTF-8');
+    $dob = htmlspecialchars($_POST['dobEdit'], ENT_QUOTES, 'UTF-8');
+    $gender = htmlspecialchars($_POST['genderEdit'], ENT_QUOTES, 'UTF-8');
+    $mobile = htmlspecialchars($_POST['mobileEdit'], ENT_QUOTES, 'UTF-8');
+    $dateofjoin = htmlspecialchars($_POST['dateofjoinEdit'], ENT_QUOTES, 'UTF-8');
+    $salary = htmlspecialchars($_POST['salaryEdit'], ENT_QUOTES, 'UTF-8');
+    $role = htmlspecialchars($_POST['designationEdit'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['emailEdit'], ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['addressEdit'], ENT_QUOTES, 'UTF-8');
+    $editLocation = htmlspecialchars($_POST['editLocation'], ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($_POST['passwordEdit'], ENT_QUOTES, 'UTF-8');
+    $staffId = htmlspecialchars($_POST['hdnStaffId'], ENT_QUOTES, 'UTF-8'); // Assuming staffId is passed in the form
 
     // Base query
     $updateQuery = "UPDATE jeno_user AS u

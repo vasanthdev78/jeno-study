@@ -9,18 +9,19 @@ $response = ['success' => false, 'message' => ''];
 
     // Handle adding a fees details -----------------------------------------
     if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFees') {
-        $feesid = $_POST['feesid'];
-        $studentId = $_POST['studentId'];
-        $admissionId = $_POST['admissionId'];
-        $studentName = $_POST['studentName'];
-        $paidMethod = $_POST['paidMethod'];
-        $paidDate = $_POST['paidDate'];
-        $year = $_POST['year'];
-        $feesType = $_POST['feesType'];
-        $transactionId = $_POST['transactionId'];
-        $description = $_POST['description'];
-        $universityPaid = $_POST['universityPaid'];
-        $studyPaid = $_POST['studyPaid'];
+        $feesid = htmlspecialchars($_POST['feesid'], ENT_QUOTES, 'UTF-8');
+        $studentId = htmlspecialchars($_POST['studentId'], ENT_QUOTES, 'UTF-8');
+        $admissionId = htmlspecialchars($_POST['admissionId'], ENT_QUOTES, 'UTF-8');
+        $studentName = htmlspecialchars($_POST['studentName'], ENT_QUOTES, 'UTF-8');
+        $paidMethod = htmlspecialchars($_POST['paidMethod'], ENT_QUOTES, 'UTF-8');
+        $paidDate = htmlspecialchars($_POST['paidDate'], ENT_QUOTES, 'UTF-8');
+        $year = htmlspecialchars($_POST['year'], ENT_QUOTES, 'UTF-8');
+        $feesType = htmlspecialchars($_POST['feesType'], ENT_QUOTES, 'UTF-8');
+        $transactionId = htmlspecialchars($_POST['transactionId'], ENT_QUOTES, 'UTF-8');
+        $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
+        $universityPaid = htmlspecialchars($_POST['universityPaid'], ENT_QUOTES, 'UTF-8');
+        $studyPaid = htmlspecialchars($_POST['studyPaid'], ENT_QUOTES, 'UTF-8');
+
         $centerId = $_SESSION['centerId'];
     
         $totalFees = $universityPaid + $studyPaid;

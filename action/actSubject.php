@@ -1,6 +1,6 @@
 <?php
-include("../class.php");
-include "../db/dbConnection.php";
+include("../class.php"); // function page
+include "../db/dbConnection.php"; // database connection
 
 session_start();
 header('Content-Type: application/json');
@@ -11,7 +11,7 @@ $response = ['success' => false, 'message' => ''];
     // Handle fetching course details ----------------------------------------
 if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     
-    $universitySub = $_POST['universitySub'];
+    $universitySub = htmlspecialchars($_POST['universitySub']);
     $centerId = $_SESSION['centerId'];
 
     $universitySubQuery = "SELECT 
@@ -19,7 +19,7 @@ if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     , `cou_name` 
     FROM `jeno_course` 
     WHERE cou_uni_id = $universitySub 
-    AND cou_center_id = $centerId AND cou_status = 'Active';";
+    AND cou_center_id = $centerId AND cou_status = 'Active';"; // select course name and id
     $universitySubResult = mysqli_query($conn, $universitySubQuery);
 
     if ($universitySubResult) {
@@ -46,7 +46,7 @@ if (isset($_POST['universitySub']) && $_POST['universitySub'] != '') {
     
 // Handle fetching Select university so elective details -------------------------------------------------------
 if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
-    $electiveSub = $_POST['electiveSub'];
+    $electiveSub = htmlspecialchars($_POST['electiveSub']);
     $centerId = $_SESSION['centerId'];
 
     // Query to fetch course details
@@ -114,13 +114,14 @@ if (isset($_POST['electiveSub']) && $_POST['electiveSub'] != '') {
 
 // Handle adding a subject -----------------------------------------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
-    $university = $_POST['university'];
-    $course = $_POST['course'];
-    $year = $_POST['year'];
-    $subType = $_POST['subType'];
+    $university = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
+    $course = htmlspecialchars($_POST['course'], ENT_QUOTES, 'UTF-8');
+    $year = htmlspecialchars($_POST['year'], ENT_QUOTES, 'UTF-8');
+    $subType = htmlspecialchars($_POST['subType'], ENT_QUOTES, 'UTF-8');
     
-    $newInputSubjectCode = $_POST['newInputSubjectCode'];
-    $newInputSubjectName = $_POST['newInputSubjectName'];
+    
+    $newInputSubjectCode = $_POST['newInputSubjectCode'] ?? [];
+    $newInputSubjectName = $_POST['newInputSubjectName'] ?? [];
 
     $uniCenterId = $_SESSION['centerId'];
     $createdBy = $_SESSION['userId'];
@@ -133,8 +134,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
 
         if($subType === "Elective"){
             $elective = $_POST['elective'];
-            $newInputElectiveSubjectCode = $_POST['newInputElectiveSubjectCode'];
-            $newInputElectiveSubjectName = $_POST['newInputElectiveSubjectName'];
+            $newInputElectiveSubjectCode = $_POST['newInputElectiveSubjectCode'] ?? [];
+            $newInputElectiveSubjectName = $_POST['newInputElectiveSubjectName'] ?? [];
 
             $ElectiveSubjectCode =json_encode($newInputElectiveSubjectCode);
             $ElectiveSubjectName =json_encode($newInputElectiveSubjectName);
@@ -166,9 +167,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addSubject') {
         
 
         } if($subType === "language"){
-    $newInputLanguageSubjectCode = $_POST['newInputLanguageSubjectCode'];
-    $newInputLanguageSubjectName = $_POST['newInputLanguageSubjectName'];
-    $newInputLanguageSubjectType = $_POST['newInputLanguageSubjectType'];
+            $newInputLanguageSubjectCode = $_POST['newInputLanguageSubjectCode'] ?? [];
+            $newInputLanguageSubjectName = $_POST['newInputLanguageSubjectName'] ?? [];
+            $newInputLanguageSubjectType = $_POST['newInputLanguageSubjectType'] ?? [];
 
     $LanguageSubjectCode =json_encode($newInputLanguageSubjectCode);
     $LanguageSubjectName =json_encode($newInputLanguageSubjectName);
@@ -298,11 +299,12 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
     // Handle updating subject details-----------------------------------------------------
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editSubject') {
-            $editSubId = $_POST['editSubId'];
-            $editUniversity = $_POST['editUniversity'];
-            $editCourse = $_POST['editCourse'];
-            $editYear = $_POST['editYear'];
-            $editSubType = $_POST['editSubType'];
+            $editSubId = htmlspecialchars($_POST['editSubId'], ENT_QUOTES, 'UTF-8');
+            $editUniversity = htmlspecialchars($_POST['editUniversity'], ENT_QUOTES, 'UTF-8');
+            $editCourse = htmlspecialchars($_POST['editCourse'], ENT_QUOTES, 'UTF-8');
+            $editYear = htmlspecialchars($_POST['editYear'], ENT_QUOTES, 'UTF-8');
+            $editSubType = htmlspecialchars($_POST['editSubType'], ENT_QUOTES, 'UTF-8');
+            
             
             $editSubjectCode = $_POST['editSubjectCode'];
             $editSubjectName = $_POST['editSubjectName'];
@@ -317,8 +319,8 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
         
                 if($editSubType === "Elective"){
                     $editElective = $_POST['editElective'];
-                    $editAdditionSubCode = $_POST['editAdditionSubCode'];
-                    $editAdditionSubName = $_POST['editAdditionSubName'];
+                    $editAdditionSubCode = $_POST['editAdditionSubCode'] ?? [];
+                    $editAdditionSubName = $_POST['editAdditionSubName'] ?? [];
         
                     $ElectiveSubjectCode =json_encode($editAdditionSubCode);
                     $ElectiveSubjectName =json_encode($editAdditionSubName);
@@ -338,9 +340,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 
         
                 } if($editSubType === "Language"){
-            $editAdditionLanguageName = $_POST['editAdditionLanguageName'];
-            $editAdditionSubCode = $_POST['editAdditionSubCode'];
-            $editAdditionSubName = $_POST['editAdditionSubName'];
+            $editAdditionLanguageName = $_POST['editAdditionLanguageName'] ?? [];
+            $editAdditionSubCode = $_POST['editAdditionSubCode'] ?? [];
+            $editAdditionSubName = $_POST['editAdditionSubName'] ?? [];
         
             $LanguageSubjectCode =json_encode($editAdditionLanguageName);
             $LanguageSubjectName =json_encode($editAdditionSubCode);

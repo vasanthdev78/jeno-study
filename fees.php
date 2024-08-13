@@ -1,41 +1,52 @@
 <?php
 session_start();
-    include("db/dbConnection.php");
+    include "db/dbConnection.php"; // database connection
+
     $centerId = $_SESSION['centerId'];
 
-    $selQuery = "SELECT a.*, b.*, c.*
-FROM `jeno_fees` AS a
-LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
-LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
-WHERE a.fee_status = 'Active'
-AND a.fee_created_at = (
-    SELECT MAX(a2.fee_created_at)
-    FROM `jeno_fees` AS a2
-    WHERE a2.fee_stu_id = a.fee_stu_id
-    AND a2.fee_status = 'Active'
-    AND a.fee_center_id =$centerId 
-)
-ORDER BY a.fee_created_at DESC";
+    $selQuery = "SELECT 
+    a.fee_id 
+    , a.fee_admision_id 
+    , a.fee_uni_fee_total 
+    , a.fee_uni_fee 
+    , a.fee_sdy_fee_total 
+    , a.fee_sty_fee
+    , b.stu_id 
+    , b.stu_name
+    , b.stu_phone
+    , c.cou_name
+        FROM `jeno_fees` AS a
+        LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
+        LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+        WHERE a.fee_status = 'Active'
+        AND a.fee_created_at = (
+            SELECT MAX(a2.fee_created_at)
+            FROM `jeno_fees` AS a2
+            WHERE a2.fee_stu_id = a.fee_stu_id
+            AND a2.fee_status = 'Active'
+            AND a.fee_center_id =$centerId )
+        ORDER BY a.fee_created_at DESC;";
+
     $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include("head.php"); ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
 
         
         <!-- ========== Topbar Start ========== -->
-        <?php include("top.php") ?>
+        <?php include "top.php" ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
 
-        <?php include("left.php"); ?>
+        <?php include "left.php"; ?>
         </div>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -46,7 +57,7 @@ ORDER BY a.fee_created_at DESC";
         <div class="content-page">
             <div class="content">
 
-              <?php include("formFees.php");?>
+              <?php include "formFees.php";?>
                 <!-- Start Content-->
                 <div class="container-fluid" id="feesContent">
 
@@ -144,7 +155,7 @@ ORDER BY a.fee_created_at DESC";
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include("footer.php") ?>
+            <?php include "footer.php" ?>
             <!-- end Footer -->
 
         </div>
@@ -177,7 +188,8 @@ ORDER BY a.fee_created_at DESC";
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+  <script src="assets/addlink/sweetalert.js"></script>
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>

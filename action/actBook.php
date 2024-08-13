@@ -1,5 +1,6 @@
 <?php
-include "../class.php";
+include "../class.php"; // function page 
+include "../db/dbConnection.php"; // database connection 
 
 
 session_start();
@@ -13,13 +14,14 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     
 
     // Retrieve POST data
-    $studentId = $_POST['studentId'];
-    $bookReceived = $_POST['bookReceived'];
+    $studentId = htmlspecialchars($_POST['studentId'], ENT_QUOTES, 'UTF-8');
+    $bookReceived = htmlspecialchars($_POST['bookReceived'], ENT_QUOTES, 'UTF-8');
     $bookUniReceived = $_POST['bookUniReceived'];
     $bookIssue = $_POST['bookIssue'];
-    $idCard = $_POST['idCard'];
-    $bookId = $_POST['bookId'];
-    $courseyear = $_POST['courseyear'];
+    $idCard = htmlspecialchars($_POST['idCard'], ENT_QUOTES, 'UTF-8');
+    $bookId = htmlspecialchars($_POST['bookId'], ENT_QUOTES, 'UTF-8');
+    $courseyear = htmlspecialchars($_POST['courseyear'], ENT_QUOTES, 'UTF-8');
+
     $createdBy = $_SESSION['userId'];
 
     // Validate inputs (basic validation, more checks may be needed)
@@ -32,7 +34,13 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
 
     
     // Fetch current book issue data
-    $select_book = "SELECT `book_id`, `book_issued`, `book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$studentId' AND book_year = $courseyear";
+    $select_book = "SELECT 
+    `book_id`
+    , `book_issued`
+    , `book_uni_received` 
+    FROM `jeno_book` 
+    WHERE book_stu_id = '$studentId' 
+    AND book_year = $courseyear"; //select book issue list
     $result_select_book = mysqli_query($conn, $select_book);
     
     if ($result_select_book) {
@@ -380,10 +388,11 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     isset($_POST['addtypeExam']) && $_POST['addtypeExam'] != '' &&
     isset($_POST['addstudentId']) && $_POST['addstudentId'] != '') {
 
-    $year = $_POST['addyear'];
-    $admissionId = $_POST['addadmissionId'];
-    $typeExam = $_POST['addtypeExam'];
-    $addstudentId = $_POST['addstudentId'];
+        $year = $_POST['addyear'];
+        $admissionId = $_POST['addadmissionId'];
+        $typeExam = $_POST['addtypeExam'];
+        $addstudentId = $_POST['addstudentId'];
+
     $createdBy = $_SESSION['userId'];
     $centerId = $_SESSION['centerId'];
 
