@@ -19,20 +19,27 @@ session_start();
     c.stu_name,
     c.stu_apply_no,
     c.stu_phone
-    FROM 
+FROM 
     jeno_book b
-    JOIN 
+JOIN 
     (SELECT 
         book_stu_id, 
-        MAX(book_id) as max_book_id 
+        MAX(book_id) AS max_book_id 
      FROM 
         jeno_book 
      GROUP BY 
         book_stu_id) sub 
     ON 
     b.book_id = sub.max_book_id 
-    LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id 
-    WHERE b.book_status ='Active' AND b.book_center_id = $centerId;"; // book issue student list show
+LEFT JOIN 
+    jeno_student AS c 
+    ON 
+    b.book_stu_id = c.stu_id 
+WHERE 
+    b.book_status = 'Active' 
+    AND b.book_center_id = $centerId
+ORDER BY 
+    b.book_id DESC;"; // book issue student list show
 
     $resQuery = mysqli_query($conn , $selQuery); 
     

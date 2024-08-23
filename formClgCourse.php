@@ -73,19 +73,20 @@
             </div>
 
           
-            <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="duration" class="form-label"><b>Duration (Years)</b></label>
-                        <select class="form-control" name="duration" id="duration" required>
-                            <option value="">--Select the Duration--</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                </div>
+                    <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="duration" class="form-label"><b>Duration (Years)</b></label>
+                                <select class="form-control" name="duration" id="duration" required>
+                                    <option value="">--Select the Duration--</option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
         </div>
         <hr>
         <div id="additionalInputs"></div>
@@ -182,6 +183,7 @@
                         <label for="ediDuration" class="form-label"><b>Duration (Years)</b></label>
                         <select class="form-control" name="ediDuration" id="ediDuration" required disabled>
                             <option value="">--Select the Duration--</option>
+                            <option value="0.5">0.5</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>

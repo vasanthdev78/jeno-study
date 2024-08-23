@@ -155,6 +155,23 @@ $previous_date = $date->format('Y-m-d');
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- Display Opening Balances Before the Table -->
+                <div class="opening-balance">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td colspan="2">Opening Balance - Cash</td>
+                                <td><?php echo $open_open_cash ?? 0; ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Opening Balance - Online</td>
+                                <td><?php echo $open_open_online ?? 0; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
              
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
@@ -214,6 +231,7 @@ $previous_date = $date->format('Y-m-d');
         <?php 
         }
         ?>
+        
     </tbody>
     <tfoot>
         <tr>
@@ -303,21 +321,22 @@ $previous_date = $date->format('Y-m-d');
                     extend: 'copy',
                     footer: true,
                     customize: function (data) {
-                        var footerHtml = '\n<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                                         '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                                         '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                                         '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
-                        return 'Date: ' + todayDate + '\n' + data + footerHtml;
+                        var openingBalances = 'Opening Balance - Cash: ' + openingBalanceCash.toFixed(2) + '\n' +
+                                              'Opening Balance - Online: ' + openingBalanceOnline.toFixed(2) + '\n\n';
+                        var closingBalances = '\nClosing Balance - Cash: ' + closingBalanceCash.toFixed(2) + '\n' +
+                                              'Closing Balance - Online: ' + closingBalanceOnline.toFixed(2);
+                        return 'Date: ' + todayDate + '\n' + openingBalances + data + closingBalances;
                     }
                 },
                 {
                     extend: 'csv',
                     footer: true,
                     customize: function (csv) {
-                        return 'Date: ' + todayDate + '\n' + csv + '\nOpening Balance - Cash,' + openingBalanceCash.toFixed(2) +
-                                     '\nOpening Balance - Online,' + openingBalanceOnline.toFixed(2) +
-                                     '\nClosing Balance - Cash,' + closingBalanceCash.toFixed(2) +
-                                     '\nClosing Balance - Online,' + closingBalanceOnline.toFixed(2);
+                        var openingBalances = 'Opening Balance - Cash,' + openingBalanceCash.toFixed(2) + '\n' +
+                                              'Opening Balance - Online,' + openingBalanceOnline.toFixed(2) + '\n\n';
+                        var closingBalances = '\nClosing Balance - Cash,' + closingBalanceCash.toFixed(2) + '\n' +
+                                              'Closing Balance - Online,' + closingBalanceOnline.toFixed(2);
+                        return 'Date: ' + todayDate + '\n' + openingBalances + csv + closingBalances;
                     }
                 },
                 {
@@ -353,28 +372,37 @@ $previous_date = $date->format('Y-m-d');
                     extend: 'pdf',
                     footer: true,
                     customize: function (doc) {
-                        var mainContent = doc.content[1];
-                        var customRows = {
-                            table: {
-                                widths: ['*', '*'],
-                                body: [
-                                    ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
-                                    ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
-                                    ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
-                                    ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
-                                ]
-                            },
-                            layout: 'noBorders'
-                        };
-
                         // Add a header with the date
                         doc.content.unshift({
                             text: 'Date: ' + todayDate,
                             margin: [0, 0, 0, 10]
                         });
 
-                        doc.content.splice(1, 1, mainContent);
-                        doc.content.push(customRows);
+                        // Add the opening balances table before the main table
+                        doc.content.splice(1, 0, {
+                            table: {
+                                widths: ['*', '*', '*'],
+                                body: [
+                                    [{text: 'Opening Balance - Cash', colSpan: 2}, {}, {text: openingBalanceCash.toFixed(2)}],
+                                    [{text: 'Opening Balance - Online', colSpan: 2}, {}, {text: openingBalanceOnline.toFixed(2)}]
+                                ]
+                            },
+                            margin: [0, 0, 0, 10],
+                            layout: 'noBorders'
+                        });
+
+                        // Add the closing balances after the main table
+                        doc.content.push({
+                            table: {
+                                widths: ['*', '*', '*'],
+                                body: [
+                                    [{text: 'Closing Balance - Cash', colSpan: 2}, {}, {text: closingBalanceCash.toFixed(2)}],
+                                    [{text: 'Closing Balance - Online', colSpan: 2}, {}, {text: closingBalanceOnline.toFixed(2)}]
+                                ]
+                            },
+                            margin: [0, 0, 0, 10],
+                            layout: 'noBorders'
+                        });
                     }
                 },
                 {
@@ -382,22 +410,26 @@ $previous_date = $date->format('Y-m-d');
                     footer: true,
                     customize: function (win) {
                         var body = $(win.document.body);
-                        var table = body.find('table').eq(0);
 
-                        // Add the date at the top of the print view
-                        body.prepend('<h4 class="page-title">Daily Report</h4><center><h5>Today : ' + todayDate + '</h5></center><br>');
-
-                        body.append(
-                            '<br><table class="table" style="width: 100%; border-collapse: collapse;">' +
+                        // Add the date and opening balances table at the top of the print view
+                        body.prepend('<h4 class="page-title">Daily Report</h4><center><h5>Today : ' + todayDate + '</h5></center><br>' +
+                            '<table class="table table-bordered">' +
                             '<tbody>' +
-                            '<tr><td colspan="5">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                            '<tr><td colspan="5">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                            '<tr><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                            '<tr><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="2">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="2">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                            '</tbody></table><br>');
+
+                        // Add the closing balances table at the bottom of the print view
+                        body.append(
+                            '<br><table class="table table-bordered">' +
+                            '<tbody>' +
+                            '<tr><td colspan="2">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                            '<tr><td colspan="2">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
                             '</tbody></table>'
                         );
 
-                        table.addClass('display').css('font-size', '10px');
+                        // Style adjustments
+                        body.find('table').css('font-size', 'inherit');
                     }
                 }
             ],
@@ -424,8 +456,8 @@ $previous_date = $date->format('Y-m-d');
                 // Remove existing custom footer rows and add new ones
                 $('#example tfoot tr.custom-footer').remove();
                 var customFooterRows = 
-                    '<tr class="custom-footer"><td colspan="3">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                    '<tr class="custom-footer"><td colspan="3">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                   
+                   
                     '<tr class="custom-footer"><td colspan="3">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
                     '<tr class="custom-footer"><td colspan="3">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
 
@@ -434,6 +466,7 @@ $previous_date = $date->format('Y-m-d');
         });
     });
 </script>
+
 
 
 

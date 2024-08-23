@@ -555,12 +555,28 @@ document.addEventListener('DOMContentLoaded', function() {
     $(document).ready(function() {
         $('#duration, #fessType').on('input change', function() {
             $('#additionalInputs').empty(); // Clear previous inputs
-            var duration = parseInt($('#duration').val()) || 0;
+            var duration = parseFloat($('#duration').val()) || 0;
             var graduationType = $('#fessType').val();
             
-            var totalSemesters = (graduationType === 'Semester') ? duration * 2 : duration;
+            // var totalSemesters = (graduationType === 'Semester') ? duration * 2 : duration;
 
-            for (var i = 1; i <= totalSemesters; i++) {
+              // Determine total periods based on duration
+              var totalPeriods;
+
+            if (graduationType === 'Semester') {
+                if (duration === 0.5) {
+                    totalPeriods = 1; // Special case for 0.5 year to show only one semester
+                } else {
+                    totalPeriods = duration * 2; // Normal case for semester-based duration
+                }
+            } else {
+                totalPeriods = duration; // For year-based duration
+            }
+            
+            // Debugging alert to check totalPeriods
+            
+            for (var i = 1; i <= totalPeriods; i++) {
+                
                 var yearText;
                 if (graduationType === 'Semester') {
                     yearText = 'Semester ' + i;
@@ -619,6 +635,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 })(input1, input2, input3);
             }
+                
         });
     });
 </script>
