@@ -29,6 +29,7 @@ $response = ['success' => false, 'message' => ''];
     
         $fees_select = "SELECT 
             `fee_id`,
+            `fee_stu_id`,
             `fee_uni_fee_total`, 
             `fee_sdy_fee_total`, 
             `fee_uni_fee`,
@@ -42,17 +43,79 @@ $response = ['success' => false, 'message' => ''];
         $fee_id = $fees['fee_id'];
         $fee_uni_fee = $fees['fee_uni_fee'];
         $fee_sty_fee = $fees['fee_sty_fee'];
+        $stu_id = $fees['fee_stu_id'];
     
         // Calculate updated fees
         $uni_fees = $fee_uni_fee + $universityPaid;
         $sty_fees = $fee_sty_fee + $studyPaid;
-    
+
+        // Query to fetch loc_short_name and stu_uni_id
+        $location_student_query = "
+        SELECT 
+            l.loc_short_name,
+            s.stu_uni_id
+        FROM 
+            jeno_location l
+        JOIN 
+            jeno_student s ON s.stu_id = $stu_id
+        WHERE 
+            l.loc_id = $centerId;
+        ";
+
+        $location_student_res = mysqli_query($conn, $location_student_query);
+        $location_student = mysqli_fetch_array($location_student_res, MYSQLI_ASSOC);
+
+        $loc_short_name = $location_student['loc_short_name'];
+        $stu_uni_id = $location_student['stu_uni_id'];
+
+        // Query to fetch university name and get first two characters
+        $university_query = "
+        SELECT 
+            LEFT(uni_name, 2) AS uni_short_name
+        FROM 
+            jeno_university 
+        WHERE 
+            uni_id = $stu_uni_id;
+        ";
+
+        $university_res = mysqli_query($conn, $university_query);
+        $university_data = mysqli_fetch_array($university_res, MYSQLI_ASSOC);
+
+        $uni_short_name = $university_data['uni_short_name'];
+
+        // Get the current year and last two digits
+        $current_year = date('y');
+
+        // Query to get the last sequence number for this center, university, and year
+        $bill_no_select = "
+           SELECT 
+                MAX(CAST(SUBSTRING(pay_bill_no, 8) AS UNSIGNED)) AS last_sequence 
+            FROM 
+                jeno_payment_history 
+            WHERE 
+                pay_center_id = $centerId  
+                AND SUBSTRING(pay_bill_no, 1, 3) = '$loc_short_name' 
+                AND SUBSTRING(pay_bill_no, 4, 2) = '$uni_short_name' 
+                AND SUBSTRING(pay_bill_no, 6, 2) = '$current_year'; 
+        ";
+
+        $bill_no_res = mysqli_query($conn, $bill_no_select);
+        $bill_no_data = mysqli_fetch_array($bill_no_res, MYSQLI_ASSOC);
+
+        // Determine the last sequence number and increment
+        $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
+        $next_sequence = $last_sequence + 1;
+
+        // Generate the bill number
+        $billNo = $loc_short_name . $uni_short_name . $current_year . $next_sequence;
+
         // Other fields
         $createdBy = $_SESSION['userId'];
     
         // Insert into payment history
         $history_sql = "INSERT INTO `jeno_payment_history`
-        (`pay_admission_id`
+        ( `pay_bill_no`
+        , `pay_admission_id`
         , `pay_student_name`
         , `pay_year`
         , `pay_paid_method`
@@ -65,7 +128,8 @@ $response = ['success' => false, 'message' => ''];
         , `pay_center_id`
         , `pay_created_by`)
         VALUES 
-        ('$admissionId'
+        ( '$billNo'
+        , '$admissionId'
         , '$studentName'
         , '$payYear'
         , '$paidMethod'
