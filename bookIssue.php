@@ -229,7 +229,7 @@ session_start();
             $('#studentName').val(response.stu_name);
             $('#studentId').val(response.stu_id);
             $('#year').val(response.stu_aca_year);
-            $('#typeExam').val(response.cou_fees_type);
+            $('#typeExam').val(response.cou_exam_type);
             $('#bookId').val(response.book_id);
 
             
@@ -260,13 +260,13 @@ session_start();
                 courseYearSelect.append(new Option('--select year--', '')); // Add default option
 
                 var html = '';
-                if (response.cou_fees_type === 'Year') {
+                if (response.cou_exam_type === 'Year') {
                     for (var i = 1; i <= response.cou_duration; i++) {
                         if (i >= joining_year) {
                             html += '<option value="' + i + '">' + i + ' Year</option>';
                         }
                     }
-                } else if (response.cou_fees_type === 'Semester') {
+                } else if (response.cou_exam_type === 'Semester') {
                     for (var i = 1; i <= response.cou_duration * 2; i++) {
                         if (Math.ceil(i / 2) >= joining_year) { // Convert semester to year and check
                             html += '<option value="' + i + '">' + i + ' Semester</option>';
@@ -285,7 +285,7 @@ session_start();
                 data: {
                     year: response.stu_aca_year, // Corrected the parameter name to match what you want to send
                     admissionId: response.stu_apply_no,
-                    typeExam: response.cou_fees_type
+                    typeExam: response.cou_exam_type
                 },
                 dataType: 'json',
                 success: function(response) {
