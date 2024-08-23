@@ -526,10 +526,10 @@ function goEditAdmission(editId) {
                     $('#dobEdit').val(response.dob);
                     $('#genderEdit').val(response.gender);
                     $('#addressEdit').val(response.address);
-                    $('#pincodeEdit').val(response.pincode);
+                    $('#pincodeEdit').val(response.pincode && response.pincode !== '0' ? response.pincode : '');
                     $('#fathernameEdit').val(response.father_name);
                     $('#mothernameEdit').val(response.mother_name);
-                    $('#aadharNumberEdit').val(response.aadhar_no);
+                    $('#aadharNumberEdit').val(response.aadhar_no && response.aadhar_no !== '0' ? response.aadhar_no : '');
                     $('#nationalityEdit').val(response.nationality);
                     $('#motherTongueEdit').val(response.mother_tongue);
                     $('#religionEdit').val(response.religion);
