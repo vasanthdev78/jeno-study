@@ -41,7 +41,7 @@
 
                                         <div class="col-sm-12">
                                             <div class="form-group pb-1">
-                                                <label class="form-label"><b>ID from University</b></label><br>
+                                                <label class="form-label"><b>ID Card from University</b></label><br>
                                                         <div class="row">
                                                         <div class="col-sm-4 ">
                                                         <div class="form-check">
@@ -90,7 +90,7 @@
 
                                         <div class="col-sm-12">
                                             <div class="form-group pb-1">
-                                                <label class="form-label"><b>ID Card</b></label><br>
+                                                <label class="form-label"><b>ID Card For Student</b></label><br>
                                                         <div class="row">
                                                         <div class="col-sm-4 ">
                                                         <div class="form-check">

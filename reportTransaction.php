@@ -84,7 +84,7 @@ session_start();
                                             <div class="form-group">
                                                 <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
                                                 <select class="form-control" name="transaction" id="university" required>
-                                                    <option value="All">--Select Transaction--</option>
+                                                    <option value="All">--All Transaction--</option>
                                                     <option value="Income">Income</option>
                                                     <option value="Expense">Expense</option>
                                                 </select>
@@ -98,7 +98,7 @@ session_start();
                                 <div class="form-group">
                                     <label for="location" class="form-label"><b>Location</b><span class="text-danger">*</span></label>
                                     <select class="form-control" name="location" id="location" required <?php if($role != 'Admin') echo 'readonly'; ?>>
-                                        <option value="All">--Select Location--</option>
+                                        <option value="All">--All Location--</option>
                                         <?php 
                                             if($role == 'Admin') {
                                                 echo getLocationOptions();
