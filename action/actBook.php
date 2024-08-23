@@ -16,8 +16,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     // Retrieve POST data
     $studentId = htmlspecialchars($_POST['studentId'], ENT_QUOTES, 'UTF-8');
     $bookReceived = htmlspecialchars($_POST['bookReceived'], ENT_QUOTES, 'UTF-8');
-    $bookUniReceived = $_POST['bookUniReceived'];
-    $bookIssue = $_POST['bookIssue'];
+    $bookUniReceived = $_POST['bookUniReceived'] ?? [];
+    $bookIssue = $_POST['bookIssue'] ?? [];
     $idCard = htmlspecialchars($_POST['idCard'], ENT_QUOTES, 'UTF-8');
     $bookId = htmlspecialchars($_POST['bookId'], ENT_QUOTES, 'UTF-8');
     $courseyear = htmlspecialchars($_POST['courseyear'], ENT_QUOTES, 'UTF-8');
@@ -25,7 +25,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     $createdBy = $_SESSION['userId'];
 
     // Validate inputs (basic validation, more checks may be needed)
-    if (empty($studentId) || empty($bookReceived) || empty($bookUniReceived) || empty($bookIssue) || empty($idCard) || empty($courseyear)) {
+    if (empty($studentId) || empty($bookReceived) || empty($idCard) || empty($courseyear)) {
         $response['success'] = false;
         $response['message'] = 'All fields are required.';
         echo json_encode($response);
