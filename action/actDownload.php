@@ -12,7 +12,8 @@
     }     
 
     $select_sql = "SELECT 
-    `pay_id`
+      `pay_id`
+    , `pay_bill_no`
     , `pay_admission_id`
     , `pay_student_name`
     , `pay_year`
@@ -34,6 +35,7 @@
     if ($result->num_rows > 0) {
     // Output data of each row
     $row = $result->fetch_assoc();
+        $pay_bill_no = $row['pay_bill_no'];
         $admisionId = $row['pay_admission_id'];
         $pay_student_name = $row['pay_student_name'];
         $pay_year = $row['pay_year'];
@@ -259,7 +261,7 @@
     // Add invoice content
     $pdf->Cell(0, 8, 'Name: '.$pay_student_name, 'T', 0,'L');
     $pdf->Cell(0, 8, 'Date: ' . $formattedDate, 'T', 1,'R');
-    $pdf->Cell(0, 8, 'Receipt Number: BRT-00'.$id, 0, 0,'L');
+    $pdf->Cell(0, 8, 'Receipt Number: '.$pay_bill_no, 0, 0,'L');
 
         // Show Enrollment No if available, otherwise show Admission No
         if (!empty($stu_enroll)) {
