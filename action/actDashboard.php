@@ -1,9 +1,9 @@
 <?php
-include "../class.php"; // function file 
-include "../db/dbConnection.php"; // databse connection
+
 session_start();
 header('Content-Type: application/json');
-
+include "../class.php"; // function file 
+include "../db/dbConnection.php"; // databse connection
 // Initialize the response array
 $response = ['success' => false, 'message' => ''];
 
