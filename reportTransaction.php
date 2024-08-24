@@ -129,7 +129,8 @@ session_start();
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Paid Date</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col">Reason</th>
+                                    <th scope="col">Ledger Type</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col">pay Method</th>
                                     <th scope="col">Amount</th>
                                     
@@ -151,6 +152,7 @@ session_start();
                      ?>
             <tfoot>
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -316,12 +318,12 @@ $(document).ready(function() {
             var api = this.api();
             
             // Calculate the total for the "Amount" column (index 4)
-            var total = api.column(5, { page: 'current' }).data().reduce(function(a, b) {
+            var total = api.column(6, { page: 'current' }).data().reduce(function(a, b) {
                 return parseFloat(a) + parseFloat(b);
             }, 0);
 
             // Update the footer with the total for the "Amount" column only
-            $(api.column(5).footer()).html(total.toFixed(2));
+            $(api.column(6).footer()).html(total.toFixed(2));
         }
     });
 
@@ -407,12 +409,14 @@ $(document).ready(function() {
                 // Transaction specific fields
                 rowData.push(row.tran_category); // Category
                 rowData.push(row.tran_reason); // Reason
+                rowData.push(row.tran_description); // description
                 rowData.push(row.tran_method); // Method
                 rowData.push(row.tran_amount); // Amount
             } else if (row.type === 'payment') {
                 // Payment specific fields
                 rowData.push('Income'); // Use a static category name or fetch the appropriate one
                 rowData.push('Admission'); // Student Name
+                rowData.push('Fees'); // Student Name
                 rowData.push(row.pay_paid_method); // Paid Method
                 rowData.push(row.pay_study_fees); // Study Fees
             }

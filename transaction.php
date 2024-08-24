@@ -3,6 +3,7 @@ session_start();
 include "class.php"; // function page
 include "db/dbConnection.php"; //database connection
     $centerId = $_SESSION['centerId'];
+    $ledgerTable = ledgerTable($centerId);
     $transactionResult = transactionTable($centerId);
     $current_date = date('Y-m-d');
     // Create a DateTime object for the current date

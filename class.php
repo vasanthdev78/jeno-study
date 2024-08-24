@@ -469,4 +469,58 @@ function electiveTable($location) {
                 'cash_total' => $cash_total
             ];
         }
+
+
+        //----ledger type select --------------------------------
+
+        function ledgerTable($location) {    
+            global $conn; // Assuming $conn is your database connection variable
+        
+        
+           // Query to retrieve course name based on course_id
+           $ledger_query = "SELECT 
+           `led_id`
+           , `led_type`
+           , `led_center_id`
+           FROM `jeno_ledger` WHERE led_status ='Active' AND led_center_id= $location;";
+        
+           // Execute the query
+           $ledger_result = $conn->query($ledger_query);
+        
+           // Check if query was successful
+           if ($ledger_result) {
+               // Fetch the course name
+               
+        
+               return $ledger_result;
+           } else {
+               // Query execution failed
+               return "Query failed: " . $conn->error;
+           }
+            }
+
+
+               //--ledger name only get ---------------
+        function ledgerName($locID , $ledId) {
+            global $conn; // Assuming $conn is your database connection variable
+        
+            // Query to retrieve university name based on uni_id
+            $led_name = "SELECT `led_id`, `led_type` 
+            FROM `jeno_ledger` 
+            WHERE led_status ='Active' 
+            AND led_center_id =$locID AND led_id =$ledId;";
+        
+            // Execute the query
+            $led_result = $conn->query($led_name);
+        
+            // Check if query was successful and there is a result
+            if ($led_result && $led_result->num_rows > 0) {
+                // Fetch the university name
+                $loc = $led_result->fetch_assoc();
+                return $loc['led_type'];
+            } else {
+                // Query execution failed or no results found
+                return "No Ledger found with the given ID.";
+            }
+        }
 ?>

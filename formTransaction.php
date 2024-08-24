@@ -22,13 +22,28 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Input field for expense reason -->
-                    <div class="col-sm-12">
-                        <div class="form-group pb-1">
-                            <label for="expenseReasonInput" class="form-label"><b>Ex / In Reason</b><span class="text-danger">*</span></label>
-                            <textarea class="form-control" placeholder="Enter Expense Reason" name="expenseReason" id="expenseReasonInput" required></textarea>
+
+                        <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="ledgerType" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="ledgerType" id="ledgerType" required="required">
+                                    <option value="">--Select Ledger Type--</option>
+                                    <?php 
+                                     while ($row1 = $ledgerTable->fetch_assoc()) {
+                                        ?>
+                                    <option value="<?php echo $row1['led_id'] ?>"><?php echo $row1['led_type'] ?></option>
+                                    
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="col-sm-12" >
+                            <div class="form-group pb-1">
+                                <label for="description" class="form-label"><b>Description</b></label>
+                                <textarea class="form-control"   placeholder="Enter Description" name="description" id="description"></textarea>                                
+                            </div>
+                        </div>
 
 
                         <div class="col-sm-12">
@@ -63,12 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12" >
-                            <div class="form-group pb-1">
-                                <label for="description" class="form-label"><b>Description</b></label>
-                                <textarea class="form-control"   placeholder="Enter Description" name="description" id="description"></textarea>                                
-                            </div>
-                        </div>
+                           
 
                            
                         </div>
@@ -108,15 +118,29 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="editLedgerType" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="editLedgerType" id="editLedgerType" required="required">
+                                    <option value="">--Select Ledger Type--</option>
+                                    <?php 
+                                     while ($row1 = $ledgerTable->fetch_assoc()) {
+                                        ?>
+                                    <option value="<?php echo $row1['led_id'] ?>"><?php echo $row1['led_type'] ?></option>
+                                    
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
                           
 
-                            <!-- Input field for income reason -->
-                            <div class="col-sm-12" id="editIncomeReason">
-                                <div class="form-group pb-1">
-                                    <label for="editIncomeReasonInput" class="form-label"><b>Income Reason</b><span class="text-danger">*</span></label>
-                                    <textarea class="form-control" placeholder="Enter Income Reason" name="editIncomeReason" id="editIncomeReasonInput" required></textarea>
-                                </div>
+                        <div class="col-sm-12" >
+                            <div class="form-group pb-1">
+                                <label for="editDescription" class="form-label"><b>Description</b></label>
+                                <textarea class="form-control"   placeholder="Enter Description" name="editDescription" id="editDescription"></textarea>                                
                             </div>
+                        </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">
@@ -150,12 +174,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12" >
-                            <div class="form-group pb-1">
-                                <label for="editDescription" class="form-label"><b>Description</b></label>
-                                <textarea class="form-control"   placeholder="Enter Description" name="editDescription" id="editDescription"></textarea>                                
-                            </div>
-                        </div>
+                            
 
                            
                         </div>

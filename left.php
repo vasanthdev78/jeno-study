@@ -66,8 +66,12 @@
                 <a href="electiveSubject.php" class="side-nav-link"><i class="bi bi-list-stars"></i><span>Elective Subject </span></a>
             </li>
             <li>
+                <a href="ledger.php" class="side-nav-link"><i class="bi bi-book"></i><span>Ledger </span></a>
+            </li>
+            <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>
             </li>
+            
             <!-- <li>
                 <a href="fees.php" class="side-nav-link"><i class="bi bi-currency-rupee"></i>Fees</a>
             </li> -->
@@ -129,6 +133,9 @@
             </li>
             <li>
                 <a href="electiveSubject.php" class="side-nav-link"><i class="bi bi-list-stars"></i><span>Elective Subject </span></a>
+            </li>
+            <li>
+                <a href="ledger.php" class="side-nav-link"><i class="bi bi-book"></i><span>Ledger </span></a>
             </li>
             <li>
                 <a href="masterSubject.php" class="side-nav-link"><i class="bi bi-list-columns-reverse"></i>Subject</a>

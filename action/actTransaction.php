@@ -53,7 +53,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addTransaction') {
 
                            $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
-                            $expenseReason = htmlspecialchars($_POST['expenseReason'], ENT_QUOTES, 'UTF-8');
+                            $expenseReason = htmlspecialchars($_POST['ledgerType'], ENT_QUOTES, 'UTF-8');
                             $date = htmlspecialchars($_POST['date'], ENT_QUOTES, 'UTF-8');
                             $amount = htmlspecialchars($_POST['amount'], ENT_QUOTES, 'UTF-8');
                             $paidMethod = htmlspecialchars($_POST['paidMethod'], ENT_QUOTES, 'UTF-8');
@@ -151,7 +151,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editTransaction') {
             $editTransactionId = htmlspecialchars($_POST['editTransactionId'], ENT_QUOTES, 'UTF-8');
             $editCategory = htmlspecialchars($_POST['editCategory'], ENT_QUOTES, 'UTF-8');
-            $editExpenseReason = htmlspecialchars($_POST['editIncomeReason'], ENT_QUOTES, 'UTF-8');
+            $editExpenseReason = htmlspecialchars($_POST['editLedgerType'], ENT_QUOTES, 'UTF-8');
             $editDate = htmlspecialchars($_POST['editDate'], ENT_QUOTES, 'UTF-8');
             $editAmount = htmlspecialchars($_POST['editAmount'], ENT_QUOTES, 'UTF-8');
             $editPaidMethod = htmlspecialchars($_POST['editPaidMethod'], ENT_QUOTES, 'UTF-8');
@@ -235,7 +235,10 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
                 , `tran_transaction_id`
                 , `tran_description`
                 , `tran_reason` 
-                FROM `jeno_transaction` WHERE tran_id = $uniId AND tran_center_id =$centerId;";
+                , b.led_type
+                FROM `jeno_transaction` AS a 
+                LEFT JOIN jeno_ledger AS b ON a.tran_reason = b.led_id 
+                WHERE tran_id = $uniId AND tran_center_id =$centerId";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -253,7 +256,7 @@ if (isset($_POST['universityID']) && $_POST['universityID'] != '') {
             'tran_method' => $row['tran_method'],
             'tran_transaction_id' => $row['tran_transaction_id'],
             'tran_description' => $row['tran_description'],
-            'tran_reason' => $row['tran_reason'],
+            'tran_reason' => $row['led_type'],
             
         ];
 
@@ -305,8 +308,9 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         `tran_method`,
         `tran_transaction_id`,
         `tran_description`,
-        `tran_reason`
-    FROM `jeno_transaction`
+        `tran_reason`,
+        b.led_type
+    FROM `jeno_transaction` AS a LEFT JOIN jeno_ledger AS b ON a.tran_reason = b.led_id
     WHERE tran_status = 'Active' AND tran_center_id =$centerId
     AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
@@ -349,7 +353,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'type' => 'transaction',
                 'tran_id' => $row['tran_id'],
                 'tran_category' => $row['tran_category'],
-                'tran_reason' => $row['tran_reason'],
+                'tran_reason' => $row['led_type'],
                 'tran_method' => $row['tran_method'],
                 'tran_amount' => $row['tran_amount'],
                 'date' => $tran_date,
