@@ -588,11 +588,15 @@ function goViewAdmission(id)
                     $('#languageView').text(response.language ? response.language : '-');
                     $('#digilockerView').text(response.digilocker ? response.digilocker : '-');
                     let originalDate = response.admit_date; // Assuming this is in the format YYYY-MM-DD
-        let dateParts = originalDate.split('-'); // Split the date string
-        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Reformat to DD-MM-YYYY
+                    let dateParts = originalDate.split('-'); // Split the date string
+                    let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Reformat to DD-MM-YYYY
 
-                    $('#admitDateView').text(formattedDate && formattedDate !== '0000-00-00' ? formattedDate : '-');
-                    $('#dobView').text(response.dob && response.dob !== '0000-00-00' ? response.dob : '-');
+                    $('#admitDateView').text(formattedDate && formattedDate !== '00-00-0000' ? formattedDate : '-');
+                    let originalDob = response.dob; // Assuming this is in the format YYYY-MM-DD
+                    let dobParts = originalDob.split('-'); // Split the date string
+                    let formattedDob = `${dobParts[2]}-${dobParts[1]}-${dobParts[0]}`; // Reformat to DD-MM-YYYY
+
+                    $('#dobView').text(formattedDob && formattedDob !== '00-00-0000' ? formattedDob : '-');
                     $('#genderView').text(response.gender ? response.gender : '-');
                     $('#fatherNameView').text(response.father_name ? response.father_name : '-');
                     $('#motherNameView').text(response.mother_name ? response.mother_name : '-');
