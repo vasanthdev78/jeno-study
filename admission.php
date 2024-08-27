@@ -82,11 +82,11 @@ session_start();
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($admission_result , MYSQLI_ASSOC)) { 
                         $id = $row['stu_id'];  $name = $row['stu_name']; $phone = $row['stu_phone'];  $university=$row['uni_name'];  
-                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; $apply = $row['stu_apply_no'];
+                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; $apply = $row['stu_addmision_new'];
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $apply; ?></td>
+                        <td><?php echo !empty($apply) ? $apply : '---'; ?></td>
                         <td><?php echo $name; ?></td>
                         <td><?php echo $university; ?></td>
                         <td><?php echo $course; ?></td>
@@ -543,6 +543,7 @@ function goEditAdmission(editId) {
                     $('#studyEdit').val(response.study_field);
                     $('#gradeEdit').val(response.grade);
                     $('#enrollEdit').val(response.enroll);
+                    $('#applicationNoEdit').val(response.stu_addmision_new);
                 }, 500); // Adjust timeout if necessary
             }, 500); // Adjust timeout if necessary
         },

@@ -18,6 +18,7 @@ session_start();
     b.book_status,
     c.stu_name,
     c.stu_apply_no,
+    c.stu_addmision_new,
     c.stu_phone
 FROM 
     jeno_book b
@@ -123,13 +124,14 @@ ORDER BY
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; 
                         $contact = $row['stu_phone']; 
-                        $stu_apply_no = $row['stu_apply_no']; 
+                        $stu_apply_no = $row['stu_addmision_new']; 
                         ?>
 
                      <tr>
                      
                         <td><?php echo $i; $i++; ?></td>
-                        <td><?php echo $stu_apply_no; ?></td>
+                        
+                        <td><?php echo !empty($stu_apply_no) ? $stu_apply_no : '---'; ?></td>
                         <td><?php echo $name; ?></td>
                         <td><?php echo $bookRes; ?></td>
                         

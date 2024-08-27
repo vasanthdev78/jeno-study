@@ -14,6 +14,7 @@ session_start();
     , b.stu_id 
     , b.stu_name
     , b.stu_phone
+    , b.stu_addmision_new
     , c.cou_name
         FROM `jeno_fees` AS a
         LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
@@ -103,7 +104,8 @@ session_start();
         $id = $row['fee_id']; 
         $stuId = $row['stu_id']; 
         $name = $row['stu_name']; 
-        $admitId = $row['fee_admision_id'];   
+        $admitId = $row['fee_admision_id']; 
+        $stu_addmision_new = $row['stu_addmision_new'];   
         $course = $row['cou_name']; 
         $phone = $row['stu_phone']; 
     
@@ -126,7 +128,8 @@ session_start();
         ?>
         <tr>
             <td><?php echo $i; $i++; ?></td>
-            <td><?php echo $admitId; ?></td>
+            
+            <td><?php echo !empty($stu_addmision_new) ? $stu_addmision_new : '---'; ?></td>
             <td><?php echo $name; ?></td>
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>

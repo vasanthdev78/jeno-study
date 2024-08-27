@@ -113,15 +113,15 @@
                                                                 </div>
                                                             </div>
 
-                                                            <!-- <div class="col-sm-6">
+                                                            <div class="col-sm-6">
                                                             <div class="form-group pb-1">
-                                                            <label for="applicationNo" class="form-label"><b>Application No.</b><span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" placeholder="Enter Student Application No." name="applicationNo" id="applicationNo" required="required">
+                                                            <label for="applicationNo" class="form-label"><b>Application No. (year/A/C/university/course/NO)</b></label>
+                                                            <input type="text" class="form-control" placeholder="Enter Student Application No. EX:(24CMSBBA001)" name="applicationNo" id="applicationNo">
                                                             <div class="invalid-feedback">
                                                                 This Application No. is required or already exists.
                                                             </div>
                                                             </div>
-                                                            </div> -->
+                                                            </div>
 
                                                             <div class="col-sm-6">
                                                             <div class="form-group">
@@ -528,6 +528,16 @@
                                                                         <option value="">--Select Academic Year/Sem--</option>
                                                                     </select>
                                                                 </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                            <div class="form-group pb-1">
+                                                            <label for="applicationNoEdit" class="form-label"><b>Application No. (year/A/C/university/course/NO)</b></label>
+                                                            <input type="text" class="form-control" placeholder="Enter Student Application No.  EX:(24CMSBBA001)" name="applicationNoEdit" id="applicationNoEdit">
+                                                            <div class="invalid-feedback">
+                                                                This Application No. is required or already exists.
+                                                            </div>
+                                                            </div>
                                                             </div>
 
                                                             <div class="col-sm-6">

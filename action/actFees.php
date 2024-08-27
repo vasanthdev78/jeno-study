@@ -162,6 +162,81 @@ $response = ['success' => false, 'message' => ''];
                   AND `fee_id` = '$feesid'";
     
                 if ($conn->query($course_sql) === TRUE) {
+
+
+                    $select_fees ="SELECT 
+            `fee_id`,
+            `fee_stu_id`,
+            `fee_uni_fee_total`, 
+            `fee_sdy_fee_total`, 
+            `fee_uni_fee`,
+            `fee_sty_fee`
+            FROM `jeno_fees` 
+            WHERE fee_id = $feesid AND fee_center_id =$centerId;";
+
+                    $select_fees_res = mysqli_query($conn, $select_fees);
+        $fees1 = mysqli_fetch_array($select_fees_res, MYSQLI_ASSOC);
+    
+        $fee_id1 = $fees1['fee_id'];
+        $fee_uni_fee1 = $fees1['fee_uni_fee'];
+        $fee_sty_fee1 = $fees1['fee_sty_fee'];
+        $stu_id1 = $fees1['fee_stu_id'];
+
+        $total_fess_select ="SELECT 
+        a.fee_id,
+        a.fee_admision_id,
+        a.fee_stu_id,
+        a.fee_uni_fee_total,
+        a.fee_uni_fee,
+        a.fee_sdy_fee_total,
+        a.fee_sty_fee,
+        a.fee_stu_year,
+        b.stu_id,
+        b.stu_name,
+        c.cou_id,
+        c.cou_duration,
+        c.cou_fees_type,
+        c.cou_university_fess,
+        c.cou_study_fees,
+        c.cou_total_fees
+    FROM jeno_fees AS a 
+    LEFT JOIN jeno_student AS b 
+        ON a.fee_stu_id = b.stu_id 
+    LEFT JOIN jeno_course AS c 
+        ON b.stu_cou_id = c.cou_id 
+    WHERE a.fee_id = $feesid AND a.fee_center_id = $centerId";
+
+    $total_fess_select_res = mysqli_query($conn, $total_fess_select);
+
+    if ($total_fess_select_res && $row_course = $total_fess_select_res->fetch_assoc()) {
+    // Decode JSON fields if they exist
+    //  $cou_uni_fess = isset($row_course['cou_university_fess']) ? json_decode($row_course['cou_university_fess']) : null;
+    $academicYear =$row_course['fee_stu_year'];
+    $uni_tataol =$row_course['fee_uni_fee_total'];
+    // $cou_study_fees = isset($row_course['cou_study_fees']) ? json_decode($row_course['cou_study_fees']) : null;
+    
+
+    }
+    
+        if($uni_tataol == $fee_uni_fee1){
+
+                          // Insert into book table
+        $book_sql = "INSERT INTO `jeno_book`
+        (`book_stu_id`
+        , `book_year`
+        , `book_center_id`
+        , `book_created_by`) 
+        VALUES 
+        ('$studentId'
+        , '$academicYear'
+        , '$centerId'
+        , '$createdBy')"; // Modify as per your requirements
+
+        $conn->query($book_sql);
+          
+        }
+
+      
                     $response['success'] = true;
                     $response['message'] = "Fees added and updated successfully!";
                 } else {

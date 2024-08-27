@@ -17,6 +17,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     $courseName = htmlspecialchars($_POST['courseName'], ENT_QUOTES, 'UTF-8');
     $medium = htmlspecialchars($_POST['medium'], ENT_QUOTES, 'UTF-8');
     $academicYear = htmlspecialchars($_POST['academicYear'], ENT_QUOTES, 'UTF-8');
+    $applicationNo = htmlspecialchars($_POST['applicationNo'], ENT_QUOTES, 'UTF-8');
     $applicationYear = htmlspecialchars($_POST['applicationYear'], ENT_QUOTES, 'UTF-8');
     $applicationType = htmlspecialchars($_POST['applicationType'], ENT_QUOTES, 'UTF-8');
     $yearType = htmlspecialchars($_POST['yearType'], ENT_QUOTES, 'UTF-8');
@@ -105,7 +106,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     
 
     $student_sql = "INSERT INTO `jeno_student`
-    (`stu_name`
+    (stu_addmision_new
+    , `stu_name`
     , `stu_phone`
     , `stu_email`
     , `stu_uni_id`
@@ -117,7 +119,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
     , `stu_center_id`
     , `stu_created_by`) 
      VALUES
-      ('$stuName'
+      ('$applicationNo'
+      , '$stuName'
       , '$mobileNo'
       , '$email'
       , '$university'
@@ -267,18 +270,18 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POS
         $conn->query($fees_sql);
 
         // Insert into book table
-        $book_sql = "INSERT INTO `jeno_book`
-        (`book_stu_id`
-        , `book_year`
-        , `book_center_id`
-        , `book_created_by`) 
-        VALUES 
-        ('$studentId'
-        , '$academicYear'
-        , '$centerId'
-        , '$createdBy')"; // Modify as per your requirements
+        // $book_sql = "INSERT INTO `jeno_book`
+        // (`book_stu_id`
+        // , `book_year`
+        // , `book_center_id`
+        // , `book_created_by`) 
+        // VALUES 
+        // ('$studentId'
+        // , '$academicYear'
+        // , '$centerId'
+        // , '$createdBy')"; // Modify as per your requirements
 
-        $conn->query($book_sql);
+        // $conn->query($book_sql);
 
         $response['success'] = true;
         $response['message'] = "Student details added successfully!";
@@ -420,6 +423,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                     'email' => $row['stu_email'],
                     'uni_id' => $row['stu_uni_id'],
                     'cou_id' => $row['stu_cou_id'],
+                    'stu_addmision_new' => $row['stu_addmision_new'],
                     'medium_id' => $row['stu_medium_id'],
                     'acaYear' => $row['stu_aca_year'],
                     'enroll' => $row['stu_enroll'],
@@ -470,6 +474,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
     $email = htmlspecialchars($_POST['emailEdit'], ENT_QUOTES, 'UTF-8');
     $university = htmlspecialchars($_POST['universityEdit'], ENT_QUOTES, 'UTF-8');
     $courseName = htmlspecialchars($_POST['courseNameEdit'], ENT_QUOTES, 'UTF-8');
+    $applicationNoEdit = htmlspecialchars($_POST['applicationNoEdit'], ENT_QUOTES, 'UTF-8');
     $medium = htmlspecialchars($_POST['mediumEdit'], ENT_QUOTES, 'UTF-8');
     $acaYear = htmlspecialchars($_POST['academicYearEdit'], ENT_QUOTES, 'UTF-8');
     $yearType = htmlspecialchars($_POST['yearTypeEdit'], ENT_QUOTES, 'UTF-8');
@@ -567,7 +572,8 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editAdmission' && $_PO
             a.stu_uni_id = '$university', 
             a.stu_cou_id = '$courseName', 
             a.stu_medium_id = '$medium', 
-            a.stu_aca_year = '$acaYear', 
+            a.stu_aca_year = '$acaYear',
+            a.stu_addmision_new = '$applicationNoEdit', 
             a.stu_enroll = '$enroll', 
             a.stu_updated_by = '$updatedBy',
             
