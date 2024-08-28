@@ -124,6 +124,7 @@ ORDER BY
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; 
                         $contact = $row['stu_phone']; 
+                        $stu_apply_no_old = $row['stu_apply_no']; 
                         $stu_apply_no = $row['stu_addmision_new']; 
                         ?>
 
@@ -140,7 +141,7 @@ ORDER BY
                     
                     
                         <td>
-                        <button type="button" onclick="goAddBook('<?php echo $stu_apply_no; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
+                        <button type="button" onclick="goAddBook('<?php echo $stu_apply_no_old; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
 
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(<?php echo $book_stu_id; ?>);"><i class="bi bi-eye-fill"></i></button>
                         </td>
