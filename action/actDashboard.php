@@ -123,8 +123,8 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
         ON a.add_stu_id = b.stu_id 
         LEFT JOIN jeno_university AS c
          ON b.stu_uni_id = c.uni_id 
-         WHERE add_admit_date BETWEEN '$date' AND '$date' 
-         AND add_status ='Active' AND c.uni_id = $id AND b.stu_center_id = $centerId; "; // total student today only 
+         WHERE a.add_admit_date BETWEEN '$date' AND '$date' 
+         AND a.add_status ='Active' AND c.uni_id = $id AND b.stu_center_id = $centerId; "; // total student today only 
 
         $selQuery2 = "SELECT COUNT(*) AS total_active_enquiry 
                     FROM `jeno_enquiry` AS a
@@ -146,9 +146,9 @@ if (isset($_POST['data']) && $_POST['data'] != '') {
                ON a.pay_admission_id = b.stu_apply_no 
                LEFT JOIN jeno_university AS c
                 ON b.stu_uni_id = c.uni_id 
-                WHERE pay_date BETWEEN '$date' AND '$date'
-                 AND pay_status = 'Active'
-                  AND b.stu_uni_id = $id AND C.uni_center_id = $centerId;";  // total fees today only
+                WHERE a.pay_date BETWEEN '$date' AND '$date'
+                 AND a.pay_status = 'Active'
+                  AND b.stu_uni_id = $id AND c.uni_center_id = $centerId;";  // total fees today only
 
         $result1 = mysqli_query($conn, $selQuery1);
         $result2 = mysqli_query($conn, $selQuery2);
