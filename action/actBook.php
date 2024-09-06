@@ -40,7 +40,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     , `book_uni_received` 
     FROM `jeno_book` 
     WHERE book_stu_id = '$studentId' 
-    AND book_year = $courseyear"; //select book issue list
+    AND book_year = '$courseyear'"; //select book issue list
     $result_select_book = mysqli_query($conn, $select_book);
     
     if ($result_select_book) {
@@ -225,7 +225,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         $row = mysqli_fetch_assoc($result);
 
         $student = $row['stu_id'];
-        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = $student";
+        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student'";
         $result1 = mysqli_query($conn, $payId_sql);
         $pay = mysqli_fetch_assoc($result1);
         $total_books = json_decode($pay['book_issued'], true);
