@@ -242,7 +242,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharNumber" class="form-label"><b>Aadhar Number</b></label>
-                                                            <input type="text" class="form-control" pattern="[0-9]{16}" placeholder="Enter Aadhar Number" name="aadharNumber" id="aadharNumber" >
+                                                            <input type="text" class="form-control" pattern="[0-9]{12}" placeholder="Enter Aadhar Number" name="aadharNumber" id="aadharNumber" >
                                                             </div>
                                                             </div>
 
@@ -641,7 +641,7 @@
                                                             <div class="col-sm-4">
                                                             <div class="form-group pb-1">
                                                             <label for="aadharNumberEdit" class="form-label"><b>Aadhar Number</b></label>
-                                                            <input type="text" class="form-control" pattern="^\d{16}$" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
+                                                            <input type="text" class="form-control" pattern="[0-9]{12}" placeholder="Enter Aadhar Number" name="aadharNumberEdit" id="aadharNumberEdit" >
                                                             </div>
                                                             </div>
 
