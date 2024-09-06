@@ -49,7 +49,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="mobileNo" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
-                                                            <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
+                                                            <input type="textarea" class="form-control"  placeholder="Enter Mobile No" name="mobileNo" id="mobileNo" required="required">
                                                             </div>
                                                             </div>
 
@@ -466,7 +466,7 @@
                                                             <div class="col-sm-6">
                                                             <div class="form-group pb-1">
                                                             <label for="mobileNoEdit" class="form-label"><b>Mobile No</b><span class="text-danger">*</span></label>
-                                                            <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Enter Mobile No" name="mobileNoEdit" id="mobileNoEdit" required="required">
+                                                            <input type="textarea" class="form-control"  placeholder="Enter Mobile No" name="mobileNoEdit" id="mobileNoEdit" required="required">
                                                             </div>
                                                             </div>
 
