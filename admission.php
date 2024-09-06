@@ -581,7 +581,7 @@ function goViewAdmission(id)
                     }
                     // Set the text content of the element
                     $('#medium_idView').text(mediumText);
-                    $('#applicationView').text(response.apply_no);
+                    $('#applicationView').text(response.stu_addmision_new);
                     $('#acaYearView').text(response.acaYear);
                     $('#lagView').text(response.joinYear);
                     $('#enrollView').text(response.enroll ? response.enroll : 'Pending');

@@ -735,6 +735,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'cou_id' => $row['cou_name'],
                     'medium_id' => $row['stu_medium_id'],
                     'apply_no' => $row['stu_apply_no'],
+                    'stu_addmision_new' => $row['stu_addmision_new'],
                     'acaYear' => $acaYearValue,
                     'joinYear' => $joinYearValue,
                     'enroll' => $row['stu_enroll'],
