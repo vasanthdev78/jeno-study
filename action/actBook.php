@@ -400,7 +400,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     // Check the number of books for the given year
     $select_year = "SELECT COUNT(book_id) AS total_books
                     FROM `jeno_book`
-                    WHERE `book_year` = $year AND book_stu_id = $addstudentId AND book_status ='Active';";
+                    WHERE `book_year` = '$year' AND book_stu_id = '$addstudentId' AND book_status ='Active';";
     $select_year_result = mysqli_query($conn, $select_year);
 
     if ($select_year_result) {
@@ -462,7 +462,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
         LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
         LEFT JOIN jeno_stu_additional AS d ON a.stu_id = d.add_stu_id
         WHERE a.stu_apply_no='$admissionId'
-            AND c.cou_fees_type = '$typeExam'
+            AND c.cou_exam_type = '$typeExam'
             AND b.sub_exam_patten = '$year'";
 
     $result = mysqli_query($conn, $selQuery);
@@ -471,7 +471,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
         $row = mysqli_fetch_assoc($result);
 
         $student = $row['stu_id'];
-        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = $student";
+        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student'";
         $result1 = mysqli_query($conn, $payId_sql);
         $pay = mysqli_fetch_assoc($result1);
         $total_books = json_decode($pay['book_issued'], true);
@@ -633,7 +633,7 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
                 FROM `jeno_book` AS a
                 LEFT JOIN jeno_student AS b
                 ON a.book_stu_id = b.stu_id  
-                WHERE a.book_stu_id = $uniId";
+                WHERE a.book_stu_id = '$uniId'";
 
     $result1 = $conn->query($selQuery);
 
