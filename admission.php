@@ -63,6 +63,60 @@ session_start();
                     </div>
 
        
+                    <div class="row mb-3">
+                <!-- University Filter -->
+                <div class="col-md-3">
+                    <label for="filter-university">University</label>
+                    <select id="filter-university" class="form-select">
+                        <option value="">All Universities</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Course Filter -->
+                <div class="col-md-3">
+                    <label for="filter-course">Course</label>
+                    <select id="filter-course" class="form-select">
+                        <option value="">All Courses</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = courseTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['cou_id']; 
+                                    $name = $row['cou_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Year Filter -->
+                <!-- <div class="col-md-3">
+                    <label for="filter-year">Year</label>
+                    <select id="filter-year" class="form-select">
+                        <option value="">All Years</option>
+                         Add dynamic options for years 
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                </div> -->
+
+            </div>
+
 
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
@@ -161,6 +215,38 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Event listeners for the filters
+    document.getElementById("filter-university").addEventListener("change", filterTable);
+    document.getElementById("filter-course").addEventListener("change", filterTable);
+
+    function filterTable() {
+        const universityFilter = document.getElementById("filter-university").value.toLowerCase();
+        const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+        const table = document.getElementById("scroll-horizontal-datatable");
+        const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            let universityText = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase(); // Corrected index for University column
+            let courseText = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase(); // Corrected index for Course column
+
+            // Check if the row matches the filters
+            let isMatch = true;
+
+            if (universityFilter && !universityText.includes(universityFilter)) {
+                isMatch = false;
+            }
+            if (courseFilter && !courseText.includes(courseFilter)) {
+                isMatch = false;
+            }
+
+            rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
+        }
+    }
+});
+</script>
 
     <script>
     $(document).ready(function() {
