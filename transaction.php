@@ -109,7 +109,7 @@ include "db/dbConnection.php"; //database connection
                      <tr>
                         <td><?php echo $i ; $i++ ?></td>
                         <td><?php echo $row['tran_category'] ?></td>
-                        <td><?php echo $row['tran_reason'] ?></td>
+                        <td><?php echo $row['tran_description'] ?></td>
                         <td><?php echo '₹ ' . number_format($row['tran_amount'], 2); ?></td>
                         <td><?php echo $formattedDate ?></td>
                         <td><?php echo $row['tran_method'] ?></td>

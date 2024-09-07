@@ -329,6 +329,7 @@ function electiveTable($location) {
        , `tran_date`
        , `tran_amount`
        , `tran_method`
+       , `tran_description`
        , `tran_reason` 
        FROM `jeno_transaction`
         WHERE tran_status ='Active' 
