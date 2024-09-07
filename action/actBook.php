@@ -209,6 +209,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         b.sub_type,
         c.cou_medium,
         c.cou_fees_type,
+        c.cou_exam_type,
         c.cou_duration,
         d.add_language
         FROM `jeno_student` AS a
@@ -216,7 +217,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
         LEFT JOIN jeno_stu_additional AS d ON a.stu_id = d.add_stu_id
         WHERE a.stu_apply_no='$admissionId'
-            AND c.cou_fees_type = '$typeExam'
+            AND c.cou_exam_type = '$typeExam'
             AND b.sub_exam_patten = '$year'";
 
     $result = mysqli_query($conn, $selQuery);
