@@ -1,6 +1,7 @@
 <?php
 session_start();
     include "db/dbConnection.php"; // database connection
+    include "class.php";
 
     $centerId = $_SESSION['centerId'];
 
@@ -20,6 +21,8 @@ session_start();
     c.stu_apply_no,
     c.stu_addmision_new,
     c.stu_phone
+    ,d.uni_name
+    ,e.cou_name
 FROM 
     jeno_book b
 JOIN 
@@ -36,6 +39,8 @@ LEFT JOIN
     jeno_student AS c 
     ON 
     b.book_stu_id = c.stu_id 
+    LEFT JOIN jeno_university AS d ON c.stu_uni_id = d.uni_id
+    LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
 WHERE 
     b.book_status = 'Active' 
     AND b.book_center_id = $centerId
@@ -94,7 +99,59 @@ ORDER BY
                     </div>
 
                       
+                    <div class="row mb-3">
+                <!-- University Filter -->
+                <div class="col-md-3">
+                    <label for="filter-university">University</label>
+                    <select id="filter-university" class="form-select">
+                        <option value="">All Universities</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
 
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Course Filter -->
+                <div class="col-md-3">
+                    <label for="filter-course">Course</label>
+                    <select id="filter-course" class="form-select">
+                        <option value="">All Courses</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = courseTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['cou_id']; 
+                                    $name = $row['cou_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Year Filter -->
+                <!-- <div class="col-md-3">
+                    <label for="filter-year">Year</label>
+                    <select id="filter-year" class="form-select">
+                        <option value="">All Years</option>
+                         Add dynamic options for years 
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                </div> -->
+
+            </div>
 
             
              
@@ -103,9 +160,10 @@ ORDER BY
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
                                    <th scope="col">Addmission Id</th>
+                                   <th scope="col">University</th>
                                     <th scope="col">Student Name</th>
-                                    <!-- <th scope="col">Course</th>
-                                    <th scope="col">Year</th> -->
+                                     <th scope="col">Course</th>
+                                    <!-- <th scope="col">Year</th> --> 
                                     <th scope="col">Book Receive</th>
                                     <th scope="col">ID Card</th>
                                     <th scope="col">Contact</th>
@@ -121,6 +179,8 @@ ORDER BY
                         $id = $row['book_id']; 
                         $book_stu_id = $row['book_stu_id']; 
                         $name = $row['stu_name']; 
+                        $uni_name = $row['uni_name']; 
+                        $cou_name = $row['cou_name']; 
                         $bookRes = $row['book_received']; 
                         $idCard = $row['book_id_card']; 
                         $contact = $row['stu_phone']; 
@@ -133,7 +193,9 @@ ORDER BY
                         <td><?php echo $i; $i++; ?></td>
                         
                         <td><?php echo !empty($stu_apply_no) ? $stu_apply_no : '---'; ?></td>
+                        <td><?php echo $uni_name; ?></td>
                         <td><?php echo $name; ?></td>
+                        <td><?php echo $cou_name; ?></td>
                         <td><?php echo $bookRes; ?></td>
                         
                         <td><?php echo $idCard; ?></td>
@@ -207,7 +269,38 @@ ORDER BY
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
-    
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Event listeners for the filters
+    document.getElementById("filter-university").addEventListener("change", filterTable);
+    document.getElementById("filter-course").addEventListener("change", filterTable);
+
+    function filterTable() {
+        const universityFilter = document.getElementById("filter-university").value.toLowerCase();
+        const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+        const table = document.getElementById("scroll-horizontal-datatable");
+        const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            let universityText = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase(); // Correct index for University column
+            let courseText = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase(); // Correct index for Course column
+
+            // Check if the row matches the filters
+            let isMatch = true;
+
+            if (universityFilter && !universityText.includes(universityFilter)) {
+                isMatch = false;
+            }
+            if (courseFilter && !courseText.includes(courseFilter)) {
+                isMatch = false;
+            }
+
+            rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
+        }
+    }
+});
+</script>
+
     
        <script>
 

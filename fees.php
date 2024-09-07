@@ -1,6 +1,7 @@
 <?php
 session_start();
     include "db/dbConnection.php"; // database connection
+    include "class.php";
 
     $centerId = $_SESSION['centerId'];
 
@@ -17,9 +18,11 @@ session_start();
     , b.stu_enroll
     , b.stu_addmision_new
     , c.cou_name
+    , d.uni_name
         FROM `jeno_fees` AS a
         LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
         LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+        LEFT JOIN jeno_university AS d ON b.stu_uni_id = d.uni_id
         WHERE a.fee_status = 'Active'
         AND a.fee_created_at = (
             SELECT MAX(a2.fee_created_at)
@@ -81,6 +84,60 @@ session_start();
                         </div>
                     </div>
                     
+
+                    <div class="row mb-3">
+                <!-- University Filter -->
+                <div class="col-md-3">
+                    <label for="filter-university">University</label>
+                    <select id="filter-university" class="form-select">
+                        <option value="">All Universities</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Course Filter -->
+                <div class="col-md-3">
+                    <label for="filter-course">Course</label>
+                    <select id="filter-course" class="form-select">
+                        <option value="">All Courses</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = courseTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['cou_id']; 
+                                    $name = $row['cou_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <!-- Year Filter -->
+                <!-- <div class="col-md-3">
+                    <label for="filter-year">Year</label>
+                    <select id="filter-year" class="form-select">
+                        <option value="">All Years</option>
+                         Add dynamic options for years 
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                </div> -->
+
+            </div>
                     
              
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
@@ -89,6 +146,7 @@ session_start();
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Application No.</th>
                                     <th scope="col">Roll No</th>
+                                    <th scope="col">University</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
@@ -105,6 +163,7 @@ session_start();
     while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
         $id = $row['fee_id']; 
         $stuId = $row['stu_id']; 
+        $uni_name = $row['uni_name']; 
         $name = $row['stu_name']; 
         $stu_enroll = $row['stu_enroll']; 
         $admitId = $row['fee_admision_id']; 
@@ -134,6 +193,7 @@ session_start();
             
             <td><?php echo !empty($stu_addmision_new) ? $stu_addmision_new : '---'; ?></td>
             <td><?php echo $stu_enroll; ?></td>
+            <td><?php echo $uni_name; ?></td>
             <td><?php echo $name; ?></td>
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
@@ -204,6 +264,43 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Event listeners for the filters
+        document.getElementById("filter-university").addEventListener("change", filterTable);
+        document.getElementById("filter-course").addEventListener("change", filterTable);
+        document.getElementById("filter-year").addEventListener("change", filterTable);
+
+        function filterTable() {
+            const universityFilter = document.getElementById("filter-university").value.toLowerCase();
+            const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+            const yearFilter = document.getElementById("filter-year").value.toLowerCase();
+            const table = document.getElementById("scroll-horizontal-datatable");
+            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                let universityText = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase(); // Assuming University is in the third column
+                let courseText = rows[i].getElementsByTagName("td")[5].textContent.toLowerCase(); // Assuming Course is in the fifth column
+                let yearText = rows[i].getElementsByTagName("td")[6].textContent.toLowerCase(); // Assuming Year is in the seventh column
+
+                // Check if the row matches the filters
+                let isMatch = true;
+
+                if (universityFilter && !universityText.includes(universityFilter)) {
+                    isMatch = false;
+                }
+                if (courseFilter && !courseText.includes(courseFilter)) {
+                    isMatch = false;
+                }
+                if (yearFilter && !yearText.includes(yearFilter)) {
+                    isMatch = false;
+                }
+
+                rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
+            }
+        }
+    });
+    </script>
 
     <script>
 
