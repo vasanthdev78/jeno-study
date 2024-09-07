@@ -185,6 +185,7 @@ session_start();
     $(document).on('click', '#editAdmissionBtn', function() {
         $('#editAdmission').removeClass('was-validated');
         $('#editAdmission').addClass('needs-validation');
+        $('#applicationNoEdit').removeClass('is-invalid is-valid');
         $('#languageEdit').attr('required', 'required');
         $('#editAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
@@ -198,9 +199,6 @@ session_start();
     });
 
     $(document).on('click', '#viewAdmissionBtn', function() {
-        // $('#editAdmission').removeClass('was-validated');
-        // $('#editAdmission').addClass('needs-validation');
-        // $('#editAdmission')[0].reset(); // Reset the form
         $('#StuContent').addClass('d-none');
         $('#viewAdmissionModal').removeClass('d-none');
     });
@@ -210,6 +208,16 @@ session_start();
         $('#StuContent').removeClass('d-none');
         $('#viewAdmissionModal').addClass('d-none');
     });
+
+    var today = new Date().toISOString().split('T')[0];
+            var tenYearsAgo = new Date();
+            tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+            var tenYearsAgoDate = tenYearsAgo.toISOString().split('T')[0];
+
+            $('#admitDate').attr('max', today);
+            $('#dob').attr('max', tenYearsAgoDate);
+            $('#admitDateEdit').attr('max', today);
+            $('#dobEdit').attr('max', tenYearsAgoDate);
 
     var isApplicationNoValid = true;
 
@@ -222,41 +230,71 @@ session_start();
         }
     }
 
-    var today = new Date().toISOString().split('T')[0];
-            var tenYearsAgo = new Date();
-            tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
-            var tenYearsAgoDate = tenYearsAgo.toISOString().split('T')[0];
-
-            $('#admitDate').attr('max', today);
-            $('#dob').attr('max', tenYearsAgoDate);
-            $('#admitDateEdit').attr('max', today);
-            $('#dobEdit').attr('max', tenYearsAgoDate);
-
     // Validate application number on input
-    //$('#applicationNo').on('input', function() {
-        //var applicationNo = $(this).val();
-       // if (applicationNo.length > 0) {
-            //$.ajax({
-                //url: 'check_application.php', // The PHP script to check the application number
-                //type: 'post',
-               // data: { applicationNo: applicationNo },
-               // success: function(response) {
-                    // if (response == "exists") {
-                    //     $('#applicationNo').removeClass('is-valid').addClass('is-invalid');
-                    //     isApplicationNoValid = false; // Set the flag to false if the application number exists
-                    // } else {
-                    //     $('#applicationNo').removeClass('is-invalid').addClass('is-valid');
-                    //     isApplicationNoValid = true; // Set the flag to true if the application number is valid
-                    // }
-    //                 updateSubmitButtonState(); // Update the button state based on validity
-    //             }
-    //         });
-    //     } else {
-    //         $('#applicationNo').removeClass('is-invalid is-valid');
-    //         isApplicationNoValid = true; // Reset the flag if the input is empty
-    //         updateSubmitButtonState(); // Update the button state
-    //     }
-    // });
+    $('#applicationNo').on('input', function() {
+        var applicationNo = $(this).val();
+       if (applicationNo.length > 0) {
+            $.ajax({
+                url: 'check_application.php', // The PHP script to check the application number
+                type: 'post',
+               data: { applicationNo: applicationNo },
+               success: function(response) {
+                    if (response == "exists") {
+                        $('#applicationNo').removeClass('is-valid').addClass('is-invalid');
+                        isApplicationNoValid = false; // Set the flag to false if the application number exists
+                    } else {
+                        $('#applicationNo').removeClass('is-invalid').addClass('is-valid');
+                        isApplicationNoValid = true; // Set the flag to true if the application number is valid
+                    }
+                    updateSubmitButtonState(); // Update the button state based on validity
+                }
+            });
+        } else {
+            $('#applicationNo').removeClass('is-invalid is-valid');
+            isApplicationNoValid = true; // Reset the flag if the input is empty
+            updateSubmitButtonState(); // Update the button state
+        }
+    });
+
+    // Function to update the submit button state for the edit form
+    var isApplicationNoEditValid = true;
+    function updateSubmitButtonStateEdit() {
+        if (isApplicationNoEditValid) {
+            $('#submitBtnEdit').prop('disabled', false); // Enable the button if valid
+        } else {
+            $('#submitBtnEdit').prop('disabled', true); // Disable the button if invalid
+        }
+    }
+
+    // Validate application number in the edit form on input
+    $('#applicationNoEdit').on('input', function() {
+        var applicationNoEdit = $(this).val();
+        var editId = $('#admissionId').val(); // Get the editId from the hidden input
+        if (applicationNoEdit.length > 0) {
+            $.ajax({
+                url: 'check_application.php', // PHP script to check the application number for edit form
+                type: 'post',
+                data: { 
+                    applicationNoEdit: applicationNoEdit,
+                    editId: editId // Pass the editId with the AJAX request
+                },
+                success: function(response) {
+                    if (response == "exists") {
+                        $('#applicationNoEdit').removeClass('is-valid').addClass('is-invalid');
+                        isApplicationNoEditValid = false; // Set the flag to false if the application number exists
+                    } else {
+                        $('#applicationNoEdit').removeClass('is-invalid').addClass('is-valid');
+                        isApplicationNoEditValid = true; // Set the flag to true if the application number is valid
+                    }
+                    updateSubmitButtonStateEdit(); // Update the button state based on validity
+                }
+            });
+        } else {
+            $('#applicationNoEdit').removeClass('is-invalid is-valid');
+            isApplicationNoEditValid = true; // Reset the flag if the input is empty
+            updateSubmitButtonStateEdit(); // Update the button state
+        }
+    });
 
     const $select = $('#applicationYear');
         const startYear = 2010;

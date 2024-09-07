@@ -118,7 +118,7 @@
                                                             <label for="applicationNo" class="form-label"><b>Application No. (year/A/C/university/course/NO)</b></label>
                                                             <input type="text" class="form-control" placeholder="Enter Student Application No. EX:(24CMSBBA001)" name="applicationNo" id="applicationNo">
                                                             <div class="invalid-feedback">
-                                                                This Application No. is required or already exists.
+                                                                This Application No. is already exists.
                                                             </div>
                                                             </div>
                                                             </div>
@@ -535,7 +535,7 @@
                                                             <label for="applicationNoEdit" class="form-label"><b>Application No. (year/A/C/university/course/NO)</b></label>
                                                             <input type="text" class="form-control" placeholder="Enter Student Application No.  EX:(24CMSBBA001)" name="applicationNoEdit" id="applicationNoEdit">
                                                             <div class="invalid-feedback">
-                                                                This Application No. is required or already exists.
+                                                                This Application No. is already exists.
                                                             </div>
                                                             </div>
                                                             </div>
@@ -804,7 +804,7 @@
                                                                 <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile </button>
                                                             </li>
                                                             <li class="next list-inline-item float-end">
-                                                                <button type="submit" class="btn btn-info">Submit</button>
+                                                                <button type="submit" id="submitBtnEdit" class="btn btn-info">Submit</button>
                                                             </li>
                                                         </ul>
                                                     </div>
