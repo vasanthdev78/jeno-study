@@ -93,8 +93,8 @@ session_start();
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Balance</th>
-                                    <th scope="col">University Fees Status</th>
-                                    <th scope="col">Jeno Fees Status</th> 
+                                    <!-- <th scope="col">University Fees Status</th> -->
+                                    <!-- <th scope="col">Jeno Fees Status</th>  -->
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -138,8 +138,8 @@ session_start();
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
             <td><?php echo '₹ ' . number_format($balance, 2); ?></td> 
-            <td><?php echo $status1; ?></td> 
-            <td><?php echo $status2; ?></td>
+            
+            
             <td>
                 <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
                 <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
