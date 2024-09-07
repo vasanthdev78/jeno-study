@@ -146,8 +146,8 @@ session_start();
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Application No.</th>
                                     <th scope="col">Roll No</th>
-                                    <th scope="col">University</th>
                                     <th scope="col">Student Name</th>
+                                    <th scope="col">University</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Balance</th>
@@ -193,8 +193,8 @@ session_start();
             
             <td><?php echo !empty($stu_addmision_new) ? $stu_addmision_new : '---'; ?></td>
             <td><?php echo $stu_enroll; ?></td>
-            <td><?php echo $uni_name; ?></td>
             <td><?php echo $name; ?></td>
+            <td><?php echo $uni_name; ?></td>
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
             <td><?php echo '₹ ' . number_format($balance, 2); ?></td> 
@@ -265,42 +265,36 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Event listeners for the filters
-        document.getElementById("filter-university").addEventListener("change", filterTable);
-        document.getElementById("filter-course").addEventListener("change", filterTable);
-        document.getElementById("filter-year").addEventListener("change", filterTable);
+document.addEventListener("DOMContentLoaded", function() {
+    // Event listeners for the filters
+    document.getElementById("filter-university").addEventListener("change", filterTable);
+    document.getElementById("filter-course").addEventListener("change", filterTable);
 
-        function filterTable() {
-            const universityFilter = document.getElementById("filter-university").value.toLowerCase();
-            const courseFilter = document.getElementById("filter-course").value.toLowerCase();
-            const yearFilter = document.getElementById("filter-year").value.toLowerCase();
-            const table = document.getElementById("scroll-horizontal-datatable");
-            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    function filterTable() {
+        const universityFilter = document.getElementById("filter-university").value.toLowerCase();
+        const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+        const table = document.getElementById("scroll-horizontal-datatable");
+        const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-            for (let i = 0; i < rows.length; i++) {
-                let universityText = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase(); // Assuming University is in the third column
-                let courseText = rows[i].getElementsByTagName("td")[5].textContent.toLowerCase(); // Assuming Course is in the fifth column
-                let yearText = rows[i].getElementsByTagName("td")[6].textContent.toLowerCase(); // Assuming Year is in the seventh column
+        for (let i = 0; i < rows.length; i++) {
+            let universityText = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase(); // Corrected index for University column
+            let courseText = rows[i].getElementsByTagName("td")[5].textContent.toLowerCase(); // Corrected index for Course column
 
-                // Check if the row matches the filters
-                let isMatch = true;
+            // Check if the row matches the filters
+            let isMatch = true;
 
-                if (universityFilter && !universityText.includes(universityFilter)) {
-                    isMatch = false;
-                }
-                if (courseFilter && !courseText.includes(courseFilter)) {
-                    isMatch = false;
-                }
-                if (yearFilter && !yearText.includes(yearFilter)) {
-                    isMatch = false;
-                }
-
-                rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
+            if (universityFilter && !universityText.includes(universityFilter)) {
+                isMatch = false;
             }
+            if (courseFilter && !courseText.includes(courseFilter)) {
+                isMatch = false;
+            }
+
+            rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
         }
-    });
-    </script>
+    }
+});
+</script>
 
     <script>
 
