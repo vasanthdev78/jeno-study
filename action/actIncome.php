@@ -29,29 +29,21 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     
     // Construct the SQL query
     $selQuery = "SELECT 
-        a.fee_id, 
-        a.fee_admision_id, 
-        a.fee_stu_id, 
-        a.fee_uni_fee_total, 
-        a.fee_uni_fee, 
-        a.fee_sdy_fee_total, 
-        a.fee_sty_fee,
-        c.pay_university_fees,
-        c.pay_study_fees, 
-        c.pay_total_amount,
+        a.pay_university_fees,
+        a.pay_study_fees, 
+        a.pay_total_amount,
         b.stu_uni_id ,
         b.stu_name ,
-        c.pay_year ,
-        c.pay_date
+        a.pay_year ,
+        a.pay_date
     FROM 
-        jeno_fees AS a 
-        LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id 
-        LEFT JOIN jeno_payment_history AS c ON a.fee_admision_id = c.pay_admission_id
+        jeno_payment_history AS a 
+        LEFT JOIN jeno_student AS b ON a.pay_student_name = b.stu_name 
     WHERE 
         ($universityFilterCondition)
-        AND c.pay_date BETWEEN '$startDate' AND '$endDate'
-        AND c.pay_center_id = '$centerId'
-        AND c.pay_status = 'Active'";
+        AND a.pay_date BETWEEN '$startDate' AND '$endDate'
+        AND a.pay_center_id = '$centerId'
+        AND a.pay_status = 'Active'";
 
     $result = mysqli_query($conn, $selQuery);
 
@@ -63,18 +55,13 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         while ($row = $result->fetch_assoc()) {
             $pay_date = date('d-m-Y', strtotime($row['pay_date']));
             $fees[] = [
-                'fee_id' => $row['fee_id'],
-                'fee_admision_id' => $row['fee_admision_id'],
                 'StuName' => $row['stu_name'],
                 'pay_year' => $row['pay_year'],
                 'uni_name' => universityName($row['stu_uni_id']),
-                'fee_stu_id' => $row['fee_stu_id'], // Course ID for pre-selecting the course in the dropdown            
                 'fee_uni_fee' => $row['pay_university_fees'],
                 'fee_sty_fee' => $row['pay_study_fees'],
                 'pay_total_amount' => $row['pay_total_amount'],
                 'pay_date' => $pay_date,
-                
-                
             ];
 
 
