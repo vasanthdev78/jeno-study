@@ -43,7 +43,7 @@ LEFT JOIN
     LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
 WHERE 
     b.book_status = 'Active' 
-    AND b.book_center_id = $centerId
+    AND b.book_center_id = '$centerId'
 ORDER BY 
     b.book_id DESC;"; // book issue student list show
 
