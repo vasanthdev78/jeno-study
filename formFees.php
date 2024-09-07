@@ -60,7 +60,7 @@
                         <div class="col-sm-12" id="onlinePaymentDetails" style="display:none;">
                             <div class="form-group pb-1">
                                 <label for="description" class="form-label"><b>Description</b></label>
-                                <select class="form-control" name="description" id="description" required="required">
+                                <select class="form-control" name="description" id="description">
                                     <option value="">--Select Online Method--</option>
                                     <option value="GPay">GPay</option>
                                     <option value="PhonePe">PhonePe</option>

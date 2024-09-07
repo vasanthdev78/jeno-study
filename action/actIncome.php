@@ -5,6 +5,7 @@ include("../class.php");
 include "../db/dbConnection.php";
 
 session_start();
+$centerId = $_SESSION['centerId'];
 header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
@@ -34,7 +35,9 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         a.fee_uni_fee_total, 
         a.fee_uni_fee, 
         a.fee_sdy_fee_total, 
-        a.fee_sty_fee, 
+        a.fee_sty_fee,
+        c.pay_university_fees,
+        c.pay_study_fees, 
         c.pay_total_amount,
         b.stu_uni_id ,
         b.stu_name ,
@@ -46,7 +49,9 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         LEFT JOIN jeno_payment_history AS c ON a.fee_admision_id = c.pay_admission_id
     WHERE 
         ($universityFilterCondition)
-        AND c.pay_date BETWEEN '$startDate' AND '$endDate'";
+        AND c.pay_date BETWEEN '$startDate' AND '$endDate'
+        AND c.pay_center_id = '$centerId'
+        AND c.pay_status = 'Active'";
 
     $result = mysqli_query($conn, $selQuery);
 
@@ -64,8 +69,8 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'pay_year' => $row['pay_year'],
                 'uni_name' => universityName($row['stu_uni_id']),
                 'fee_stu_id' => $row['fee_stu_id'], // Course ID for pre-selecting the course in the dropdown            
-                'fee_uni_fee' => $row['fee_uni_fee'],
-                'fee_sty_fee' => $row['fee_sty_fee'],
+                'fee_uni_fee' => $row['pay_university_fees'],
+                'fee_sty_fee' => $row['pay_study_fees'],
                 'pay_total_amount' => $row['pay_total_amount'],
                 'pay_date' => $pay_date,
                 
