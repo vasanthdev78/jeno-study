@@ -60,7 +60,14 @@
                         <div class="col-sm-12" id="onlinePaymentDetails" style="display:none;">
                             <div class="form-group pb-1">
                                 <label for="description" class="form-label"><b>Description</b></label>
-                                <textarea class="form-control"  placeholder="Enter Description" name="description" id="description"></textarea>                                
+                                <select class="form-control" name="description" id="description" required="required">
+                                    <option value="">--Select Online Method--</option>
+                                    <option value="GPay">GPay</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="Paytm">Paytm</option>
+                                    <option value="UPI Transaction">UPI Transaction</option>
+                                    <option value="Bank Transaction">Bank Transaction</option>
+                                </select>
                             </div>
                         </div>
 
