@@ -107,6 +107,107 @@ $previous_date = $date->format('Y-m-d');
        
     } 
 
+
+    // Handle fetching transacrion details for report page--------------------------------------------------------
+
+    // $centerId = $_SESSION['centerId'];
+    $endDate = date('Y-m-d');;
+    $startDate = date('Y-m-d');;
+    // $location = $_SESSION['centerId'];
+
+    // Fetch payment history data
+    $select_pay = "SELECT 
+        a.pay_id,
+        a.pay_admission_id,
+        a.pay_student_name,
+        a.pay_year,
+        a.pay_paid_method,
+        a.pay_study_fees,
+        a.pay_total_amount,
+        a.pay_balance,
+        a.pay_date,
+        a.pay_center_id,
+        b.stu_aca_year,
+        c.cou_name
+    FROM `jeno_payment_history` AS a 
+    LEFT JOIN jeno_student AS b ON a.pay_admission_id = b.stu_apply_no
+    LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+    WHERE pay_status = 'Active' AND pay_center_id ='$centerId'
+    AND pay_date BETWEEN '$startDate' AND '$endDate';";
+
+    $pay_result = mysqli_query($conn, $select_pay);
+
+    // Fetch transaction data
+    $selQuery = "SELECT 
+        `tran_id`,
+        `tran_category`,
+        `tran_date`,
+        `tran_amount`,
+        `tran_method`,
+        `tran_transaction_id`,
+        `tran_description`,
+        `tran_reason`,
+        b.led_type
+    FROM `jeno_transaction` AS a LEFT JOIN jeno_ledger AS b ON a.tran_reason = b.led_id
+    WHERE tran_status = 'Active' AND tran_center_id =$centerId
+    AND tran_date BETWEEN '$startDate' AND '$endDate'";
+
+
+    $tran_result = mysqli_query($conn, $selQuery);
+
+    if ($pay_result && $tran_result) {
+        $merged_data = [];
+
+        // Process payment history data
+        while ($row = $pay_result->fetch_assoc()) {
+            $pay_date = date('d-m-Y', strtotime($row['pay_date']));
+            $merged_data[] = [
+                'type' => 'payment',
+                'pay_id' => $row['pay_id'],
+                'pay_admission_id' => $row['pay_admission_id'],
+                'pay_student_name' => $row['pay_student_name'],
+                'cou_name' => $row['cou_name'],
+                'stu_aca_year' => $row['stu_aca_year'],
+                'pay_year' => $row['pay_year'],
+                'pay_paid_method' => $row['pay_paid_method'],
+                'pay_study_fees' => $row['pay_study_fees'],
+                'pay_total_amount' => $row['pay_total_amount'],
+                'pay_balance' => $row['pay_balance'],
+                'date' => $pay_date,
+                'pay_center_id' => $row['pay_center_id']
+            ];
+        }
+
+        // Process transaction data
+        while ($row = $tran_result->fetch_assoc()) {
+            $tran_date = date('d-m-Y', strtotime($row['tran_date']));
+            $merged_data[] = [
+                'type' => 'transaction',
+                'tran_id' => $row['tran_id'],
+                'tran_category' => $row['tran_category'],
+                'tran_reason' => $row['led_type'],
+                'tran_method' => $row['tran_method'],
+                'tran_amount' => $row['tran_amount'],
+                'date' => $tran_date,
+                'tran_description' => $row['tran_description'],
+                'tran_transaction_id' => $row['tran_transaction_id']
+            ];
+        }
+
+        // Sort merged data by date
+        usort($merged_data, function($a, $b) {
+            return strtotime($a['date']) - strtotime($b['date']);
+        });
+
+        //echo json_encode($merged_data);
+    } else {
+        $response['message'] = "Error fetching data: " . mysqli_error($conn);
+        //echo json_encode($response);
+    }
+
+   
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,54 +285,26 @@ $previous_date = $date->format('Y-m-d');
         </tr>
     </thead>
     <tbody>
-        <?php
-        // Fetch transaction data
-        $selQuery = "SELECT 
-        `tran_id`,
-        `tran_category`,
-        `tran_date`,
-        `tran_amount`,
-        `tran_method`,
-        `tran_transaction_id`,
-        `tran_description`,
-        `tran_reason`
-        FROM `jeno_transaction`
-        WHERE tran_status = 'Active' AND tran_center_id = $centerId
-        AND tran_date BETWEEN '$current_date' AND '$current_date'";
-
-        $tran_result = mysqli_query($conn, $selQuery);
-
-        $i = 1; 
-        while ($row = mysqli_fetch_array($tran_result, MYSQLI_ASSOC)) {
-            $tran_id = $row['tran_id'];
-            $tran_category = $row['tran_category'];
-            $tran_date = $row['tran_date'];
-            $tran_amount = $row['tran_amount'];
-            $tran_method = $row['tran_method'];
-            $tran_transaction_id = $row['tran_transaction_id'];
-            $tran_description = $row['tran_description'];
-            $tran_reason = $row['tran_reason'];
-
-            // Check if the transaction is income or expense
-            if ($tran_category == 'Income') {
-                $income = $tran_amount;
-                $expense = 0;
-            } else {
-                $income = 0;
-                $expense = $tran_amount;
-            }
+        <?php 
+        $i = 1;
+        foreach ($merged_data as $data) {
+            // Determine if it's an income or expense
+            $income = $data['type'] == 'payment' ? number_format($data['pay_total_amount'], 2) : '';
+            $expense = $data['type'] == 'transaction' ? number_format($data['tran_amount'], 2) : '';
+            $reason = $data['type'] == 'payment' ?  $data['pay_student_name'] . '  ' . $data['cou_name']  . '    ' . $data['stu_aca_year'] . " year"  : $data['tran_reason'];
+            $paymentMethod = $data['type'] == 'payment' ? $data['pay_paid_method'] : $data['tran_method'];
         ?>
-            <tr>
-                <td><?php echo $i; $i++;?></td>
-                <td><?php echo $tran_reason;?></td>
-                <td><?php echo $tran_method;?></td>
-                <td><?php echo $income;?></td>
-                <td><?php echo $expense;?></td>
-            </tr>
+        <tr>
+            <td><?php echo $i; $i++; ?></td>
+            <td><?php echo $reason; ?></td>
+            <td><?php echo $paymentMethod; ?></td>
+            <td><?php echo $income ? '₹ ' . $income : ''; ?></td>
+            <td><?php echo $expense ? '₹ ' . $expense : ''; ?></td>
+            
+        </tr>
         <?php 
         }
         ?>
-        
     </tbody>
     <tfoot>
         <tr>

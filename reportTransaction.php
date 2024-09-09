@@ -63,7 +63,7 @@ session_start();
         
                             <div class="page-title-box">
                                
-                                <h4 class="page-title">Income Report</h4> 
+                                <h4 class="page-title">Transaction Report</h4> 
                                 <form class="needs-validation" novalidate>
                                     <div class="row mt-3 mb-3">
                                     <div class="col-md-2">
@@ -77,8 +77,6 @@ session_start();
                                     <div class="invalid-feedback" id="endDateError">End date cannot be before the start date.</div>
                                 </div>
 
-                                  
-                                    
                                     
                                         <div class="col-sm-3">
                                             <div class="form-group">
