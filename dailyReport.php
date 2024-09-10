@@ -125,6 +125,7 @@ $previous_date = $date->format('Y-m-d');
         a.pay_study_fees,
         a.pay_total_amount,
         a.pay_balance,
+        a.pay_description,
         a.pay_date,
         a.pay_center_id,
         b.stu_aca_year,
@@ -144,12 +145,13 @@ $previous_date = $date->format('Y-m-d');
         `tran_date`,
         `tran_amount`,
         `tran_method`,
+        `tran_pay_type`,
         `tran_transaction_id`,
         `tran_description`,
         `tran_reason`,
         b.led_type
     FROM `jeno_transaction` AS a LEFT JOIN jeno_ledger AS b ON a.tran_reason = b.led_id
-    WHERE tran_status = 'Active' AND tran_center_id =$centerId
+    WHERE tran_status = 'Active' AND tran_center_id ='$centerId'
     AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
 
@@ -169,6 +171,7 @@ $previous_date = $date->format('Y-m-d');
                 'cou_name' => $row['cou_name'],
                 'stu_aca_year' => $row['stu_aca_year'],
                 'pay_year' => $row['pay_year'],
+                'pay_description' => $row['pay_description'],
                 'pay_paid_method' => $row['pay_paid_method'],
                 'pay_study_fees' => $row['pay_study_fees'],
                 'pay_total_amount' => $row['pay_total_amount'],
@@ -187,6 +190,7 @@ $previous_date = $date->format('Y-m-d');
                 'tran_category' => $row['tran_category'],
                 'tran_reason' => $row['led_type'],
                 'tran_method' => $row['tran_method'],
+                'tran_pay_type' => $row['tran_pay_type'],
                 'tran_amount' => $row['tran_amount'],
                 'date' => $tran_date,
                 'tran_description' => $row['tran_description'],
@@ -278,8 +282,10 @@ $previous_date = $date->format('Y-m-d');
     <thead>
         <tr class="bg-light">
             <th scope="col-1">S.No.</th>
-            <th scope="col">Reason</th>
+            <th scope="col">Ledger Type</th>
+            <th scope="col">Description</th>
             <th scope="col">Payment Method</th>
+            <th scope="col">Payment Type</th>
             <th scope="col">Income</th>
             <th scope="col">Expense</th>
         </tr>
@@ -288,16 +294,31 @@ $previous_date = $date->format('Y-m-d');
         <?php 
         $i = 1;
         foreach ($merged_data as $data) {
+            
             // Determine if it's an income or expense
-            $income = $data['type'] == 'payment' ? number_format($data['pay_total_amount'], 2) : '';
-            $expense = $data['type'] == 'transaction' ? number_format($data['tran_amount'], 2) : '';
-            $reason = $data['type'] == 'payment' ?  $data['pay_student_name'] . '  ' . $data['cou_name']  . '    ' . $data['stu_aca_year'] . " year"  : $data['tran_reason'];
-            $paymentMethod = $data['type'] == 'payment' ? $data['pay_paid_method'] : $data['tran_method'];
+    $income = ($data['type'] == 'payment') ? number_format($data['pay_study_fees'], 2) : 
+        (($data['type'] == 'transaction' && $data['tran_category'] == 'Income') ? number_format($data['tran_amount'], 2) : '0.00');
+
+    $expense = ($data['type'] == 'transaction' && $data['tran_category'] != 'Income') ? number_format($data['tran_amount'], 2) : '0.00';
+
+    // Skip rows where income is zero and type is 'payment' or if both income and expense are zero
+    if ($income == '0.00' && $expense == '0.00') {
+        continue;
+    }
+
+  $expense = ($data['type'] == 'transaction' && $data['tran_category'] != 'Income') ? number_format($data['tran_amount'], 2) : '0.00';
+
+  $reason = ($data['type'] == 'payment') ? $data['pay_student_name'] . ' ' . $data['cou_name']  . ' ' . $data['stu_aca_year'] . " year" : $data['tran_reason'];
+  $paymentMethod = ($data['type'] == 'payment') ? $data['pay_paid_method'] : $data['tran_method'];
+  $description = ($data['type'] == 'payment') ? "Addmission Fees" : $data['tran_description'];
+  $payType = ($data['type'] == 'payment') ? $data['pay_description'] : $data['tran_pay_type'];
         ?>
         <tr>
             <td><?php echo $i; $i++; ?></td>
             <td><?php echo $reason; ?></td>
+            <td><?php echo $description; ?></td>
             <td><?php echo $paymentMethod; ?></td>
+            <td><?php echo $payType; ?></td>
             <td><?php echo $income ? '₹ ' . $income : ''; ?></td>
             <td><?php echo $expense ? '₹ ' . $expense : ''; ?></td>
             
@@ -308,6 +329,8 @@ $previous_date = $date->format('Y-m-d');
     </tbody>
     <tfoot>
         <tr>
+            <th></th>
+            <th></th>
             <th></th>
             <th></th>
             <th>Total:</th>
@@ -507,35 +530,39 @@ $previous_date = $date->format('Y-m-d');
                 }
             ],
             footerCallback: function(row, data, start, end, display) {
-                var api = this.api();
+            var api = this.api();
 
-                var calculateTotal = function(index) {
-                    return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0);
-                };
+            // Helper function to parse numbers and remove currency symbols and commas
+            var parseNumber = function(value) {
+                if (typeof value === 'string') {
+                    value = value.replace(/[^\d.-]/g, ''); // Remove non-numeric characters (except for '-' and '.')
+                }
+                return parseFloat(value) || 0; // Convert to float or return 0 if NaN
+            };
 
-                var totalIncome = calculateTotal(3); // Income column index
-                var totalExpense = calculateTotal(4); // Expense column index
+            // Calculate the total for a given column index
+            var calculateTotal = function(index) {
+                return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
+                    return parseNumber(a) + parseNumber(b);
+                }, 0);
+            };
 
-                // Handle NaN cases
-                totalIncome = isNaN(totalIncome) ? 0 : totalIncome;
-                totalExpense = isNaN(totalExpense) ? 0 : totalExpense;
+            // Calculate totals for Income and Expense columns
+            var totalIncome = calculateTotal(5); // Assuming column index 3 is Income
+            var totalExpense = calculateTotal(6); // Assuming column index 4 is Expense
 
-                // Update the footer with totals
-                $('#total-income').html(totalIncome.toFixed(2));
-                $('#total-expense').html(totalExpense.toFixed(2));
+            // Update the footer with totals
+            $('#total-income').html('₹ ' + totalIncome.toFixed(2));
+            $('#total-expense').html('₹ ' + totalExpense.toFixed(2));
 
-                // Remove existing custom footer rows and add new ones
-                $('#example tfoot tr.custom-footer').remove();
-                var customFooterRows = 
-                   
-                   
-                    '<tr class="custom-footer"><td colspan="3">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                    '<tr class="custom-footer"><td colspan="3">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
+            // Remove existing custom footer rows and add new ones
+            $('#example tfoot tr.custom-footer').remove();
+            var customFooterRows =
+                '<tr class="custom-footer"><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                '<tr class="custom-footer"><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
 
-                $(api.table().footer()).append(customFooterRows);
-            }
+            $(api.table().footer()).append(customFooterRows);
+        }
         });
     });
 </script>

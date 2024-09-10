@@ -12,7 +12,7 @@
                     <div class="modal-body p-3">
                         <div class="row">
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="category" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" id="category" required="required">
@@ -23,7 +23,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="ledgerType" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="ledgerType" id="ledgerType" required="required">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12" >
+                        <div class="col-sm-6" >
                             <div class="form-group pb-1">
                                 <label for="description" class="form-label"><b>Description</b></label>
                                 <textarea class="form-control"   placeholder="Enter Description" name="description" id="description"></textarea>                                
@@ -46,21 +46,21 @@
                         </div>
 
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="date" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
                                     <input type="date" class="form-control"  name="date" id="date" required="required">
                                 </div>
                             </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="amount" class="form-label"><b>Amount</b><span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" placeholder="Enter Amount" name="amount" id="amount" required="required">
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="paidMethod" class="form-label"><b>Payment Method</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="paidMethod" id="paidMethod" required="required">
@@ -70,8 +70,21 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-6" >
+                            <div class="form-group pb-1">
+                                <label for="paymentType" class="form-label"><b>Payment Type</b></label>
+                                <select class="form-control" name="paymentType" id="paymentType">
+                                    <option value="">--Select Online Type--</option>
+                                    <option value="GPay">GPay</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="Paytm">Paytm</option>
+                                    <option value="UPI Transaction">UPI Transaction</option>
+                                    <option value="Bank Transaction">Bank Transaction</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="transactionId" class="form-label"><b>Transaction Id</b></label>
                                     <input type="text" class="form-control" placeholder="Enter Expense Amount" name="transactionId" id="transactionId">
@@ -167,6 +180,20 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-6" >
+                            <div class="form-group pb-1">
+                                <label for="editPaymentType" class="form-label"><b>Payment Type</b></label>
+                                <select class="form-control" name="editPaymentType" id="editPaymentType">
+                                    <option value="">--Select Online Type--</option>
+                                    <option value="GPay">GPay</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="Paytm">Paytm</option>
+                                    <option value="UPI Transaction">UPI Transaction</option>
+                                    <option value="Bank Transaction">Bank Transaction</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="editTranId" class="form-label"><b>Transaction Id</b></label>
@@ -233,6 +260,13 @@
                         <div class="card p-3">
                             <h4>Payment Method</h4>
                             <span class="detail" id="viewPaidMethod"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Payment Type</h4>
+                            <span class="detail" id="viewPaidType"></span>
                         </div>
                     </div>
 

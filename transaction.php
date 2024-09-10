@@ -216,6 +216,7 @@ include "db/dbConnection.php"; //database connection
                         $('#editPaidMethod').val(response.tran_method);
                         $('#editTranId').val(response.tran_transaction_id);
                         $('#editDescription').val(response.tran_description);
+                        $('#editPaymentType').val(response.tran_pay_type);
 
 
             //             if (response.tran_reason) {
@@ -458,6 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#viewAmount').text('₹ ' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
           $('#viewPaidMethod').text(response.tran_method);
+          $('#viewPaidType').text(response.tran_pay_type);
           $('#viewTransactionId').text(response.tran_transaction_id);
           $('#viewDescription').text(response.tran_description);
 
