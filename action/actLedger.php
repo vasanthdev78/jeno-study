@@ -7,32 +7,33 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
-// Handle adding a ledger data add -------------------------------
+// Handle adding ledger data -------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addLedger') {
- 
+    
     $ledgertype = htmlspecialchars($_POST['ledgertype'], ENT_QUOTES, 'UTF-8');
 
     $createdBy = $_SESSION['userId'];
     $centerId = $_SESSION['centerId'];
 
-    $elective_sql = "INSERT INTO 
-    `jeno_ledger`
-    ( `led_type`
-    , `led_center_id`
-    , `led_created_by`)
-     VALUES 
-     ('$ledgertype'
-     ,'$centerId'
-     ,'$createdBy') ";
+    // First, check if the ledger already exists with the same name and center ID
+    $check_sql = "SELECT * FROM `jeno_ledger` WHERE `led_type` = '$ledgertype' AND `led_center_id` = '$centerId'";
+    $check_result = $conn->query($check_sql);
 
-    if ($conn->query($elective_sql) === TRUE) {
-        $response['success'] = true;
-        $response['message'] = "Ledger  added successfully!";
+    if ($check_result->num_rows > 0) {
+        // Ledger already exists, show an error message
+        $response['success'] = false;
+        $response['message'] = "Error: This ledger already exists for the selected center.";
     } else {
-        if ($conn->errno == 1062) { // 1062 is the error code for duplicate entry in MySQL
-            $response['message'] = "Error: This name already exists.";
+        // Ledger does not exist, proceed with insertion
+        $insert_sql = "INSERT INTO `jeno_ledger` (`led_type`, `led_center_id`, `led_created_by`) VALUES ('$ledgertype', '$centerId', '$createdBy')";
+
+        if ($conn->query($insert_sql) === TRUE) {
+            $response['success'] = true;
+            $response['message'] = "Ledger added successfully!";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Error adding Ledger: " . $conn->error;
         }
-        $response['message'] = "Error adding Ledger: " . $conn->error;
     }
 
     echo json_encode($response);

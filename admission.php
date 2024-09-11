@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 type: 'post',
                data: { applicationNo: applicationNo },
                success: function(response) {
-                console.log(response);
+                response = response.trim(); // Trim the response to remove any extra spaces or newline characters
                     if (response == "exists") {
                         $('#applicationNo').removeClass('is-valid').addClass('is-invalid');
                         isApplicationNoValid = false; // Set the flag to false if the application number exists
