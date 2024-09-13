@@ -140,7 +140,7 @@ session_start();
             </div>
                     
              
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+             <table id="addmission_table" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
@@ -265,36 +265,40 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Event listeners for the filters
-    document.getElementById("filter-university").addEventListener("change", filterTable);
-    document.getElementById("filter-course").addEventListener("change", filterTable);
+document.addEventListener("DOMContentLoaded", function () {
+    // Declare the variable outside the if-else scope
+    var dataTable;
 
-    function filterTable() {
+    // Check if DataTable is already initialized
+    if ($.fn.DataTable.isDataTable('#addmission_table')) {
+        // Retrieve the existing DataTable instance
+        dataTable = $('#addmission_table').DataTable();
+    } else {
+        // Initialize the DataTable only if it is not already initialized
+        dataTable = $('#addmission_table').DataTable();
+    }
+
+    // Event listeners for the filters
+    document.getElementById("filter-university").addEventListener("change", function () {
+        filterTable(dataTable);
+    });
+    document.getElementById("filter-course").addEventListener("change", function () {
+        filterTable(dataTable);
+    });
+
+    function filterTable(dataTable) {
         const universityFilter = document.getElementById("filter-university").value.toLowerCase();
         const courseFilter = document.getElementById("filter-course").value.toLowerCase();
-        const table = document.getElementById("scroll-horizontal-datatable");
-        const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-        for (let i = 0; i < rows.length; i++) {
-            let universityText = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase(); // Corrected index for University column
-            let courseText = rows[i].getElementsByTagName("td")[5].textContent.toLowerCase(); // Corrected index for Course column
+        // Apply filter for university
+        dataTable.column(4).search(universityFilter || '', true, false).draw(); // Adjust column index if necessary
 
-            // Check if the row matches the filters
-            let isMatch = true;
-
-            if (universityFilter && !universityText.includes(universityFilter)) {
-                isMatch = false;
-            }
-            if (courseFilter && !courseText.includes(courseFilter)) {
-                isMatch = false;
-            }
-
-            rows[i].style.display = isMatch ? "" : "none"; // Show or hide the row based on the filter
-        }
+        // Apply filter for course
+        dataTable.column(5).search(courseFilter || '', true, false).draw(); // Adjust column index if necessary
     }
 });
 </script>
+
 
     <script>
 
