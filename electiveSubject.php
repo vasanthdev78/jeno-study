@@ -207,61 +207,73 @@ function editelective(editId) {
 
 
 
-       // Ajax form submission
-       $('#addElective').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+      // Ajax form submission
+$('#addElective').off('submit').on('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    var submitButton = $('#submitBtn'); // Select your submit button (adjust the selector as needed)
+    
+    // Disable the submit button to prevent multiple clicks
+    submitButton.prop('disabled', true);
+
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        
+        // Re-enable the submit button if the form is invalid
+        submitButton.prop('disabled', false);
+        return;
+    }
+
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: 'action/actElective.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addElectiveModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true,  // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
-
-            var formData = new FormData(form);
-
-            $.ajax({
-                url: 'action/actElective.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addElectiveModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button after the AJAX call
+            submitButton.prop('disabled', false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            alert('Error adding elective: ' + textStatus);
+            // Re-enable the submit button in case of error
+            submitButton.prop('disabled', false);
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding university: ' + textStatus);
-                }
-            });
-        });
+    });
+});
+
 
 
         $('#university').change(function() {
@@ -297,19 +309,27 @@ function editelective(editId) {
         //Edit Student Ajax
 
 
-document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
     $('#editElective').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        var submitButton = $('#updateBtn'); // Adjust the selector to your actual button's ID or class
 
-            var formData = new FormData(form);
+        // Disable the submit button to avoid double-click
+        submitButton.prop('disabled', true);
+
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
             
+            // Re-enable the submit button if the form is invalid
+            submitButton.prop('disabled', false);
+            return;
+        }
+
+        var formData = new FormData(form);
+
         $.ajax({
             url: "action/actElective.php",
             method: 'POST',
@@ -319,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -328,20 +347,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editElectiveModal').modal('hide'); // Close the modal
-                        
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        $('#editElectiveModal').modal('hide'); // Close the modal
+                        $('.modal-backdrop').remove(); // Remove the backdrop
+
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true,   // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -349,6 +366,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after processing
+                submitButton.prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -356,14 +375,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Elective data.'
+                    text: 'An error occurred while editing Elective data.'
                 });
                 // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+                submitButton.prop('disabled', false);
             }
         });
     });
-    });
+});
 
 
     function goDeleteElective(id)

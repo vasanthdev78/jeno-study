@@ -155,7 +155,7 @@ ORDER BY
 
             
              
-             <table id="addmission_table" class="table table-striped w-100 nowrap">
+             <table id="addmission_table" class="table table-responsive table-striped w-100 nowrap">
                     <thead>
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
@@ -205,10 +205,21 @@ ORDER BY
                     
                     
                         <td>
-                        <button type="button" onclick="goAddBook('<?php echo $stu_apply_no_old; ?>');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal"><i class="bi bi-journal-plus"></i></button>
+                    <button type="button" 
+                            onclick="goAddBook('<?php echo $stu_apply_no_old; ?>');" 
+                            class="btn btn-circle btn-warning text-white modalBtn" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#addBookIssueModal" 
+                            data-bs-toggle="tooltip" title="Add Book Issue">
+                        <i class="bi bi-journal-plus"></i>
+                    </button>
 
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(<?php echo $book_stu_id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                        </td>
+                    <button class="btn btn-circle btn-success text-white modalBtn" 
+                            onclick="goViewBook(<?php echo $book_stu_id; ?>);" 
+                            data-bs-toggle="tooltip" title="View Book">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </td>
                       </tr>
                       <?php 
                     }
@@ -270,6 +281,15 @@ ORDER BY
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
 
     <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -502,64 +522,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-//--add book iisue form submit-------------------------------
-    $('#addBookissue').off('submit').on('submit', function(e) {
+//--add book issue form submit-------------------------------
+$('#addBookissue').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
+
     $('#addBookissue').removeClass('was-validated');
     $('#addBookissue').addClass('needs-validation');
+
+    // Disable the submit button to prevent double clicks
+    $('#submitBtn').prop('disabled', true); // Ensure this ID matches your submit button
 
     $('#courseyear').prop('disabled', false);
 
     var formData = new FormData(this);
     $.ajax({
-      url: "action/actBook.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            
-                $('#addBookIssueModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+        url: "action/actBook.php",
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addBookIssueModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding Fees data.'
             });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+        },
+        complete: function() {
+            // Re-enable the submit button after processing (success or error)
+            $('#submitBtn').prop('disabled', false); // Ensure this ID matches your submit button
         }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Fees data.'
-        });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
     });
-  });
+});
 
 
 

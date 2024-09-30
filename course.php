@@ -183,16 +183,20 @@ session_start();
     $(document).ready(function () {
  
 //--add course form submit --------------------------------------
-  $('#addCourse').off('submit').on('submit', function(e) {
+$('#addCourse').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
-    
     var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+    var submitButton = $('#submitBtn'); // Get the submit button
+
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
+
+    // Disable the submit button to prevent multiple clicks
+    submitButton.prop('disabled', true);
 
     var formData = new FormData(this);
     $.ajax({
@@ -212,8 +216,7 @@ session_start();
             text: response.message,
             timer: 2000
           }).then(function() {
-            
-                    $('#addCourseModal').modal('hide');
+            $('#addCourseModal').modal('hide'); // Close the modal
             $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
               $('#scroll-horizontal-datatable').DataTable().destroy();
               $('#scroll-horizontal-datatable').DataTable({
@@ -230,6 +233,8 @@ session_start();
             text: response.message
           });
         }
+        // Re-enable the submit button after success
+        submitButton.prop('disabled', false);
       },
       error: function(xhr, status, error) {
         // Handle error response
@@ -240,10 +245,11 @@ session_start();
           text: 'An error occurred while adding Student data.'
         });
         // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
+        submitButton.prop('disabled', false);
       }
     });
-  });
+});
+
   });
 
       // edit function -------------------------
@@ -332,22 +338,27 @@ if (Array.isArray(response.cou_university_fess) && Array.isArray(response.cou_st
 
     
 
-    //--edit form submit-----------------------------------------
+   //--edit form submit-----------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editCourse').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
+        var form = this; // Get the form element
+        var submitButton = $('#updateBtn'); // Get the submit button
+        
+        // Disable the submit button to prevent multiple clicks
+        submitButton.prop('disabled', true);
+        
         $('#editFessType').prop('disabled', false);
         $('#ediDuration').prop('disabled', false);
-        
 
-        var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
-
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            // Re-enable the submit button if form is invalid
+            submitButton.prop('disabled', false);
+            return;
+        }
 
         var formData = new FormData(this);
         $.ajax({
@@ -359,7 +370,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -368,20 +378,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editCourseModal').modal('hide'); // Close the modal
-                        
+                        $('#editCourseModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -389,6 +397,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after success or failure
+                submitButton.prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -396,14 +406,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Course data.'
+                    text: 'An error occurred while editing course data.'
                 });
                 // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+                submitButton.prop('disabled', false);
             }
         });
     });
-    });
+});
 
 
 //---------view page data get ---------------------------------------------

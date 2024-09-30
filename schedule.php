@@ -115,10 +115,21 @@ session_start();
                         <td class="text-wrap"><?php echo $subject; ?></td>
 
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditSchedule(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editScheduleModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteSchedule(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
-                        </td>
+                        <button type="button" 
+                                class="btn btn-circle btn-warning text-white modalBtn" 
+                                onclick="goEditSchedule(<?php echo $id; ?>);" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editScheduleModal" 
+                                data-bs-toggle="tooltip" title="Edit Schedule">
+                            <i class='bi bi-pencil-square'></i>
+                        </button>
+                        
+                        <button class="btn btn-circle btn-danger text-white" 
+                                onclick="goDeleteSchedule(<?php echo $id; ?>);" 
+                                data-bs-toggle="tooltip" title="Delete Schedule">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
                       </tr>
                       <?php
                      } 
@@ -179,6 +190,15 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
 
 <script>
 
@@ -269,65 +289,69 @@ $('#course').change(function() {
 
    
 $('#addSchedule').off('submit').on('submit', function(e) {
+    e.preventDefault(); 
 
-  e.preventDefault(); 
-
-  var form = this; // Get the form element
-          if (form.checkValidity() === false) {
-              // If the form is invalid, display validation errors
-              form.reportValidity();
-              return;
-          }
-
-          var formData = new FormData(form);
-
-  $.ajax({
-    url: "action/actSchedule.php",
-    method: 'POST',
-    data: formData,
-    contentType: false,
-    processData: false,
-    dataType: 'json',
-    success: function(response) {
-      // Handle success response
-      console.log(response);
-      if (response.success) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.message,
-          timer: 2000
-        }).then(function() {
-          $('#addScheduleModal').modal('hide');
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-            $('#scroll-horizontal-datatable').DataTable().destroy();
-            $('#scroll-horizontal-datatable').DataTable({
-              "paging": true, // Enable pagination
-              "ordering": true, // Enable sorting
-              "searching": true // Enable searching
-            });
-          });
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: response.message
-        });
-      }
-    },
-    error: function(xhr, status, error) {
-      // Handle error response
-      console.error(xhr.responseText);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'An error occurred while adding Schedule data.'
-      });
-      // Re-enable the submit button on error
-      $('#submitBtn').prop('disabled', false);
+    var form = this; // Get the form element
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
     }
-  });
+
+    var formData = new FormData(form);
+
+    // Disable the submit button to prevent double clicks
+    $('#submitBtn').prop('disabled', true); // Ensure this ID matches your submit button
+
+    $.ajax({
+        url: "action/actSchedule.php",
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addScheduleModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding Schedule data.'
+            });
+        },
+        complete: function() {
+            // Re-enable the submit button after processing (success or error)
+            $('#submitBtn').prop('disabled', false); // Ensure this ID matches your submit button
+        }
+    });
 });
 
 
@@ -423,13 +447,17 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
 
-            var formData = new FormData(form);
+        var formData = new FormData(form);
+
+        // Disable the submit button to prevent double clicks
+        $('#updateBtn').prop('disabled', true); // Ensure this ID matches your submit button
+
         $.ajax({
             url: "action/actSchedule.php",
             method: 'POST',
@@ -439,7 +467,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -448,19 +475,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editScheduleModal').modal('hide'); // Close the modal
-                        
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        $('#editScheduleModal').modal('hide'); // Close the modal
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -475,10 +499,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Schedule data.'
+                    text: 'An error occurred while editing Schedule data.'
                 });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+            },
+            complete: function() {
+                // Re-enable the submit button after processing (success or error)
+                $('#updateBtn').prop('disabled', false); // Ensure this ID matches your submit button
             }
         });
     });

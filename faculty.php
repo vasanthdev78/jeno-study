@@ -75,6 +75,7 @@ session_start();
                         </div>
                     </div>
              
+             <div class="table-responsive">
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -107,10 +108,27 @@ session_start();
                         <td><?php echo $mobile; ?></td>
       
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditFaculty(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editFacultyModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewFaculty(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteFaculty(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
+                <button type="button" 
+                        class="btn btn-circle btn-warning text-white modalBtn" 
+                        onclick="goEditFaculty(<?php echo $id; ?>);" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editFacultyModal" 
+                        data-bs-toggle="tooltip" title="Edit Faculty">
+                    <i class='bi bi-pencil-square'></i>
+                </button>
+                
+                <button class="btn btn-circle btn-success text-white modalBtn" 
+                        onclick="goViewFaculty(<?php echo $id; ?>);" 
+                        data-bs-toggle="tooltip" title="View Faculty">
+                    <i class="bi bi-eye-fill"></i>
+                </button>
+                
+                <button class="btn btn-circle btn-danger text-white" 
+                        onclick="goDeleteFaculty(<?php echo $id; ?>);" 
+                        data-bs-toggle="tooltip" title="Delete Faculty">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
                       </tr>
                       <?php
                      }
@@ -118,6 +136,7 @@ session_start();
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -169,6 +188,15 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+      // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
 
     <!-------Start Add Student--->
     <script>
@@ -202,68 +230,72 @@ $(document).ready(function () {
   });
   
 
-  //--add faculty fomr sumbit ---------------------------------------
-  $('#addFaculty').off('submit').on('submit', function(e) {
-
-    e.preventDefault(); 
+  //--add faculty form submit ---------------------------------------
+$('#addFaculty').off('submit').on('submit', function(e) {
+    e.preventDefault(); // Prevent the form from submitting normally
 
     var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
 
-            var formData = new FormData(form);
+    // Disable the submit button to prevent double clicks
+    $('#submitBtn').prop('disabled', true); // Ensure this ID matches your submit button
+
+    var formData = new FormData(form);
 
     $.ajax({
-      url: "action/actFaculty.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addFacultyfModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+        url: "action/actFaculty.php",
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addFacultyfModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding Faculty data.'
             });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+        },
+        complete: function() {
+            // Re-enable the submit button after processing (success or error)
+            $('#submitBtn').prop('disabled', false); // Ensure this ID matches your submit button
         }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Faculty data.'
-        });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
     });
-  });
+});
 
 
 });
@@ -387,19 +419,23 @@ function goDeleteFaculty(id)
     }
 }
 
-  //--edit faculty form submit --------------------------------------------------
+ //--edit faculty form submit --------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editFaculty').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
 
-            var formData = new FormData(form);
+        var formData = new FormData(form);
+
+        // Disable the submit button to prevent double clicks
+        $('#updateBtn').prop('disabled', true); // Ensure this ID matches your submit button
+
         $.ajax({
             url: "action/actFaculty.php",
             method: 'POST',
@@ -409,7 +445,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -418,19 +453,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editFacultyModal').modal('hide'); // Close the modal
-                        
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        $('#editFacultyModal').modal('hide'); // Close the modal
+
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -445,14 +478,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Faculty data.'
+                    text: 'An error occurred while editing Faculty data.'
                 });
-                // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+            },
+            complete: function() {
+                // Re-enable the submit button after processing (success or error)
+                $('#updateBtn').prop('disabled', false); // Ensure this ID matches your submit button
             }
         });
     });
 });
+
 
 
  </script>

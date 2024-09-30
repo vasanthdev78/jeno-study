@@ -224,6 +224,7 @@ function electiveTable($location) {
        , `enq_gender`
        , `enq_mobile`
        , `enq_address`
+       , `enq_date`
        , `enq_adminsion_status`
         FROM `jeno_enquiry`
         WHERE enq_status ='Active' 
@@ -356,11 +357,11 @@ function electiveTable($location) {
         
            // Query to retrieve course name based on course_id
            $admission_query = "SELECT a.*, b.*, c.*
-        FROM `jeno_student` AS a
-        LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
-        LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
-        WHERE a.stu_status = 'Active' AND a.stu_center_id = $location
-        ORDER BY a.stu_id DESC;";
+                    FROM `jeno_student` AS a
+                    LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
+                    LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
+                    WHERE a.stu_status = 'Active' AND a.stu_center_id = $location
+                    ORDER BY c.cou_name DESC, a.stu_id DESC;";
         
            // Execute the query
            $admission_result = $conn->query($admission_query);

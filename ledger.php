@@ -208,82 +208,99 @@ function editelective(editId) {
 
 
 
-       // Ajax form submission
-       $('#addLedger').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+     // Ajax form submission
+$('#addLedger').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    var submitButton = $('#submitLedgerBtn'); // Adjust the selector to your actual submit button's ID or class
+
+    // Disable the submit button to prevent double-click
+    submitButton.prop('disabled', true);
+
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+
+        // Re-enable the submit button if the form is invalid
+        submitButton.prop('disabled', false);
+        return;
+    }
+
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: 'action/actLedger.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addLedgerModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
+            // Re-enable the submit button after processing
+            submitButton.prop('disabled', false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            alert('Error adding ledger: ' + textStatus);
 
-            var formData = new FormData(form);
-
-            $.ajax({
-                url: 'action/actLedger.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addLedgerModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button on error
+            submitButton.prop('disabled', false);
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding university: ' + textStatus);
-                }
-            });
-        });
+    });
+});
 
-
-        
 
 
         //Edit Student Ajax
 
 
-document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
     $('#editLedger').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        var submitButton = $('#updateBtn'); // Adjust the selector to your actual submit button's ID or class
 
-            var formData = new FormData(form);
-            
+        // Disable the submit button to prevent double-click
+        submitButton.prop('disabled', true);
+
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            // Re-enable the submit button if the form is invalid
+            submitButton.prop('disabled', false);
+            return;
+        }
+
+        var formData = new FormData(form);
+        
         $.ajax({
             url: "action/actLedger.php",
             method: 'POST',
@@ -302,20 +319,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editLedgerModal').modal('hide'); // Close the modal
-                        
+                        $('#editLedgerModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -323,6 +337,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after processing
+                submitButton.prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -330,14 +346,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Elective data.'
+                    text: 'An error occurred while editing Ledger data.'
                 });
                 // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+                submitButton.prop('disabled', false);
             }
         });
     });
-    });
+});
+
 
 
     function goDeleteElective(id)

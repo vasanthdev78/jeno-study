@@ -115,26 +115,7 @@ $user_role = $_SESSION['role'];
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
 
-                            <div class="col-sm-12">
-                                     <div class="form-group ">
-                                    <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
-                                    <select class="form-control" name="actDashboard" id="university" required="required">
-                                    
-                             <option value="All">--Select the University--</option>
-                                 <?php 
-                              $uniCenterId = $_SESSION['centerId'];
-                                $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
-                                  while ($row = $university_result->fetch_assoc()) {
-                                  $id = $row['uni_id']; 
-                                  $name = $row['uni_name'];        
-                                                
-                                    ?>
-                                                       
-                                 <option value="<?php echo $id;?>"><?php echo $name;?></option>
-                                   <?php } ?>
-                                   </select>
-                                  </div>
-                             </div>
+                            
 
                            
         

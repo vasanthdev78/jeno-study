@@ -62,51 +62,111 @@ $enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
                         </div>
                     </div>
              
-             
-             <table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr class="bg-light">
-                        <th scope="col-1">S.No.</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">University</th>
-                        <th scope="col">Course</th>                                    
-                        <th scope="col">Contact No</th>
-                        <th scope="col">Status</th> 
-                        <th scope="col">Action</th>
-                                    
-                      </tr>
-                    </thead>
-                    <tbody>
+                    <div class="filter-container mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="universityFilter" class="form-label">Filter by University</label>
+            <select id="universityFilter" class="form-select">
+            <option value="">All Universities</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['uni_id']; 
+                                    $name = $row['uni_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
 
-                    <?php  
+                        <?php } ?>
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="courseFilter" class="form-label">Filter by Course</label>
+            <select id="courseFilter" class="form-select">
+            <option value="">All Courses</option>
+                        <?php 
+                                        $uniCenterId = $_SESSION['centerId'];
+                                        $university_result = courseTable($uniCenterId); // Call the function to fetch universities 
+                                        while ($row = $university_result->fetch_assoc()) {
+                                            $id = $row['cou_id']; 
+                                    $name = $row['cou_name'];    
+                        
+                                      ?>
+                        
+                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
 
-                        $i =1;
+                        <?php } ?>
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="dateFilter" class="form-label">Filter by Date</label>
+            <input type="date" id="dateFilter" class="form-control" />
+        </div>
+    </div>
+</div>
 
-                        while ($row = $enquiry_result->fetch_assoc()) {
-                            $id = $row['enq_id'];
-                            
+                    <div class="table-responsive">
+    <table id="example" class="table table-striped table-bordered">
+        <thead>
+            <tr class="bg-light">
+                <th scope="col-1">S.No.</th>
+                <th class="d-none" scope="col-1">Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">University</th>
+                <th scope="col">Course</th>                                  
+                <th scope="col">Contact No</th>
+                <th scope="col">Status</th> 
+                <th scope="col">Action</th>                              
+            </tr>
+        </thead>
+        <tbody>
 
-                        ?>
+        <?php  
+            $i = 1;
+            while ($row = $enquiry_result->fetch_assoc()) {
+                $id = $row['enq_id'];
+        ?>
 
-                    
-                     <tr>
-                        <td><?php echo $i ; $i++ ?></td>
-                        <td><?php echo $row['enq_stu_name'] ?></td>
-                        <td><?php echo  universityName($row['enq_uni_id']) ?></td>
-                        <td><?php echo courseNameOnly($row['enq_cou_id']) ?></td>
-                        <td><?php echo $row['enq_mobile'] ?></td>
-                        <td><?php echo $row['enq_adminsion_status'] ?></td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="editEnquiry(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editEnquiryModal"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewEnquiry(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteEnquiry(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                        </td>
-                      </tr>   
-                     <?php } ?>  
-                                             
-                    </tbody>
-                  </table>
+        <tr>
+            <td><?php echo $i; $i++ ?></td>
+            <td class="d-none"><?php echo $row['enq_date'] ?></td>
+            <td><?php echo $row['enq_stu_name'] ?></td>
+            <td><?php echo universityName($row['enq_uni_id']) ?></td>
+            <td><?php echo courseNameOnly($row['enq_cou_id']) ?></td>
+            <td><?php echo $row['enq_mobile'] ?></td>
+            <td><?php echo $row['enq_adminsion_status'] ?></td>
+
+            <td>
+            <button type="button" class="btn btn-sm btn-warning text-white modalBtn" 
+                    onclick="editEnquiry(<?php echo $id; ?>);" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editEnquiryModal" 
+                    data-bs-toggle="tooltip" title="Edit Enquiry">
+                <i class='bi bi-pencil-square'></i>
+            </button>
+            <button class="btn btn-sm btn-success text-white modalBtn" 
+                    onclick="goViewEnquiry(<?php echo $id; ?>);" 
+                    data-bs-toggle="tooltip" title="View Enquiry">
+                <i class="bi bi-eye-fill"></i>
+            </button>
+            <button class="btn btn-sm btn-danger text-white" 
+                    onclick="goDeleteEnquiry(<?php echo $id; ?>);" 
+                    data-bs-toggle="tooltip" title="Delete Enquiry">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+        </tr>
+
+        <?php } ?>
+        
+        </tbody>
+    </table>
+</div>
+
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -178,6 +238,55 @@ $enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        $('#universityFilter, #courseFilter, #dateFilter').on('change', function() {
+            filterTable();
+        });
+
+        function filterTable() {
+            var university = $('#universityFilter').val();
+            var course = $('#courseFilter').val();
+            var date = $('#dateFilter').val();
+            
+            $('#example tbody tr').each(function() {
+                var row = $(this);
+                var rowUniversity = row.find('td:nth-child(4)').text().trim();
+                var rowCourse = row.find('td:nth-child(5)').text().trim();
+                var rowDate = row.find('td:nth-child(2)').text().trim();
+                
+                // Apply filters
+                var showRow = true;
+                if (university && rowUniversity !== university) {
+                    showRow = false;
+                }
+                if (course && rowCourse !== course) {
+                    showRow = false;
+                }
+                if (date && rowDate !== date) {
+                    showRow = false;
+                }
+                
+                // Show or hide row based on filters
+                if (showRow) {
+                    row.show();
+                } else {
+                    row.hide();
+                }
+            });
+        }
+    });
+</script>
 
     <script>
 //---data table print pdf ,excel etc --------------------------------
@@ -335,65 +444,72 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
 
 
-     // Ajax form submission -----------------------------
-     $('#addEnquiry').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+   // Ajax form submission -----------------------------
+$('#addEnquiry').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
+
+    // Disable the submit button to prevent double-click
+    $('#submitEnquiryBtn').prop('disabled', true); // Change this ID to match your submit button's ID
+
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'action/actEnquiry.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addEnquiryModal').modal('hide');
+                    $('#example').load(location.href + ' #example > *', function() {
+                        $('#example').DataTable().destroy();
+                        $('#example').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true, // Enable searching
+                            dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+                            buttons: [
+                                'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+                            ]
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
-            
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: 'action/actEnquiry.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addEnquiryModal').modal('hide');
-            $('#example').load(location.href + ' #example > *', function() {
-              $('#example').DataTable().destroy();
-              $('#example').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true, // Enable searching
-                dom: 'Bfrtip', // Define the elements that should be included in the DataTable
-    buttons: [
-      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
-    ]
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button after processing
+            $('#submitEnquiryBtn').prop('disabled', false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            alert('Error adding Enquiry: ' + textStatus);
+            // Re-enable the submit button on error
+            $('#submitEnquiryBtn').prop('disabled', false);
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding Enquiry: ' + textStatus);
-                }
-            });
-        });
+    });
+});
+
 
 
         
@@ -449,17 +565,20 @@ document.getElementById('editDob').setAttribute('max', tenYearsAgoDate);
 
          
 
-    //--edit form submit -------------------------------------
+ // --edit form submit -------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editEnquiry').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
+
+        // Disable the update button to prevent double click
+        $('#updateBtn').prop('disabled', true); // Change this ID to match your update button's ID
 
         var formData = new FormData(this);
         $.ajax({
@@ -471,7 +590,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -480,24 +598,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editEnquiryModal').modal('hide'); // Close the modal
-                        
+                        $('#editEnquiryModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#example').load(location.href + ' #example > *', function() {
-                               
-                              $('#example').DataTable().destroy();
-                               
-                                $('#example').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true, // Enable searching
-                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
-    buttons: [
-      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
-    ]
-                               });
+                        $('#example').load(location.href + ' #example > *', function() {
+                            $('#example').DataTable().destroy();
+                            $('#example').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true, // Enable searching
+                                dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+                                buttons: [
+                                    'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+                                ]
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -505,6 +620,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after processing
+                $('#updateBtn').prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -512,14 +629,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Enquiry data.'
+                    text: 'An error occurred while editing enquiry data.'
                 });
                 // Re-enable the submit button on error
                 $('#updateBtn').prop('disabled', false);
             }
         });
     });
-    });
+});
 
 
 

@@ -62,6 +62,14 @@
     .side-nav-link i {
       margin-right: 10px;
     }
+
+    .table-responsive {
+    overflow-x: auto; /* Ensures horizontal scroll */
+}
+
+.table td {
+    white-space: nowrap; /* Prevents wrapping of text in table cells */
+}
     
 </style>
 </head>

@@ -116,7 +116,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" id="submitBtn" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div> <!-- end modal content-->

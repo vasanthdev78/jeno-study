@@ -63,12 +63,12 @@ session_start();
                     </div>
 
        
-                    <div class="row mb-3">
-                <!-- University Filter -->
-                <div class="col-md-3">
-                    <label for="filter-university">University</label>
-                    <select id="filter-university" class="form-select">
-                        <option value="">All Universities</option>
+                    <div class="filter-container mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="universityFilter" class="form-label">Filter by University</label>
+            <select id="universityFilter" class="form-select">
+            <option value="">All Universities</option>
                         <?php 
                                         $uniCenterId = $_SESSION['centerId'];
                                         $university_result = universityTable($uniCenterId); // Call the function to fetch universities 
@@ -81,14 +81,13 @@ session_start();
                         <option value="<?php echo $name;?>"><?php echo $name;?></option>
 
                         <?php } ?>
-                    </select>
-                </div>
-                
-                <!-- Course Filter -->
-                <div class="col-md-3">
-                    <label for="filter-course">Course</label>
-                    <select id="filter-course" class="form-select">
-                        <option value="">All Courses</option>
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="courseFilter" class="form-label">Filter by Course</label>
+            <select id="courseFilter" class="form-select">
+            <option value="">All Courses</option>
                         <?php 
                                         $uniCenterId = $_SESSION['centerId'];
                                         $university_result = courseTable($uniCenterId); // Call the function to fetch universities 
@@ -101,28 +100,23 @@ session_start();
                         <option value="<?php echo $name;?>"><?php echo $name;?></option>
 
                         <?php } ?>
-                    </select>
-                </div>
-                
-                <!-- Year Filter -->
-                <!-- <div class="col-md-3">
-                    <label for="filter-year">Year</label>
-                    <select id="filter-year" class="form-select">
-                        <option value="">All Years</option>
-                         Add dynamic options for years 
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                    </select>
-                </div> -->
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="dateFilter" class="form-label">Filter by Date</label>
+            <input type="date" id="dateFilter" class="form-control" />
+        </div>
+    </div>
+</div>
 
-            </div>
-
-
+            <div class="table-responsive">
              <table id="addmission_table" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Application No.</th>
+                                    <th class="d-none" scope="col">Date</th>
+                                    <th scope="col">Application No</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">University</th>
                                     <th scope="col">Course</th>
@@ -135,11 +129,21 @@ session_start();
                     <tbody>
                     <?php 
                     $i=1; while($row = mysqli_fetch_array($admission_result , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  $name = $row['stu_name']; $phone = $row['stu_phone'];  $university=$row['uni_name'];  
-                        $course = $row['cou_name']; $enroll = $row['stu_enroll']; $apply = $row['stu_addmision_new'];
+                        $id = $row['stu_id'];  
+                        $name = $row['stu_name']; 
+                        $phone = $row['stu_phone'];  
+                        $university=$row['uni_name'];  
+                        $course = $row['cou_name']; 
+                        $enroll = $row['stu_enroll']; 
+                        $apply = $row['stu_addmision_new'];
+                        $stu_created_at = $row['stu_created_at'];
+                        $dateOnly = date('Y-m-d', strtotime($stu_created_at));
+
+                        
                         ?>
                      <tr>
                         <td><?php echo $i; $i++; ?></td>
+                        <td class="d-none"><?php echo $dateOnly; ?></td>
                         <td><?php echo !empty($apply) ? $apply : '---'; ?></td>
                         <td><?php echo $name; ?></td>
                         <td><?php echo $university; ?></td>
@@ -148,10 +152,23 @@ session_start();
                         <td><?php echo !empty($enroll) ? $enroll : 'Pending'; ?></td>
                     
                         <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" id="editAdmissionBtn" onclick="goEditAdmission(<?php echo $id; ?>);"><i class='bi bi-pencil-square'></i></button>
-                            <button class="btn btn-circle btn-success text-white" id="viewAdmissionBtn" onclick="goViewAdmission(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteAdmission(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                           
+                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" 
+                                    id="editAdmissionBtn" 
+                                    onclick="goEditAdmission(<?php echo $id; ?>);" 
+                                    data-bs-toggle="tooltip" title="Edit Admission">
+                                <i class='bi bi-pencil-square'></i>
+                            </button>
+                            <button class="btn btn-circle btn-success text-white" 
+                                    id="viewAdmissionBtn" 
+                                    onclick="goViewAdmission(<?php echo $id; ?>);" 
+                                    data-bs-toggle="tooltip" title="View Admission">
+                                <i class="bi bi-eye-fill"></i>
+                            </button>
+                            <button class="btn btn-circle btn-danger text-white" 
+                                    onclick="goDeleteAdmission(<?php echo $id; ?>);" 
+                                    data-bs-toggle="tooltip" title="Delete Admission">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                       </tr>
                       <?php 
@@ -160,6 +177,7 @@ session_start();
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -217,40 +235,61 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
+
+    <script>
         
-document.addEventListener("DOMContentLoaded", function () {
-    // Declare the variable outside the if-else scope
-    var dataTable;
-
-    // Check if DataTable is already initialized
-    if ($.fn.DataTable.isDataTable('#addmission_table')) {
-        // Retrieve the existing DataTable instance
-        dataTable = $('#addmission_table').DataTable();
-    } else {
-        // Initialize the DataTable only if it is not already initialized
-        dataTable = $('#addmission_table').DataTable();
-    }
-
-    // Event listeners for the filters
-    document.getElementById("filter-university").addEventListener("change", function () {
-        filterTable(dataTable);
-    });
-    document.getElementById("filter-course").addEventListener("change", function () {
-        filterTable(dataTable);
+        $(document).ready(function() {
+    // Initialize DataTable
+    var table = $('#addmission_table').DataTable({
+        "searching": true, // Enable global searching
+        "paging": true // Enable pagination
     });
 
-    function filterTable(dataTable) {
-        const universityFilter = document.getElementById("filter-university").value.toLowerCase();
-        const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+    // Attach event listeners to the filters
+    $('#universityFilter, #courseFilter, #dateFilter').on('change keyup', function() {
+        filterTable();
+    });
 
-        // Apply filter for university
-        dataTable.column(3).search(universityFilter || '', true, false).draw(); // Adjust column index if necessary
+    function filterTable() {
+        var university = $('#universityFilter').val().trim().toLowerCase();
+        var course = $('#courseFilter').val().trim().toLowerCase();
+        var date = $('#dateFilter').val().trim();
 
-        // Apply filter for course
-        dataTable.column(4).search(courseFilter || '', true, false).draw(); // Adjust column index if necessary
+        table.rows().every(function() {
+            var row = this.node();
+            var rowUniversity = $(row).find('td:nth-child(5)').text().trim().toLowerCase(); // University column
+            var rowCourse = $(row).find('td:nth-child(6)').text().trim().toLowerCase();     // Course column
+            var rowDate = $(row).find('td:nth-child(2)').text().trim();                     // Date column
+
+            // Apply filtering logic
+            var showRow = true;
+            if (university && rowUniversity !== university) {
+                showRow = false;
+            }
+            if (course && rowCourse !== course) {
+                showRow = false;
+            }
+            if (date && rowDate !== date) {
+                showRow = false;
+            }
+
+            // Show or hide the row
+            if (showRow) {
+                $(row).show();
+            } else {
+                $(row).hide();
+            }
+        });
     }
 });
-
 
 
 </script>
@@ -562,9 +601,8 @@ $('#courseNameEdit').change(function() {
 
 });
 
-//--add admission form submit data -----------------------------------------------
+// --add admission form submit data -----------------------------------------------
 $('#addAdmission').off('submit').on('submit', function(e) {
-    
     // Prevent default form submission to perform additional checks
     e.preventDefault(); 
 
@@ -574,6 +612,9 @@ $('#addAdmission').off('submit').on('submit', function(e) {
         form.reportValidity();
         return;
     }
+
+    // Disable the submit button to prevent double click
+    $('#submitBtn').prop('disabled', true); // Change this ID to match your submit button's ID
 
     var formData = new FormData(form);
 
@@ -617,6 +658,8 @@ $('#addAdmission').off('submit').on('submit', function(e) {
                     text: response.message
                 });
             }
+            // Re-enable the submit button after processing
+            $('#submitBtn').prop('disabled', false);
         },
         error: function(xhr, status, error) {
             // Handle error response
@@ -626,6 +669,8 @@ $('#addAdmission').off('submit').on('submit', function(e) {
                 title: 'Error',
                 text: 'An error occurred while adding Student data.'
             });
+            // Re-enable the submit button on error
+            $('#submitBtn').prop('disabled', false);
         }
     });
 });
@@ -770,13 +815,14 @@ function goViewAdmission(id)
 
                 html += '<tr>';
                 html += '<td>' + (index + 1) + '</td>'; // S.No.
-                html += '<td>₹ ' + parseFloat(payment.fee_uni_fee_total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Total
-                html += '<td>₹ ' + parseFloat(payment.fee_uni_fee).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Received
-                html += '<td>₹ ' + parseFloat(payment.fee_sdy_fee_total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Study Center Fee Total
-                html += '<td>₹ ' + parseFloat(payment.fee_sty_fee).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Study Center Fee Received
-                html += '<td>₹ ' + parseFloat(balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Balance
+                html += '<td>' + (payment.pay_date) + '</td>';
+                html += '<td>' + (payment.pay_year) + '</td>';
+                html += '<td>' + (payment.pay_paid_method + '  '+ payment.pay_description ) + '</td>';
+                html += '<td>₹ ' + parseFloat(payment.pay_university_fees).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Total
+                html += '<td>₹ ' + parseFloat(payment.pay_study_fees).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // University Fee Received
+                html += '<td>₹ ' + parseFloat(payment.pay_total_amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td>'; // Study Center Fee Total
+                
 
-                html += '<td>' + status + '</td>'; // Status
                 html += '</tr>';
        });
                 $('#feesStudent').html(html); // Append HTML to table body
@@ -825,19 +871,22 @@ function goDeleteAdmission(id)
 }
 
 
-//--edit form submition -----------------------------------
+// --edit form submission -----------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     $('#editAdmission').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
 
-            var formData = new FormData(form);
+        // Disable the submit button to prevent double clicks
+        $('#updateBtn').prop('disabled', true); // Ensure this matches your button's ID
+
+        var formData = new FormData(form);
         $.ajax({
             url: "action/actAdmission.php",
             method: 'POST',
@@ -847,7 +896,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -859,17 +907,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('#StuContent').removeClass('d-none');
                         $('#editAdmissionModal').addClass('d-none');
                         
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        // Reload the datatable to show updated data
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -877,6 +924,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+
+                // Re-enable the submit button after processing
+                $('#updateBtn').prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -884,7 +934,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit student data.'
+                    text: 'An error occurred while editing student data.'
                 });
                 // Re-enable the submit button on error
                 $('#updateBtn').prop('disabled', false);
@@ -892,6 +942,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 
 </script>

@@ -18,12 +18,14 @@
     , `pay_student_name`
     , `pay_year`
     , `pay_paid_method`
+    , `pay_description`
     , `pay_transaction_id`
     , `pay_description`
     , `pay_university_fees` 
     , `pay_study_fees`
     , `pay_total_amount`
     , `pay_balance`
+    , `pay_center_id`
     , `pay_date` 
     FROM `jeno_payment_history` 
     WHERE pay_id = $id 
@@ -36,10 +38,12 @@
     // Output data of each row
     $row = $result->fetch_assoc();
         $pay_bill_no = $row['pay_bill_no'];
+        $pay_center_id = $row['pay_center_id'];
         $admisionId = $row['pay_admission_id'];
         $pay_student_name = $row['pay_student_name'];
         $pay_year = $row['pay_year'];
         $pay_paid_method = $row['pay_paid_method'];
+        $pay_description = $row['pay_description'];
         $pay_university_fees = $row['pay_university_fees'];
         $pay_study_fees = $row['pay_study_fees'];
         $pay_transaction_id = $row['pay_transaction_id'];
@@ -176,6 +180,12 @@
     
         return numberToWords(floor($number / 1000000000)) . ' billion ' . numberToWords($number % 1000000000);
     }
+
+    if ($pay_center_id == 1) {
+        $address = "Westren Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601";
+    } else {
+        $address = " PPGH+JF5, Trivandrum Rd, Murugankurichi, Thimmarajapuram, Tirunelveli, Tamil Nadu 627003";
+    }
     
 
     // Include the FPDF library
@@ -185,11 +195,14 @@
     class PDF extends FPDF
     {
         protected $uni_name;
-
-        function __construct($uni_name, $orientation='L', $unit='mm', $size=array(148, 210))
+        protected $address; // Declare the address property
+    
+        // Correct the order and types of parameters
+        function __construct($uni_name, $address, $orientation='L', $unit='mm', $size=array(148, 210))
         {
             parent::__construct($orientation, $unit, $size);
             $this->uni_name = $uni_name;
+            $this->address = $address; // Set the address
         }
     // Header
     function Header()
@@ -199,6 +212,10 @@
 
         // Title
         $this->Cell(0, 8, 'Bill Receipt', 0, 1, 'C');
+
+           // Title with university name centered
+           $this->Cell(0, 8, $this->uni_name, 0, 1, 'C');
+           $this->Ln(1);  // Add some line space
         $this->Ln(1);
 
         // Move to the right
@@ -210,12 +227,14 @@
         
         // Company name
         $this->SetFont('Arial', 'B', 12);
-        $this->Cell(0, 8, 'JENO STUDY CENTER ' . $this->uni_name, 0, 1, 'R');
+        $this->Cell(0, 8, 'JENO STUDY CENTRE ' , 0, 1, 'R');
+
+        
         
 
         // Address
         $this->SetFont('Arial', '', 8);
-        $this->Cell(0, 10, 'Westen Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601', 0, 1, 'R');
+        $this->Cell(0, 10, $this->address, 0, 1, 'R');
         // Line break
         $this->Ln(2);
     }
@@ -242,7 +261,7 @@
             $this->SetFont('Arial', '', 10);
             $this->Cell(0,10,"Mobile : 04622912601 ",0,1,"c");
             $this->SetY(-23);
-            $this->Cell(0,6,"Thankyou from Jeno Study Center " . $this->uni_name,0,1,"R");
+            $this->Cell(0,6,"Thankyou from Jeno Study Centre " . $this->uni_name,0,1,"R");
             
             // Position at 1.5 cm from bottom
             $this->SetY(-15);
@@ -251,7 +270,7 @@
     }
 
     // Create a new PDF instance
-    $pdf = new PDF($uni_name, 'L', 'mm', array(148, 210));
+    $pdf = new PDF($uni_name, $address, 'L', 'mm', array(148, 210));
     $pdf->AliasNbPages();
     $pdf->AddPage();
 
@@ -292,7 +311,7 @@
 
     
     $pdf->Cell(30, 8, 1, 1);
-    $pdf->Cell(40, 8, $pay_paid_method, 1); 
+    $pdf->Cell(40, 8, $pay_paid_method.' ( '.$pay_description .') ', 1); 
     $pdf->Cell(40, 8, $pay_university_fees, 1,0,'R');  
     $totalAmt =$pay_university_fees + $pay_study_fees ;
     $pdf->Cell(40, 8, $pay_study_fees, 1,0,'R');  

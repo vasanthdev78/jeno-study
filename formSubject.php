@@ -85,7 +85,7 @@
                     </div>
                     <div class="row mt-3">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" id="submitButtonId" class="btn btn-success">Submit</button>
                         <button type="button" id="cancelButton" class="btn btn-danger">Cancel</button>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="row mt-3">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" id="updateBtn" class="btn btn-success">Submit</button>
                         <button type="button" id="editCancelButton" class="btn btn-danger">Cancel</button>
                     </div>
                 </div>

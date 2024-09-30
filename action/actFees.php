@@ -69,45 +69,52 @@ $response = ['success' => false, 'message' => ''];
         $stu_uni_id = $location_student['stu_uni_id'];
 
         // Query to fetch university name and get first two characters
-        $university_query = "
-        SELECT 
-            LEFT(uni_name, 2) AS uni_short_name
-        FROM 
-            jeno_university 
-        WHERE 
-            uni_id = $stu_uni_id;
-        ";
+        // $university_query = "
+        // SELECT 
+        //     LEFT(uni_name, 2) AS uni_short_name
+        // FROM 
+        //     jeno_university 
+        // WHERE 
+        //     uni_id = $stu_uni_id;
+        // ";
 
-        $university_res = mysqli_query($conn, $university_query);
-        $university_data = mysqli_fetch_array($university_res, MYSQLI_ASSOC);
+        // $university_res = mysqli_query($conn, $university_query);
+        // $university_data = mysqli_fetch_array($university_res, MYSQLI_ASSOC);
 
-        $uni_short_name = $university_data['uni_short_name'];
+        // $uni_short_name = $university_data['uni_short_name'];
 
-        // Get the current year and last two digits
-        $current_year = date('y');
+        // // Get the current year and last two digits
+        // $current_year = date('y');
 
-        // Query to get the last sequence number for this center, university, and year
-        $bill_no_select = "
-           SELECT 
-                MAX(CAST(SUBSTRING(pay_bill_no, 8) AS UNSIGNED)) AS last_sequence 
-            FROM 
-                jeno_payment_history 
-            WHERE 
-                pay_center_id = $centerId  
-                AND SUBSTRING(pay_bill_no, 1, 3) = '$loc_short_name' 
-                AND SUBSTRING(pay_bill_no, 4, 2) = '$uni_short_name' 
-                AND SUBSTRING(pay_bill_no, 6, 2) = '$current_year'; 
-        ";
+        // // Query to get the last sequence number for this center, university, and year
+        // $bill_no_select = "
+        //    SELECT 
+        //         MAX(CAST(SUBSTRING(pay_bill_no, 8) AS UNSIGNED)) AS last_sequence 
+        //     FROM 
+        //         jeno_payment_history 
+        //     WHERE 
+        //         pay_center_id = $centerId  
+        //         AND SUBSTRING(pay_bill_no, 1, 3) = '$loc_short_name' 
+        //         AND SUBSTRING(pay_bill_no, 4, 2) = '$uni_short_name' 
+        //         AND SUBSTRING(pay_bill_no, 6, 2) = '$current_year'; 
+        // ";
 
-        $bill_no_res = mysqli_query($conn, $bill_no_select);
-        $bill_no_data = mysqli_fetch_array($bill_no_res, MYSQLI_ASSOC);
+        // $bill_no_res = mysqli_query($conn, $bill_no_select);
+        // $bill_no_data = mysqli_fetch_array($bill_no_res, MYSQLI_ASSOC);
 
-        // Determine the last sequence number and increment
-        $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
-        $next_sequence = $last_sequence + 1;
+        // // Determine the last sequence number and increment
+        // $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
+        // $next_sequence = $last_sequence + 1;
+
+        $bill_no_sql="SELECT MAX(pay_bill_no) + 1 AS next_bill_number
+                        FROM jeno_payment_history;";
+
+        $bill_no_sql_res = mysqli_query($conn, $bill_no_sql);
+        $bill_no_sql_data = mysqli_fetch_array($bill_no_sql_res, MYSQLI_ASSOC);
+        $next_bill_number = $bill_no_sql_data['next_bill_number'];
 
         // Generate the bill number
-        $billNo = $loc_short_name . $uni_short_name . $current_year . $next_sequence;
+        // $billNo = $loc_short_name . $uni_short_name . $current_year . $next_sequence;
 
         // Other fields
         $createdBy = $_SESSION['userId'];
@@ -128,7 +135,7 @@ $response = ['success' => false, 'message' => ''];
         , `pay_center_id`
         , `pay_created_by`)
         VALUES 
-        ( '$billNo'
+        ( '$next_bill_number'
         , '$admissionId'
         , '$studentName'
         , '$payYear'
@@ -328,36 +335,42 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
         $studentId = $_POST['studentId'];
         $centerId = $_SESSION['centerId'];
         // Fetch payment history from the database
-        $payment_history_sql = "SELECT 
-        a.pay_id
-        , a.pay_admission_id 
-        , a.pay_student_name 
-        , a.pay_year 
-        , a.pay_paid_method 
-        , a.pay_transaction_id 
-        , a.pay_description 
-        , a.pay_university_fees 
-        , a.pay_study_fees 
-        , a.pay_total_amount 
-        , a.pay_balance 
-        , a.pay_date 
-        , b.fee_uni_fee_total 
-        , b.fee_sdy_fee_total 
-        , b.fee_uni_fee 
-        , b.fee_sty_fee 
-         FROM `jeno_payment_history` AS a 
-         LEFT JOIN jeno_fees AS b 
-         ON a.pay_admission_id = b.fee_admision_id 
-         WHERE b.fee_admision_id = '$studentId' 
-         AND b.fee_created_at = (
-                SELECT MAX(a2.fee_created_at)
-                FROM `jeno_fees` AS a2
-                WHERE a2.fee_stu_id = b.fee_stu_id
-                AND a2.fee_status = 'Active'
-            )
-         AND a.pay_status ='Active'
-         AND a.pay_center_id = $centerId 
-         AND b.fee_status = 'Active'";
+        $payment_history_sql = "SELECT
+    a.pay_id,
+    a.pay_admission_id,
+    a.pay_student_name,
+    a.pay_year,
+    a.pay_paid_method,
+    a.pay_transaction_id,
+    a.pay_description,
+    a.pay_university_fees,
+    a.pay_study_fees,
+    a.pay_total_amount,
+    a.pay_balance,
+    a.pay_date,
+    b.fee_uni_fee_total,
+    b.fee_sdy_fee_total,
+    b.fee_uni_fee,
+    c.stu_addmision_new,
+    b.fee_sty_fee
+FROM
+    `jeno_payment_history` AS a
+LEFT JOIN jeno_fees AS b
+ON
+    a.pay_admission_id = b.fee_admision_id
+LEFT JOIN jeno_student AS c
+ON
+    b.fee_stu_id = c.stu_id
+WHERE
+    b.fee_admision_id = '$studentId' AND b.fee_created_at =(
+    SELECT
+        MAX(a2.fee_created_at)
+    FROM
+        `jeno_fees` AS a2
+    WHERE
+        a2.fee_stu_id = b.fee_stu_id AND a2.fee_status = 'Active'
+) AND a.pay_status = 'Active' AND a.pay_center_id = $centerId AND b.fee_status = 'Active';";
+
         $payment_history_res = mysqli_query($conn, $payment_history_sql);
 
         $history = "SELECT 
@@ -409,6 +422,7 @@ if (isset($_POST['addGetId']) && $_POST['addGetId'] != '') {
             $courseDetails = [
                 'pay_id' => $row['pay_id'],
                 'pay_admission_id' => $row['pay_admission_id'],
+                'stu_addmision_new' => $row['stu_addmision_new'],
                 'pay_student_name' => $row['pay_student_name'],
                 'pay_year' => $currentYear,
                 'pay_paid_method' => $row['pay_paid_method'],

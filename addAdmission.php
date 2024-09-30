@@ -804,7 +804,7 @@
                                                                 <button type="button" class="btn btn-light"><i class="ri-arrow-left-line me-1"></i> Back to Profile </button>
                                                             </li>
                                                             <li class="next list-inline-item float-end">
-                                                                <button type="submit" id="submitBtnEdit" class="btn btn-info">Submit</button>
+                                                                <button type="submit" id="updateBtn" class="btn btn-info">Submit</button>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -927,12 +927,13 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">S.No.</th>
-                                                                        <th scope="col">University fees Total</th>
-                                                                        <th scope="col">University Received Fees</th>
-                                                                        <th scope="col">Study Center Total</th>
-                                                                        <th scope="col">Study Received</th>
-                                                                        <th scope="col">Balance</th>
-                                                                        <th scope="col">Status</th>
+                                                                        <th scope="col">Date</th>
+                                                                        <th scope="col">Year</th>
+                                                                        <th scope="col">Payment Method</th>
+                                                                        <th scope="col">University Fees</th>
+                                                                        <th scope="col">Study Center Fees</th>
+                                                                        <th scope="col">Total Fees</th>
+                                                                        
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="feesStudent">

@@ -79,7 +79,7 @@ include "db/dbConnection.php"; //database connection
                     </div>
 
              
-             
+                    <div class="table-responsive">
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -115,19 +115,38 @@ include "db/dbConnection.php"; //database connection
                         <td><?php echo $row['tran_method'] ?></td>
                     
                         <td>
-                        <?php if ($user_role == 'Admin') { ?>
-                            <button  class="btn btn-circle btn-warning text-white modalBtn" onclick="editTran(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editExpenseModal"><i class='bi bi-pencil-square'></i></button>
-                               <button onclick="goViewTransaction(<?php echo $id; ?>);" class="btn btn-circle btn-success text-white modalBtn" ><i class="bi bi-eye-fill"></i></button>
-                            <button class="btn btn-circle btn-danger text-white" onclick="goDeleteTransaction(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
-                            <?php } else { ?>
-                            <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewTransaction(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
-                            <?php } ?>
-                        </td>
+                <?php if ($user_role == 'Admin') { ?>
+                    <button class="btn btn-circle btn-warning text-white modalBtn" 
+                            onclick="editTran(<?php echo $id; ?>);" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#editExpenseModal" 
+                            data-bs-toggle="tooltip" title="Edit Transaction">
+                        <i class='bi bi-pencil-square'></i>
+                    </button>
+                    <button onclick="goViewTransaction(<?php echo $id; ?>);" 
+                            class="btn btn-circle btn-success text-white modalBtn" 
+                            data-bs-toggle="tooltip" title="View Transaction">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                    <button class="btn btn-circle btn-danger text-white" 
+                            onclick="goDeleteTransaction(<?php echo $id; ?>);" 
+                            data-bs-toggle="tooltip" title="Delete Transaction">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                <?php } else { ?>
+                    <button class="btn btn-circle btn-success text-white modalBtn" 
+                            onclick="goViewTransaction(<?php echo $id; ?>);" 
+                            data-bs-toggle="tooltip" title="View Transaction">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                <?php } ?>
+            </td>
                       </tr>   
                      <?php } ?>
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -179,6 +198,15 @@ include "db/dbConnection.php"; //database connection
 
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
+<script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
 
 <script>
 
@@ -239,19 +267,22 @@ include "db/dbConnection.php"; //database connection
 
              //Edit update Enquiry form Ajax
 
-
-document.addEventListener('DOMContentLoaded', function() {
+             document.addEventListener('DOMContentLoaded', function() {
     $('#editTransaction').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
-            
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
+
         var formData = new FormData(this);
+
+        // Disable the update button to prevent double clicks
+        $('#updateBtn').prop('disabled', true);
+
         $.ajax({
             url: "action/actTransaction.php",
             method: 'POST',
@@ -261,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -270,20 +300,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editExpenseModal').modal('hide'); // Close the modal
-                        
+                        $('#editExpenseModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -298,14 +325,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit Enquiry data.'
+                    text: 'An error occurred while editing Enquiry data.'
                 });
-                // Re-enable the submit button on error
+            },
+            complete: function() {
+                // Re-enable the update button after processing (success or error)
                 $('#updateBtn').prop('disabled', false);
             }
         });
     });
-    });
+});
 
 
 
@@ -336,60 +365,67 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
        // Ajax form submission
-     $('#addTransaction').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+$('#addTransaction').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
+    
+    var formData = new FormData(this);
+
+    // Disable the submit button to prevent double clicks
+    $('#submitBtn').prop('disabled', true); // Replace '#submitBtn' with your actual submit button ID
+
+    $.ajax({
+        url: 'action/actTransaction.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addaddTransactionModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
-            
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: 'action/actTransaction.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addaddTransactionModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            alert('Error adding Enquiry: ' + textStatus);
+        },
+        complete: function() {
+            // Re-enable the submit button after processing (success or error)
+            $('#submitBtn').prop('disabled', false); // Replace '#submitBtn' with your actual submit button ID
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding Enquiry: ' + textStatus);
-                }
-            });
-        });
+    });
+});
+
 
 
 

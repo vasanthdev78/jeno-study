@@ -319,62 +319,73 @@ function editUiversity(editId) {
 
 
 
-       // Ajax form submission
-       $('#addUniversity').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+     // Ajax form submission
+$('#addUniversity').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    var submitButton = $(form).find('button[type="submit"]'); // Find the submit button
+
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        return;
+    }
+
+    // Disable the submit button to prevent multiple clicks
+    submitButton.prop('disabled', true);
+
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'action/actUniversity.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addUniversityModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
-            
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: 'action/actUniversity.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            $('#addUniversityModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+            // Re-enable the submit button after success
+            submitButton.prop('disabled', false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error adding university: ' + textStatus
             });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button after error
+            submitButton.prop('disabled', false);
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding university: ' + textStatus);
-                }
-            });
-        });
-
+    });
+});
 
 
 
@@ -382,16 +393,21 @@ function editUiversity(editId) {
         //Edit Student Ajax
 
 
-document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
     $('#editUniversity').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
+        var submitButton = $('#updateBtn'); // Get the submit button
+
+        if (form.checkValidity() === false) {
+            // If the form is invalid, display validation errors
+            form.reportValidity();
+            return;
+        }
+
+        // Disable the submit button to prevent multiple clicks
+        submitButton.prop('disabled', true);
 
         var formData = new FormData(this);
         $.ajax({
@@ -403,7 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 // Handle success response
-                
                 console.log(response);
                 if (response.success) {
                     Swal.fire({
@@ -412,20 +427,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message,
                         timer: 2000
                     }).then(function() {
-                      $('#editUniversityModal').modal('hide'); // Close the modal
+                        $('#editUniversityModal').modal('hide'); // Close the modal
+                        $('.modal-backdrop').remove(); // Remove the backdrop
                         
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                              $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                   "paging": true, // Enable pagination
-                                   "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                               });
+                        // Reload the table
+                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                            $('#scroll-horizontal-datatable').DataTable().destroy();
+                            $('#scroll-horizontal-datatable').DataTable({
+                                "paging": true, // Enable pagination
+                                "ordering": true, // Enable sorting
+                                "searching": true // Enable searching
                             });
-                      });
+                        });
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -433,6 +447,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after success
+                submitButton.prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response
@@ -440,15 +456,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while Edit student data.'
+                    text: 'An error occurred while editing university data.'
                 });
                 // Re-enable the submit button on error
-                $('#updateBtn').prop('disabled', false);
+                submitButton.prop('disabled', false);
             }
         });
     });
-    });
-
+});
 
     function goDeleteUniversity(id)
         {

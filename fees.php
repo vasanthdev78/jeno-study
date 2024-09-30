@@ -139,7 +139,7 @@ session_start();
 
             </div>
                     
-             
+            <div class="table-responsive">
              <table id="addmission_table" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -151,8 +151,8 @@ session_start();
                                     <th scope="col">Course</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Balance</th>
-                                    <!-- <th scope="col">University Fees Status</th> -->
-                                    <!-- <th scope="col">Jeno Fees Status</th>  -->
+                                    <th scope="col">University Fees Status</th>
+                                    <th scope="col">Jeno Fees Status</th> 
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -198,12 +198,23 @@ session_start();
             <td><?php echo $course; ?></td>
             <td><?php echo $phone; ?></td>
             <td><?php echo '₹ ' . number_format($balance, 2); ?></td> 
-            
+            <td><?php echo $status1; ?></td>
+            <td><?php echo $status2; ?></td>
             
             <td>
-                <button type="button" class="btn btn-circle btn-primary text-white modalBtn" onclick="goEditFees(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#addFeesModal"><i class='bi bi-credit-card'></i></button>
-                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewPayment('<?php echo $admitId; ?>');"><i class="bi bi-eye-fill"></i></button>
-            </td>
+            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" 
+                    onclick="goEditFees(<?php echo $id; ?>);" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addFeesModal" 
+                    data-bs-toggle="tooltip" title="Add Fees">
+                <i class='bi bi-credit-card'></i>
+            </button>
+            <button class="btn btn-circle btn-success text-white modalBtn" 
+                    onclick="goViewPayment('<?php echo $admitId; ?>');" 
+                    data-bs-toggle="tooltip" title="View Payment">
+                <i class="bi bi-eye-fill"></i>
+            </button>
+        </td>
         </tr>
     <?php 
     }
@@ -211,6 +222,7 @@ session_start();
 </tbody>
 
                   </table>
+                  </div>
                   
 
                             </div> <!-- end card -->
@@ -263,6 +275,15 @@ session_start();
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+    <script>
+        // Enable Bootstrap tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+    </script>
 
     <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -420,7 +441,7 @@ function goViewPayment(studentId) {
        // Extract student current year from response
 var studentCurrentYear = response.pay_year;
 
-$('#viewAdmisionId').text(response.pay_admission_id);
+$('#viewAdmisionId').text(response.stu_addmision_new);
 $('#viewStudentName').text(response.pay_student_name);
 $('#ViewYear').text(response.pay_year);
 $('#viewUniversityTotalFees').text(formatNumber(response.fee_uni_fee_total));
@@ -642,81 +663,88 @@ $('#addFees').off('submit').on('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
     $('#year').prop('disabled', false);
+    
     function resetField(fieldId) {
-    var $field = $(fieldId);
+        var $field = $(fieldId);
 
-    // Check if the field is currently disabled
-    if ($field.prop('disabled')) {
-        // Remove the disabled property
-        $field.prop('disabled', false);
+        // Check if the field is currently disabled
+        if ($field.prop('disabled')) {
+            // Remove the disabled property
+            $field.prop('disabled', false);
 
-        // Set the value to 0
-        $field.val(0);
+            // Set the value to 0
+            $field.val(0);
+        }
     }
-}
 
-// Call the function for both fields
-resetField('#universityPaid');
-resetField('#studyPaid');
+    // Call the function for both fields
+    resetField('#universityPaid');
+    resetField('#studyPaid');
 
     var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                $('#year').prop('disabled', true);
-                return;
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        $('#year').prop('disabled', true);
+        return;
+    }
+
+    // Disable the submit button to prevent double clicks
+    $('#submitBtn').prop('disabled', true); // Ensure this matches your button's ID
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: "action/actFees.php",
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addFeesModal').modal('hide');
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
 
-            var formData = new FormData(form);
-    $.ajax({
-      url: "action/actFees.php",
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-            
-                  $('#addFeesModal').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
+            // Re-enable the submit button after processing
+            $('#submitBtn').prop('disabled', false);
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding Fees data.'
             });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button on error
+            $('#submitBtn').prop('disabled', false);
         }
-      },
-      error: function(xhr, status, error) {
-        // Handle error response
-        console.error(xhr.responseText);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while adding Fees data.'
-        });
-        // Re-enable the submit button on error
-        $('#submitBtn').prop('disabled', false);
-      }
     });
-  });
+});
+
 
 
 //---delete fees details----------------------------

@@ -564,65 +564,73 @@ session_start();
 
 
 
-// add subject add submit -----------------------------------------
+// Add subject submit -----------------------------------------
 $('#addSubject').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent default form submission
 
-            var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
+    var form = this; // Get the form element
+    var submitButton = $('#submitButtonId'); // Adjust the selector to your actual submit button's ID or class
+
+    // Disable the submit button to prevent double-click
+    submitButton.prop('disabled', true);
+
+    if (form.checkValidity() === false) {
+        // If the form is invalid, display validation errors
+        form.reportValidity();
+        // Re-enable the submit button if the form is invalid
+        submitButton.prop('disabled', false);
+        return;
+    }
+    
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'action/actSubject.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    timer: 2000
+                }).then(function() {
+                    $('#addSubjectModal').addClass('d-none');
+                    $('#StuContent').removeClass('d-none');
+
+                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
+                        $('#scroll-horizontal-datatable').DataTable().destroy();
+                        $('#scroll-horizontal-datatable').DataTable({
+                            "paging": true, // Enable pagination
+                            "ordering": true, // Enable sorting
+                            "searching": true // Enable searching
+                        });
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
             }
-            
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: 'action/actSubject.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function(response) {
-
-                // Handle success response
-        console.log(response);
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 2000
-          }).then(function() {
-
-            $('#addSubjectModal').addClass('d-none');
-            $('#StuContent').removeClass('d-none');
-            
-            // $('#addSubject').modal('hide');
-            $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-              $('#scroll-horizontal-datatable').DataTable().destroy();
-              $('#scroll-horizontal-datatable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable sorting
-                "searching": true // Enable searching
-              });
-            });
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.message
-          });
+            // Re-enable the submit button after processing
+            submitButton.prop('disabled', false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Handle error response
+            alert('Error adding Enquiry: ' + textStatus);
+            // Re-enable the submit button on error
+            submitButton.prop('disabled', false);
         }
-      },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle error response
-                    alert('Error adding Enquiry: ' + textStatus);
-                }
-            });
-        });
+    });
+});
 
 
 
@@ -853,20 +861,19 @@ function createElectiveInputDiv(subCode, subName) {
         e.preventDefault(); // Prevent the form from submitting normally
 
         var form = this; // Get the form element
-            if (form.checkValidity() === false) {
-                // If the form is invalid, display validation errors
-                form.reportValidity();
-                return;
-            }
-       
-        $('#editElective').prop('disabled', false);
-        $('#editCourse').prop('disabled', false);
-        $('#editUniversity').prop('disabled', false);
-        
+
+        // Check for form validity
+        if (form.checkValidity() === false) {
+            form.reportValidity(); // Display validation errors
+            return;
+        }
+
+        // Disable the submit button to prevent double-click
+        $('#updateBtn').prop('disabled', true); 
+
         // Create a FormData object
         var formData = new FormData(this);
-        
-        
+
         $.ajax({
             url: "action/actSubject.php",
             method: 'POST',
@@ -904,6 +911,8 @@ function createElectiveInputDiv(subCode, subName) {
                         text: response.message
                     });
                 }
+                // Re-enable the submit button after processing
+                $('#updateBtn').prop('disabled', false);
             },
             error: function(xhr, status, error) {
                 // Handle error response

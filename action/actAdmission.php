@@ -679,35 +679,58 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
     if($result1) {
         $row = mysqli_fetch_assoc($result1);
 
-        $select_fees_sql ="SELECT 
-        `fee_id`
-        , `fee_admision_id`
-        , `fee_stu_id`
-        , `fee_uni_fee_total`
-        , `fee_uni_fee`
-        , `fee_sdy_fee_total`
-        , `fee_sty_fee`
-        , `fee_stu_year`
-         FROM `jeno_fees` 
-         WHERE fee_stu_id = '$studentId' 
-         AND fee_center_id = $centerId ;";
+
+        $app_no="SELECT  `fee_admision_id` FROM `jeno_fees` WHERE fee_stu_id = $studentId  AND fee_status='Active';";
+        $app_no_res = $conn->query($app_no);
+        $app = mysqli_fetch_assoc($app_no_res);
+
+        $app_id = $app['fee_admision_id'];
+
+
+        $select_fees_sql ="SELECT
+    `pay_id`,
+    `pay_bill_no`,
+    `pay_admission_id`,
+    `pay_student_name`,
+    `pay_year`,
+    `pay_paid_method`,
+    `pay_transaction_id`,
+    `pay_description`,
+    `pay_university_fees`,
+    `pay_study_fees`,
+    `pay_total_amount`,
+    `pay_date`
+FROM
+    `jeno_payment_history`
+WHERE
+    pay_center_id = $centerId AND pay_admission_id = '$app_id' AND pay_status = 'Active';";
+         
     $result2 = $conn->query($select_fees_sql);
+
+
+   
     
 
     $stu_fess = [];
     while ($fees = mysqli_fetch_assoc($result2)) {
         $stu_fess = array(
-            'fee_id' => $fees['fee_id'],
-            'fee_admision_id' => $fees['fee_admision_id'],
-            'fee_stu_id' => $fees['fee_stu_id'],
-            'fee_uni_fee_total' => $fees['fee_uni_fee_total'],
-            'fee_uni_fee' => $fees['fee_uni_fee'],
-            'fee_sdy_fee_total' => $fees['fee_sdy_fee_total'],
-            'fee_sty_fee' => $fees['fee_sty_fee'],
-            'fee_stu_year' => $fees['fee_stu_year'],
+            'pay_id' => $fees['pay_id'],
+            'pay_bill_no' => $fees['pay_bill_no'],
+            'pay_admission_id' => $fees['pay_admission_id'],
+            'pay_student_name' => $fees['pay_student_name'],
+            'pay_year' => $fees['pay_year'],
+            'pay_paid_method' => $fees['pay_paid_method'],
+            'pay_transaction_id' => $fees['pay_transaction_id'],
+            'pay_description' => $fees['pay_description'],
+            'pay_university_fees' => $fees['pay_university_fees'],
+            'pay_study_fees' => $fees['pay_study_fees'],
+            'pay_total_amount' => $fees['pay_total_amount'],
+            'pay_date' => date('d-m-y', strtotime($fees['pay_date'])),
         );
         $student_fees[] = $stu_fess;
     }
+
+   
     
     $joinYearValue = $row['stu_join_year'];
     $feesPattern1 = $row['cou_fees_type'];
@@ -732,7 +755,7 @@ if(isset($_POST['viewId']) && $_POST['viewId'] != '') {
                     'phone' => $row['stu_phone'],
                     'email' => $row['stu_email'],
                     'uni_id' => $row['uni_name'],
-                    'cou_id' => $row['cou_name'],
+                    'cou_id' => html_entity_decode($row['cou_name']),
                     'medium_id' => $row['stu_medium_id'],
                     'apply_no' => $row['stu_apply_no'],
                     'stu_addmision_new' => $row['stu_addmision_new'],
