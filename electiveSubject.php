@@ -171,13 +171,13 @@ let isElectiveNameValid = true; // Global flag to track elective name validity
 
 function checkElectiveName() {
     var electiveName = $('#electiveName').val().trim();
-
+    var courseName = $('#courseName').val().trim(); // Get the input value for editing
     // Proceed only if there is input
     if (electiveName.length > 0) {
         $.ajax({
             url: 'action/actElective.php', // Server-side script to check name
             type: 'POST',
-            data: { electiveName_check: electiveName },
+            data: { electiveName_check: electiveName ,courseID : courseName },
             dataType: 'json',
             success: function(response) {
                 if (response.exists) {
