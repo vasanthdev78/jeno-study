@@ -6,7 +6,7 @@ session_start();
     $location = $_SESSION['centerId'];
     
 
-    $ledger_query = "SELECT `led_id`, `led_type` FROM `jeno_ledger` WHERE led_status ='Active' AND led_center_id = $location;";
+    $ledger_query = "SELECT `led_id`,`led_category`, `led_type` FROM `jeno_ledger` WHERE led_status ='Active' AND led_center_id = $location;";
 
    // Execute the query
    $ledger_result = $conn->query($ledger_query);
@@ -76,6 +76,7 @@ session_start();
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
                                     <th scope="col">Ledger Type</th>
+                                    <th scope="col">Category</th>
                                     <th scope="col">Action</th>
                                     
                       </tr>
@@ -93,6 +94,7 @@ session_start();
 
             <tr>
                         <td scope="row"><?php echo $i ; $i++ ?></td>
+                        <td><?php echo $row['led_category'] ?></td>
                         <td><?php echo $row['led_type'] ?></td>
                         
                         <td>

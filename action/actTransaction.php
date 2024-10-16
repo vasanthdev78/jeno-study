@@ -396,8 +396,57 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 }
 //-Handle fetching transacrion details for report page-end-----------------------------------
 
+if (isset($_POST['Category_name']) && $_POST['Category_name'] != '') {
+    
+    $Category_name = $_POST['Category_name'];
+    $centerId = $_SESSION['centerId'];
+
+    $courseQuery = "SELECT 
+    `led_id`
+    , `led_type` 
+    FROM `jeno_ledger`
+     WHERE led_category = '$Category_name'
+      AND led_status = 'Active' 
+      AND led_center_id = $centerId ";
+    $courseResult = mysqli_query($conn, $courseQuery);
+
+    if ($courseResult) {
+        while ($row = mysqli_fetch_assoc($courseResult)) {
+            // Push each course as an object into the courses array
+            $course = array(
+                'led_id' => $row['led_id'],
+                'led_type' => $row['led_type']
+            );
+            $courses[] = $course;
+        }
+
+        echo json_encode($courses);
+    } else {
+        $response['message'] = "Error fetching Ledger Name details: " . mysqli_error($conn);
+        echo json_encode($response);
+    }
+
+    exit(); 
+    }
 
 
+    // if (isset($_GET['category_edit']) && $_GET['category_edit'] != '') {
+    
+    //     $category_edit = $_GET['category_edit'];
+    //     $query = "SELECT `subcat_id`, `Subcategory` FROM `asset_subcategory` WHERE `staus` = 'Active'"; // Change to your actual table name
+    //   $result = $conn->query($query);
+      
+    //   $categories = [];
+    //   if ($result) {
+    //       while ($row = $result->fetch_assoc()) {
+    //           $categories[] = $row;
+    //       }
+    //   }
+      
+    //   header('Content-Type: application/json');
+    //   echo json_encode($categories);
+    //   exit();
+    //   }
 
 
             // Default response if no action specified

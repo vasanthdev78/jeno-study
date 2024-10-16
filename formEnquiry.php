@@ -58,6 +58,13 @@
                                     <textarea class="form-control" placeholder="Enter address" name="address" id="address"></textarea>
                                 </div>
                             </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="remark" class="form-label"><b>Remark</b></label>
+                                    <textarea class="form-control" placeholder="Enter Remark" name="remark" id="remark" rows="3"></textarea>
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group ">
                                     <label for="university" class="form-label"><b>University Name</b><span class="text-danger">*</span></label>
@@ -182,6 +189,12 @@
                                 <div class="form-group pb-1">
                                     <label for="editAddress" class="form-label"><b>Address</b></label>
                                     <textarea class="form-control" placeholder="Enter address" name="editAddress" id="editAddress" ></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group pb-1">
+                                    <label for="editremark" class="form-label"><b>Remark</b></label>
+                                    <textarea class="form-control" placeholder="Enter Remark" name="editremark" id="editremark" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-6">

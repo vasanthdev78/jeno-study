@@ -238,6 +238,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log(response); // Debugging console log
                         $('#editTransactionId').val(response.tran_id);
                         $('#editCategory').val(response.tran_category);
+
+
+                          // Fetch categories for the dropdown
+                $.ajax({
+                    url: 'action/actTransaction.php',
+                    method: 'POST',
+                    data: {
+                        Category_name: response.tran_category // Fixed syntax: use key-value pair correctly
+                         },
+                    dataType: 'json',
+                    success: function(categories) {
+                        let options = '<option value="">Select Ledger Type</option>';
+                        categories.forEach(category => {
+                            
+                            options += `<option value="${category.led_id}">${category.led_type}</option>`;
+                        });
+                        $('#editLedgerType').html(options);
+                        $('#editLedgerType').val(response.tran_reason);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching categories:', error);
+                    }
+                });
+
+
+
                         $('#editIncomeReason').val(response.tran_reason);
                         $('#editDate').val(response.tran_date);
                         $('#editAmount').val(response.tran_amount);
@@ -348,12 +374,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
   <script>
 
+$('#category').change(function() {
+        var category = $(this).val();
+        
+        if (category === "") {
+            $('#ledgerType').html('<option value="">--Select Ledger Type--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actTransaction.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { Category_name: category },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select Ledger Type--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.led_id + '">' + course.led_type + '</option>';
+                });
+                $('#ledgerType').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
+
+    $('#editCategory').change(function() {
+        var category = $(this).val();
+        
+        if (category === "") {
+            $('#editLedgerType').html('<option value="">--Select Ledger Type--</option>'); // Clear the course dropdown
+            return; // No university selected, exit the function
+        }
+
+        $.ajax({
+            url: "action/actTransaction.php", // URL of the PHP script to handle the request
+            type: "POST",
+            data: { Category_name: category },
+            dataType: 'json',
+            success: function(response) {
+                
+                var options = '<option value="">--Select Ledger Type--</option>';
+                
+                 // Loop through each course in the response and append to options
+                 $.each(response, function(index, course) {
+                    options += '<option value="' + course.led_id + '">' + course.led_type + '</option>';
+                });
+                $('#editLedgerType').html(options); // Update the course dropdown
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed: " + status + ", " + error);
+            }
+        });
+    });
+
       $('#addEnquiryBtn').click(function() {
 
       $('#addTransaction').removeClass('was-validated');
       $('#addTransaction').addClass('needs-validation');
       $('#addTransaction')[0].reset(); // Reset the form
-      // $('#fessType').val('');
+    //   $('#ledgerType').val('');
+    $('#ledgerType').html('<option value="">--Select Ledger Type--</option>'); // Reset ledger type dropdown
 
       });
 

@@ -53,6 +53,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     $mobile = htmlspecialchars($_POST['mobile'], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
     $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+    $remark = htmlspecialchars($_POST['remark'], ENT_QUOTES, 'UTF-8');
     $university = htmlspecialchars($_POST['university'], ENT_QUOTES, 'UTF-8');
     $course = htmlspecialchars($_POST['course'], ENT_QUOTES, 'UTF-8');
     $medium = htmlspecialchars($_POST['medium'], ENT_QUOTES, 'UTF-8');
@@ -72,6 +73,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     , `enq_gender`
     , `enq_mobile`
     , `enq_address`
+    , `enq_remark`
     , `enq_medium`
     , `enq_date`
     , `enq_center_id`
@@ -85,6 +87,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEnquiry') {
     ,'$gender'
     ,'$mobile'
     ,'$address'
+    ,'$remark'
     ,'$medium'
     ,'$date'
     ,'$uniCenterId'
@@ -119,6 +122,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     , `enq_gender`
     , `enq_mobile`
     , `enq_address`
+    , `enq_remark`
     , `enq_medium` 
     FROM `jeno_enquiry` 
     WHERE enq_id = $editId";
@@ -139,6 +143,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'enq_gender' => $row['enq_gender'],
             'enq_mobile' => $row['enq_mobile'],
             'enq_address' => $row['enq_address'],
+            'enq_remark' => $row['enq_remark'],
             'enq_medium' => $row['enq_medium']
         ];
 
@@ -154,51 +159,72 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
 
     // Handle updating enquiry  details -------------------------------------------
-
-        if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
-            $editEnquiryId = htmlspecialchars($_POST['editEnquiryId'], ENT_QUOTES, 'UTF-8');
-            $editName = htmlspecialchars($_POST['editName'], ENT_QUOTES, 'UTF-8');
-            $editGender = htmlspecialchars($_POST['editGender'], ENT_QUOTES, 'UTF-8');
-            $editDob = htmlspecialchars($_POST['editDob'], ENT_QUOTES, 'UTF-8');
-            $editMobile = htmlspecialchars($_POST['editMobile'], ENT_QUOTES, 'UTF-8');
-            $editEmail = htmlspecialchars($_POST['editEmail'], ENT_QUOTES, 'UTF-8');
-            $editAddress = htmlspecialchars($_POST['editAddress'], ENT_QUOTES, 'UTF-8');
-            $editUniversity = htmlspecialchars($_POST['editUniversity'], ENT_QUOTES, 'UTF-8');
-            $editCourse = htmlspecialchars($_POST['editCourse'], ENT_QUOTES, 'UTF-8');
-            $editMedium = htmlspecialchars($_POST['editMedium'], ENT_QUOTES, 'UTF-8');
-            // Other fields
-            
-            $updatedBy = $_SESSION['userId'];
+    if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editEnquiry') {
+        $editEnquiryId = htmlspecialchars($_POST['editEnquiryId'], ENT_QUOTES, 'UTF-8');
+        $editName = htmlspecialchars($_POST['editName'], ENT_QUOTES, 'UTF-8');
+        $editGender = htmlspecialchars($_POST['editGender'], ENT_QUOTES, 'UTF-8');
+        $editDob = htmlspecialchars($_POST['editDob'], ENT_QUOTES, 'UTF-8');
+        $editMobile = htmlspecialchars($_POST['editMobile'], ENT_QUOTES, 'UTF-8');
+        $editEmail = htmlspecialchars($_POST['editEmail'], ENT_QUOTES, 'UTF-8');
+        $editAddress = htmlspecialchars($_POST['editAddress'], ENT_QUOTES, 'UTF-8');
+        $editremark = htmlspecialchars($_POST['editremark'], ENT_QUOTES, 'UTF-8');
+        $editUniversity = htmlspecialchars($_POST['editUniversity'], ENT_QUOTES, 'UTF-8');
+        $editCourse = htmlspecialchars($_POST['editCourse'], ENT_QUOTES, 'UTF-8');
+        $editMedium = htmlspecialchars($_POST['editMedium'], ENT_QUOTES, 'UTF-8');
     
- 
-            $editUniversity ="UPDATE `jeno_enquiry`
-             SET 
-             `enq_uni_id`='$editUniversity'
-             ,`enq_cou_id`='$editCourse'
-             ,`enq_stu_name`='$editName'
-             ,`enq_email`='$editEmail'
-             ,`enq_dob`='$editDob'
-             ,`enq_gender`='$editGender'
-             ,`enq_mobile`='$editMobile'
-             ,`enq_address`='$editAddress'
-             ,`enq_medium`='$editMedium'
-             ,`enq_updated_by`='$updatedBy'
-              WHERE enq_id = $editEnquiryId";
-            
-            $universityres = mysqli_query($conn, $editUniversity);
-
-                if ($universityres) {
-                    $_SESSION['message'] = "Enquiry details Updated successfully!";
-                    $response['success'] = true;
-                    $response['message'] = "Enquiry details Updated successfully!";
-                } 
-                else {
+        // Get the ID of the user who is updating
+        $updatedBy = $_SESSION['userId'];
+    
+        // Fetch the existing remark
+        $selQuery = "SELECT `enq_remark` FROM `jeno_enquiry` WHERE enq_id = $editEnquiryId";
+        $result = mysqli_query($conn, $selQuery);
+    
+        // Check if the query was successful
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            // Check if the remark was retrieved
+            $existingRemark = $row['enq_remark'] ?? ''; // Default to an empty string if not found
+            $remark = $existingRemark . $editremark; // Concatenate existing remark with new one
+    
+            // Update query to include the remark
+            $editUniversityQuery = "UPDATE `jeno_enquiry`
+                SET 
+                    `enq_uni_id` = '$editUniversity',
+                    `enq_cou_id` = '$editCourse',
+                    `enq_stu_name` = '$editName',
+                    `enq_email` = '$editEmail',
+                    `enq_dob` = '$editDob',
+                    `enq_gender` = '$editGender',
+                    `enq_mobile` = '$editMobile',
+                    `enq_address` = '$editAddress',
+                    `enq_remark` = '$remark',
+                    `enq_medium` = '$editMedium',
+                    `enq_updated_by` = '$updatedBy'
+                WHERE enq_id = $editEnquiryId";
+    
+            // Execute the update query
+            $universityres = mysqli_query($conn, $editUniversityQuery);
+    
+            // Prepare response based on query execution
+            if ($universityres) {
+                $_SESSION['message'] = "Enquiry details updated successfully!";
+                $response['success'] = true;
+                $response['message'] = "Enquiry details updated successfully!";
+            } else {
+                $response['success'] = false; // Add success key for consistency
                 $response['message'] = "Error: " . mysqli_error($conn);
             }
-            
-            echo json_encode($response);
-            exit();
+        } else {
+            // Handle error if SELECT query fails
+            $response['success'] = false;
+            $response['message'] = "Error fetching existing remark: " . mysqli_error($conn);
         }
+    
+        // Return JSON response
+        echo json_encode($response);
+        exit();
+    }
+    
 
         //----Handle updating enquiry  details--end------------------------------------
 

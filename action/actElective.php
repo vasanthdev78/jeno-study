@@ -162,6 +162,29 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 //----Handle deleting a elective --end -----------------------------------------------------------------
 
 
+
+            // check elective subject name ----
+
+            if (isset($_POST['electiveName_check'])) {
+                $electiveName = trim($_POST['electiveName_check']);
+                $courseId = trim($_POST['courseID']);
+                $query = "SELECT COUNT(*) AS count FROM jeno_elective WHERE ele_elective = ? AND ele_cou_id= ? ";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param('si', $electiveName , $courseId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+            
+                // If the count is greater than 0, it means the name exists
+                echo json_encode(['exists' => $row['count'] > 0]);
+                exit();
+            }
+            
+            $stmt->close();
+            $conn->close();
+
+
+
             // Default response if no action specified
             $response['message'] = "Invalid action specified.";
             echo json_encode($response);

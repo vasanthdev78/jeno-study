@@ -11,7 +11,16 @@
                     <div class="modal-body p-3">
                         <div class="row ">
        
-                            
+                        <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="category" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" id="category" required="required">
+                                    <option value="">--Select Category--</option>
+                                    <option value="Income">Income</option>
+                                    <option value="Expense">Expense</option>
+                                </select>
+                            </div>
+                        </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="ledgertype" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
@@ -45,7 +54,16 @@
                     <div class="modal-body p-3">
                         <div class="row ">
        
-                            
+                        <div class="col-sm-12">
+                            <div class="form-group pb-1">
+                                <label for="editCategory" class="form-label"><b>Category</b><span class="text-danger">*</span></label>
+                                <select class="form-control" name="editCategory" id="editCategory" required="required">
+                                    <option value="">--Select Category--</option>
+                                    <option value="Income">Income</option>
+                                    <option value="Expense">Expense</option>
+                                </select>
+                            </div>
+                        </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="editLedgertype" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>

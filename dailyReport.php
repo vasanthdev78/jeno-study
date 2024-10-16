@@ -264,7 +264,7 @@ $previous_date = $date->format('Y-m-d');
 
                     <!-- Display Opening Balances Before the Table -->
                 <div class="opening-balance">
-                    <table class="table table-bordered">
+                    <!-- <table class="table table-bordered">
                         <tbody>
                             <tr>
                                 <td colspan="2">Opening Balance - Cash</td>
@@ -275,13 +275,13 @@ $previous_date = $date->format('Y-m-d');
                                 <td><?php echo $open_open_online ?? 0; ?></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                 </div>
              
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+      <table id="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr class="bg-light">
-            <th scope="col-1">S.No.</th>
+            <th scope="col">S.No.</th>
             <th scope="col">Ledger Type</th>
             <th scope="col">Description</th>
             <th scope="col">Payment Method</th>
@@ -291,37 +291,52 @@ $previous_date = $date->format('Y-m-d');
         </tr>
     </thead>
     <tbody>
+        <!-- Opening Balances Rows -->
+        <tr>
+            <td >Opening Balance - Cash</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>₹ <?php echo number_format($open_open_cash ?? 0, 2); ?></td>
+        </tr>
+        <tr>
+            <td >Opening Balance - Online</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>₹ <?php echo number_format($open_open_online ?? 0, 2); ?></td>
+        </tr>
+
+        <!-- Main Data Rows -->
         <?php 
         $i = 1;
         foreach ($merged_data as $data) {
-            
-            // Determine if it's an income or expense
-    $income = ($data['type'] == 'payment') ? number_format($data['pay_study_fees'], 2) : 
-        (($data['type'] == 'transaction' && $data['tran_category'] == 'Income') ? number_format($data['tran_amount'], 2) : '0.00');
+            $income = ($data['type'] == 'payment') ? number_format($data['pay_study_fees'], 2) : 
+                (($data['type'] == 'transaction' && $data['tran_category'] == 'Income') ? number_format($data['tran_amount'], 2) : '0.00');
 
-    $expense = ($data['type'] == 'transaction' && $data['tran_category'] != 'Income') ? number_format($data['tran_amount'], 2) : '0.00';
+            $expense = ($data['type'] == 'transaction' && $data['tran_category'] != 'Income') ? number_format($data['tran_amount'], 2) : '0.00';
 
-    // Skip rows where income is zero and type is 'payment' or if both income and expense are zero
-    if ($income == '0.00' && $expense == '0.00') {
-        continue;
-    }
+            if ($income == '0.00' && $expense == '0.00') {
+                continue;
+            }
 
-  $expense = ($data['type'] == 'transaction' && $data['tran_category'] != 'Income') ? number_format($data['tran_amount'], 2) : '0.00';
-
-  $reason = ($data['type'] == 'payment') ? $data['pay_student_name'] . ' ' . $data['cou_name']  . ' ' . $data['stu_aca_year'] . " year" : $data['tran_reason'];
-  $paymentMethod = ($data['type'] == 'payment') ? $data['pay_paid_method'] : $data['tran_method'];
-  $description = ($data['type'] == 'payment') ? "Addmission Fees" : $data['tran_description'];
-  $payType = ($data['type'] == 'payment') ? $data['pay_description'] : $data['tran_pay_type'];
+            $reason = ($data['type'] == 'payment') ? $data['pay_student_name'] . ' ' . $data['cou_name']  . ' ' . $data['stu_aca_year'] . " year" : $data['tran_reason'];
+            $paymentMethod = ($data['type'] == 'payment') ? $data['pay_paid_method'] : $data['tran_method'];
+            $description = ($data['type'] == 'payment') ? "Admission Fees" : $data['tran_description'];
+            $payType = ($data['type'] == 'payment') ? $data['pay_description'] : $data['tran_pay_type'];
         ?>
         <tr>
-            <td><?php echo $i; $i++; ?></td>
+            <td><?php echo $i++; ?></td>
             <td><?php echo $reason; ?></td>
             <td><?php echo $description; ?></td>
             <td><?php echo $paymentMethod; ?></td>
             <td><?php echo $payType; ?></td>
             <td><?php echo $income ? '₹ ' . $income : ''; ?></td>
             <td><?php echo $expense ? '₹ ' . $expense : ''; ?></td>
-            
         </tr>
         <?php 
         }
@@ -333,12 +348,30 @@ $previous_date = $date->format('Y-m-d');
             <th></th>
             <th></th>
             <th></th>
-            <th>Total:</th>
+            <th class="text-end">Total:</th>
             <th id="total-income"></th>
             <th id="total-expense"></th>
         </tr>
+        <tr>
+            <td>Closing Balance - Cash:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> <?php echo number_format($closing_cash ?? 0, 2); ?></td>
+        </tr>
+        <tr>
+            <td>Closing Balance - Online:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> <?php echo number_format($closing_online ?? 0, 2); ?></td>
+        </tr>
     </tfoot>    
-    </table>
+</table>
 
                 </div> <!-- container -->
 
@@ -409,161 +442,63 @@ $previous_date = $date->format('Y-m-d');
         var closingBalanceCash = <?php echo $closing_cash ?? 0; ?>;
         var closingBalanceOnline = <?php echo $closing_online ?? 0; ?>;
         var todayDate = '<?php echo date('d-m-Y'); ?>';
-
         var table = $('#example').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'copy',
-                    footer: true,
-                    customize: function (data) {
-                        var openingBalances = 'Opening Balance - Cash: ' + openingBalanceCash.toFixed(2) + '\n' +
-                                              'Opening Balance - Online: ' + openingBalanceOnline.toFixed(2) + '\n\n';
-                        var closingBalances = '\nClosing Balance - Cash: ' + closingBalanceCash.toFixed(2) + '\n' +
-                                              'Closing Balance - Online: ' + closingBalanceOnline.toFixed(2);
-                        return 'Date: ' + todayDate + '\n' + openingBalances + data + closingBalances;
-                    }
-                },
-                {
-                    extend: 'csv',
-                    footer: true,
-                    customize: function (csv) {
-                        var openingBalances = 'Opening Balance - Cash,' + openingBalanceCash.toFixed(2) + '\n' +
-                                              'Opening Balance - Online,' + openingBalanceOnline.toFixed(2) + '\n\n';
-                        var closingBalances = '\nClosing Balance - Cash,' + closingBalanceCash.toFixed(2) + '\n' +
-                                              'Closing Balance - Online,' + closingBalanceOnline.toFixed(2);
-                        return 'Date: ' + todayDate + '\n' + openingBalances + csv + closingBalances;
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    footer: true,
-                    customize: function (xlsx) {
-                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                        var sheetData = sheet.getElementsByTagName('sheetData')[0];
-                        var rows = sheetData.getElementsByTagName('row');
-                        
-                        var balanceRows = [
-                            ['Opening Balance - Cash', openingBalanceCash.toFixed(2)],
-                            ['Opening Balance - Online', openingBalanceOnline.toFixed(2)],
-                            ['Closing Balance - Cash', closingBalanceCash.toFixed(2)],
-                            ['Closing Balance - Online', closingBalanceOnline.toFixed(2)]
-                        ];
-                        
-                        balanceRows.forEach(function(balance, index) {
-                            var rowNumber = rows.length + index + 1;
-                            var newRow = '<row r="' + rowNumber + '">';
-                            newRow += '<c t="inlineStr"><is><t>' + balance[0] + '</t></is></c>';
-                            newRow += '<c t="n"><v>' + balance[1] + '</v></c>';
-                            newRow += '</row>';
-                            sheetData.innerHTML += newRow;
-                        });
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'print',
+                footer: true,
+                customize: function(win) {
+                    var body = $(win.document.body);
 
-                        // Add a header with the date
-                        var headerRow = '<row r="1"><c t="inlineStr"><is><t>Date: ' + todayDate + '</t></is></c><c t="inlineStr"><is><t></t></is></c></row>';
-                        sheetData.insertAdjacentHTML('afterbegin', headerRow);
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    footer: true,
-                    customize: function (doc) {
-                        // Add a header with the date
-                        doc.content.unshift({
-                            text: 'Date: ' + todayDate,
-                            margin: [0, 0, 0, 10]
-                        });
+                    // Add the header with "Daily Report" and the current date
+                    body.prepend('<h4 class="page-title">Daily Report</h4><center><h5>Date: ' + todayDate + '</h5></center><br>');
 
-                        // Add the opening balances table before the main table
-                        doc.content.splice(1, 0, {
-                            table: {
-                                widths: ['*', '*', '*'],
-                                body: [
-                                    [{text: 'Opening Balance - Cash', colSpan: 2}, {}, {text: openingBalanceCash.toFixed(2)}],
-                                    [{text: 'Opening Balance - Online', colSpan: 2}, {}, {text: openingBalanceOnline.toFixed(2)}]
-                                ]
-                            },
-                            margin: [0, 0, 0, 10],
-                            layout: 'noBorders'
-                        });
+                   
 
-                        // Add the closing balances after the main table
-                        doc.content.push({
-                            table: {
-                                widths: ['*', '*', '*'],
-                                body: [
-                                    [{text: 'Closing Balance - Cash', colSpan: 2}, {}, {text: closingBalanceCash.toFixed(2)}],
-                                    [{text: 'Closing Balance - Online', colSpan: 2}, {}, {text: closingBalanceOnline.toFixed(2)}]
-                                ]
-                            },
-                            margin: [0, 0, 0, 10],
-                            layout: 'noBorders'
-                        });
-                    }
-                },
-                {
-                    extend: 'print',
-                    footer: true,
-                    customize: function (win) {
-                        var body = $(win.document.body);
+                    // Add the closing balances table at the bottom of the print view
+                    body.append(
+                        '<br><table class="table table-bordered">' +
+                        '<tbody>' +
+                        '<tr><td colspan="2">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="2">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
+                        '</tbody></table>'
+                    );
 
-                        // Add the date and opening balances table at the top of the print view
-                        body.prepend('<h4 class="page-title">Daily Report</h4><center><h5>Today : ' + todayDate + '</h5></center><br>' +
-                            '<table class="table table-bordered">' +
-                            '<tbody>' +
-                            '<tr><td colspan="2">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                            '<tr><td colspan="2">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                            '</tbody></table><br>');
-
-                        // Add the closing balances table at the bottom of the print view
-                        body.append(
-                            '<br><table class="table table-bordered">' +
-                            '<tbody>' +
-                            '<tr><td colspan="2">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                            '<tr><td colspan="2">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
-                            '</tbody></table>'
-                        );
-
-                        // Style adjustments
-                        body.find('table').css('font-size', 'inherit');
-                    }
+                    // Style adjustments
+                    body.find('table').css('font-size', 'inherit');
                 }
-            ],
-            footerCallback: function(row, data, start, end, display) {
-            var api = this.api();
+            },
+            // ... other buttons (copy, csv, excel, pdf) ...
+        ],
+        footerCallback: function(row, data, start, end, display) {
+    var api = this.api();
 
-            // Helper function to parse numbers and remove currency symbols and commas
-            var parseNumber = function(value) {
-                if (typeof value === 'string') {
-                    value = value.replace(/[^\d.-]/g, ''); // Remove non-numeric characters (except for '-' and '.')
-                }
-                return parseFloat(value) || 0; // Convert to float or return 0 if NaN
-            };
-
-            // Calculate the total for a given column index
-            var calculateTotal = function(index) {
-                return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
-                    return parseNumber(a) + parseNumber(b);
-                }, 0);
-            };
-
-            // Calculate totals for Income and Expense columns
-            var totalIncome = calculateTotal(5); // Assuming column index 3 is Income
-            var totalExpense = calculateTotal(6); // Assuming column index 4 is Expense
-
-            // Update the footer with totals
-            $('#total-income').html('₹ ' + totalIncome.toFixed(2));
-            $('#total-expense').html('₹ ' + totalExpense.toFixed(2));
-
-            // Remove existing custom footer rows and add new ones
-            $('#example tfoot tr.custom-footer').remove();
-            var customFooterRows =
-                '<tr class="custom-footer"><td colspan="5">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                '<tr class="custom-footer"><td colspan="5">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>';
-
-            $(api.table().footer()).append(customFooterRows);
+    // Helper function to parse numbers and remove currency symbols and commas
+    var parseNumber = function(value) {
+        if (typeof value === 'string') {
+            // Remove non-numeric characters (except for '-' and '.')
+            value = value.replace(/[^0-9.-]+/g, '');
         }
-        });
+        return parseFloat(value) || 0; // Convert to float or return 0 if NaN
+    };
+
+    // Calculate the total for a given column index
+    var calculateTotal = function(index) {
+        return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
+            return parseNumber(a) + parseNumber(b);
+        }, 0);
+    };
+
+    // Calculate totals for Income and Expense columns
+    var totalIncome = calculateTotal(5); // Assuming column index 5 is Income
+    var totalExpense = calculateTotal(6); // Assuming column index 6 is Expense
+
+    // Update the footer with totals
+    $('#total-income').html('₹ ' + totalIncome.toFixed(2));
+    $('#total-expense').html('₹ ' + totalExpense.toFixed(2));
+}
+    });
     });
 </script>
 

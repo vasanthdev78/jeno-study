@@ -537,6 +537,7 @@ $('#addEnquiry').submit(function(event) {
             $('#editMobile').val(response.enq_mobile);
             $('#editEmail').val(response.enq_email);
             $('#editAddress').val(response.enq_address);
+            $('#editremark').val(response.enq_remark);
             $('#editUniversity').val(response.enq_uni_id);
             
             $('#editMedium').val(response.enq_medium);

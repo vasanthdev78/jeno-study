@@ -28,12 +28,7 @@
                                 <label for="ledgerType" class="form-label"><b>Ledger Type</b><span class="text-danger">*</span></label>
                                 <select class="form-control" name="ledgerType" id="ledgerType" required="required">
                                     <option value="">--Select Ledger Type--</option>
-                                    <?php 
-                                     while ($row1 = $ledgerTable->fetch_assoc()) {
-                                        ?>
-                                    <option value="<?php echo $row1['led_id'] ?>"><?php echo $row1['led_type'] ?></option>
-                                    
-                                    <?php } ?>
+                                   
                                 </select>
                             </div>
                         </div>

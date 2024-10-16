@@ -11,12 +11,13 @@ $response = ['success' => false, 'message' => ''];
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addLedger') {
     
     $ledgertype = htmlspecialchars($_POST['ledgertype'], ENT_QUOTES, 'UTF-8');
+    $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
 
     $createdBy = $_SESSION['userId'];
     $centerId = $_SESSION['centerId'];
 
     // First, check if the ledger already exists with the same name and center ID
-    $check_sql = "SELECT * FROM `jeno_ledger` WHERE `led_type` = '$ledgertype' AND `led_center_id` = '$centerId'";
+    $check_sql = "SELECT * FROM `jeno_ledger` WHERE `led_type` = '$ledgertype' AND `led_category` = '$category' AND `led_center_id` = '$centerId'";
     $check_result = $conn->query($check_sql);
 
     if ($check_result->num_rows > 0) {
@@ -25,7 +26,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addLedger') {
         $response['message'] = "Error: This ledger already exists for the selected center.";
     } else {
         // Ledger does not exist, proceed with insertion
-        $insert_sql = "INSERT INTO `jeno_ledger` (`led_type`, `led_center_id`, `led_created_by`) VALUES ('$ledgertype', '$centerId', '$createdBy')";
+        $insert_sql = "INSERT INTO `jeno_ledger` (`led_cotegory`,`led_type`, `led_center_id`, `led_created_by`) VALUES ('$category','$ledgertype', '$centerId', '$createdBy')";
 
         if ($conn->query($insert_sql) === TRUE) {
             $response['success'] = true;
@@ -51,7 +52,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     
     $editId = $_POST['editId'];
 
-    $selQuery = "SELECT `led_id`, `led_type`FROM `jeno_ledger` WHERE led_id = $editId";
+    $selQuery = "SELECT `led_id`,`led_category`, `led_type`FROM `jeno_ledger` WHERE led_id = $editId";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -60,6 +61,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
         // Prepare ledger details array
         $ledgerDetails = [
             'led_id' => $row['led_id'],
+            'led_category' => $row['led_category'],
             'led_type' => $row['led_type'],
             
         ];
@@ -78,14 +80,22 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
         if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'editLedger') {
             $editid = htmlspecialchars($_POST['editid'], ENT_QUOTES, 'UTF-8');
             $editLedgertype = htmlspecialchars($_POST['editLedgertype'], ENT_QUOTES, 'UTF-8');
+            $editCategory = htmlspecialchars($_POST['editCategory'], ENT_QUOTES, 'UTF-8');
             
-            
+            $centerId = $_SESSION['centerId'];
             $updatedBy = $_SESSION['userId'];
-          
-            $editElective ="UPDATE `jeno_ledger` SET `led_type`='$editLedgertype',`led_updated_by`='$updatedBy' WHERE led_id = $editid";
-            
-            $editElectiveRes = mysqli_query($conn, $editElective);
+            // First, check if the ledger already exists with the same name and center ID
+    $check_sql = "SELECT * FROM `jeno_ledger` WHERE `led_type` = '$editLedgertype' AND `led_category` = '$editCategory' AND `led_center_id` = '$centerId'";
+    $check_result = $conn->query($check_sql);
 
+            if ($check_result->num_rows > 0) {
+                // Ledger already exists, show an error message
+                $response['success'] = false;
+                $response['message'] = "Error: This ledger already exists for the selected center.";
+            } else {
+                // Ledger does not exist, proceed with insertion
+                $editElective ="UPDATE `jeno_ledger` SET `led_type`='$editLedgertype', `led_category`='$editCategory', `led_updated_by`='$updatedBy' WHERE led_id = $editid";
+                $editElectiveRes = mysqli_query($conn, $editElective);
                 if ($editElectiveRes) {
                     $_SESSION['message'] = "Ledger details Updated successfully!";
                     $response['success'] = true;
@@ -94,6 +104,9 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 else {
                 $response['message'] = "Error: " . mysqli_error($conn);
             }
+            }
+          
+           
             
             echo json_encode($response);
             exit();

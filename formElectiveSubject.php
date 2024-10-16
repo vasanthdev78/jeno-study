@@ -55,11 +55,14 @@
                             </div>
                             
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="universityName" class="form-label"><b>Elective Subject Name</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Enter Elective Subject Name" name="electiveName" id="electiveName" required="required">
-                                </div>
+                            <div class="form-group">
+                                <label for="electiveName" class="form-label">
+                                    <b>Elective Subject Name</b><span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="Enter Elective Subject Name" name="electiveName" id="electiveName" required="required" onkeyup="checkElectiveName()">
+                                <div id="electiveNameError" class="error-message" style="display: none; color: red;">This name is already taken.</div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,11 +111,12 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="editElectiveName" class="form-label"><b>Elective Subject Name</b><span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Enter Elective Subject Name" name="editElectiveName" id="editElectiveName" required="required">
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="editElectiveName" class="form-label"><b>Elective Subject Name</b><span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Elective Subject Name" name="editElectiveName" id="editElectiveName" required="required" onkeyup="checkEditElectiveName()">
+                            <div id="editElectiveNameError" class="invalid-feedback" style="display: none;"></div> <!-- Error message div -->
+                        </div>
+                    </div>
                         </div>
                     </div>
                     <div class="modal-footer">

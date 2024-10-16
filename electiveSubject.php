@@ -167,13 +167,96 @@ session_start();
     <!-------Start Add Student--->
   
     <script>
+let isElectiveNameValid = true; // Global flag to track elective name validity
+
+function checkElectiveName() {
+    var electiveName = $('#electiveName').val().trim();
+
+    // Proceed only if there is input
+    if (electiveName.length > 0) {
+        $.ajax({
+            url: 'action/actElective.php', // Server-side script to check name
+            type: 'POST',
+            data: { electiveName_check: electiveName },
+            dataType: 'json',
+            success: function(response) {
+                if (response.exists) {
+                    // If the name exists, show an error message
+                    $('#electiveNameError').text('This elective name already exists. Please choose another.').show();
+                    $('#electiveName').addClass('is-invalid'); // Bootstrap error styling
+                    isElectiveNameValid = false; // Update validity flag
+                } else {
+                    // If the name is available, hide the error message
+                    $('#electiveNameError').hide();
+                    $('#electiveName').removeClass('is-invalid'); // Remove error styling
+                    isElectiveNameValid = true; // Update validity flag
+                }
+            },
+            error: function() {
+                console.error('Error checking elective name');
+                $('#electiveNameError').text('An error occurred while checking the elective name. Please try again.').show();
+                $('#electiveName').addClass('is-invalid');
+                isElectiveNameValid = false; // Set to false if AJAX fails
+            }
+        });
+    } else {
+        // If input is empty, hide the error message
+        $('#electiveNameError').hide();
+        $('#electiveName').removeClass('is-invalid'); // Remove error styling
+        isElectiveNameValid = true; // Reset validity flag
+    }
+}
+
+
+// Function to check if the edit elective name already exists
+let isEditElectiveNameValid = true; // Use let instead of var for block scope
+function checkEditElectiveName() {
+    var editElectiveName = $('#editElectiveName').val().trim(); // Get the input value for editing
+    var editCourseName = $('#editCourseName').val().trim(); // Get the input value for editing
+
+    // Proceed only if there is input
+    if (editElectiveName.length > 0) {
+        $.ajax({
+            url: 'action/actElective.php', // Server-side script to check name
+            type: 'POST',
+            data: { electiveName_check: editElectiveName ,courseID : editCourseName }, // Send the current elective ID to exclude from the check
+            dataType: 'json',
+            success: function(response) {
+                if (response.exists) {
+                    // If the name exists, show an error message
+                    $('#editElectiveNameError').text('This elective name already exists. Please choose another.').show();
+                    $('#editElectiveName').addClass('is-invalid'); // Bootstrap error styling
+                    isEditElectiveNameValid = false; // Update validity flag
+                } else {
+                    // If the name is available, hide the error message
+                    $('#editElectiveNameError').hide();
+                    $('#editElectiveName').removeClass('is-invalid'); // Remove error styling
+                    isEditElectiveNameValid = true; // Update validity flag
+                }
+            },
+            error: function() {
+                console.error('Error checking edit elective name');
+                $('#editElectiveNameError').text('An error occurred while checking the elective name. Please try again.').show();
+                $('#editElectiveName').addClass('is-invalid');
+                isEditElectiveNameValid = false; // Set to false if AJAX fails
+            }
+        });
+    } else {
+        // If input is empty, hide the error message
+        $('#editElectiveNameError').hide();
+        $('#editElectiveName').removeClass('is-invalid'); // Remove error styling
+        isEditElectiveNameValid = true; // Reset validity flag
+    }
+}
+
     
                         
     $('#addElectiveBtn').click(function() {
         $('#addElective').removeClass('was-validated');
         $('#addElective').addClass('needs-validation');
         $('#addElective')[0].reset(); // Reset the form
-        
+        $('#electiveNameError').hide();
+        $('#electiveName').removeClass('is-invalid');
     });
 
 
@@ -191,6 +274,8 @@ function editelective(editId) {
         success: function(response) {
             $('#editElective').removeClass('was-validated');
             $('#editElective').addClass('needs-validation');
+            $('#editElectiveNameError').hide();
+            $('#editElectiveName').removeClass('is-invalid');
             $('#editid').val(response.ele_id);
             $('#editElectiveName').val(response.ele_elective);
             $('#editCourseName').val(response.ele_cou_id);
@@ -208,19 +293,24 @@ function editelective(editId) {
 
 
       // Ajax form submission
-$('#addElective').off('submit').on('submit', function(event) {
+      $('#addElective').off('submit').on('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
 
     var form = this; // Get the form element
     var submitButton = $('#submitBtn'); // Select your submit button (adjust the selector as needed)
-    
+
     // Disable the submit button to prevent multiple clicks
     submitButton.prop('disabled', true);
 
-    if (form.checkValidity() === false) {
-        // If the form is invalid, display validation errors
-        form.reportValidity();
-        
+    // Check the validity of the form and elective name
+    if (form.checkValidity() === false || !isElectiveNameValid) {
+        // If the form is invalid or elective name is invalid, display validation errors
+        if (!isElectiveNameValid) {
+            // If elective name is invalid, trigger custom validation
+            $('#electiveName').focus(); // Optional: Focus on the elective name input
+        }
+        form.reportValidity(); // Show default browser validation messages
+
         // Re-enable the submit button if the form is invalid
         submitButton.prop('disabled', false);
         return;
@@ -237,7 +327,6 @@ $('#addElective').off('submit').on('submit', function(event) {
         dataType: 'json',
         success: function(response) {
             // Handle success response
-            console.log(response);
             if (response.success) {
                 Swal.fire({
                     icon: 'success',
@@ -276,6 +365,7 @@ $('#addElective').off('submit').on('submit', function(event) {
 
 
 
+
         $('#university').change(function() {
         var universityId = $(this).val();
         
@@ -309,7 +399,11 @@ $('#addElective').off('submit').on('submit', function(event) {
         //Edit Student Ajax
 
 
-        document.addEventListener('DOMContentLoaded', function() {
+        // Document ready function
+document.addEventListener('DOMContentLoaded', function() {
+    // Check the elective name validity on input change
+    $('#editElectiveName').on('input', checkEditElectiveName);
+
     $('#editElective').off('submit').on('submit', function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
@@ -319,17 +413,23 @@ $('#addElective').off('submit').on('submit', function(event) {
         // Disable the submit button to avoid double-click
         submitButton.prop('disabled', true);
 
-        if (form.checkValidity() === false) {
-            // If the form is invalid, display validation errors
-            form.reportValidity();
-            
+        // Check the validity of the form and elective name
+        if (form.checkValidity() === false || !isEditElectiveNameValid) {
+            // If the form is invalid or elective name is invalid, display validation errors
+            if (!isEditElectiveNameValid) {
+                // If elective name is invalid, trigger custom validation
+                $('#editElectiveName').focus(); // Optional: Focus on the elective name input
+            }
+            form.reportValidity(); // Show default browser validation messages
+
             // Re-enable the submit button if the form is invalid
             submitButton.prop('disabled', false);
             return;
         }
 
-        var formData = new FormData(form);
+        var formData = new FormData(form); // Collect form data
 
+        // Perform AJAX submission
         $.ajax({
             url: "action/actElective.php",
             method: 'POST',
@@ -350,6 +450,7 @@ $('#addElective').off('submit').on('submit', function(event) {
                         $('#editElectiveModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop
 
+                        // Reload the data table
                         $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
                             $('#scroll-horizontal-datatable').DataTable().destroy();
                             $('#scroll-horizontal-datatable').DataTable({
