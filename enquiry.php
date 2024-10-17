@@ -714,6 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
           $('#viewMobileNo').text(response.enq_mobile);
           $('#viewEmail').text(response.enq_email);
           $('#viewAddress').text(response.enq_address);
+          $('#viewRemark').text(response.enq_remark);
           $('#viewUniversityName').text(response.enq_uni_id);
           $('#viewCourseName').text(response.enq_cou_id);
           $('#viewMedium').text(response.enq_medium);

@@ -322,6 +322,13 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-3">
+                        <div class="card p-3">
+                            <h4>Remark</h4>
+                            <span class="detail" id="viewRemark"></span>
+                        </div>
+                    </div>
+
 
                     <div class="col-sm-3">
                         <div class="card p-3">

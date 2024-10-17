@@ -125,7 +125,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
     , `enq_remark`
     , `enq_medium` 
     FROM `jeno_enquiry` 
-    WHERE enq_id = $editId";
+    WHERE enq_id = '$editId'";
     $result = mysqli_query($conn, $selQuery);
 
     if ($result) {
@@ -200,7 +200,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                     `enq_remark` = '$remark',
                     `enq_medium` = '$editMedium',
                     `enq_updated_by` = '$updatedBy'
-                WHERE enq_id = $editEnquiryId";
+                WHERE enq_id = '$editEnquiryId'";
     
             // Execute the update query
             $universityres = mysqli_query($conn, $editUniversityQuery);
@@ -268,10 +268,11 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 , `enq_gender`
                 , `enq_mobile`
                 , `enq_address`
+                , `enq_remark`
                 , `enq_medium`
                 , `enq_adminsion_status`
                  FROM `jeno_enquiry`
-                  WHERE enq_id = $uniId;";
+                  WHERE enq_id = '$uniId';";
                 
                 $result1 = $conn->query($selQuery);
 
@@ -288,6 +289,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'enq_gender' => $row['enq_gender'],
             'enq_mobile' => $row['enq_mobile'],
             'enq_address' => $row['enq_address'],
+            'enq_remark' => $row['enq_remark'],
             'enq_medium' => $row['enq_medium'],
             'enq_adminsion_status' => $row['enq_adminsion_status'],
             
