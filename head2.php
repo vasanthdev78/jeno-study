@@ -70,6 +70,9 @@
 .table td {
     white-space: nowrap; /* Prevents wrapping of text in table cells */
 }
+.table th {
+    white-space: nowrap; /* Prevents wrapping of text in table cells */
+}
     
 </style>
 </head>

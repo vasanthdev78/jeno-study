@@ -26,15 +26,32 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         // Filter by the selected university
         $universityFilterCondition = "b.stu_uni_id = '" . $conn->real_escape_string($university) . "'";
     }
+
+    function formatIndianCurrency($amount) {
+        $decimal = number_format($amount, 2, '.', ''); // Format to two decimal places
+        $decimal_parts = explode('.', $decimal); // Separate integer and decimal parts
+    
+        // Format integer part to Indian numbering system
+        $integer_part = $decimal_parts[0];
+        $last_three_digits = substr($integer_part, -3);
+        $remaining_digits = substr($integer_part, 0, -3);
+    
+        if ($remaining_digits != '') {
+            $remaining_digits = preg_replace('/\B(?=(\d{2})+(?!\d))/', ',', $remaining_digits);
+            $integer_part = $remaining_digits . ',' . $last_three_digits;
+        }
+    
+        return '₹ ' . $integer_part . '.' . $decimal_parts[1]; // Return formatted amount with decimal
+    }
     
     // Construct the SQL query
     $selQuery = "SELECT 
         a.pay_university_fees,
         a.pay_study_fees, 
         a.pay_total_amount,
-        b.stu_uni_id ,
-        b.stu_name ,
-        a.pay_year ,
+        b.stu_uni_id,
+        b.stu_name,
+        a.pay_year,
         a.pay_date
     FROM 
         jeno_payment_history AS a 
@@ -49,11 +66,17 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     if ($result) {
         
-        
         $fees = [];
+        $totalAmount = 0; // Initialize total pay amount
+        $totalUniversityFees = 0; // Initialize total university fees
+        $totalStudyFees = 0; // Initialize total study fees
 
         while ($row = $result->fetch_assoc()) {
             $pay_date = date('d-m-Y', strtotime($row['pay_date']));
+            $totalAmount += $row['pay_total_amount']; // Add to total amount
+            $totalUniversityFees += $row['pay_university_fees']; // Add to total university fees
+            $totalStudyFees += $row['pay_study_fees']; // Add to total study fees
+
             $fees[] = [
                 'StuName' => $row['stu_name'],
                 'pay_year' => $row['pay_year'],
@@ -63,14 +86,17 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'pay_total_amount' => $row['pay_total_amount'],
                 'pay_date' => $pay_date,
             ];
-
-
-            
-
         }
-       
 
-        echo json_encode($fees);
+        // Add the totals to the response
+        $response = [
+            'fees' => $fees,
+            'total_pay_amount' => formatIndianCurrency($totalAmount), // Overall total pay amount
+            'total_university_fees' => formatIndianCurrency($totalUniversityFees), // Overall university fees total
+            'total_study_fees' => formatIndianCurrency($totalStudyFees) // Overall study center fees total
+        ];
+
+        echo json_encode($response);
     } else {
         $response['message'] = "Error fetching Enquiry details: " . mysqli_error($conn);
         echo json_encode($response);
@@ -78,5 +104,4 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     exit();
 }
-
 // Handle select university fetching course details --end---------------------------------------------------------

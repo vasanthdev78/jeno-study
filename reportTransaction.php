@@ -120,7 +120,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-             
+             <div class="table-responsive">
              <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
@@ -138,26 +138,20 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    //  $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
-                        ?>
- 
-
-                      <?php 
-                    // }
-                     ?>
-            <tfoot>
+                  
+            
+                    </tbody>
+                    <tfoot>
             <tr>
-        <th colspan="6"></th> <!-- Placeholder cells -->
-        <th>Total</th> <!-- Column header for the total -->
-        <th></th> <!-- The cell where the total amount will be displayed -->
+            <th colspan="4"></th>
+        <th>Total Income</th>
+        <th id="totalIncome"></th>
+        <th>Total Expense</th>
+        <th id="totalExpence"></th>
     </tr>
     </tfoot>
-                    </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -310,19 +304,26 @@ $(document).ready(function() {
             }
         ],
         footerCallback: function(row, data, start, end, display) {
-    var api = this.api();
+            var api = this.api();
 
-    // Calculate the total for the "Amount" column (index 7)
-    var total = api.column(7, { page: 'current' }).data().reduce(function(a, b) {
-        // Remove non-numeric characters (e.g., currency symbols)
-        var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
-        return a + value;
-    }, 0);
+            // Calculate total income
+            var totalIncome = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
+                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
+                return a + (value > 0 ? value : 0); // Only consider positive values for income
+            }, 0);
 
-    // Update the footer with the total for the "Amount" column
-    $(api.column(7).footer()).html('₹ ' + total.toFixed(2));
-    }
+            // Calculate total expense
+            var totalExpense = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
+                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
+                return a + (value < 0 ? Math.abs(value) : 0); // Only consider negative values for expense
+            }, 0);
+
+            // // Update the footer cells
+            // $(api.column(5).footer()).html('₹ ' + totalIncome.toFixed(2));
+            // $(api.column(7).footer()).html('₹ ' + totalExpense.toFixed(2));
+        }
     });
+
 
     $('#searchBtn').on('click', function() {
         
@@ -382,7 +383,10 @@ $(document).ready(function() {
                 },
                 dataType: 'json',
                 success: function(response) {
-                    updateTable(response);
+
+                    $('#totalIncome').text(response.total_income);
+                    $('#totalExpence').text(response.total_expense);
+                    updateTable(response.merged_data);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);

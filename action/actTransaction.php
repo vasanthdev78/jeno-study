@@ -290,6 +290,23 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     $university = $_POST['university'];
     $location = $_POST['location'];
 
+    function formatIndianCurrency($amount) {
+        $decimal = number_format($amount, 2, '.', ''); // Format to two decimal places
+        $decimal_parts = explode('.', $decimal); // Separate integer and decimal parts
+    
+        // Format integer part to Indian numbering system
+        $integer_part = $decimal_parts[0];
+        $last_three_digits = substr($integer_part, -3);
+        $remaining_digits = substr($integer_part, 0, -3);
+    
+        if ($remaining_digits != '') {
+            $remaining_digits = preg_replace('/\B(?=(\d{2})+(?!\d))/', ',', $remaining_digits);
+            $integer_part = $remaining_digits . ',' . $last_three_digits;
+        }
+    
+        return '₹ ' . $integer_part . '.' . $decimal_parts[1]; // Return formatted amount with decimal
+    }
+
     // Fetch payment history data
     $select_pay = "SELECT 
         a.pay_id,
@@ -342,10 +359,16 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
 
     if ($pay_result && $tran_result) {
         $merged_data = [];
-
-        // Process payment history data
+        $total_income = 0;
+        $total_expense = 0;
+    
+        // Process payment history data (considered as income)
         while ($row = $pay_result->fetch_assoc()) {
             $pay_date = date('d-m-Y', strtotime($row['pay_date']));
+            
+            // Add payment amount to total income
+            $total_income += $row['pay_total_amount'];
+            
             $merged_data[] = [
                 'type' => 'payment',
                 'pay_id' => $row['pay_id'],
@@ -363,10 +386,18 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'pay_center_id' => $row['pay_center_id']
             ];
         }
-
+    
         // Process transaction data
         while ($row = $tran_result->fetch_assoc()) {
             $tran_date = date('d-m-Y', strtotime($row['tran_date']));
+            
+            // Determine if transaction is income or expense and update totals
+            if ($row['tran_pay_type'] === 'Income') {
+                $total_income += $row['tran_amount'];
+            } else {
+                $total_expense += $row['tran_amount'];
+            }
+    
             $merged_data[] = [
                 'type' => 'transaction',
                 'tran_id' => $row['tran_id'],
@@ -380,18 +411,25 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'tran_transaction_id' => $row['tran_transaction_id']
             ];
         }
-
+    
         // Sort merged data by date
         usort($merged_data, function($a, $b) {
             return strtotime($a['date']) - strtotime($b['date']);
         });
-
-        echo json_encode($merged_data);
+    
+        // Add total income and expense to the response
+        $response = [
+            'merged_data' => $merged_data,
+            'total_income' => formatIndianCurrency($total_income),
+            'total_expense' => formatIndianCurrency($total_expense)
+        ];
+    
+        echo json_encode($response);
     } else {
         $response['message'] = "Error fetching data: " . mysqli_error($conn);
         echo json_encode($response);
     }
-
+    
     exit();
 }
 //-Handle fetching transacrion details for report page-end-----------------------------------

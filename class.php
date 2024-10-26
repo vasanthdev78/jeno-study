@@ -131,7 +131,7 @@ function electiveTable($location) {
         $Uni_name = "SELECT 
         `uni_name`
          FROM `jeno_university` 
-         WHERE `uni_id` = $uniID";
+         WHERE `uni_id` = '$uniID'";
     
         // Execute the query
         $result = $conn->query($Uni_name);

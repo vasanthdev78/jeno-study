@@ -89,7 +89,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-             
+             <div class="table-resposive">
              <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
@@ -107,31 +107,23 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    //  $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                    //     $id = $row['stu_id'];  $e_id = $row['entity_id']; $fname = $row['first_name'];$lname=$row['last_name'];  $blood = $row['stu_blood_group'];  $location  = $row['address']; $status = $row['stu_status'];  
-                    //     $mobile=$row['phone'];$email=$row['email'];$cast=$row['stu_cast'];$religion=$row['stu_religion'];$mother_tongue=$row['stu_mother_tongue'];$native=$row['stu_native'];$image=$row['stu_image'];$course=$row['course_name'];         
-                    //     $name=$fname.' '.$lname;
-                        ?>
- 
-
-                      <?php 
-                    // }
-                     ?>
-            <tfoot>
+                    
+            
+                    </tbody>
+                    <tfoot>
         <tr>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th>Total:</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th id="uniFess"></th>
+            <th id="stuFess"></th>
+            <th id="totalFess"></th>
         </tr>
     </tfoot>
-                    </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -294,9 +286,9 @@ $(document).ready(function() {
         var totalStudyCenterFees = calculateTotal(7);
 
         // Update the footer with the totals
-        $(api.column(5).footer()).html(totalAmount.toFixed(2));
-        $(api.column(6).footer()).html(totalUniversityFees.toFixed(2));
-        $(api.column(7).footer()).html(totalStudyCenterFees.toFixed(2));
+        // $(api.column(5).footer()).html(totalAmount.toFixed(2));
+        // $(api.column(6).footer()).html(totalUniversityFees.toFixed(2));
+        // $(api.column(7).footer()).html(totalStudyCenterFees.toFixed(2));
         }
     });
 
@@ -346,7 +338,11 @@ $(document).ready(function() {
                 },
                 dataType: 'json',
                 success: function(response) {
-                    updateTable(response);
+
+                    $('#stuFess').text(response.total_study_fees);
+                    $('#uniFess').text(response.total_university_fees);
+                    $('#totalFess').text(response.total_pay_amount);
+                    updateTable(response.fees);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
