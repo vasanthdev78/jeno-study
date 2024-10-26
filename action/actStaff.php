@@ -144,6 +144,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             'role' => $row['stf_role'],
             'salary' => $row['stf_salary'],
             'joining_date' => $row['stf_joining_date'],
+            'stf_leave_date' => $row['stf_leave_date'],
             'sft_center_id' => $row['sft_center_id'],
             'username' => $row['user_username'],
             'password' => $row['user_password'],
@@ -194,6 +195,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
     $gender = htmlspecialchars($_POST['genderEdit'], ENT_QUOTES, 'UTF-8');
     $mobile = htmlspecialchars($_POST['mobileEdit'], ENT_QUOTES, 'UTF-8');
     $dateofjoin = htmlspecialchars($_POST['dateofjoinEdit'], ENT_QUOTES, 'UTF-8');
+    $quitDate = htmlspecialchars($_POST['quitDate'], ENT_QUOTES, 'UTF-8');
     $salary = htmlspecialchars($_POST['salaryEdit'], ENT_QUOTES, 'UTF-8');
     $role = htmlspecialchars($_POST['designationEdit'], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST['emailEdit'], ENT_QUOTES, 'UTF-8');
@@ -215,6 +217,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addEditId' && $_POST['
         s.stf_gender = '$gender',
         s.stf_mobile = '$mobile',
         s.stf_joining_date = '$dateofjoin',
+        s.stf_leave_date = '$quitDate',
         s.stf_salary = '$salary',
         s.stf_role = '$role',
         s.stf_email = '$email',

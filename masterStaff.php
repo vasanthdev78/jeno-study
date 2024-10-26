@@ -11,7 +11,8 @@ session_start();
     , `stf_email`
     , `stf_role`
     , `stf_salary`
-    , `stf_joining_date` 
+    , `stf_joining_date`
+    , `stf_leave_date` 
     FROM `jeno_staff` 
     WHERE stf_status='Active' 
     AND sft_center_id = $location;"; // staff details show 
@@ -110,6 +111,12 @@ session_start();
                             <button type="button" class="btn btn-circle btn-warning text-white modalBtn" onclick="goEditStaff(<?php echo $id; ?>);" data-bs-toggle="modal" data-bs-target="#editStaffModal"><i class='bi bi-pencil-square'></i></button>
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStaff(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStaff(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
+                            <?php 
+                            if($row['stf_leave_date'] !='0000-00-00'){
+                            ?>
+                            <a href="experiance.php?payment_id=<?php echo $id; ?>" target="_blank">
+                            <button class="btn btn-circle btn-primary text-white" ><i class="bi bi-download"></i> Experience</button></a>
+                            <?php } ?>
                         </td>
                       </tr>
                       <?php } ?>
@@ -335,6 +342,11 @@ function goEditStaff(editId)
           $('#designationEdit').val(response.role);
           $('#salaryEdit').val(response.salary);
           $('#dateofjoinEdit').val(response.joining_date);
+          if(response.stf_leave_date !='0000-00-00'){
+            $('#quitDate').val(response.stf_leave_date).prop('disabled', true);
+          }else{
+            $('#quitDate').val(response.stf_leave_date);
+          }
           $('#editLocation').val(response.sft_center_id);
           $('#usernameEdit').val(response.username).prop('disabled', true);
           $('#passwordEdit').val(response.password);

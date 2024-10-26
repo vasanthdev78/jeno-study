@@ -169,6 +169,12 @@ session_start();
                                     data-bs-toggle="tooltip" title="Delete Admission">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            <?php 
+                            if($row['stu_enroll']){
+                            ?>
+                            <a href="courseDoing.php?payment_id=<?php echo $id; ?>" target="_blank">
+                            <button class="btn btn-circle btn-primary text-white" ><i class="bi bi-download"></i> </button></a>
+                            <?php } ?>
                         </td>
                       </tr>
                       <?php 
