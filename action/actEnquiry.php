@@ -306,6 +306,71 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
             //----handle view data for enquiry view --end-----------------------------------------
 
 
+            if (isset($_POST['TableName']) && $_POST['TableName'] != '') {
+                // Example for server-side processing
+                $limit = $_POST['length']; // Number of records to fetch
+                $offset = $_POST['start']; // Starting point for records
+                $searchValue = $_POST['search']['value']; // Search input
+            
+                // Construct the base query
+                $query = "SELECT * FROM jeno_enquiry WHERE `enq_status` ='Active'";
+            
+                // Apply search filter if any
+                if (!empty($searchValue)) {
+                    $query .= " AND (enq_stu_name LIKE '%$searchValue%' OR enq_mobile LIKE '%$searchValue%')";
+                }
+            
+                // Get total data count without filtering
+                $totalData = $conn->query($query)->num_rows;
+            
+                // Add LIMIT for pagination
+                $query .= " LIMIT $offset, $limit"; // Limit and offset
+                $result = $conn->query($query);
+            
+                $data = [];
+                while ($row = $result->fetch_assoc()) {
+                    // Format your data here
+                    $data[] = [
+                        'id' => $row['enq_id'],
+                        'enq_date' => $row['enq_date'],
+                        'enq_stu_name' => $row['enq_stu_name'],
+                        'university' => universityName($row['enq_uni_id']),
+                        'course' => courseNameOnly($row['enq_cou_id']),
+                        'enq_mobile' => $row['enq_mobile'],
+                        'enq_adminsion_status' => $row['enq_adminsion_status'],
+                        'action' => "<td>
+                                        <button type='button' class='btn btn-sm btn-warning text-white modalBtn' 
+                                                onclick='editEnquiry({$row['enq_id']});' 
+                                                data-bs-toggle='modal' 
+                                                data-bs-target='#editEnquiryModal' 
+                                                data-bs-toggle='tooltip' title='Edit Enquiry'>
+                                            <i class='bi bi-pencil-square'></i>
+                                        </button>
+                                        <button class='btn btn-sm btn-success text-white modalBtn' 
+                                                onclick='goViewEnquiry({$row['enq_id']});' 
+                                                data-bs-toggle='tooltip' title='View Enquiry'>
+                                            <i class='bi bi-eye-fill'></i>
+                                        </button>
+                                        <button class='btn btn-sm btn-danger text-white' 
+                                                onclick='goDeleteEnquiry({$row['enq_id']});' 
+                                                data-bs-toggle='tooltip' title='Delete Enquiry'>
+                                            <i class='bi bi-trash'></i>
+                                        </button>
+                                     </td>"
+                    ];
+                }
+            
+                // Send JSON response
+                echo json_encode([
+                    "draw" => intval($_POST['draw']),
+                    "recordsTotal" => $totalData,
+                    "recordsFiltered" => $totalData, // You can update this with the filtered count
+                    "data" => $data
+                ]);
+
+                
+                exit();
+            }
 
             // Default response if no action specified
             $response['message'] = "Invalid action specified.";

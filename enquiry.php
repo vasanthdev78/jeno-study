@@ -125,43 +125,7 @@ $enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
         </thead>
         <tbody>
 
-        <?php  
-            $i = 1;
-            while ($row = $enquiry_result->fetch_assoc()) {
-                $id = $row['enq_id'];
-        ?>
-
-        <tr>
-            <td><?php echo $i; $i++ ?></td>
-            <td class="d-none"><?php echo $row['enq_date'] ?></td>
-            <td><?php echo $row['enq_stu_name'] ?></td>
-            <td><?php echo universityName($row['enq_uni_id']) ?></td>
-            <td><?php echo courseNameOnly($row['enq_cou_id']) ?></td>
-            <td><?php echo $row['enq_mobile'] ?></td>
-            <td><?php echo $row['enq_adminsion_status'] ?></td>
-
-            <td>
-            <button type="button" class="btn btn-sm btn-warning text-white modalBtn" 
-                    onclick="editEnquiry(<?php echo $id; ?>);" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#editEnquiryModal" 
-                    data-bs-toggle="tooltip" title="Edit Enquiry">
-                <i class='bi bi-pencil-square'></i>
-            </button>
-            <button class="btn btn-sm btn-success text-white modalBtn" 
-                    onclick="goViewEnquiry(<?php echo $id; ?>);" 
-                    data-bs-toggle="tooltip" title="View Enquiry">
-                <i class="bi bi-eye-fill"></i>
-            </button>
-            <button class="btn btn-sm btn-danger text-white" 
-                    onclick="goDeleteEnquiry(<?php echo $id; ?>);" 
-                    data-bs-toggle="tooltip" title="Delete Enquiry">
-                <i class="bi bi-trash"></i>
-            </button>
-        </td>
-        </tr>
-
-        <?php } ?>
+       
         
         </tbody>
     </table>
@@ -339,6 +303,25 @@ $(document).ready(function() {
                     }
                 }
             }
+        ],
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": "action/actEnquiry.php", // PHP file to fetch data
+            "type": "POST",
+            "data": function(d) {
+        d.TableName = "newTable"; // Send TableName with the AJAX request
+    }
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "enq_date", "visible": false },
+            { "data": "enq_stu_name" },
+            { "data": "university" },
+            { "data": "course" },
+            { "data": "enq_mobile" },
+            { "data": "enq_adminsion_status" },
+            { "data": "action" }
         ]
     });
 });
