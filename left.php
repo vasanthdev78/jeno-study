@@ -263,6 +263,10 @@
                 <a href="reportTransaction.php" class="side-nav-link"><i class="bi bi-sign-intersection-t-fill"></i>Transaction</a>
             </li>
 
+            <li>
+                <a href="reportLedger.php" class="side-nav-link"><i class="bi bi-file-earmark-text"></i>Ledger Report</a>
+            </li>
+
          
             <!-- <li>
                 <a href="reportStaff.php" class="side-nav-link"><i class="bi bi-person-bounding-box"></i>Staff</a>

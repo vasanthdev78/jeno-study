@@ -325,8 +325,13 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     FROM `jeno_payment_history` AS a 
     LEFT JOIN jeno_student AS b ON a.pay_admission_id = b.stu_apply_no
     LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
-    WHERE pay_status = 'Active' AND pay_center_id ='$centerId'
-    AND pay_date BETWEEN '$startDate' AND '$endDate';";
+    WHERE pay_status = 'Active'";
+    
+    if ($location !== 'All') {
+        $select_pay .= " AND pay_center_id ='$location'";
+        }
+
+        $select_pay .= " AND pay_date BETWEEN '$startDate' AND '$endDate';";
 
     $pay_result = mysqli_query($conn, $select_pay);
 
@@ -343,7 +348,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         `tran_reason`,
         b.led_type
     FROM `jeno_transaction` AS a LEFT JOIN jeno_ledger AS b ON a.tran_reason = b.led_id
-    WHERE tran_status = 'Active' AND tran_center_id = '$centerId'
+    WHERE tran_status = 'Active' AND tran_center_id = '$location'
     AND tran_date BETWEEN '$startDate' AND '$endDate'";
 
     // Append condition for `tran_category` if `university` is not 'All'
@@ -361,6 +366,9 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         $merged_data = [];
         $total_income = 0;
         $total_expense = 0;
+
+
+        if($university === 'Income' || $university === 'All'){
     
         // Process payment history data (considered as income)
         while ($row = $pay_result->fetch_assoc()) {
@@ -386,6 +394,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'pay_center_id' => $row['pay_center_id']
             ];
         }
+    }
     
         // Process transaction data
         while ($row = $tran_result->fetch_assoc()) {

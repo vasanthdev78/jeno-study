@@ -63,7 +63,7 @@ session_start();
         
                             <div class="page-title-box">
                                
-                                <h4 class="page-title">Transaction Report</h4> 
+                                <h4 class="page-title">LedgerType Report</h4> 
                                 <form class="needs-validation" novalidate>
                                     <div class="row mt-3 mb-3">
                                     <div class="col-md-2">
@@ -81,7 +81,7 @@ session_start();
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="university" class="form-label"><b>Transaction</b><span class="text-danger">*</span></label>
-                                                <select class="form-control" name="transaction" id="university" required>
+                                                <select class="form-control" name="transaction" id="category" required>
                                                     <option value="All">--All Transaction--</option>
                                                     <option value="Income">Income</option>
                                                     <option value="Expense">Expense</option>
@@ -121,19 +121,14 @@ session_start();
                         </div>
                     </div>
              <div class="table-responsive">
-             <table id="example" class="table table-striped table-bordered" style="width:100%">
+             <table id="exampleReport" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th scope="col">Paid Date</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Ledger Type</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Payment Method</th>
-                                    <th scope="col">Payment Type</th>
                                     <th scope="col">Amount</th>
-                                    
-                                    
+       
                                     
                       </tr>
                     </thead>
@@ -143,8 +138,8 @@ session_start();
                     </tbody>
                     <tfoot>
             <tr>
-            <th colspan="4"></th>
-        <th>Total Income</th>
+            
+        <th>Total Income </th>
         <th id="totalIncome"></th>
         <th>Total Expense</th>
         <th id="totalExpence"></th>
@@ -279,7 +274,7 @@ session_start();
     <script>
 
 $(document).ready(function() {
-    var table = $('#example').DataTable({
+    var table = $('#exampleReport').DataTable({
         dom: 'Bfrtip',
         buttons: [
             {
@@ -303,25 +298,7 @@ $(document).ready(function() {
                 footer: true
             }
         ],
-        footerCallback: function(row, data, start, end, display) {
-            var api = this.api();
-
-            // Calculate total income
-            var totalIncome = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
-                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
-                return a + (value > 0 ? value : 0); // Only consider positive values for income
-            }, 0);
-
-            // Calculate total expense
-            var totalExpense = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
-                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
-                return a + (value < 0 ? Math.abs(value) : 0); // Only consider negative values for expense
-            }, 0);
-
-            // // Update the footer cells
-            // $(api.column(5).footer()).html('₹ ' + totalIncome.toFixed(2));
-            // $(api.column(7).footer()).html('₹ ' + totalExpense.toFixed(2));
-        }
+       
     });
 
 
@@ -329,7 +306,7 @@ $(document).ready(function() {
         
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
-        var university = $('#university').val();
+        var category = $('#category').val();
         var location = $('#location').val();
 
         // Validate fields
@@ -353,12 +330,12 @@ $(document).ready(function() {
             $('#endDateError').hide();
         }
 
-        if (!university) {
-            $('#university').addClass('is-invalid');
+        if (!category) {
+            $('#category').addClass('is-invalid');
             $('#universityError').show();
             isValid = false;
         } else {
-            $('#university').removeClass('is-invalid');
+            $('#category').removeClass('is-invalid');
             $('#universityError').hide();
         }
 
@@ -373,12 +350,12 @@ $(document).ready(function() {
 
         if (isValid) {
             $.ajax({
-                url: 'action/actTransaction.php',
+                url: 'action/actLedgerReport.php',
                 method: 'POST',
                 data: {
                     startDate: startDate,
                     endDate: endDate,
-                    university: university,
+                    category: category,
                     location: location
                 },
                 dataType: 'json',
@@ -396,47 +373,29 @@ $(document).ready(function() {
     });
 
     function updateTable(data) {
-        var table = $('#example').DataTable();
+        var table = $('#exampleReport').DataTable();
         table.clear(); // Clear existing data
 
         data.forEach(function(row, index) {
-            // Check if the row should be displayed based on income and expense values
-            var income = (row.type === 'payment') ? parseFloat(row.pay_study_fees) : (row.type === 'transaction' && row.tran_category === 'Income' ? parseFloat(row.tran_amount) : 0);
-            var expense = (row.type === 'transaction' && row.tran_category !== 'Income') ? parseFloat(row.tran_amount) : 0;
-            var description = (row.type === 'payment') ? "Admission Fees" : row.tran_description;
-            var payType = (row.type === 'payment') ? row.pay_description : row.tran_pay_type;
-
-
-
-            // Skip rows where income is zero and type is 'payment', or both income and expense are zero
-            if ((income === 0 && row.type === 'payment') || (income === 0 && expense === 0)) {
-                return;
-            }
+            
 
             var rowData = [];
 
             // Add common fields
             rowData.push(index + 1); // Serial number
-            rowData.push(row.date); // Date
 
             if (row.type === 'transaction') {
                 // Transaction specific fields
                 rowData.push(row.tran_category); // Category
                 rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason with text-nowrap class
-                rowData.push(row.tran_description); // Description
-                rowData.push(row.tran_method); // Method
-                rowData.push(row.tran_pay_type); // Method
                 rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toFixed(2) : ''); // Amount
-                rowData.push(''); // Empty cell for payment method (not used in transactions)
+                
             } else if (row.type === 'payment') {
                 // Payment specific fields
                 rowData.push('Income'); // Static category for payments
-                rowData.push('<span class="text-nowrap">' + row.pay_student_name + ' ' + row.cou_name + ' ' + row.stu_aca_year + ' year' + '</span>'); // Reason with text-nowrap class
                 rowData.push('Addmission Fees'); // Static category for payments
-                rowData.push(row.pay_paid_method); // Paid Method
-                rowData.push(row.pay_description); // Paid Method
-                rowData.push(row.pay_study_fees ? '₹ ' + parseFloat(row.pay_study_fees).toFixed(2) : ''); // Study Fees
-                rowData.push(''); // Empty cell for transaction category (not used in payments)
+                rowData.push(row.pay_total_amount ? '₹ ' + parseFloat(row.pay_total_amount).toFixed(2) : ''); // Study Fees
+                
             }
 
             table.row.add(rowData);
