@@ -258,42 +258,24 @@ document.addEventListener('DOMContentLoaded', function () {
         "searching": true, // Enable global searching
         "paging": true // Enable pagination
     });
-
-    // Attach event listeners to the filters
-    $('#universityFilter, #courseFilter, #dateFilter').on('change keyup', function() {
+// Attach event listeners to the filters
+$('#universityFilter, #courseFilter, #dateFilter').on('change keyup', function() {
         filterTable();
     });
 
     function filterTable() {
-        var university = $('#universityFilter').val().trim().toLowerCase();
-        var course = $('#courseFilter').val().trim().toLowerCase();
+        // Get values from the filters
+        var university = $('#universityFilter').val().trim();
+        var course = $('#courseFilter').val().trim();
         var date = $('#dateFilter').val().trim();
 
-        table.rows().every(function() {
-            var row = this.node();
-            var rowUniversity = $(row).find('td:nth-child(5)').text().trim().toLowerCase(); // University column
-            var rowCourse = $(row).find('td:nth-child(6)').text().trim().toLowerCase();     // Course column
-            var rowDate = $(row).find('td:nth-child(2)').text().trim();                     // Date column
+        // Apply filters to specific columns
+        table.column(4).search(university, true, false); // University column
+        table.column(5).search(course, true, false);     // Course column
+        table.column(1).search(date, true, false);       // Date column
 
-            // Apply filtering logic
-            var showRow = true;
-            if (university && rowUniversity !== university) {
-                showRow = false;
-            }
-            if (course && rowCourse !== course) {
-                showRow = false;
-            }
-            if (date && rowDate !== date) {
-                showRow = false;
-            }
-
-            // Show or hide the row
-            if (showRow) {
-                $(row).show();
-            } else {
-                $(row).hide();
-            }
-        });
+        // Redraw the table with the new filter
+        table.draw();
     }
 });
 
