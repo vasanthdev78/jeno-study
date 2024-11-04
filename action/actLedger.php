@@ -26,7 +26,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addLedger') {
         $response['message'] = "Error: This ledger already exists for the selected center.";
     } else {
         // Ledger does not exist, proceed with insertion
-        $insert_sql = "INSERT INTO `jeno_ledger` (`led_cotegory`,`led_type`, `led_center_id`, `led_created_by`) VALUES ('$category','$ledgertype', '$centerId', '$createdBy')";
+        $insert_sql = "INSERT INTO `jeno_ledger` (`led_category`,`led_type`, `led_center_id`, `led_created_by`) VALUES ('$category','$ledgertype', '$centerId', '$createdBy')";
 
         if ($conn->query($insert_sql) === TRUE) {
             $response['success'] = true;

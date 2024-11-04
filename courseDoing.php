@@ -91,7 +91,7 @@ $pdf->Image($logoPath, 85, 20, 50, '', 'PNG', '', 'C', false, 300, '', false, fa
 // Title
 $pdf->SetFont('times', 'B', 24);
 $pdf->SetY(70);
-$pdf->Cell(0, 15, 'Course Doing ', 0, 1, 'C');
+$pdf->Cell(0, 15, 'To Whomsoever it may concern ', 0, 1, 'C');
 
 // Date in the top right corner
 $pdf->SetFont('times', '', 12);

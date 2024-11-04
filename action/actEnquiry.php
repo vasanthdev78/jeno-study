@@ -308,28 +308,73 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
 
             if (isset($_POST['TableName']) && $_POST['TableName'] != '') {
                 // Example for server-side processing
-                $limit = $_POST['length']; // Number of records to fetch
-                $offset = $_POST['start']; // Starting point for records
-                $searchValue = $_POST['search']['value']; // Search input
+                $limit = intval($_POST['length']); // Number of records to fetch
+                $offset = intval($_POST['start']); // Starting point for records
+                $searchValue = $_POST['search']['value'] ?? ''; // Search input
+                $university = $_POST['university'] ?? '';
+                $course = $_POST['course'] ?? '';
+                $date = $_POST['date'] ?? '';
             
-                // Construct the base query
-                $query = "SELECT * FROM jeno_enquiry WHERE `enq_status` ='Active'";
+                // Base query for active enquiries
+                $baseQuery = "SELECT * FROM jeno_enquiry WHERE `enq_status` = 'Active'";
+                $countQuery = "SELECT COUNT(*) AS total FROM jeno_enquiry WHERE `enq_status` = 'Active'";
             
-                // Apply search filter if any
+                // Dynamic conditions and parameters for filtering
+                $conditions = [];
+                $params = [];
+                $types = ''; // For parameter binding
+            
+                // Add conditions based on filters
+                if (!empty($university)) {
+                    $conditions[] = "enq_uni_id = ?";
+                    $params[] = $university;
+                    $types .= 'i'; // Assuming enq_uni_id is an integer
+                }
+                if (!empty($course)) {
+                    $conditions[] = "enq_cou_id = ?";
+                    $params[] = $course;
+                    $types .= 'i'; // Assuming enq_cou_id is an integer
+                }
+                if (!empty($date)) {
+                    $conditions[] = "enq_date = ?";
+                    $params[] = $date;
+                    $types .= 's';
+                }
                 if (!empty($searchValue)) {
-                    $query .= " AND (enq_stu_name LIKE '%$searchValue%' OR enq_mobile LIKE '%$searchValue%')";
+                    $conditions[] = "(enq_stu_name LIKE ? OR enq_mobile LIKE ?)";
+                    $params[] = "%$searchValue%";
+                    $params[] = "%$searchValue%";
+                    $types .= 'ss';
                 }
             
-                // Get total data count without filtering
-                $totalData = $conn->query($query)->num_rows;
+                // Append conditions to the base and count queries
+                if (!empty($conditions)) {
+                    $conditionString = implode(' AND ', $conditions);
+                    $baseQuery .= " AND " . $conditionString;
+                    $countQuery .= " AND " . $conditionString;
+                }
             
-                // Add LIMIT for pagination
-                $query .= " LIMIT $offset, $limit"; // Limit and offset
-                $result = $conn->query($query);
+                // Calculate total records without filtering
+                $stmt = $conn->prepare($countQuery);
+                if ($types) {
+                    $stmt->bind_param($types, ...$params);
+                }
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $totalData = $result->fetch_assoc()['total'];
+            
+                // Retrieve filtered records with limit and offset
+                $baseQuery .= " LIMIT ?, ?";
+                $stmt = $conn->prepare($baseQuery);
+                $types .= 'ii'; // For limit and offset
+                $params[] = $offset;
+                $params[] = $limit;
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $result = $stmt->get_result();
             
                 $data = [];
                 while ($row = $result->fetch_assoc()) {
-                    // Format your data here
                     $data[] = [
                         'id' => $row['enq_id'],
                         'enq_date' => $row['enq_date'],
@@ -363,14 +408,14 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 // Send JSON response
                 echo json_encode([
                     "draw" => intval($_POST['draw']),
-                    "recordsTotal" => $totalData,
-                    "recordsFiltered" => $totalData, // You can update this with the filtered count
+                    "recordsTotal" => $totalData, // Total count
+                    "recordsFiltered" => $totalData, // Filtered count
                     "data" => $data
                 ]);
-
-                
+            
                 exit();
             }
+            
 
             // Default response if no action specified
             $response['message'] = "Invalid action specified.";

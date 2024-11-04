@@ -112,11 +112,16 @@ session_start();
                             <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewStaff(<?php echo $id; ?>);"><i class="bi bi-eye-fill"></i></button>
                             <button class="btn btn-circle btn-danger text-white" onclick="goDeleteStaff(<?php echo $id; ?>);"><i class="bi bi-trash"></i></button>
                             <?php 
-                            if($row['stf_leave_date'] !='0000-00-00'){
+                           if (!empty($row['stf_leave_date']) && $row['stf_leave_date'] != '0000-00-00') {
                             ?>
                             <a href="experiance.php?payment_id=<?php echo $id; ?>" target="_blank">
-                            <button class="btn btn-circle btn-primary text-white" ><i class="bi bi-download"></i> Experience</button></a>
-                            <?php } ?>
+                                <button class="btn btn-circle btn-primary text-white">
+                                    <i class="bi bi-download"></i> Experience
+                                </button>
+                            </a>
+                            <?php
+                        }
+                        ?>
                         </td>
                       </tr>
                       <?php } ?>
@@ -342,10 +347,11 @@ function goEditStaff(editId)
           $('#designationEdit').val(response.role);
           $('#salaryEdit').val(response.salary);
           $('#dateofjoinEdit').val(response.joining_date);
-          if(response.stf_leave_date !='0000-00-00'){
-            $('#quitDate').val(response.stf_leave_date).prop('disabled', true);
-          }else{
-            $('#quitDate').val(response.stf_leave_date);
+          if (response.stf_leave_date && response.stf_leave_date !== '0000-00-00') {
+              $('#quitDate').val(response.stf_leave_date).prop('disabled', true);
+          } else {
+              $('#quitDate').val('');  // Set an empty value if null or '0000-00-00'
+              $('#quitDate').prop('disabled', false);  // Ensure it's enabled in this case
           }
           $('#editLocation').val(response.sft_center_id);
           $('#usernameEdit').val(response.username).prop('disabled', true);

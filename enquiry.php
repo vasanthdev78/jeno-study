@@ -77,7 +77,7 @@ $enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
                         
                                       ?>
                         
-                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
 
                         <?php } ?>
             </select>
@@ -96,7 +96,7 @@ $enquiry_result = enquiryTable($centerId);  // enquiry details shoe table
                         
                                       ?>
                         
-                        <option value="<?php echo $name;?>"><?php echo $name;?></option>
+                        <option value="<?php echo $id;?>"><?php echo $name;?></option>
 
                         <?php } ?>
             </select>
@@ -212,45 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
     </script>
 
-    <script>
-    $(document).ready(function() {
-        $('#universityFilter, #courseFilter, #dateFilter').on('change', function() {
-            filterTable();
-        });
-
-        function filterTable() {
-            var university = $('#universityFilter').val();
-            var course = $('#courseFilter').val();
-            var date = $('#dateFilter').val();
-            
-            $('#example tbody tr').each(function() {
-                var row = $(this);
-                var rowUniversity = row.find('td:nth-child(4)').text().trim();
-                var rowCourse = row.find('td:nth-child(5)').text().trim();
-                var rowDate = row.find('td:nth-child(2)').text().trim();
-                
-                // Apply filters
-                var showRow = true;
-                if (university && rowUniversity !== university) {
-                    showRow = false;
-                }
-                if (course && rowCourse !== course) {
-                    showRow = false;
-                }
-                if (date && rowDate !== date) {
-                    showRow = false;
-                }
-                
-                // Show or hide row based on filters
-                if (showRow) {
-                    row.show();
-                } else {
-                    row.hide();
-                }
-            });
-        }
-    });
-</script>
+  
 
     <script>
 //---data table print pdf ,excel etc --------------------------------
@@ -258,73 +220,39 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'copy',
-                exportOptions: {
-                    columns: function (index, data, node) {
-                        // Exclude the last column (Action) from export
-                        return index !== 6;
-                    }
-                }
-            },
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: function (index, data, node) {
-                        // Exclude the last column (Action) from export
-                        return index !== 6;
-                    }
-                }
-            },
-            {
-                extend: 'excel',
-                exportOptions: {
-                    columns: function (index, data, node) {
-                        // Exclude the last column (Action) from export
-                        return index !== 6;
-                    }
-                }
-            },
-            {
-                extend: 'pdf',
-                exportOptions: {
-                    columns: function (index, data, node) {
-                        // Exclude the last column (Action) from export
-                        return index !== 6;
-                    }
-                }
-            },
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: function (index, data, node) {
-                        // Exclude the last column (Action) from export
-                        return index !== 6;
-                    }
-                }
-            }
+            'copy', 'csv', 'excel', 'pdf', 'print'
         ],
-        "serverSide": true,
-        "processing": true,
-        "ajax": {
-            "url": "action/actEnquiry.php", // PHP file to fetch data
-            "type": "POST",
-            "data": function(d) {
-        d.TableName = "newTable"; // Send TableName with the AJAX request
-    }
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: "action/actEnquiry.php", // PHP file to fetch data
+            type: "POST",
+            data: function(d) {
+                // Add filter values to AJAX request data
+                d.university = $('#universityFilter').val();
+                d.course = $('#courseFilter').val();
+                d.date = $('#dateFilter').val();
+                d.TableName = "newTable"; // Send TableName with the AJAX request if needed
+            }
         },
-        "columns": [
-            { "data": "id" },
-            { "data": "enq_date", "visible": false },
-            { "data": "enq_stu_name" },
-            { "data": "university" },
-            { "data": "course" },
-            { "data": "enq_mobile" },
-            { "data": "enq_adminsion_status" },
-            { "data": "action" }
+        columns: [
+            { data: "id" },
+            { data: "enq_date", visible: false },
+            { data: "enq_stu_name" },
+            { data: "university" },
+            { data: "course" },
+            { data: "enq_mobile" },
+            { data: "enq_adminsion_status" },
+            { data: "action" }
         ]
     });
+
+    // Attach event listeners to filters to reload the table on change
+    $('#universityFilter, #courseFilter, #dateFilter').on('change', function() {
+        table.ajax.reload();
+    });
 });
+
 
         
 

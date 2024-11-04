@@ -73,7 +73,7 @@ $pdf->Image($logoPath, 80, 15, 50, '', 'PNG', '', 'T', false, 300, '', false, fa
 // Title of the certificate
 $pdf->SetFont('times', 'B', 20);
 $pdf->SetY(60); // Adjusted Y position for better spacing
-$pdf->Cell(0, 15, 'Experience Certificate', 0, 1, 'C');
+$pdf->Cell(0, 15, 'To Whomsoever it may concern', 0, 1, 'C');
 
 // Add a line break
 $pdf->Ln(18);

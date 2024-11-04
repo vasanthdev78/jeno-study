@@ -103,10 +103,10 @@ session_start();
             </select>
         </div>
         
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <label for="dateFilter" class="form-label">Filter by Date</label>
             <input type="date" id="dateFilter" class="form-control" />
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "paging": true // Enable pagination
     });
 // Attach event listeners to the filters
-$('#universityFilter, #courseFilter, #dateFilter').on('change keyup', function() {
+$('#universityFilter, #courseFilter').on('change keyup', function() {
         filterTable();
     });
 
@@ -267,12 +267,12 @@ $('#universityFilter, #courseFilter, #dateFilter').on('change keyup', function()
         // Get values from the filters
         var university = $('#universityFilter').val().trim();
         var course = $('#courseFilter').val().trim();
-        var date = $('#dateFilter').val().trim();
+        // var date = $('#dateFilter').val().trim();
 
         // Apply filters to specific columns
         table.column(4).search(university, true, false); // University column
         table.column(5).search(course, true, false);     // Course column
-        table.column(1).search(date, true, false);       // Date column
+        //table.column(1).search(date, true, false);       // Date column
 
         // Redraw the table with the new filter
         table.draw();
