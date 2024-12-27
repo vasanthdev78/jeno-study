@@ -334,6 +334,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
         $select_pay .= " AND pay_date BETWEEN '$startDate' AND '$endDate';";
 
     $pay_result = mysqli_query($conn, $select_pay);
+   
 
     // Fetch transaction data
     $selQuery = "SELECT 
@@ -372,6 +373,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     
         // Process payment history data (considered as income)
         while ($row = $pay_result->fetch_assoc()) {
+            
             $pay_date = date('d-m-Y', strtotime($row['pay_date']));
             
             // Add payment amount to total income
@@ -394,14 +396,16 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'pay_center_id' => $row['pay_center_id']
             ];
         }
+        
     }
     
         // Process transaction data
         while ($row = $tran_result->fetch_assoc()) {
+         
             $tran_date = date('d-m-Y', strtotime($row['tran_date']));
             
             // Determine if transaction is income or expense and update totals
-            if ($row['tran_pay_type'] === 'Income') {
+            if ($row['tran_category'] === 'Income') {
                 $total_income += $row['tran_amount'];
             } else {
                 $total_expense += $row['tran_amount'];
@@ -420,12 +424,19 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
                 'tran_transaction_id' => $row['tran_transaction_id']
             ];
         }
+   
     
         // Sort merged data by date
         usort($merged_data, function($a, $b) {
             return strtotime($a['date']) - strtotime($b['date']);
         });
+
+        // Reformat date for final output
+        foreach ($merged_data as &$item) {
+            $item['date'] = date('d-m-Y', strtotime($item['date']));  // Convert to display format
+        }
     
+        // print_r($merged_data);
         // Add total income and expense to the response
         $response = [
             'merged_data' => $merged_data,

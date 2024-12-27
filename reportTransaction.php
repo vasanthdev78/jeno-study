@@ -396,54 +396,67 @@ $(document).ready(function() {
     });
 
     function updateTable(data) {
-        var table = $('#example').DataTable();
-        table.clear(); // Clear existing data
+    var table = $('#example').DataTable();
+    table.clear(); // Clear existing data
 
-        data.forEach(function(row, index) {
-            // Check if the row should be displayed based on income and expense values
-            var income = (row.type === 'payment') ? parseFloat(row.pay_study_fees) : (row.type === 'transaction' && row.tran_category === 'Income' ? parseFloat(row.tran_amount) : 0);
-            var expense = (row.type === 'transaction' && row.tran_category !== 'Income') ? parseFloat(row.tran_amount) : 0;
-            var description = (row.type === 'payment') ? "Admission Fees" : row.tran_description;
-            var payType = (row.type === 'payment') ? row.pay_description : row.tran_pay_type;
+    data.forEach(function(row, index) {
+        var income = 0;
+var expense = 0;
+var amount = 0;
 
 
-
-            // Skip rows where income is zero and type is 'payment', or both income and expense are zero
-            if ((income === 0 && row.type === 'payment') || (income === 0 && expense === 0)) {
-                return;
-            }
-
-            var rowData = [];
-
-            // Add common fields
-            rowData.push(index + 1); // Serial number
-            rowData.push(row.date); // Date
-
-            if (row.type === 'transaction') {
-                // Transaction specific fields
-                rowData.push(row.tran_category); // Category
-                rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason with text-nowrap class
-                rowData.push(row.tran_description); // Description
-                rowData.push(row.tran_method); // Method
-                rowData.push(row.tran_pay_type); // Method
-                rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toFixed(2) : ''); // Amount
-                rowData.push(''); // Empty cell for payment method (not used in transactions)
-            } else if (row.type === 'payment') {
-                // Payment specific fields
-                rowData.push('Income'); // Static category for payments
-                rowData.push('<span class="text-nowrap">' + row.pay_student_name + ' ' + row.cou_name + ' ' + row.stu_aca_year + ' year' + '</span>'); // Reason with text-nowrap class
-                rowData.push('Addmission Fees'); // Static category for payments
-                rowData.push(row.pay_paid_method); // Paid Method
-                rowData.push(row.pay_description); // Paid Method
-                rowData.push(row.pay_study_fees ? '₹ ' + parseFloat(row.pay_study_fees).toFixed(2) : ''); // Study Fees
-                rowData.push(''); // Empty cell for transaction category (not used in payments)
-            }
-
-            table.row.add(rowData);
-        });
-
-        table.draw();
+if (row.type === 'payment') {
+    income = parseFloat(row.pay_total_amount);  // Payments are income
+    amount = income;
+    
+} else if (row.type === 'transaction') {
+    if (row.tran_category === 'Income') {
+        income = parseFloat(row.tran_amount);
+        amount = income;
+       
+    } else if (row.tran_category === 'Expense') {
+        expense = parseFloat(row.tran_amount);
+        amount = expense;
+        
     }
+}
+
+// Skip rows where both income and expense are zero
+if (income === 0 && expense === 0) {
+    return;
+}
+
+var rowData = [];
+
+// Add common fields
+rowData.push(index + 1); // Serial number
+rowData.push(row.date); // Date
+
+if (row.type === 'transaction') {
+    // Transaction specific fields
+    rowData.push(row.tran_category); // Category
+    rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason
+    rowData.push(row.tran_description); // Description
+    rowData.push(row.tran_method); // Method
+    rowData.push(row.tran_pay_type || '-'); // Payment Type
+    rowData.push(' ₹ ' + amount.toFixed(2));  // Show income/expense in same column
+} else if (row.type === 'payment') {
+    // Payment specific fields
+    rowData.push('Income'); // Static category for payments
+    rowData.push('<span class="text-nowrap">' + row.pay_student_name + ' - ' + row.cou_name + ' (' + row.stu_aca_year + ' Year)' + '</span>'); // Reason
+    rowData.push('Admission Fees'); // Static description
+    rowData.push(row.pay_paid_method); // Paid Method
+    rowData.push(row.pay_description || 'N/A'); // Description
+    rowData.push(' ₹ ' + amount.toFixed(2)); // Show total amount for payments
+}
+
+table.row.add(rowData);
+
+    });
+
+    table.draw();
+}
+
     });
 
 
