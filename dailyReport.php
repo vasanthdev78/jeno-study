@@ -3,7 +3,7 @@ session_start();
 include "class.php"; // function page
 include "db/dbConnection.php"; // database connection
 $centerId = $_SESSION['centerId'];
-$current_date = date('Y-m-d');  // Correct date format
+$current_date = isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d');  // Correct date format
 $date = new DateTime($current_date);
 
 // Subtract one day from the current date
@@ -111,8 +111,8 @@ $previous_date = $date->format('Y-m-d');
     // Handle fetching transacrion details for report page--------------------------------------------------------
 
     // $centerId = $_SESSION['centerId'];
-    $endDate = date('Y-m-d');;
-    $startDate = date('Y-m-d');;
+    $endDate = $current_date;
+    $startDate = $current_date;
     // $location = $_SESSION['centerId'];
 
     // Fetch payment history data
@@ -134,7 +134,7 @@ $previous_date = $date->format('Y-m-d');
     LEFT JOIN jeno_student AS b ON a.pay_admission_id = b.stu_apply_no
     LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
     WHERE pay_status = 'Active' AND pay_center_id ='$centerId'
-    AND pay_date BETWEEN '$startDate' AND '$endDate';";
+    AND pay_date BETWEEN '$startDate' AND '$endDate'";
 
     $pay_result = mysqli_query($conn, $select_pay);
 
@@ -255,8 +255,9 @@ $previous_date = $date->format('Y-m-d');
         
                             <div class="page-title-box">
                                 <h4 class="page-title">Daily Report</h4>
-                                <center><h5>Today : <?php echo date('d-m-Y'); ?></h5></center>
-                                
+                                <form method="POST"> <!-- Add the form tag -->
+                                    <input type="date" id="dateInput" name="selectedDate" value="<?php echo isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d'); ?>" onchange="this.form.submit()">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -292,24 +293,7 @@ $previous_date = $date->format('Y-m-d');
     </thead>
     <tbody>
         <!-- Opening Balances Rows -->
-        <tr>
-            <td >Opening Balance - Cash</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($open_open_cash ?? 0, 2); ?></td>
-        </tr>
-        <tr>
-            <td >Opening Balance - Online</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($open_open_online ?? 0, 2); ?></td>
-        </tr>
+        
 
         <!-- Main Data Rows -->
         <?php 
@@ -341,6 +325,7 @@ $previous_date = $date->format('Y-m-d');
         <?php 
         }
         ?>
+        
     </tbody>
     <tfoot>
         <tr>
@@ -353,13 +338,31 @@ $previous_date = $date->format('Y-m-d');
             <th id="total-expense"></th>
         </tr>
         <tr>
+            <td >Opening Balance - Cash</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>₹ <?php echo number_format($open_open_cash ?? 0, 2); ?></td>
+        </tr>
+        <tr>
+            <td >Opening Balance - Online</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>₹ <?php echo number_format($open_open_online ?? 0, 2); ?></td>
+        </tr>
+        <tr>
             <td>Closing Balance - Cash:</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td> <?php echo number_format($closing_cash ?? 0, 2); ?></td>
+            <td>₹ <?php echo number_format($closing_cash ?? 0, 2); ?></td>
         </tr>
         <tr>
             <td>Closing Balance - Online:</td>
@@ -368,7 +371,7 @@ $previous_date = $date->format('Y-m-d');
             <td></td>
             <td></td>
             <td></td>
-            <td> <?php echo number_format($closing_online ?? 0, 2); ?></td>
+            <td>₹ <?php echo number_format($closing_online ?? 0, 2); ?></td>
         </tr>
     </tfoot>    
 </table>
@@ -441,7 +444,7 @@ $previous_date = $date->format('Y-m-d');
         var openingBalanceOnline = <?php echo $open_open_online ?? 0; ?>;
         var closingBalanceCash = <?php echo $closing_cash ?? 0; ?>;
         var closingBalanceOnline = <?php echo $closing_online ?? 0; ?>;
-        var todayDate = '<?php echo date('d-m-Y'); ?>';
+        var todayDate = '<?php echo (new DateTime($current_date))->format("d M Y"); ?>';
         var table = $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -452,7 +455,7 @@ $previous_date = $date->format('Y-m-d');
                     var body = $(win.document.body);
 
                     // Add the header with "Daily Report" and the current date
-                    body.prepend('<h4 class="page-title">Daily Report</h4><center><h5>Date: ' + todayDate + '</h5></center><br>');
+                    body.prepend('<center><h5>Date: ' + todayDate + '</h5></center><br>');
 
                    
 
@@ -460,8 +463,10 @@ $previous_date = $date->format('Y-m-d');
                     body.append(
                         '<br><table class="table table-bordered">' +
                         '<tbody>' +
-                        '<tr><td colspan="2">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                        '<tr><td colspan="2">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="6">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="6">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="6">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
+                        '<tr><td colspan="6">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
                         '</tbody></table>'
                     );
 
