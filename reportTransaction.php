@@ -138,7 +138,26 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                  
+                        <tr>
+                        <td></td>
+                        <td>Opening Banalnce Cash</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ></td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>Opening Banalnce Online</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ></td>
+                        </tr>
             
                     </tbody>
                     <tfoot>
@@ -149,6 +168,28 @@ session_start();
         <th>Total Expense</th>
         <th id="totalExpence"></th>
     </tr>
+
+    <tr>
+                        <td></td>
+                        <td>Closing Banalnce Cash</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="closing_cash"></td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>Closing Banalnce Online</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="closing_online"></td>
+                        </tr>
+   
     </tfoot>
                   </table>
                   </div>
@@ -238,10 +279,20 @@ session_start();
     const startDateError = document.getElementById('startDateError');
     const endDateError = document.getElementById('endDateError');
 
+    // Helper function to get yesterday's date
+    function getYesterday() {
+        const today = new Date();
+        today.setDate(today.getDate() - 1);
+        return today;
+    }
+
+    // Validate dates
     function validateDates() {
         const startDateValue = new Date(startDateInput.value);
         const endDateValue = new Date(endDateInput.value);
+        const yesterday = getYesterday();
 
+        // Start date validation
         if (startDateInput.value) {
             startDateInput.classList.remove('is-invalid');
             startDateError.style.display = 'none';
@@ -250,9 +301,11 @@ session_start();
             startDateError.style.display = 'block';
         }
 
+        // End date validation
         if (endDateInput.value) {
-            if (endDateValue < startDateValue) {
+            if (endDateValue < startDateValue || endDateValue > yesterday) {
                 endDateInput.classList.add('is-invalid');
+                endDateError.textContent = 'End date cannot be today or in the future.';
                 endDateError.style.display = 'block';
             } else {
                 endDateInput.classList.remove('is-invalid');
@@ -260,20 +313,26 @@ session_start();
             }
         } else {
             endDateInput.classList.add('is-invalid');
+            endDateError.textContent = 'End date is required.';
             endDateError.style.display = 'block';
         }
     }
 
+    // Prevent form submission if validation fails
     function validateForm(event) {
         validateDates();
         if (document.querySelectorAll('.is-invalid').length > 0) {
-            event.preventDefault(); // Prevent form submission if validation fails
+            event.preventDefault();
         }
     }
 
+    // Attach event listeners
     startDateInput.addEventListener('change', validateDates);
     endDateInput.addEventListener('change', validateDates);
     document.querySelector('.needs-validation').addEventListener('submit', validateForm);
+    
+    // Restrict end date to yesterday
+    endDateInput.max = getYesterday().toISOString().split('T')[0];
 });
     </script>
     <script>
@@ -386,7 +445,13 @@ $(document).ready(function() {
 
                     $('#totalIncome').text(response.total_income);
                     $('#totalExpence').text(response.total_expense);
+                   
+                    
                     updateTable(response.merged_data);
+                    $('#opening_total_online').text(response.opening_online);
+                    $('#opening_total_cash').text(response.opening_cash);
+                    $('#closing_online').text(response.closing_online);
+                    $('#closing_cash').text(response.closing_cash);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
@@ -396,54 +461,94 @@ $(document).ready(function() {
     });
 
     function updateTable(data) {
-        var table = $('#example').DataTable();
-        table.clear(); // Clear existing data
+    var table = $('#example').DataTable();
+    table.clear(); // Clear existing data
 
-        data.forEach(function(row, index) {
-            // Check if the row should be displayed based on income and expense values
-            var income = (row.type === 'payment') ? parseFloat(row.pay_study_fees) : (row.type === 'transaction' && row.tran_category === 'Income' ? parseFloat(row.tran_amount) : 0);
-            var expense = (row.type === 'transaction' && row.tran_category !== 'Income') ? parseFloat(row.tran_amount) : 0;
-            var description = (row.type === 'payment') ? "Admission Fees" : row.tran_description;
-            var payType = (row.type === 'payment') ? row.pay_description : row.tran_pay_type;
+    // Add opening balance rows at the top
+    table.row.add([
+        '',  // Serial Number
+        'Opening Balance Cash',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '<span id="opening_total_cash"></span>'  // Placeholder for cash balance
+    ]).draw(false);
+
+    table.row.add([
+        '',
+        'Opening Balance Online',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '<span id="opening_total_online"></span>'  // Placeholder for online balance
+    ]).draw(false);
+
+    data.forEach(function(row, index) {
+        var income = 0;
+var expense = 0;
+var amount = 0;
 
 
-
-            // Skip rows where income is zero and type is 'payment', or both income and expense are zero
-            if ((income === 0 && row.type === 'payment') || (income === 0 && expense === 0)) {
-                return;
-            }
-
-            var rowData = [];
-
-            // Add common fields
-            rowData.push(index + 1); // Serial number
-            rowData.push(row.date); // Date
-
-            if (row.type === 'transaction') {
-                // Transaction specific fields
-                rowData.push(row.tran_category); // Category
-                rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason with text-nowrap class
-                rowData.push(row.tran_description); // Description
-                rowData.push(row.tran_method); // Method
-                rowData.push(row.tran_pay_type); // Method
-                rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toFixed(2) : ''); // Amount
-                rowData.push(''); // Empty cell for payment method (not used in transactions)
-            } else if (row.type === 'payment') {
-                // Payment specific fields
-                rowData.push('Income'); // Static category for payments
-                rowData.push('<span class="text-nowrap">' + row.pay_student_name + ' ' + row.cou_name + ' ' + row.stu_aca_year + ' year' + '</span>'); // Reason with text-nowrap class
-                rowData.push('Addmission Fees'); // Static category for payments
-                rowData.push(row.pay_paid_method); // Paid Method
-                rowData.push(row.pay_description); // Paid Method
-                rowData.push(row.pay_study_fees ? '₹ ' + parseFloat(row.pay_study_fees).toFixed(2) : ''); // Study Fees
-                rowData.push(''); // Empty cell for transaction category (not used in payments)
-            }
-
-            table.row.add(rowData);
-        });
-
-        table.draw();
+if (row.type === 'payment') {
+    income = parseFloat(row.pay_total_amount);  // Payments are income
+    amount = income;
+    
+} else if (row.type === 'transaction') {
+    if (row.tran_category === 'Income') {
+        income = parseFloat(row.tran_amount);
+        amount = income;
+       
+    } else if (row.tran_category === 'Expense') {
+        expense = parseFloat(row.tran_amount);
+        amount = expense;
+        
     }
+}
+
+// Skip rows where both income and expense are zero
+if (income === 0 && expense === 0) {
+    return;
+}
+
+var rowData = [];
+
+// Add common fields
+rowData.push(index + 1); // Serial number
+rowData.push(row.date); // Date
+
+if (row.type === 'transaction') {
+    // Transaction specific fields
+    rowData.push(row.tran_category); // Category
+    rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason
+    rowData.push(row.tran_description); // Description
+    rowData.push(row.tran_method); // Method
+    rowData.push(row.tran_pay_type || '-'); // Payment Type
+    rowData.push(' ₹ ' + amount.toFixed(2));  // Show income/expense in same column
+} else if (row.type === 'payment') {
+    // Payment specific fields
+    rowData.push('Income'); // Static category for payments
+    rowData.push('<span class="text-nowrap">' + row.pay_student_name + ' - ' + row.cou_name + ' (' + row.stu_aca_year + ' Year)' + '</span>'); // Reason
+    rowData.push('Admission Fees'); // Static description
+    rowData.push(row.pay_paid_method); // Paid Method
+    rowData.push(row.pay_description || 'N/A'); // Description
+    rowData.push(' ₹ ' + amount.toFixed(2)); // Show total amount for payments
+}
+
+table.row.add(rowData);
+
+     
+
+    });
+
+    
+
+    table.draw();
+}
+
     });
 
 
