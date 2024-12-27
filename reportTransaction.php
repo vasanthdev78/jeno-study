@@ -138,7 +138,26 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                  
+                        <tr>
+                        <td></td>
+                        <td>Opening Banalnce Cash</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ></td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>Opening Banalnce Online</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ></td>
+                        </tr>
             
                     </tbody>
                     <tfoot>
@@ -149,6 +168,28 @@ session_start();
         <th>Total Expense</th>
         <th id="totalExpence"></th>
     </tr>
+
+    <tr>
+                        <td></td>
+                        <td>Closing Banalnce Cash</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="closing_cash"></td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>Closing Banalnce Online</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="closing_online"></td>
+                        </tr>
+   
     </tfoot>
                   </table>
                   </div>
@@ -238,10 +279,20 @@ session_start();
     const startDateError = document.getElementById('startDateError');
     const endDateError = document.getElementById('endDateError');
 
+    // Helper function to get yesterday's date
+    function getYesterday() {
+        const today = new Date();
+        today.setDate(today.getDate() - 1);
+        return today;
+    }
+
+    // Validate dates
     function validateDates() {
         const startDateValue = new Date(startDateInput.value);
         const endDateValue = new Date(endDateInput.value);
+        const yesterday = getYesterday();
 
+        // Start date validation
         if (startDateInput.value) {
             startDateInput.classList.remove('is-invalid');
             startDateError.style.display = 'none';
@@ -250,9 +301,11 @@ session_start();
             startDateError.style.display = 'block';
         }
 
+        // End date validation
         if (endDateInput.value) {
-            if (endDateValue < startDateValue) {
+            if (endDateValue < startDateValue || endDateValue > yesterday) {
                 endDateInput.classList.add('is-invalid');
+                endDateError.textContent = 'End date cannot be today or in the future.';
                 endDateError.style.display = 'block';
             } else {
                 endDateInput.classList.remove('is-invalid');
@@ -260,20 +313,26 @@ session_start();
             }
         } else {
             endDateInput.classList.add('is-invalid');
+            endDateError.textContent = 'End date is required.';
             endDateError.style.display = 'block';
         }
     }
 
+    // Prevent form submission if validation fails
     function validateForm(event) {
         validateDates();
         if (document.querySelectorAll('.is-invalid').length > 0) {
-            event.preventDefault(); // Prevent form submission if validation fails
+            event.preventDefault();
         }
     }
 
+    // Attach event listeners
     startDateInput.addEventListener('change', validateDates);
     endDateInput.addEventListener('change', validateDates);
     document.querySelector('.needs-validation').addEventListener('submit', validateForm);
+    
+    // Restrict end date to yesterday
+    endDateInput.max = getYesterday().toISOString().split('T')[0];
 });
     </script>
     <script>
@@ -386,7 +445,13 @@ $(document).ready(function() {
 
                     $('#totalIncome').text(response.total_income);
                     $('#totalExpence').text(response.total_expense);
+                   
+                    
                     updateTable(response.merged_data);
+                    $('#opening_total_online').text(response.opening_online);
+                    $('#opening_total_cash').text(response.opening_cash);
+                    $('#closing_online').text(response.closing_online);
+                    $('#closing_cash').text(response.closing_cash);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
@@ -398,6 +463,29 @@ $(document).ready(function() {
     function updateTable(data) {
     var table = $('#example').DataTable();
     table.clear(); // Clear existing data
+
+    // Add opening balance rows at the top
+    table.row.add([
+        '',  // Serial Number
+        'Opening Balance Cash',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '<span id="opening_total_cash"></span>'  // Placeholder for cash balance
+    ]).draw(false);
+
+    table.row.add([
+        '',
+        'Opening Balance Online',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '<span id="opening_total_online"></span>'  // Placeholder for online balance
+    ]).draw(false);
 
     data.forEach(function(row, index) {
         var income = 0;
@@ -452,7 +540,11 @@ if (row.type === 'transaction') {
 
 table.row.add(rowData);
 
+     
+
     });
+
+    
 
     table.draw();
 }
