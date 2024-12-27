@@ -65,7 +65,7 @@ session_start();
        
                     <div class="filter-container mb-4">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label for="universityFilter" class="form-label">Filter by University</label>
             <select id="universityFilter" class="form-select">
             <option value="">All Universities</option>
@@ -84,7 +84,7 @@ session_start();
             </select>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label for="courseFilter" class="form-label">Filter by Course</label>
             <select id="courseFilter" class="form-select">
             <option value="">All Courses</option>
@@ -102,11 +102,13 @@ session_start();
                         <?php } ?>
             </select>
         </div>
-        
-        <!-- <div class="col-md-4">
-            <label for="dateFilter" class="form-label">Filter by Date</label>
-            <input type="date" id="dateFilter" class="form-control" />
-        </div> -->
+
+        <div class="col-md-3">
+            <label for="yearFilter" class="form-label">Filter by Year</label>
+            <input type="text" name="yearFilter" id="yearFilter" class="form-control" placeholder="Enter format: 23C" oninput="validateYearFilter()">
+            <small id="yearFilterError" style="color: red; display: none;">Invalid format! Please use 23C format.</small>
+        </div>
+
     </div>
 </div>
 
@@ -241,6 +243,27 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
+    function validateYearFilter() {
+        const input = document.getElementById('yearFilter');
+        const error = document.getElementById('yearFilterError');
+        const pattern = /^([1-9]\d|0[1-9])[CcAa]?$/; // Valid numbers 01-99, followed by optional C/A (case insensitive)
+
+        if (pattern.test(input.value)) {
+            error.style.display = 'none'; // Hide error message
+            input.style.borderColor = ''; // Reset border color
+        } else {
+            error.style.display = 'block'; // Show error message
+            input.style.borderColor = 'red'; // Highlight input in red
+        }
+
+        // Ensure only valid characters are entered
+        if (!/^([1-9]?\d|0[1-9]?)?[CcAa]?$/.test(input.value)) {
+            input.value = input.value.slice(0, -1); // Remove last invalid character
+        }
+    }
+</script>
+
+    <script>
         // Enable Bootstrap tooltips
 document.addEventListener('DOMContentLoaded', function () {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -259,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "paging": true // Enable pagination
     });
 // Attach event listeners to the filters
-$('#universityFilter, #courseFilter').on('change keyup', function() {
+$('#universityFilter, #courseFilter, #yearFilter').on('change keyup', function() {
         filterTable();
     });
 
@@ -267,12 +290,13 @@ $('#universityFilter, #courseFilter').on('change keyup', function() {
         // Get values from the filters
         var university = $('#universityFilter').val().trim();
         var course = $('#courseFilter').val().trim();
+        var year = $('#yearFilter').val().trim();
         // var date = $('#dateFilter').val().trim();
 
         // Apply filters to specific columns
         table.column(4).search(university, true, false); // University column
         table.column(5).search(course, true, false);     // Course column
-        //table.column(1).search(date, true, false);       // Date column
+        table.column(2).search(year, true, false);
 
         // Redraw the table with the new filter
         table.draw();

@@ -256,7 +256,7 @@ $previous_date = $date->format('Y-m-d');
                             <div class="page-title-box">
                                 <h4 class="page-title">Daily Report</h4>
                                 <form method="POST"> <!-- Add the form tag -->
-                                    <input type="date" id="dateInput" name="selectedDate" value="<?php echo isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d'); ?>" onchange="this.form.submit()">
+                                    <input type="date" id="dateInput" class="col-2 form-control" max="<?php echo date('Y-m-d'); ?>" name="selectedDate" value="<?php echo isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d'); ?>" onchange="this.form.submit()">
                                 </form>
                             </div>
                         </div>
@@ -293,7 +293,24 @@ $previous_date = $date->format('Y-m-d');
     </thead>
     <tbody>
         <!-- Opening Balances Rows -->
-        
+        <tr>
+            <td></td>
+            <td>Opening Balance - Cash</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-end">₹ <?php echo number_format($open_open_cash ?? 0, 2); ?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Opening Balance - Online</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-end">₹ <?php echo number_format($open_open_online ?? 0, 2); ?></td>
+        </tr>
 
         <!-- Main Data Rows -->
         <?php 
@@ -319,8 +336,8 @@ $previous_date = $date->format('Y-m-d');
             <td><?php echo $description; ?></td>
             <td><?php echo $paymentMethod; ?></td>
             <td><?php echo $payType; ?></td>
-            <td><?php echo $income ? '₹ ' . $income : ''; ?></td>
-            <td><?php echo $expense ? '₹ ' . $expense : ''; ?></td>
+            <td class="text-end"><?php echo $income ? '₹ ' . $income : ''; ?></td>
+            <td class="text-end"><?php echo $expense ? '₹ ' . $expense : ''; ?></td>
         </tr>
         <?php 
         }
@@ -328,53 +345,29 @@ $previous_date = $date->format('Y-m-d');
         
     </tbody>
     <tfoot>
+
+       
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th class="text-end">Total:</th>
-            <th id="total-income"></th>
-            <th id="total-expense"></th>
-        </tr>
-        <tr>
-            <td >Opening Balance - Cash</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($open_open_cash ?? 0, 2); ?></td>
-        </tr>
-        <tr>
-            <td >Opening Balance - Online</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($open_open_online ?? 0, 2); ?></td>
-        </tr>
-        <tr>
             <td>Closing Balance - Cash:</td>
             <td></td>
             <td></td>
             <td></td>
+            <td class="text-end">₹ <?php echo number_format($closing_cash ?? 0, 2); ?></td>
             <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($closing_cash ?? 0, 2); ?></td>
         </tr>
         <tr>
+            <td></td>
             <td>Closing Balance - Online:</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td>₹ <?php echo number_format($closing_online ?? 0, 2); ?></td>
+            <td class="text-end">₹ <?php echo number_format($closing_online ?? 0, 2); ?></td>
         </tr>
     </tfoot>    
 </table>
+
 
                 </div> <!-- container -->
 
@@ -463,10 +456,6 @@ $previous_date = $date->format('Y-m-d');
                     body.append(
                         '<br><table class="table table-bordered">' +
                         '<tbody>' +
-                        '<tr><td colspan="6">Opening Balance - Cash</td><td>' + openingBalanceCash.toFixed(2) + '</td></tr>' +
-                        '<tr><td colspan="6">Opening Balance - Online</td><td>' + openingBalanceOnline.toFixed(2) + '</td></tr>' +
-                        '<tr><td colspan="6">Closing Balance - Cash</td><td>' + closingBalanceCash.toFixed(2) + '</td></tr>' +
-                        '<tr><td colspan="6">Closing Balance - Online</td><td>' + closingBalanceOnline.toFixed(2) + '</td></tr>' +
                         '</tbody></table>'
                     );
 
@@ -475,6 +464,13 @@ $previous_date = $date->format('Y-m-d');
                 }
             },
             // ... other buttons (copy, csv, excel, pdf) ...
+        ],
+        columnDefs: [
+            // Right-align the 5th and 6th columns (Income and Expense)
+            {
+                targets: [5, 6], // These are zero-based indices (column 5 and 6 in the table)
+                className: 'text-right' // Add the 'text-right' class to these columns
+            }
         ],
         footerCallback: function(row, data, start, end, display) {
     var api = this.api();
@@ -502,8 +498,11 @@ $previous_date = $date->format('Y-m-d');
     // Update the footer with totals
     $('#total-income').html('₹ ' + totalIncome.toFixed(2));
     $('#total-expense').html('₹ ' + totalExpense.toFixed(2));
+    
 }
+
     });
+    $('#example tbody td:nth-child(5), #example tbody td:nth-child(6)').css('text-align', 'right');
     });
 </script>
 

@@ -791,7 +791,7 @@ WHERE
                     'tc' => $row['doc_tc'],
                     'aadhar_doc' => $row['doc_aadhar'],
                     'photo' => $row['doc_photo'],
-                    'student_fees' => $student_fees,
+                    'student_fees' => !empty($student_fees) ? $student_fees : '-',
     ];
 
     echo json_encode($studentView);
