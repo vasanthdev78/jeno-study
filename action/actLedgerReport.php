@@ -131,14 +131,71 @@ if (isset($_POST['category']) && $_POST['category'] != '') {
                 'tran_amount' => $row['total_amount']
             ];
         }
-    
+        $query = "
+            SELECT
+                MAX(CASE WHEN open_date = ? AND open_center_id = ? AND open_status = 'Active' THEN open_open_online END) AS opening_online,
+                MAX(CASE WHEN open_date = ? AND open_center_id = ? AND open_status = 'Active' THEN open_open_cash END) AS opening_cash,
+                MAX(CASE WHEN open_date = ? AND open_center_id = ? AND open_status = 'Active' THEN open_close_online END) AS closing_online,
+                MAX(CASE WHEN open_date = ? AND open_center_id = ? AND open_status = 'Active' THEN open_close_cash END) AS closing_cash
+            FROM
+                jeno_opening
+            WHERE
+                (open_date = ? OR open_date = ?)
+                AND open_center_id = ?
+                AND open_status = 'Active';
+        ";
+
+        // Prepare the statement
+        $stmt = $conn->prepare($query);
+
+        // Bind parameters to the prepared statement
+        $stmt->bind_param('sssssssssss', 
+            $startDate, $location, 
+            $startDate, $location, 
+            $endDate, $location, 
+            $endDate, $location, 
+            $startDate, $endDate, 
+            $location
+        );
+
+        // Execute the statement
+        $stmt->execute();
+
+        // Fetch the result
+        $result = $stmt->get_result();
+
+        // Initialize variables to store the results
+        $opening_online = $opening_cash = $closing_online = $closing_cash = null;
+
+        // Check if data is found
+        if ($result->num_rows > 0) {
+            // Fetch data as an associative array
+            $data = $result->fetch_assoc();
+            
+            // Store each value in separate variables
+            $opening_online = $data['opening_online'];
+            $opening_cash = $data['opening_cash'];
+            $closing_online = $data['closing_online'];
+            $closing_cash = $data['closing_cash'];
+        } else {
+            // Handle the case when no data is found
+            echo json_encode(['message' => 'No data found for the given dates and location']);
+        }
+
+        // Close the statement and connection
+        $stmt->close();
+            
        
     
         // Add total income and expense to the response
         $response = [
             'merged_data' => $merged_data,
             'total_income' => formatIndianCurrency($total_income),
-            'total_expense' => formatIndianCurrency($total_expense)
+            'total_expense' => formatIndianCurrency($total_expense),
+            'opening_online' => formatIndianCurrency($opening_online),   
+            'opening_cash' => formatIndianCurrency($opening_cash),       
+            'closing_online' => formatIndianCurrency($closing_online),   
+            'closing_cash' => formatIndianCurrency($closing_cash)
         ];
     
         echo json_encode($response);

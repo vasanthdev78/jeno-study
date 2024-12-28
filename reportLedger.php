@@ -66,14 +66,18 @@ session_start();
                                 <h4 class="page-title">LedgerType Report</h4> 
                                 <form class="needs-validation" novalidate>
                                     <div class="row mt-3 mb-3">
-                                    <div class="col-md-2">
+                                    <?php
+                                        date_default_timezone_set(timezoneId: 'Asia/Kolkata');
+                                        $maxDate = date('Y-m-d', strtotime('-1 day'));
+                                    ?>
+                                <div class="col-md-2">
                                     <label for="startDate" class="form-label">Start Date:<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="startDate" required>
+                                    <input type="date" class="form-control" id="startDate" required max="<?php echo $maxDate; ?>">
                                     <div class="invalid-feedback" id="startDateError">Please enter a start date.</div>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="endDate" class="form-label">End Date:<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="endDate" required>
+                                    <input type="date" class="form-control" id="endDate" required max="<?php echo $maxDate; ?>">
                                     <div class="invalid-feedback" id="endDateError">End date cannot be before the start date.</div>
                                 </div>
 
@@ -124,27 +128,57 @@ session_start();
              <table id="exampleReport" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Ledger Type</th>
-                                    <th scope="col">Amount</th>
+                                    <th class="col-1 text-center">S.No.</th>
+                                    <th class="col-2 text-center">Category</th>
+                                    <th class="col-5 text-center">Ledger Type</th>
+                                    <th class="col-2 text-center">Income Amount</th>
+                                    <th class="col-2 text-center">Expense Amount</th>
        
                                     
                       </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td></td>
+                        <td class="text-center">Opening Balance - Cash</td>
+                        <td></td>
+                        <td id="openCash"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-center">Opening Balance - Online</td>
+                        <td></td>
+                        <td></td>
+                        <td id="openOnline"></td>
+                    </tr>
+
                   
             
                     </tbody>
                     <tfoot>
-            <tr>
-            
-        <th>Total Income </th>
-        <th id="totalIncome"></th>
-        <th>Total Expense</th>
-        <th id="totalExpence"></th>
-    </tr>
-    </tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="text-center">Total Amount</th>
+                            <th id="totalIncome"></th>
+                            <th id="totalExpence"></th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="text-center">Closing Balance - Cash</td>
+                            <td></td>
+                            <td class="text-right" id="closeCash"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="text-center">Closing Balance - Online</td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right" id="closeOnline"></td>
+                        </tr>
+                    </tfoot>
                   </table>
                   </div>
 
@@ -277,20 +311,9 @@ $(document).ready(function() {
     var table = $('#exampleReport').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'copy',
-                footer: true
-            },
-            {
-                extend: 'csv',
-                footer: true
-            },
+           
             {
                 extend: 'excel',
-                footer: true
-            },
-            {
-                extend: 'pdf',
                 footer: true
             },
             {
@@ -363,7 +386,11 @@ $(document).ready(function() {
 
                     $('#totalIncome').text(response.total_income);
                     $('#totalExpence').text(response.total_expense);
-                    updateTable(response.merged_data);
+                    $('#openCash').text(response.opening_cash);
+                    $('#openOnline').text(response.opening_online);
+                    $('#closeCash').text(response.closing_cash);
+                    $('#closeOnline').text(response.closing_online);
+                    updateTable(response.merged_data,response);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
@@ -372,9 +399,73 @@ $(document).ready(function() {
         }
     });
 
-    function updateTable(data) {
-        var table = $('#exampleReport').DataTable();
+    function updateTable(data,response) {
+
+        data.sort(function(a, b) {
+            // Prioritize income rows
+            if (a.type === 'payment' && b.type !== 'payment') return -1; // Income comes first
+            if (a.type !== 'payment' && b.type === 'payment') return 1; // Expense comes later
+
+            // If both are of the same type, prioritize transaction category (income > expense)
+            if (a.type === 'transaction' && b.type === 'transaction') {
+                if (a.tran_category === 'Income' && b.tran_category !== 'Income') return -1;
+                if (a.tran_category !== 'Income' && b.tran_category === 'Income') return 1;
+            }
+            return 0; // Keep the order if they're the same category type
+        });
+
+        var table = $('#exampleReport').DataTable({
+            "destroy": true,  // Allows re-initialization of the DataTable
+            "columnDefs": [
+                { targets: 0, className: 'text-center' }, // Serial Number
+                { targets: 1, className: 'text-center' }, // Category
+                { targets: 2, className: 'text-center text-nowrap' }, // Reason
+                { targets: 3, className: 'text-right' }, // Amount
+                { targets: 4, className: 'text-right' }  // Expense Amount
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    footer: true, // Include footer in the Excel export
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                        // Manually add closing balance rows at the end
+                        var closingBalanceRows = [
+                            '<row><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>Closing Balance - Cash</t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>' + ($('#closeCash').text() || '') + '</t></is></c><c t="inlineStr"><is><t></t></is></c></row>',
+                            '<row><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>Closing Balance - Online</t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>' + ($('#closeOnline').text() || '') + '</t></is></c></row>'
+                        ];
+
+                        // Get the sheetData element where rows are defined
+                        var sheetData = $(sheet).find('sheetData');
+
+                        // Append closing balance rows
+                        $(sheetData).append(closingBalanceRows.join(''));
+
+                        // Update dimension to reflect the new row count
+                        var rowCount = $(sheetData).children('row').length;
+                        $(sheet).find('dimension').attr('ref', 'A1:E' + rowCount);
+                    }
+                },
+                {
+                    extend: 'print',
+                    customize: function(win) {
+                        var tfootContent = $('tfoot').html(); // Grab the entire tfoot content
+                        $(win.document.body).find('table').append('<tfoot>' + tfootContent + '</tfoot>');
+                    }
+                }
+            ],
+        });
         table.clear(); // Clear existing data
+
+        table.row.add([
+            '', 'Opening Balance - Cash', '', response.opening_cash || '-', '-'
+        ]).draw();
+
+        table.row.add([
+            '', 'Opening Balance - Online', '', '-', response.opening_online || '-'
+        ]).draw();
 
         data.forEach(function(row, index) {
             
@@ -382,20 +473,27 @@ $(document).ready(function() {
             var rowData = [];
 
             // Add common fields
-            rowData.push(index + 1); // Serial number
+            rowData.push(index + 1); 
 
             if (row.type === 'transaction') {
-                // Transaction specific fields
-                rowData.push(row.tran_category); // Category
-                rowData.push('<span class="text-nowrap">' + row.tran_reason + '</span>'); // Reason with text-nowrap class
-                rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toFixed(2) : ''); // Amount
+                rowData.push(row.tran_category); 
+                rowData.push(row.tran_reason); 
+                if (row.tran_category === 'Expense') {
+                    rowData.push('-'); 
+                } else {
+                    rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''); 
+                }
+                if (row.tran_category === 'Expense') {
+                    rowData.push(row.tran_amount ? '₹ ' + parseFloat(row.tran_amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''); 
+                } else {
+                    rowData.push('-'); 
+                }
                 
             } else if (row.type === 'payment') {
-                // Payment specific fields
-                rowData.push('Income'); // Static category for payments
-                rowData.push('Addmission Fees'); // Static category for payments
-                rowData.push(row.pay_total_amount ? '₹ ' + parseFloat(row.pay_total_amount).toFixed(2) : ''); // Study Fees
-                
+                rowData.push('Income');
+                rowData.push('Addmission Fees'); 
+                rowData.push(row.pay_total_amount ? '₹ ' + parseFloat(row.pay_total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''); 
+                rowData.push('-');
             }
 
             table.row.add(rowData);
