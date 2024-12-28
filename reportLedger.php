@@ -160,20 +160,20 @@ session_start();
                         <tr>
                             <th></th>
                             <th></th>
-                            <th class="text-right">Total Amount</th>
+                            <th class="text-center">Total Amount</th>
                             <th id="totalIncome"></th>
                             <th id="totalExpence"></th>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="text-center">Closing Balance - Cash:</td>
+                            <td class="text-center">Closing Balance - Cash</td>
                             <td></td>
                             <td class="text-right" id="closeCash"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="text-center">Closing Balance - Online:</td>
+                            <td class="text-center">Closing Balance - Online</td>
                             <td></td>
                             <td></td>
                             <td class="text-right" id="closeOnline"></td>
@@ -425,14 +425,35 @@ $(document).ready(function() {
             ],
             dom: 'Bfrtip',
             buttons: [
-            
                 {
                     extend: 'excel',
-                    footer: true
+                    footer: true, // Include footer in the Excel export
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                        // Manually add closing balance rows at the end
+                        var closingBalanceRows = [
+                            '<row><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>Closing Balance - Cash</t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>' + ($('#closeCash').text() || '') + '</t></is></c><c t="inlineStr"><is><t></t></is></c></row>',
+                            '<row><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>Closing Balance - Online</t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t></t></is></c><c t="inlineStr"><is><t>' + ($('#closeOnline').text() || '') + '</t></is></c></row>'
+                        ];
+
+                        // Get the sheetData element where rows are defined
+                        var sheetData = $(sheet).find('sheetData');
+
+                        // Append closing balance rows
+                        $(sheetData).append(closingBalanceRows.join(''));
+
+                        // Update dimension to reflect the new row count
+                        var rowCount = $(sheetData).children('row').length;
+                        $(sheet).find('dimension').attr('ref', 'A1:E' + rowCount);
+                    }
                 },
                 {
                     extend: 'print',
-                    footer: true
+                    customize: function(win) {
+                        var tfootContent = $('tfoot').html(); // Grab the entire tfoot content
+                        $(win.document.body).find('table').append('<tfoot>' + tfootContent + '</tfoot>');
+                    }
                 }
             ],
         });
