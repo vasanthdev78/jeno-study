@@ -190,7 +190,7 @@ session_start();
                         <td id="closing_online"></td>
                         </tr>
    
-    </tfoot>
+                    </tfoot>
                   </table>
                   </div>
 
@@ -341,46 +341,32 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'copy',
-                footer: true
-            },
-            {
-                extend: 'csv',
-                footer: true
-            },
+            
             {
                 extend: 'excel',
                 footer: true
             },
             {
-                extend: 'pdf',
-                footer: true
-            },
-            {
                 extend: 'print',
-                footer: true
+                footer: true,
+                customize: function (win) {
+                    // Show Total Income Row but hide other closing balance rows
+                    $(win.document.body)
+                        .find('tfoot tr')
+                        .each(function() {
+                            var text = $(this).text();
+                            if (text.includes('Closing Banalnce Cash') || text.includes('Closing Banalnce Online')) {
+                                $(this).hide();  // Hide Closing Balance rows
+                            }
+                        });
+
+                    // Ensure Total Income row is visible
+                    $(win.document.body)
+                        .find('tfoot')
+                        .css('display', 'table-row-group');
+                }
             }
-        ],
-        footerCallback: function(row, data, start, end, display) {
-            var api = this.api();
-
-            // Calculate total income
-            var totalIncome = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
-                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
-                return a + (value > 0 ? value : 0); // Only consider positive values for income
-            }, 0);
-
-            // Calculate total expense
-            var totalExpense = api.column(7, { search: 'applied' }).data().reduce(function(a, b) {
-                var value = parseFloat(b.replace(/[^\d.-]/g, '')) || 0;
-                return a + (value < 0 ? Math.abs(value) : 0); // Only consider negative values for expense
-            }, 0);
-
-            // // Update the footer cells
-            // $(api.column(5).footer()).html('₹ ' + totalIncome.toFixed(2));
-            // $(api.column(7).footer()).html('₹ ' + totalExpense.toFixed(2));
-        }
+        ]
     });
 
 
