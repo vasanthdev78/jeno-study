@@ -24,6 +24,40 @@ session_start();
 
 <?php include "head2.php"; ?>
 <body>
+    <style>
+        /* Apply wrapping to all columns during print */
+.wrap-text {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+/* Ensure print-specific styles apply */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact; /* Ensure colors are printed */
+    }
+
+    .wrap-print-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .wrap-print-table th,
+    .wrap-print-table td {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        max-width: 200px;  /* Adjust based on content */
+        overflow: hidden;
+    }
+
+    /* Force A4 width */
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+}
+
+    </style>
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -131,7 +165,8 @@ session_start();
                                     <th scope="col">Description</th>
                                     <th scope="col">Payment Method</th>
                                     <th scope="col">Payment Type</th>
-                                    <th scope="col">Amount</th>
+                                    <th scope="col">Income</th>
+                                    <th scope="col">Expense</th>
                                     
                                     
                                     
@@ -147,6 +182,7 @@ session_start();
                         <td></td>
                         <td></td>
                         <td ></td>
+                        <td ></td>
                         </tr>
                         <tr>
                         <td></td>
@@ -157,16 +193,17 @@ session_start();
                         <td></td>
                         <td></td>
                         <td ></td>
+                        <td ></td>
                         </tr>
             
                     </tbody>
                     <tfoot>
             <tr>
-            <th colspan="4"></th>
-        <th>Total Income</th>
+            <th colspan="6"></th>
+        <th>Total Amount</th>
         <th id="totalIncome"></th>
-        <th>Total Expense</th>
         <th id="totalExpence"></th>
+        
     </tr>
 
     <tr>
@@ -178,10 +215,12 @@ session_start();
                         <td></td>
                         <td></td>
                         <td id="closing_cash"></td>
+                        <td></td>
                         </tr>
                         <tr>
                         <td></td>
                         <td>Closing Banalnce Online</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -341,34 +380,67 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            
-            {
-                extend: 'excel',
-                footer: true
-            },
-            {
-                extend: 'print',
-                footer: true,
-                customize: function (win) {
-                    // Show Total Income Row but hide other closing balance rows
-                    $(win.document.body)
-                        .find('tfoot tr')
-                        .each(function() {
-                            var text = $(this).text();
-                            if (text.includes('Closing Banalnce Cash') || text.includes('Closing Banalnce Online')) {
-                                $(this).hide();  // Hide Closing Balance rows
-                            }
-                        });
+//             {
+//     extend: 'excel',
+//     footer: true,
+//     customize: function (xlsx) {
+//         var sheet = xlsx.xl.worksheets['sheet1.xml'];  // Access the first sheet
 
-                    // Ensure Total Income row is visible
-                    $(win.document.body)
-                        .find('tfoot')
-                        .css('display', 'table-row-group');
-                }
-            }
-        ]
+//         // Grab the entire tfoot content
+//         var tfootContent = $('tfoot').html();
+
+//         // Add the footer rows manually
+//         var footerRows = '';
+
+//         // We assume the last row is at index 'n', and the first row is at index 1
+//         var startRow = 2; // starting row for footer (adjust based on the number of data rows)
+
+//         // Iterate through each row in the tfoot and append it to the Excel sheet
+//         $(tfootContent).find('tr').each(function(index, row) {
+//             footerRows += '<row r="' + (startRow + index) + '">'; // Adjusting row number based on footer
+//             $(row).find('td').each(function(cellIndex, cell) {
+//                 // Generate correct cell reference for Excel (A1, B1, etc.)
+//                 var cellRef = String.fromCharCode(65 + cellIndex) + (startRow + index);
+//                 footerRows += '<c t="inlineStr" r="' + cellRef + '"><is><t>' + $(cell).text() + '</t></is></c>';
+//             });
+//             footerRows += '</row>';
+//         });
+
+//         // Append the footer rows to the Excel sheet
+//         $(sheet).find('sheetData').append(footerRows);
+//     }
+// },
+{
+    extend: 'print',
+    customize: function (win) {
+        // Ensure the most updated tfoot content is grabbed from the DOM
+        var tfootContent = $('tfoot').html();
+
+        // Add the footer content to the printed table
+        $(win.document.body).find('table').append('<tfoot>' + tfootContent + '</tfoot>');
+
+        // Apply print-specific styling
+        $(win.document.body).find('table').addClass('wrap-print-table');
+        
+        // Ensure text wrapping for all columns
+        $(win.document.body).find('table th, table td').addClass('wrap-text');
+        
+        // Force table width to fit A4 paper size
+        $(win.document.body).find('table')
+            .css('width', '100%')
+            .css('border-collapse', 'collapse');
+        
+        // Adjust the print window layout
+        $(win.document.body).css('font-size', '12px');
+    }
+}
+        ],
+        columnDefs: [
+            { width: '80px', targets: 3 },  // Set column 4 width
+            { className: 'wrap-text', targets: '_all' }  // Apply wrapping to all columns
+        ],
+        autoWidth: false  // Disable automatic column sizing
     });
-
 
     $('#searchBtn').on('click', function() {
         
@@ -433,7 +505,7 @@ $(document).ready(function() {
                     $('#totalExpence').text(response.total_expense);
                    
                     
-                    updateTable(response.merged_data);
+                    updateTable(response.merged_data ,response.opening_online ,response.opening_cash);
                     $('#opening_total_online').text(response.opening_online);
                     $('#opening_total_cash').text(response.opening_cash);
                     $('#closing_online').text(response.closing_online);
@@ -446,8 +518,8 @@ $(document).ready(function() {
         }
     });
 
-    function updateTable(data) {
-    var table = $('#example').DataTable();
+    function updateTable(data ,online,cash) {
+    // var table = $('#example').DataTable();
     table.clear(); // Clear existing data
 
     // Add opening balance rows at the top
@@ -459,7 +531,8 @@ $(document).ready(function() {
         '',
         '',
         '',
-        '<span id="opening_total_cash"></span>'  // Placeholder for cash balance
+        '<span id="opening_total_cash">'+ cash +'</span>',  // Placeholder for cash balance
+        ''
     ]).draw(false);
 
     table.row.add([
@@ -470,7 +543,8 @@ $(document).ready(function() {
         '',
         '',
         '',
-        '<span id="opening_total_online"></span>'  // Placeholder for online balance
+        '',
+        '<span id="opening_total_online">'+ online +'</span>'  // Placeholder for online balance
     ]).draw(false);
 
     data.forEach(function(row, index) {
@@ -513,7 +587,15 @@ if (row.type === 'transaction') {
     rowData.push(row.tran_description); // Description
     rowData.push(row.tran_method); // Method
     rowData.push(row.tran_pay_type || '-'); // Payment Type
-    rowData.push(' ₹ ' + amount.toFixed(2));  // Show income/expense in same column
+
+    if (row.tran_category === 'Income') {
+        rowData.push(' ₹ ' + amount.toFixed(2));  // Show income/expense in same column
+        rowData.push('');  // Show income/expense in same column     
+    }else {
+        rowData.push(' ');  // Show income/expense in same column    
+        rowData.push(' ₹ ' + amount.toFixed(2));  // Show income/expense in same column
+    }
+    
 } else if (row.type === 'payment') {
     // Payment specific fields
     rowData.push('Income'); // Static category for payments
@@ -522,6 +604,7 @@ if (row.type === 'transaction') {
     rowData.push(row.pay_paid_method); // Paid Method
     rowData.push(row.pay_description || 'N/A'); // Description
     rowData.push(' ₹ ' + amount.toFixed(2)); // Show total amount for payments
+    rowData.push(''); // Show total amount for payments
 }
 
 table.row.add(rowData);
@@ -533,6 +616,8 @@ table.row.add(rowData);
     
 
     table.draw();
+
+    
 }
 
     });
