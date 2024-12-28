@@ -248,7 +248,10 @@ session_start();
         const error = document.getElementById('yearFilterError');
         const pattern = /^([1-9]\d|0[1-9])[CcAa]?$/; // Valid numbers 01-99, followed by optional C/A (case insensitive)
 
-        if (pattern.test(input.value)) {
+        if (input.value.trim() === "") {
+            error.style.display = 'none'; // Hide error message
+            input.style.borderColor = ''; // Reset border color
+        } else if (pattern.test(input.value)) {
             error.style.display = 'none'; // Hide error message
             input.style.borderColor = ''; // Reset border color
         } else {
