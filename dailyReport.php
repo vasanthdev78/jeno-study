@@ -431,7 +431,7 @@ $previous_date = $date->format('Y-m-d');
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
-    <script>
+<script>
     $(document).ready(function() {
         var openingBalanceCash = <?php echo $open_open_cash ?? 0; ?>;
         var openingBalanceOnline = <?php echo $open_open_online ?? 0; ?>;
@@ -443,21 +443,13 @@ $previous_date = $date->format('Y-m-d');
         buttons: [
             {
                 extend: 'print',
-                footer: true,
                 customize: function(win) {
                     var body = $(win.document.body);
 
                     // Add the header with "Daily Report" and the current date
                     body.prepend('<center><h5>Date: ' + todayDate + '</h5></center><br>');
-
-                   
-
-                    // Add the closing balances table at the bottom of the print view
-                    body.append(
-                        '<br><table class="table table-bordered">' +
-                        '<tbody>' +
-                        '</tbody></table>'
-                    );
+                    var tfootContent = $('tfoot').html(); // Grab the entire tfoot content
+                    $(win.document.body).find('table').append('<tfoot>' + tfootContent + '</tfoot>');
 
                     // Style adjustments
                     body.find('table').css('font-size', 'inherit');
@@ -472,37 +464,7 @@ $previous_date = $date->format('Y-m-d');
                 className: 'text-right' // Add the 'text-right' class to these columns
             }
         ],
-        footerCallback: function(row, data, start, end, display) {
-    var api = this.api();
-
-    // Helper function to parse numbers and remove currency symbols and commas
-    var parseNumber = function(value) {
-        if (typeof value === 'string') {
-            // Remove non-numeric characters (except for '-' and '.')
-            value = value.replace(/[^0-9.-]+/g, '');
-        }
-        return parseFloat(value) || 0; // Convert to float or return 0 if NaN
-    };
-
-    // Calculate the total for a given column index
-    var calculateTotal = function(index) {
-        return api.column(index, { page: 'current' }).data().reduce(function(a, b) {
-            return parseNumber(a) + parseNumber(b);
-        }, 0);
-    };
-
-    // Calculate totals for Income and Expense columns
-    var totalIncome = calculateTotal(5); // Assuming column index 5 is Income
-    var totalExpense = calculateTotal(6); // Assuming column index 6 is Expense
-
-    // Update the footer with totals
-    $('#total-income').html('₹ ' + totalIncome.toFixed(2));
-    $('#total-expense').html('₹ ' + totalExpense.toFixed(2));
-    
-}
-
-    });
-    $('#example tbody td:nth-child(5), #example tbody td:nth-child(6)').css('text-align', 'right');
+        });
     });
 </script>
 
