@@ -21,6 +21,7 @@ $response = ['success' => false, 'message' => ''];
         $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
         $universityPaid = htmlspecialchars($_POST['universityPaid'], ENT_QUOTES, 'UTF-8');
         $studyPaid = htmlspecialchars($_POST['studyPaid'], ENT_QUOTES, 'UTF-8');
+        $actualBalance = htmlspecialchars($_POST['actualBalance'], ENT_QUOTES, 'UTF-8');
 
         $centerId = $_SESSION['centerId'];
     
@@ -45,8 +46,11 @@ $response = ['success' => false, 'message' => ''];
         $fee_sty_fee = $fees['fee_sty_fee'];
         $stu_id = $fees['fee_stu_id'];
     
+        if (empty($actualBalance)) {
+            $actualBalance = 0;
+        }
         // Calculate updated fees
-        $uni_fees = $fee_uni_fee + $universityPaid;
+        $uni_fees = $fee_uni_fee + $actualBalance;
         $sty_fees = $fee_sty_fee + $studyPaid;
 
         // Query to fetch loc_short_name and stu_uni_id
@@ -69,42 +73,42 @@ $response = ['success' => false, 'message' => ''];
         $stu_uni_id = $location_student['stu_uni_id'];
 
         // Query to fetch university name and get first two characters
-        // $university_query = "
-        // SELECT 
-        //     LEFT(uni_name, 2) AS uni_short_name
-        // FROM 
-        //     jeno_university 
-        // WHERE 
-        //     uni_id = $stu_uni_id;
-        // ";
+        $university_query = "
+        SELECT 
+            LEFT(uni_name, 2) AS uni_short_name
+        FROM 
+            jeno_university 
+        WHERE 
+            uni_id = $stu_uni_id;
+        ";
 
-        // $university_res = mysqli_query($conn, $university_query);
-        // $university_data = mysqli_fetch_array($university_res, MYSQLI_ASSOC);
+        $university_res = mysqli_query($conn, $university_query);
+        $university_data = mysqli_fetch_array($university_res, MYSQLI_ASSOC);
 
-        // $uni_short_name = $university_data['uni_short_name'];
+        $uni_short_name = $university_data['uni_short_name'];
 
-        // // Get the current year and last two digits
-        // $current_year = date('y');
+        // Get the current year and last two digits
+        $current_year = date('y');
 
-        // // Query to get the last sequence number for this center, university, and year
-        // $bill_no_select = "
-        //    SELECT 
-        //         MAX(CAST(SUBSTRING(pay_bill_no, 8) AS UNSIGNED)) AS last_sequence 
-        //     FROM 
-        //         jeno_payment_history 
-        //     WHERE 
-        //         pay_center_id = $centerId  
-        //         AND SUBSTRING(pay_bill_no, 1, 3) = '$loc_short_name' 
-        //         AND SUBSTRING(pay_bill_no, 4, 2) = '$uni_short_name' 
-        //         AND SUBSTRING(pay_bill_no, 6, 2) = '$current_year'; 
-        // ";
+        // Query to get the last sequence number for this center, university, and year
+        $bill_no_select = "
+           SELECT 
+                MAX(CAST(SUBSTRING(pay_bill_no, 8) AS UNSIGNED)) AS last_sequence 
+            FROM 
+                jeno_payment_history 
+            WHERE 
+                pay_center_id = $centerId  
+                AND SUBSTRING(pay_bill_no, 1, 3) = '$loc_short_name' 
+                AND SUBSTRING(pay_bill_no, 4, 2) = '$uni_short_name' 
+                AND SUBSTRING(pay_bill_no, 6, 2) = '$current_year'; 
+        ";
 
-        // $bill_no_res = mysqli_query($conn, $bill_no_select);
-        // $bill_no_data = mysqli_fetch_array($bill_no_res, MYSQLI_ASSOC);
+        $bill_no_res = mysqli_query($conn, $bill_no_select);
+        $bill_no_data = mysqli_fetch_array($bill_no_res, MYSQLI_ASSOC);
 
-        // // Determine the last sequence number and increment
-        // $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
-        // $next_sequence = $last_sequence + 1;
+        // Determine the last sequence number and increment
+        $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
+        $next_sequence = $last_sequence + 1;
 
         $bill_no_sql="SELECT MAX(pay_bill_no) + 1 AS next_bill_number
                         FROM jeno_payment_history;";

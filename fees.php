@@ -581,10 +581,9 @@ response.hostory_table.forEach(function(payment, index) {
                 $('#universityPaid').off('input').on('input', function() {
                     var enteredAmount = Number($(this).val());
                     if (enteredAmount > balance_uni_fee) {
-                        showAlert('danger', 'Entered university fee amount exceeds the remaining balance by ₹ ' + (enteredAmount - balance_uni_fee));
-                        $(this).val(balance_uni_fee).addClass('is-invalid');
+                        $('#actualBalance').val(balance_uni_fee);
                     } else {
-                        $(this).removeClass('is-invalid');
+                        $('#actualBalance').val(enteredAmount);
                     }
                     calculateTotalAndBalance();
                 });
@@ -601,7 +600,7 @@ response.hostory_table.forEach(function(payment, index) {
                 });
 
                 function calculateTotalAndBalance() {
-                    var universityPaid = parseFloat($('#universityPaid').val()) || 0;
+                    var universityPaid = parseFloat($('#actualBalance').val()) || 0;
                     var studyPaid = parseFloat($('#studyPaid').val()) || 0;
                     var totalAmount = universityPaid + studyPaid;
                     $('#totalAmount').val(totalAmount);

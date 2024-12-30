@@ -75,6 +75,7 @@
                             <div class="form-group pb-1">
                                 <label for="universityPaid" class="form-label"><b>University Fees  </b><span class="text-danger" id="universityFees"> </span></label>
                                 <input type="number" class="form-control"  placeholder="Enter amount" name="universityPaid" id="universityPaid" required="required">
+                                <input type="hidden" id="actualBalance" name="actualBalance">
                             </div>
                         </div>
 
