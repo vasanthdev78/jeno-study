@@ -158,15 +158,15 @@ session_start();
              <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Paid Date</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Ledger Type</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Payment Method</th>
-                                    <th scope="col">Payment Type</th>
-                                    <th scope="col">Income</th>
-                                    <th scope="col">Expense</th>
+                                    <th >S.No.</th>
+                                    <th >Paid Date</th>
+                                    <th >Category</th>
+                                    <th >Ledger Type</th>
+                                    <th >Description</th>
+                                    <th >Payment Method</th>
+                                    <th >Payment Type</th>
+                                    <th >Income</th>
+                                    <th >Expense</th>
                                     
                                     
                                     
@@ -413,27 +413,48 @@ $(document).ready(function() {
 {
     extend: 'print',
     customize: function (win) {
-        // Ensure the most updated tfoot content is grabbed from the DOM
-        var tfootContent = $('tfoot').html();
+        // New footer content as regular rows (not <tfoot>)
+        var newFooter = `
 
-        // Add the footer content to the printed table
-        $(win.document.body).find('table').append('<tfoot>' + tfootContent + '</tfoot>');
+            <tr>
+                <td colspan="7" style="text-align:right; font-weight:bold;">Total Amount:</td>
+                <td style="font-weight:bold;">${$('#totalIncome').text()}</td>
+                <td style=" font-weight:bold;">${$('#totalExpence').text()}</td>
+            </tr>
+            <tr>
+                <td colspan="7" style="text-align:right; font-weight:bold;">Closing Cash:</td>
+                <td>${$('#closing_cash').text()}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="7" style="text-align:right; font-weight:bold;">Closing Online:</td>
+                <td></td>
+                <td>${$('#closing_online').text()}</td>
+            </tr>
+        `;
 
-        // Apply print-specific styling
-        $(win.document.body).find('table').addClass('wrap-print-table');
+        // Remove any existing footer rows to prevent duplication
+        $(win.document.body).find('table tr.print-footer').remove();
         
+        // Append footer directly after table body as normal rows
+        $(win.document.body).find('table tbody').append(newFooter);
+        
+        // Apply print-specific table styling
+        $(win.document.body).find('table').addClass('wrap-print-table');
+
         // Ensure text wrapping for all columns
         $(win.document.body).find('table th, table td').addClass('wrap-text');
-        
+
         // Force table width to fit A4 paper size
         $(win.document.body).find('table')
             .css('width', '100%')
             .css('border-collapse', 'collapse');
-        
-        // Adjust the print window layout
-        $(win.document.body).css('font-size', '12px');
+
+        // Adjust font size for print layout
+        $(win.document.body).css('font-size', '10px');
     }
 }
+
         ],
         columnDefs: [
             { width: '80px', targets: 3 },  // Set column 4 width
