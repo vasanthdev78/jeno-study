@@ -110,15 +110,15 @@ $response = ['success' => false, 'message' => ''];
         $last_sequence = isset($bill_no_data['last_sequence']) ? $bill_no_data['last_sequence'] : 0;
         $next_sequence = $last_sequence + 1;
 
-        $bill_no_sql="SELECT MAX(pay_bill_no) + 1 AS next_bill_number
-                        FROM jeno_payment_history;";
+        // $bill_no_sql="SELECT MAX(pay_bill_no) + 1 AS next_bill_number
+        //                 FROM jeno_payment_history;";
 
-        $bill_no_sql_res = mysqli_query($conn, $bill_no_sql);
-        $bill_no_sql_data = mysqli_fetch_array($bill_no_sql_res, MYSQLI_ASSOC);
-        $next_bill_number = $bill_no_sql_data['next_bill_number'];
+        // $bill_no_sql_res = mysqli_query($conn, $bill_no_sql);
+        // $bill_no_sql_data = mysqli_fetch_array($bill_no_sql_res, MYSQLI_ASSOC);
+        // $next_bill_number = $bill_no_sql_data['next_bill_number'];
 
         // Generate the bill number
-        // $billNo = $loc_short_name . $uni_short_name . $current_year . $next_sequence;
+        $billNo = $loc_short_name . $uni_short_name . $current_year . $next_sequence;
 
         // Other fields
         $createdBy = $_SESSION['userId'];
@@ -139,7 +139,7 @@ $response = ['success' => false, 'message' => ''];
         , `pay_center_id`
         , `pay_created_by`)
         VALUES 
-        ( '$next_bill_number'
+        ( '$billNo'
         , '$admissionId'
         , '$studentName'
         , '$payYear'
