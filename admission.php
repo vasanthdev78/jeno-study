@@ -299,7 +299,8 @@ $('#universityFilter, #courseFilter, #yearFilter').on('change keyup', function()
         // Apply filters to specific columns
         table.column(4).search(university, true, false); // University column
         table.column(5).search(course, true, false);     // Course column
-        table.column(2).search(year, true, false);
+        var yearRegex = year ? '^' + year : ''; // Match only at the start of the string
+        table.column(2).search(yearRegex, true, false);
 
         // Redraw the table with the new filter
         table.draw();
