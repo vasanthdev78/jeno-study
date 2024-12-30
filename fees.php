@@ -796,13 +796,19 @@ $('#addFees').off('submit').on('submit', function(e) {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    alert('Student year updated and new fees recorded successfully.');
-                    $('#year').prop('disabled', true);
-                    $('#universityPaid').prop('disabled', false);
-                    $('#studyPaid').prop('disabled', false);
-                    // Get the inserted row fee ID and call the goEditFees function
-                    var newFeeId = response.fee_id;
-                    goEditFees(newFeeId);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Student year updated and new fees recorded successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        $('#year').prop('disabled', true);
+                        $('#universityPaid').prop('disabled', false);
+                        $('#studyPaid').prop('disabled', false);
+                        // Get the inserted row fee ID and call the goEditFees function
+                        var newFeeId = response.fee_id;
+                        goEditFees(newFeeId);
+                    });
                 } else {
                     alert('Failed to update student year or record new fees: ' + response.message);
                 }
