@@ -278,11 +278,11 @@ session_start();
                     
                     if (examType === 'Year') {
                         for (var i = 1; i <= duration; i++) {
-                            options += '<option value="' + i + '">' + i + ' st Year</option>';
+                            options += '<option value="' + i + '">' + i + ' Year</option>';
                         }
                     } else if (examType === 'Semester') {
                         for (var i = 1; i <= (duration * 2); i++) {
-                            options += '<option value="' + i + '">' + i + ' st Semester</option>';
+                            options += '<option value="' + i + '">' + i + ' Semester</option>';
                         }
                     }
 
