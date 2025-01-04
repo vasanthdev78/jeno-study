@@ -183,7 +183,7 @@
     }
 
     if ($pay_center_id == 1) {
-        $address = "Western Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601";
+        $address = "Western Tower Complex, II nd Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601";
     } else {
         $address = " PPGH+JF5, Trivandrum Rd, Murugankurichi, Thimmarajapuram, Tirunelveli, Tamil Nadu 627003";
     }
@@ -233,7 +233,7 @@
 
         // Address
         $this->SetFont('Arial', '', 8);
-        $this->Cell(0, 10, 'Western Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601', 0, 1, 'R');
+        $this->Cell(0, 10, 'Western Tower Complex, II nd Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601', 0, 1, 'R');
         // Line break
         $this->Ln(2);
     }

@@ -139,6 +139,12 @@ ORDER BY
                         <?php } ?>
                     </select>
                 </div>
+
+                <div class="col-md-3">
+                    <label for="yearFilter" class="form-label">Filter by Year</label>
+                    <input type="text" name="yearFilter" id="yearFilter" class="form-control" placeholder="Enter format: 23C" oninput="validateYearFilter()">
+                    <small id="yearFilterError" style="color: red; display: none;">Invalid format! Please use 23C format.</small>
+                </div>
                 
                 <!-- Year Filter -->
                 <!-- <div class="col-md-3">
@@ -291,8 +297,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
     </script>
 
+<script>
+    function validateYearFilter() {
+        const input = document.getElementById('yearFilter');
+        const error = document.getElementById('yearFilterError');
+        const pattern = /^([1-9]\d|0[1-9])[CcAa]?$/; // Valid numbers 01-99, followed by optional C/A (case insensitive)
+
+        if (input.value.trim() === "") {
+            error.style.display = 'none'; // Hide error message
+            input.style.borderColor = ''; // Reset border color
+        } else if (pattern.test(input.value)) {
+            error.style.display = 'none'; // Hide error message
+            input.style.borderColor = ''; // Reset border color
+        } else {
+            error.style.display = 'block'; // Show error message
+            input.style.borderColor = 'red'; // Highlight input in red
+        }
+
+        // Ensure only valid characters are entered
+        if (!/^([1-9]?\d|0[1-9]?)?[CcAa]?$/.test(input.value)) {
+            input.value = input.value.slice(0, -1); // Remove last invalid character
+        }
+    }
+</script>
+
     <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {          
     // Declare the variable outside the if-else scope
     var dataTable;
 
@@ -312,10 +342,16 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("filter-course").addEventListener("change", function () {
         filterTable(dataTable);
     });
+    document.getElementById("yearFilter").addEventListener("input", function () {
+        filterTable(dataTable);
+    });
 
     function filterTable(dataTable) {
         const universityFilter = document.getElementById("filter-university").value.toLowerCase();
         const courseFilter = document.getElementById("filter-course").value.toLowerCase();
+        const yearFilter = document.getElementById("yearFilter").value.trim();
+        const yearRegex = yearFilter ? `^${yearFilter}` : ''; 
+        dataTable.column(1).search(yearRegex, true, false).draw();
 
         // Apply filter for university
         dataTable.column(2).search(universityFilter || '', true, false).draw(); // Adjust column index if necessary

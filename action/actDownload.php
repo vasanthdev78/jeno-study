@@ -182,7 +182,7 @@
     }
 
     if ($pay_center_id == 1) {
-        $address = "Westren Tower Complex, II and Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601";
+        $address = "Western Tower Complex, II nd Floor , Opp ,Cathedral Church, Murugankurichi Palayamkottai,Tirunelveli - 2 Ph - 04622912601";
     } else {
         $address = " PPGH+JF5, Trivandrum Rd, Murugankurichi, Thimmarajapuram, Tirunelveli, Tamil Nadu 627003";
     }

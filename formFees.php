@@ -103,7 +103,7 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="paidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="paidDate" id="paidDate" required="required">
+                                <input type="date" class="form-control" name="paidDate" id="paidDate" required="required" value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">
                             </div>
                         </div>                     
                         
@@ -213,7 +213,7 @@
                         <div class="col-sm-6">
                             <div class="form-group pb-1">
                                 <label for="editPaidDate" class="form-label"><b>Paid Date</b><span class="text-danger">*</span></label>
-                                <input type="date" class="form-control"  name="editPaidDate" id="editPaidDate" required="required">
+                                <input type="date" class="form-control"  name="editPaidDate" id="editPaidDate" required="required" value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">
                             </div>
                         </div>
 

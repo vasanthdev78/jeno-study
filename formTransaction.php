@@ -44,7 +44,7 @@
                         <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="date" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control"  name="date" id="date" required="required">
+                                    <input type="date" class="form-control"  name="date" id="date" required="required" value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">
                                 </div>
                             </div>
 
@@ -153,7 +153,7 @@
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="editDate" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control"  name="editDate" id="editDate" required="required">
+                                    <input type="date" class="form-control"  name="editDate" id="editDate" required="required" value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">
                                 </div>
                             </div>
 
