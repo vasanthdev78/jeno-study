@@ -253,16 +253,20 @@ if(isset($_SESSION['user']) && $_SESSION['user'] != '')
                         <select id="location" name="location">
                             <option value="">----select----</option>
                             <?php 
-                                     $location_result = getLocation(); // Call the function to fetch universities 
-                                     while ($row = $location_result->fetch_assoc()) {
-                                     $id = $row['loc_id']; 
-                                    $name = $row['loc_short_name'];    
-                        
-                                      ?>
-                        
-                            <option value="<?php echo $id;?>"><?php echo $name;?></option>
+                            $location_result = getLocation(); // Call the function to fetch locations
 
-                        <?php } ?>
+                            if ($location_result) {
+                                while ($row = $location_result->fetch_assoc()) {
+                                    $id = htmlspecialchars($row['loc_id']); 
+                                    $name = htmlspecialchars($row['loc_short_name']);    
+                        ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                        <?php 
+                                }
+                            } else {
+                                echo '<option value="">No active locations found</option>';
+                            }
+                        ?>
 
                         </select>
                         <span class="error-message" id="locationError"></span>
