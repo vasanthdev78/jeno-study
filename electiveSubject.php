@@ -65,7 +65,7 @@ session_start();
 
              
              
-             
+                    <div class="table-responsive">
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -112,6 +112,7 @@ session_start();
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->

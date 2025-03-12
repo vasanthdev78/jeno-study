@@ -7,6 +7,99 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
+
+if (isset($_GET['admissionTable']) && $_GET['admissionTable'] === 'AdmissionTable') {
+    $start = $_GET['start'];
+    $length = $_GET['length'];
+    $searchValue = $_GET['search']['value'];
+
+    $university = $_GET['university'] ?? '';
+    $course = $_GET['course'] ?? '';
+    $year = $_GET['year'] ?? '';
+    $location = $_GET['location'] ?? 0;
+
+    $query = "SELECT a.*, b.*, c.*
+              FROM `jeno_student` AS a
+              LEFT JOIN jeno_university AS b ON a.stu_uni_id = b.uni_id
+              LEFT JOIN jeno_course AS c ON a.stu_cou_id = c.cou_id
+              WHERE a.stu_status = 'Active' AND a.stu_center_id = '$location'";
+
+    if (!empty($searchValue)) {
+        $query .= " AND (stu_name LIKE '%$searchValue%' OR uni_name LIKE '%$searchValue%' OR cou_name LIKE '%$searchValue%')";
+    }
+    if (!empty($university)) {
+        $query .= " AND uni_name = '$university'";
+    }
+    if (!empty($course)) {
+        $query .= " AND cou_name = '$course'";
+    }
+    if (!empty($year)) {
+        $query .= " AND stu_addmision_new LIKE '$year%'";
+    }
+
+    $totalQuery = mysqli_query($conn, $query);
+    $totalRecords = ($totalQuery) ? mysqli_num_rows($totalQuery) : 0;
+
+    // $query .= " ORDER BY c.cou_name DESC, a.stu_id DESC LIMIT $start, $length";
+    $query .= " ORDER BY a.stu_id DESC LIMIT $start, $length";
+    $dataQuery = mysqli_query($conn, $query);
+
+    if (!$dataQuery) {
+        echo json_encode([
+            "draw" => intval($_GET['draw']),
+            "recordsTotal" => 0,
+            "recordsFiltered" => 0,
+            "data" => [],
+            "error" => "Query failed: " . mysqli_error($conn)
+        ]);
+        exit();
+    }
+
+    $data = [];
+    $serial = $start + 1;
+    while ($row = mysqli_fetch_assoc($dataQuery)) {
+        $serialNumber = $serial++;
+        $id = $row['stu_id'];
+        $name = $row['stu_name'];
+        $phone = $row['stu_phone'];
+        $university = $row['uni_name'];
+        $course = $row['cou_name'];
+        $enroll = $row['stu_enroll'];
+        $apply = $row['stu_addmision_new'];
+        $stu_created_at = $row['stu_created_at'];
+        $dateOnly = date('Y-m-d', strtotime($stu_created_at));
+
+        $actions = "
+            <button class='btn btn-warning text-white' onclick='goEditAdmission($id);'><i class='bi bi-pencil-square'></i></button>
+            <button class='btn btn-success text-white' onclick='goViewAdmission($id);'><i class='bi bi-eye-fill'></i></button>
+            <button class='btn btn-danger text-white' onclick='goDeleteAdmission($id);'><i class='bi bi-trash'></i></button>";
+        if ($row['stu_enroll']) {
+            $actions .= "<a href='courseDoing.php?payment_id=$id' target='_blank'><button class='btn btn-primary text-white'><i class='bi bi-download'></i></button></a>";
+        }
+
+        $data[] = [
+            $serialNumber,
+            $dateOnly,
+            !empty($apply) ? $apply : '---',
+            $name,
+            $university,
+            $course,
+            $phone,
+            !empty($enroll) ? $enroll : 'Pending',
+            $actions
+        ];
+    }
+
+    echo json_encode([
+        "draw" => intval($_GET['draw']),
+        "recordsTotal" => $totalRecords,
+        "recordsFiltered" => $totalRecords,
+        "data" => $data
+    ]);
+
+    exit();
+}
+
 // Admission data add Start-----------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addAdmission' && $_POST['stuName'] != '') {
 

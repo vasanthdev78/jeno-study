@@ -4,9 +4,10 @@ session_start();
     include "class.php";
     include "db/dbConnection.php";
 
-if(isset($_SESSION['user']) && $_SESSION['user'] != '')
-    {
-        header("Location:dashboard.php");
+    if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+        // Redirect to dashboard
+        header("Location: dashboard.php");
+        exit(); // Ensure no further code is executed after redirection
     }
 ?>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ if(isset($_SESSION['user']) && $_SESSION['user'] != '')
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="assets/images/logo-sm.png">
     
     <!-- Theme Config Js -->
     <script src="assets/js/config.js"></script>
@@ -283,7 +284,7 @@ if(isset($_SESSION['user']) && $_SESSION['user'] != '')
                 <div class="image-container">
                     <h1>JENO</h1>
                     <p><b>EDUCATIONAL ORGANIZATION</b></p>
-                    <img src="assets/images/logo/Lock1.png" alt="Illustration">
+                    <img src="assets/images/logo/Lock.png" alt="Illustration">
                 </div>
             </div>
         </div>

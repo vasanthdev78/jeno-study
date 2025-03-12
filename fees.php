@@ -5,35 +5,6 @@ session_start();
 
     $centerId = $_SESSION['centerId'];
 
-    $selQuery = "SELECT 
-    a.fee_id 
-    , a.fee_admision_id 
-    , a.fee_uni_fee_total 
-    , a.fee_uni_fee 
-    , a.fee_sdy_fee_total 
-    , a.fee_sty_fee
-    , b.stu_id 
-    , b.stu_name
-    , b.stu_phone
-    , b.stu_enroll
-    , b.stu_addmision_new
-    , c.cou_name
-    , d.uni_name
-        FROM `jeno_fees` AS a
-        LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
-        LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
-        LEFT JOIN jeno_university AS d ON b.stu_uni_id = d.uni_id
-        WHERE a.fee_status = 'Active'
-        AND a.fee_created_at = (
-            SELECT MAX(a2.fee_created_at)
-            FROM `jeno_fees` AS a2
-            WHERE a2.fee_stu_id = a.fee_stu_id
-            AND a2.fee_status = 'Active'
-            AND a.fee_center_id =$centerId )
-        ORDER BY a.fee_created_at DESC;";
-
-    $resQuery = mysqli_query($conn , $selQuery); 
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,70 +134,7 @@ session_start();
                                     
                       </tr>
                     </thead>
-                    <tbody>
-    <?php 
-    $i = 1;
-    while($row = mysqli_fetch_array($resQuery, MYSQLI_ASSOC)) { 
-        $id = $row['fee_id']; 
-        $stuId = $row['stu_id']; 
-        $uni_name = $row['uni_name']; 
-        $name = $row['stu_name']; 
-        $stu_enroll = $row['stu_enroll']; 
-        $admitId = $row['fee_admision_id']; 
-        $stu_addmision_new = $row['stu_addmision_new'];   
-        $course = $row['cou_name']; 
-        $phone = $row['stu_phone']; 
-    
-        // Retrieve the necessary fee details
-        $fee_uni_fee_total = $row['fee_uni_fee_total'];
-        $fee_sty_fee_total = $row['fee_sdy_fee_total'];
-        $fee_uni_fee = $row['fee_uni_fee'];
-        $fee_sty_fee = $row['fee_sty_fee'];
-    
-        // Calculate the total fees and balance
-        $totalFees = $fee_uni_fee_total + $fee_sty_fee_total;
-        $paidFees = $fee_uni_fee + $fee_sty_fee;
-        $balance = $totalFees - $paidFees;
-        $balance1 = $fee_uni_fee_total - $fee_uni_fee;
-        $balance2 = $fee_sty_fee_total - $fee_sty_fee;
-    
-        // Determine the status
-        $status1 = $balance1 > 0 ? 'Pending' : 'Completed';
-        $status2 = $balance2 > 0 ? 'Pending' : 'Completed';
-        ?>
-        <tr>
-            <td><?php echo $i; $i++; ?></td>
-            
-            <td><?php echo !empty($stu_addmision_new) ? $stu_addmision_new : '---'; ?></td>
-            <td><?php echo $stu_enroll; ?></td>
-            <td><?php echo $name; ?></td>
-            <td><?php echo $uni_name; ?></td>
-            <td><?php echo $course; ?></td>
-            <td><?php echo $phone; ?></td>
-            <td><?php echo '₹ ' . number_format($balance, 2); ?></td> 
-            <td><?php echo $status1; ?></td>
-            <td><?php echo $status2; ?></td>
-            
-            <td>
-            <button type="button" class="btn btn-circle btn-primary text-white modalBtn" 
-                    onclick="goEditFees(<?php echo $id; ?>);" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#addFeesModal" 
-                    data-bs-toggle="tooltip" title="Add Fees">
-                <i class='bi bi-credit-card'></i>
-            </button>
-            <button class="btn btn-circle btn-success text-white modalBtn" 
-                    onclick="goViewPayment('<?php echo $admitId; ?>');" 
-                    data-bs-toggle="tooltip" title="View Payment">
-                <i class="bi bi-eye-fill"></i>
-            </button>
-        </td>
-        </tr>
-    <?php 
-    }
-    ?>
-</tbody>
-
+                   
                   </table>
                   </div>
                   
@@ -282,6 +190,46 @@ session_start();
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
     <script>
+        var table;
+    $(document).ready(function () {
+       table = $('#addmission_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'action/actFees.php', // Backend endpoint for data
+                type: 'GET',
+                data: function (d) {
+                    d.centerId = <?= $centerId; ?>; // Pass centerId
+                    d.university = $('#filter-university').val(); // Pass university filter
+                    d.course = $('#filter-course').val(); // Pass course filter
+                    d.year = $('#yearFilter').val(); // Pass year filter
+                    d.feesTable = 'feesTable'; // Pass year filter
+                },
+            },
+            columns: [
+                { data: 'serial_number' },
+                { data: 'application_no' },
+                { data: 'roll_no' },
+                { data: 'student_name' },
+                { data: 'university' },
+                { data: 'course' },
+                { data: 'phone' },
+                { data: 'balance' },
+                { data: 'university_fee_status' },
+                { data: 'jeno_fee_status' },
+                { data: 'action', orderable: false, searchable: false },
+            ],
+            order: [[0, 'asc']],
+            responsive: true,
+        });
+
+        $('#filter-university, #filter-course, #yearFilter').on('change keyup', function () {
+            table.ajax.reload(null, false);
+        });
+
+    });
+</script>
+    <script>
     function validateYearFilter() {
         const input = document.getElementById('yearFilter');
         const error = document.getElementById('yearFilterError');
@@ -317,27 +265,27 @@ document.addEventListener('DOMContentLoaded', function () {
     <script>
 document.addEventListener("DOMContentLoaded", function () {
     // Declare the variable outside the if-else scope
-    var dataTable;
+    // var dataTable;
 
-    // Check if DataTable is already initialized
-    if ($.fn.DataTable.isDataTable('#addmission_table')) {
-        // Retrieve the existing DataTable instance
-        dataTable = $('#addmission_table').DataTable();
-    } else {
-        // Initialize the DataTable only if it is not already initialized
-        dataTable = $('#addmission_table').DataTable();
-    }
+    // // Check if DataTable is already initialized
+    // if ($.fn.DataTable.isDataTable('#addmission_table')) {
+    //     // Retrieve the existing DataTable instance
+    //     dataTable = $('#addmission_table').DataTable();
+    // } else {
+    //     // Initialize the DataTable only if it is not already initialized
+    //     dataTable = $('#addmission_table').DataTable();
+    // }
 
     // Event listeners for the filters
-    document.getElementById("filter-university").addEventListener("change", function () {
-        filterTable(dataTable);
-    });
-    document.getElementById("filter-course").addEventListener("change", function () {
-        filterTable(dataTable);
-    });
-    document.getElementById("yearFilter").addEventListener("input", function () {
-        filterTable(dataTable);
-    });
+    // document.getElementById("filter-university").addEventListener("change", function () {
+    //     filterTable(dataTable);
+    // });
+    // document.getElementById("filter-course").addEventListener("change", function () {
+    //     filterTable(dataTable);
+    // });
+    // document.getElementById("yearFilter").addEventListener("input", function () {
+    //     filterTable(dataTable);
+    // });
 
     function filterTable(dataTable) {
         const universityFilter = document.getElementById("filter-university").value.toLowerCase();
@@ -663,7 +611,7 @@ response.hostory_table.forEach(function(payment, index) {
                 // Automatically remove the alert after 3 seconds
                 setTimeout(function() {
                     $('#' + alertId).alert('close');
-                }, 3000);
+                }, 2000);
             }
             } else {
                 console.error('Invalid response data');
@@ -743,14 +691,7 @@ $('#addFees').off('submit').on('submit', function(e) {
                     timer: 2000
                 }).then(function() {
                     $('#addFeesModal').modal('hide');
-                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                        $('#scroll-horizontal-datatable').DataTable().destroy();
-                        $('#scroll-horizontal-datatable').DataTable({
-                            "paging": true, // Enable pagination
-                            "ordering": true, // Enable sorting
-                            "searching": true // Enable searching
-                        });
-                    });
+                    table.ajax.reload(null, false);
                 });
             } else {
                 Swal.fire({
@@ -793,16 +734,7 @@ $('#addFees').off('submit').on('submit', function(e) {
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                                });
-                            });
+            table.ajax.reload(null, false);
          
 
         },

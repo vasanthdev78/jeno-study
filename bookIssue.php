@@ -5,49 +5,49 @@ session_start();
 
     $centerId = $_SESSION['centerId'];
 
-    $selQuery = "SELECT 
-    b.book_id,
-    b.book_stu_id,
-    b.book_received,
-    b.book_issued,
-    b.book_id_card,
-    b.book_year,
-    b.book_created_at,
-    b.book_created_by,
-    b.book_updated_at,
-    b.book_updated_by,
-    b.book_status,
-    c.stu_name,
-    c.stu_apply_no,
-    c.stu_addmision_new,
-    c.stu_phone
-    ,d.uni_name
-    ,e.cou_name
-FROM 
-    jeno_book b
-JOIN 
-    (SELECT 
-        book_stu_id, 
-        MAX(book_id) AS max_book_id 
-     FROM 
-        jeno_book 
-     GROUP BY 
-        book_stu_id) sub 
-    ON 
-    b.book_id = sub.max_book_id 
-LEFT JOIN 
-    jeno_student AS c 
-    ON 
-    b.book_stu_id = c.stu_id 
-    LEFT JOIN jeno_university AS d ON c.stu_uni_id = d.uni_id
-    LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
-WHERE 
-    b.book_status = 'Active' 
-    AND b.book_center_id = '$centerId'
-ORDER BY 
-    b.book_id DESC;"; // book issue student list show
+        $selQuery = "SELECT 
+        b.book_id,
+        b.book_stu_id,
+        b.book_received,
+        b.book_issued,
+        b.book_id_card,
+        b.book_year,
+        b.book_created_at,
+        b.book_created_by,
+        b.book_updated_at,
+        b.book_updated_by,
+        b.book_status,
+        c.stu_name,
+        c.stu_apply_no,
+        c.stu_addmision_new,
+        c.stu_phone
+        ,d.uni_name
+        ,e.cou_name
+    FROM 
+        jeno_book b
+    JOIN 
+        (SELECT 
+            book_stu_id, 
+            MAX(book_id) AS max_book_id 
+        FROM 
+            jeno_book 
+        GROUP BY 
+            book_stu_id) sub 
+        ON 
+        b.book_id = sub.max_book_id 
+    LEFT JOIN 
+        jeno_student AS c 
+        ON 
+        b.book_stu_id = c.stu_id 
+        LEFT JOIN jeno_university AS d ON c.stu_uni_id = d.uni_id
+        LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
+    WHERE 
+        b.book_status = 'Active' 
+        AND b.book_center_id = '$centerId'
+    ORDER BY 
+        b.book_id DESC;"; // book issue student list show
 
-    $resQuery = mysqli_query($conn , $selQuery); 
+        $resQuery = mysqli_query($conn , $selQuery); 
     
 ?>
 <!DOCTYPE html>
@@ -146,22 +146,12 @@ ORDER BY
                     <small id="yearFilterError" style="color: red; display: none;">Invalid format! Please use 23C format.</small>
                 </div>
                 
-                <!-- Year Filter -->
-                <!-- <div class="col-md-3">
-                    <label for="filter-year">Year</label>
-                    <select id="filter-year" class="form-select">
-                        <option value="">All Years</option>
-                         Add dynamic options for years 
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                    </select>
-                </div> -->
 
             </div>
 
             
-             
-             <table id="addmission_table" class="table table-responsive table-striped w-100 nowrap">
+             <div class="table-responsive">
+             <table id="book_table" class="table table-striped w-100 nowrap">
                     <thead>
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
@@ -169,8 +159,6 @@ ORDER BY
                                    <th scope="col">University</th>
                                    <th scope="col">Course</th>
                                     <th scope="col">Student Name</th>
-                                     
-                                    <!-- <th scope="col">Year</th> --> 
                                     <th scope="col">Book Receive</th>
                                     <th scope="col">ID Card</th>
                                     <th scope="col">Contact</th>
@@ -179,59 +167,9 @@ ORDER BY
                                     
                       </tr>
                     </thead>
-                    <tbody>
-
-                    <?php 
-                    $i=1; while($row = mysqli_fetch_array($resQuery , MYSQLI_ASSOC)) { 
-                        $id = $row['book_id']; 
-                        $book_stu_id = $row['book_stu_id']; 
-                        $name = $row['stu_name']; 
-                        $uni_name = $row['uni_name']; 
-                        $cou_name = $row['cou_name']; 
-                        $bookRes = $row['book_received']; 
-                        $idCard = $row['book_id_card']; 
-                        $contact = $row['stu_phone']; 
-                        $stu_apply_no_old = $row['stu_apply_no']; 
-                        $stu_apply_no = $row['stu_addmision_new']; 
-                        ?>
-
-                     <tr>
-                     
-                        <td><?php echo $i; $i++; ?></td>
-                        
-                        <td><?php echo !empty($stu_apply_no) ? $stu_apply_no : '---'; ?></td>
-                        <td><?php echo $uni_name; ?></td>
-                        <td><?php echo $cou_name; ?></td>
-                        <td><?php echo $name; ?></td>
-                        
-                        <td><?php echo $bookRes; ?></td>
-                        
-                        <td><?php echo $idCard; ?></td>
-                        <td><?php echo $contact; ?></td>
                     
-                    
-                        <td>
-                    <button type="button" 
-                            onclick="goAddBook('<?php echo $stu_apply_no_old; ?>');" 
-                            class="btn btn-circle btn-warning text-white modalBtn" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#addBookIssueModal" 
-                            data-bs-toggle="tooltip" title="Add Book Issue">
-                        <i class="bi bi-journal-plus"></i>
-                    </button>
-
-                    <button class="btn btn-circle btn-success text-white modalBtn" 
-                            onclick="goViewBook(<?php echo $book_stu_id; ?>);" 
-                            data-bs-toggle="tooltip" title="View Book">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-                </td>
-                      </tr>
-                      <?php 
-                    }
-                     ?>
-                    </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -288,6 +226,47 @@ ORDER BY
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
     <script>
+
+        var table;
+
+        $(document).ready(function() {
+     table = $('#book_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: 'action/actBook.php',  // Replace with your PHP script
+            type: 'GET',
+            data: function (d) {
+                    d.book_centerId = <?= $centerId; ?>; // Pass centerId
+                    d.university = $('#filter-university').val(); // Pass university filter
+                    d.course = $('#filter-course').val(); // Pass course filter
+                    d.year = $('#yearFilter').val(); // Pass year filter
+                    d.bookTable = 'bookTable'; // Pass year filter
+                },
+        },
+        columns: [
+            { data: 'serial_number' },
+            { data: 'stu_apply_no' },
+            { data: 'uni_name' },
+            { data: 'cou_name' },
+            { data: 'stu_name' },
+            { data: 'book_received' },
+            { data: 'book_id_card' },
+            { data: 'stu_phone' },
+            { data: 'action', orderable: false, searchable: false }
+        ],
+        order: [[0, 'asc']],
+        responsive: true,
+    });
+
+       // You can trigger a reload when the filters are changed
+       $('#filter-university, #filter-course, #yearFilter').on('change keyup', function() {
+       table.ajax.reload(null, false); // Reload data with filters
+    });
+
+});
+    </script>
+    <script>
         // Enable Bootstrap tooltips
 document.addEventListener('DOMContentLoaded', function () {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -335,16 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataTable = $('#addmission_table').DataTable();
     }
 
-    // Event listeners for the filters
-    document.getElementById("filter-university").addEventListener("change", function () {
-        filterTable(dataTable);
-    });
-    document.getElementById("filter-course").addEventListener("change", function () {
-        filterTable(dataTable);
-    });
-    document.getElementById("yearFilter").addEventListener("input", function () {
-        filterTable(dataTable);
-    });
+    
 
     function filterTable(dataTable) {
         const universityFilter = document.getElementById("filter-university").value.toLowerCase();
@@ -597,6 +567,8 @@ $('#addBookissue').off('submit').on('submit', function(e) {
                             "searching": true // Enable searching
                         });
                     });
+
+                    
                 });
             } else {
                 Swal.fire({

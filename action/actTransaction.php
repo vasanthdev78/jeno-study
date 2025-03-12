@@ -8,7 +8,94 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 
+if (isset($_GET['transationTable']) && $_GET['transationTable'] === 'transationTable') {
+    $location = $_GET['location'];
+    $draw = $_GET['draw'];
+    $start = $_GET['start'];
+    $length = $_GET['length'];
+    $searchValue = $_GET['search']['value'];
 
+    // Base query
+    $query = "
+        SELECT 
+            tran_id, 
+            tran_category, 
+            tran_reason, 
+            tran_amount, 
+            tran_date, 
+            tran_method, 
+            tran_description 
+        FROM jeno_transaction
+        WHERE tran_status = 'Active' 
+        AND tran_center_id = $location";
+
+    // Apply search filter
+    if (!empty($searchValue)) {
+        $query .= " AND (
+            tran_category LIKE '%$searchValue%' OR 
+            tran_reason LIKE '%$searchValue%' OR 
+            tran_method LIKE '%$searchValue%'
+        )";
+    }
+
+    // Total record count
+    $totalQuery = "
+    SELECT COUNT(*) as total 
+    FROM jeno_transaction
+    WHERE tran_status = 'Active' 
+    AND tran_center_id = $location";
+    $totalResult = mysqli_query($conn, $totalQuery);
+    $totalRecords = mysqli_fetch_assoc($totalResult)['total'];
+
+    // Add order and limit
+    $query .= " ORDER BY tran_date DESC LIMIT $start, $length";
+
+    // Fetch data
+    $result = mysqli_query($conn, $query);
+
+    $data = [];
+    $serial = $start + 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $formattedDate = (new DateTime($row['tran_date']))->format('d-m-Y');
+        $data[] = [
+            'serial_number' => $serial++,
+            'tran_category' => $row['tran_category'],
+            'tran_reason' => $row['tran_description'],
+            'tran_amount' => '₹ ' . number_format($row['tran_amount'], 2),
+            'tran_date' => $formattedDate,
+            'tran_method' => $row['tran_method'],
+            'action' => "
+                <button class='btn btn-circle btn-warning text-white' 
+                        onclick='editTran({$row['tran_id']});' 
+                        data-bs-toggle='modal' 
+                        data-bs-target='#editExpenseModal' 
+                        title='Edit Transaction'>
+                    <i class='bi bi-pencil-square'></i>
+                </button>
+                <button class='btn btn-circle btn-success text-white' 
+                        onclick='goViewTransaction({$row['tran_id']});' 
+                        title='View Transaction'>
+                    <i class='bi bi-eye-fill'></i>
+                </button>
+                <button class='btn btn-circle btn-danger text-white' 
+                        onclick='goDeleteTransaction({$row['tran_id']});' 
+                        title='Delete Transaction'>
+                    <i class='bi bi-trash'></i>
+                </button>",
+        ];
+    }
+
+    // Prepare response
+    $response = [
+        "draw" => intval($draw),
+        "recordsTotal" => intval($totalRecords),
+        "recordsFiltered" => intval($totalRecords),
+        "data" => $data,
+    ];
+
+    echo json_encode($response);
+    exit();
+}
 
     //---get course --------------------------
 

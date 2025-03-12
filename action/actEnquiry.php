@@ -316,7 +316,7 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $date = $_POST['date'] ?? '';
             
                 // Base query for active enquiries
-                $baseQuery = "SELECT * FROM jeno_enquiry WHERE `enq_status` = 'Active'";
+                $baseQuery = "SELECT * FROM jeno_enquiry WHERE `enq_status` = 'Active' ORDER BY enq_id DESC";
                 $countQuery = "SELECT COUNT(*) AS total FROM jeno_enquiry WHERE `enq_status` = 'Active'";
             
                 // Dynamic conditions and parameters for filtering
@@ -374,9 +374,11 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                 $result = $stmt->get_result();
             
                 $data = [];
+                $index=1;
                 while ($row = $result->fetch_assoc()) {
                     $data[] = [
                         'id' => $row['enq_id'],
+                        's_no' => $index, // Assign the current index value
                         'enq_date' => $row['enq_date'],
                         'enq_stu_name' => $row['enq_stu_name'],
                         'university' => universityName($row['enq_uni_id']),
@@ -403,6 +405,8 @@ if (isset($_POST['editId']) && $_POST['editId'] != '') {
                                         </button>
                                      </td>"
                     ];
+
+                    $index++; // Increment the index after assigning
                 }
             
                 // Send JSON response

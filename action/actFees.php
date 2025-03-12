@@ -7,6 +7,149 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
+
+if (isset($_GET['feesTable']) && $_GET['feesTable'] === 'feesTable') {
+
+$centerId = $_GET['centerId'];
+$university = $_GET['university'];
+$course = $_GET['course'];
+$year = $_GET['year'];
+
+// Read DataTables parameters
+$draw = $_GET['draw'];
+$start = $_GET['start'];
+$length = $_GET['length'];
+$searchValue = $_GET['search']['value'];
+
+// Base query
+$selQuery = "
+    SELECT 
+        a.fee_id, 
+        a.fee_admision_id, 
+        a.fee_uni_fee_total, 
+        a.fee_uni_fee, 
+        a.fee_sdy_fee_total, 
+        a.fee_sty_fee,
+        b.stu_id, 
+        b.stu_name, 
+        b.stu_phone, 
+        b.stu_enroll, 
+        b.stu_addmision_new, 
+        c.cou_name, 
+        d.uni_name
+    FROM `jeno_fees` AS a
+    LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
+    LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+    LEFT JOIN jeno_university AS d ON b.stu_uni_id = d.uni_id
+    WHERE a.fee_status = 'Active' 
+    AND a.fee_created_at = (
+        SELECT MAX(a2.fee_created_at)
+        FROM `jeno_fees` AS a2
+        WHERE a2.fee_stu_id = a.fee_stu_id
+        AND a2.fee_status = 'Active'
+        AND a.fee_center_id = $centerId
+    )
+";
+
+// Apply filters
+if (!empty($university)) {
+    $selQuery .= " AND d.uni_name = '$university'";
+}
+if (!empty($course)) {
+    $selQuery .= " AND c.cou_name = '$course'";
+}
+if (!empty($year)) {
+    $selQuery .= " AND b.stu_addmision_new LIKE '$year%'";
+}
+
+// Add search functionality
+if (!empty($searchValue)) {
+    $selQuery .= " AND (b.stu_name LIKE '%$searchValue%' 
+                        OR b.stu_phone LIKE '%$searchValue%' 
+                        OR d.uni_name LIKE '%$searchValue%')";
+}
+
+// Total records count query
+$totalRecordsQuery = "
+    SELECT COUNT(*) as total 
+     FROM `jeno_fees` AS a
+    LEFT JOIN jeno_student AS b ON a.fee_stu_id = b.stu_id
+    LEFT JOIN jeno_course AS c ON b.stu_cou_id = c.cou_id
+    LEFT JOIN jeno_university AS d ON b.stu_uni_id = d.uni_id
+    WHERE a.fee_status = 'Active' 
+    AND a.fee_created_at = (
+        SELECT MAX(a2.fee_created_at)
+        FROM `jeno_fees` AS a2
+        WHERE a2.fee_stu_id = a.fee_stu_id
+        AND a2.fee_status = 'Active'
+        AND a.fee_center_id = $centerId
+    )
+";
+
+// Apply filters
+if (!empty($university)) {
+    $totalRecordsQuery .= " AND d.uni_name = '$university'";
+}
+if (!empty($course)) {
+    $totalRecordsQuery .= " AND c.cou_name = '$course'";
+}
+if (!empty($year)) {
+    $totalRecordsQuery .= " AND b.stu_addmision_new LIKE '$year%'";
+}
+
+
+// Execute total records query
+$totalRecordsResult = mysqli_query($conn, $totalRecordsQuery);
+
+if (!$totalRecordsResult) {
+    die("Error executing total records query: " . mysqli_error($conn));
+}
+
+$totalRecordsRow = mysqli_fetch_assoc($totalRecordsResult);
+$totalRecords = $totalRecordsRow['total'] ?? 0; // Default to 0 if 'total' is missing
+
+// Add limit and offset for pagination
+$selQuery .= " ORDER BY a.fee_created_at DESC LIMIT $start, $length";
+
+// Execute query
+$result = mysqli_query($conn, $selQuery);
+
+// Fetch records
+$data = [];
+$i = $start + 1;
+while ($row = mysqli_fetch_assoc($result)) {
+    $balance = ($row['fee_uni_fee_total'] + $row['fee_sdy_fee_total']) - ($row['fee_uni_fee'] + $row['fee_sty_fee']);
+    $data[] = [
+        'serial_number' => $i++,
+        'application_no' => $row['stu_addmision_new'] ?: '---',
+        'roll_no' => $row['stu_enroll'],
+        'student_name' => $row['stu_name'],
+        'university' => $row['uni_name'],
+        'course' => $row['cou_name'],
+        'phone' => $row['stu_phone'],
+        'balance' => '₹ ' . number_format($balance, 2),
+        'university_fee_status' => $row['fee_uni_fee_total'] - $row['fee_uni_fee'] > 0 ? 'Pending' : 'Completed',
+        'jeno_fee_status' => $row['fee_sdy_fee_total'] - $row['fee_sty_fee'] > 0 ? 'Pending' : 'Completed',
+        'action' => "
+            <button type='button' class='btn btn-circle btn-primary text-white' onclick='goEditFees({$row['fee_id']});' data-bs-toggle='modal' data-bs-target='#addFeesModal' title='Add Fees'><i class='bi bi-credit-card'></i></button>
+            <button type='button' class='btn btn-circle btn-success text-white' onclick='goViewPayment(\"{$row['fee_admision_id']}\");' title='View Payment'><i class='bi bi-eye-fill'></i></button>
+        ",
+    ];
+}
+
+// Return JSON response
+$response = [
+    "draw" => intval($draw),
+    "recordsTotal" => intval($totalRecords),
+    "recordsFiltered" => intval($totalRecords),
+    "data" => $data,
+];
+
+echo json_encode($response);
+exit();
+}
+
+
     // Handle adding a fees details -----------------------------------------
     if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addFees') {
         $feesid = htmlspecialchars($_POST['feesid'], ENT_QUOTES, 'UTF-8');

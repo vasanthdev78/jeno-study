@@ -236,7 +236,7 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: "id" },
+            { data: "s_no" },
             { data: "enq_date", visible: false },
             { data: "enq_stu_name" },
             { data: "university" },
@@ -249,7 +249,7 @@ $(document).ready(function() {
 
     // Attach event listeners to filters to reload the table on change
     $('#universityFilter, #courseFilter, #dateFilter').on('change', function() {
-        table.ajax.reload();
+        table.ajax.reload(null, false);
     });
 });
 
@@ -389,18 +389,20 @@ $('#addEnquiry').submit(function(event) {
                     timer: 2000
                 }).then(function() {
                     $('#addEnquiryModal').modal('hide');
-                    $('#example').load(location.href + ' #example > *', function() {
-                        $('#example').DataTable().destroy();
-                        $('#example').DataTable({
-                            "paging": true, // Enable pagination
-                            "ordering": true, // Enable sorting
-                            "searching": true, // Enable searching
-                            dom: 'Bfrtip', // Define the elements that should be included in the DataTable
-                            buttons: [
-                                'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
-                            ]
-                        });
-                    });
+                    // $('#example').load(location.href + ' #example > *', function() {
+                    //     $('#example').DataTable().destroy();
+                    //     $('#example').DataTable({
+                    //         "paging": true, // Enable pagination
+                    //         "ordering": true, // Enable sorting
+                    //         "searching": true, // Enable searching
+                    //         dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+                    //         buttons: [
+                    //             'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+                    //         ]
+                    //     });
+                    // });
+                    table.ajax.reload(null, false);
+
                 });
             } else {
                 Swal.fire({
@@ -511,19 +513,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         timer: 2000
                     }).then(function() {
                         $('#editEnquiryModal').modal('hide'); // Close the modal
-                        $('.modal-backdrop').remove(); // Remove the backdrop   
-                        $('#example').load(location.href + ' #example > *', function() {
-                            $('#example').DataTable().destroy();
-                            $('#example').DataTable({
-                                "paging": true, // Enable pagination
-                                "ordering": true, // Enable sorting
-                                "searching": true, // Enable searching
-                                dom: 'Bfrtip', // Define the elements that should be included in the DataTable
-                                buttons: [
-                                    'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
-                                ]
-                            });
-                        });
+                        $('.modal-backdrop').remove(); // Remove the backdrop  
+                        table.ajax.reload(null, false);
+ 
+                        // $('#example').load(location.href + ' #example > *', function() {
+                        //     $('#example').DataTable().destroy();
+                        //     $('#example').DataTable({
+                        //         "paging": true, // Enable pagination
+                        //         "ordering": true, // Enable sorting
+                        //         "searching": true, // Enable searching
+                        //         dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+                        //         buttons: [
+                        //             'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+                        //         ]
+                        //     });
+                        // });
                     });
                 } else {
                     Swal.fire({
@@ -568,20 +572,22 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#example').load(location.href + ' #example > *', function() {
+            table.ajax.reload(null, false);
+
+    //       $('#example').load(location.href + ' #example > *', function() {
                                
-                               $('#example').DataTable().destroy();
+    //                            $('#example').DataTable().destroy();
                                
-                                $('#example').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "ordering": true, // Enable sorting
-                                    "searching": true, // Enable searching
-                                    dom: 'Bfrtip', // Define the elements that should be included in the DataTable
-    buttons: [
-      'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
-    ]
-                                });
-                            });
+    //                             $('#example').DataTable({
+    //                                 "paging": true, // Enable pagination
+    //                                 "ordering": true, // Enable sorting
+    //                                 "searching": true, // Enable searching
+    //                                 dom: 'Bfrtip', // Define the elements that should be included in the DataTable
+    // buttons: [
+    //   'copy', 'csv', 'excel', 'pdf', 'print' // Include buttons for copy, CSV, Excel, PDF, and print
+    // ]
+    //                             });
+    //                         });
          
 
         },

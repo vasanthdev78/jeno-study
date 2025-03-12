@@ -75,7 +75,7 @@ session_start();
                             </div>
                         </div>
                     </div>             
-             
+                    <div class="table-responsive">
              <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
@@ -137,6 +137,7 @@ session_start();
                         
                     </tbody>
                   </table>
+                  </div>
 
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -163,33 +164,36 @@ session_start();
 
 
     <!-- Vendor js -->
-    <script src="assets/js/vendor.min.js"></script>
+<!-- Vendor js -->
+<script src="assets/js/vendor.min.js"></script>
 
-    <!-- Datatables js -->
-    <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
-    
-  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
-  <script src="assets/addlink/sweetalert.js"></script>
-    <!--  Select2 Plugin Js -->
-    <script src="assets/vendor/select2/js/select2.min.js"></script>
+<!-- Wizard Form Demo js -->
+<script src="assets/js/pages/demo.form-wizard.js"></script>
 
-    <!-- Datatable Demo Aapp js -->
-    <script src="assets/js/pages/demo.datatable-init.js"></script>
+<!-- Datatables js -->
+<script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
+<script src="assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
 
-    <!-- App js -->
-    <script src="assets/js/app.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+<script src="assets/addlink/sweetalert.js"></script>
+
+<!-- Datatable Demo Aapp js -->
+<script src="assets/js/pages/demo.datatable-init.js"></script>
+
+<!-- App js -->
+<script src="assets/js/app.min.js"></script>
     <script>
         // Enable Bootstrap tooltips
 document.addEventListener('DOMContentLoaded', function () {

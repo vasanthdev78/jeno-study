@@ -8,6 +8,138 @@ header('Content-Type: application/json');
 
 $response = ['success' => false, 'message' => ''];
 
+// Check if it's an AJAX request
+if (isset($_GET['book_centerId'])) {
+
+    // Get the filters from the frontend (if set)
+    $university = isset($_GET['university']) ? $_GET['university'] : '';
+    $course = isset($_GET['course']) ? $_GET['course'] : '';
+    $year = isset($_GET['year']) ? $_GET['year'] : '';
+    $centerId = $_GET['book_centerId']; // The center ID passed from frontend
+
+    // Get other parameters (pagination, search, sorting)
+    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+    $length = isset($_GET['length']) ? (int)$_GET['length'] : 10;
+    $search = isset($_GET['search']['value']) ? $_GET['search']['value'] : ''; // Search value
+    $orderColumn = isset($_GET['order'][0]['column']) ? (int)$_GET['order'][0]['column'] : 0; // Column to order by
+    $orderDir = isset($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'asc'; // Sort direction
+
+    // Column names corresponding to the order
+    $columns = ['book_id', 'stu_apply_no', 'uni_name', 'cou_name', 'stu_name', 'book_received', 'book_id_card', 'stu_phone'];
+
+    // Build the SQL query with dynamic filters
+    $selQuery = "
+    SELECT 
+        b.book_id,
+        b.book_stu_id,
+        b.book_received,
+        b.book_id_card,
+        b.book_status,
+        c.stu_name,
+        c.stu_apply_no,
+        c.stu_addmision_new,
+        c.stu_phone,
+        d.uni_name,
+        e.cou_name
+    FROM jeno_book b
+    JOIN (SELECT 
+            book_stu_id, 
+            MAX(book_id) AS max_book_id 
+         FROM jeno_book 
+         GROUP BY book_stu_id) sub 
+    ON b.book_id = sub.max_book_id
+    LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id
+    LEFT JOIN jeno_university AS d ON c.stu_uni_id = d.uni_id
+    LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
+    WHERE b.book_status = 'Active' 
+      AND b.book_center_id = '$centerId'
+      AND (c.stu_name LIKE '%$search%' OR c.stu_apply_no LIKE '%$search%' OR d.uni_name LIKE '%$search%' OR e.cou_name LIKE '%$search%')
+    ";
+
+    // Add dynamic filters to the SQL query
+    if ($university != '') {
+        $selQuery .= " AND d.uni_name = '$university'";
+    }
+    if ($course != '') {
+        $selQuery .= " AND e.cou_name = '$course'";
+    }
+    if ($year != '') {
+        $selQuery .= " AND c.stu_addmision_new LIKE '%$year%'"; // Assuming you have a `book_year` field for year filtering
+    }
+
+    // Sorting and Pagination
+    // $selQuery .= " ORDER BY {$columns[$orderColumn]} $orderDir LIMIT $start, $length";
+    $selQuery .= " ORDER BY b.book_id DESC LIMIT $start, $length";
+
+    // Execute the query for filtered data
+    $resQuery = mysqli_query($conn, $selQuery);
+
+    // Count total records (without filters)
+    $countQuery = "SELECT 
+       COUNT(c.stu_id)
+    FROM jeno_book b
+    JOIN (SELECT 
+            book_stu_id, 
+            MAX(book_id) AS max_book_id 
+         FROM jeno_book 
+         GROUP BY book_stu_id) sub 
+    ON b.book_id = sub.max_book_id
+    LEFT JOIN jeno_student AS c ON b.book_stu_id = c.stu_id
+    LEFT JOIN jeno_university AS d ON c.stu_uni_id = d.uni_id
+    LEFT JOIN jeno_course AS e ON c.stu_cou_id = e.cou_id
+    WHERE b.book_status = 'Active' 
+      AND b.book_center_id = '$centerId'";
+
+    // Add filters to the count query for total records
+    if ($university != '') {
+        $countQuery .= " AND d.uni_name = '$university'";
+    }
+    if ($course != '') {
+        $countQuery .= " AND e.cou_name = '$course'";
+    }
+    if ($year != '') {
+        $countQuery .= " AND c.stu_addmision_new LIKE '%$year%'";
+    }
+
+    // Execute count query
+    $countResult = mysqli_query($conn, $countQuery);
+    $totalRecords = mysqli_fetch_row($countResult)[0];
+
+    // Prepare data for DataTable response
+    $data = [];
+    $serial = $start + 1;
+    while ($row = mysqli_fetch_assoc($resQuery)) {
+        $data[] = [
+            'serial_number' => $serial++,  // For serial number, increment based on page
+            'stu_apply_no' => !empty($row['stu_apply_no']) ? $row['stu_apply_no'] : '---',
+            'uni_name' => $row['uni_name'],
+            'cou_name' => $row['cou_name'],
+            'stu_name' => $row['stu_name'],
+            'book_received' => $row['book_received'],
+            'book_id_card' => $row['book_id_card'],
+            'stu_phone' => $row['stu_phone'],
+            'action' => '
+                <button type="button" onclick="goAddBook(\'' . $row['stu_apply_no'] . '\');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal" data-bs-toggle="tooltip" title="Add Book Issue">
+                    <i class="bi bi-journal-plus"></i>
+                </button>
+                <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(' . $row['book_stu_id'] . ');" data-bs-toggle="tooltip" title="View Book">
+                    <i class="bi bi-eye-fill"></i>
+                </button>
+            '
+        ];
+    }
+
+    // Return the response in JSON format for DataTable
+    echo json_encode([
+        'draw' => $_GET['draw'],
+        'recordsTotal' => $totalRecords,
+        'recordsFiltered' => $totalRecords, // Filtered records should be same as total records for now
+        'data' => $data
+    ]);
+
+    exit;
+}
+
 
 // Handle adding a book issue ---------------------------------------------
 if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {

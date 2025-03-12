@@ -1,7 +1,7 @@
 
 
                 <!-- Brand Logo Light -->
-                <a href="index.php" class="logo logo-light">
+                <a href="dashboard.php" class="logo logo-light">
                     <span class="logo-lg">
                         <img src="assets/images/logo.png" alt="logo" width="100%" height="70px">
                     </span>
@@ -11,7 +11,7 @@
                 </a>
 
                 <!-- Brand Logo Dark -->
-                <a href="index.php" class="logo logo-dark bg-white">
+                <a href="dashboard.php" class="logo logo-dark bg-white">
                     <span class="logo-lg bg-white">
                         <img src="assets/images/logo.png"  alt="dark logo"  width="100%" height="70px">
                     </span>

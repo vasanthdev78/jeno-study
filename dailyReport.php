@@ -255,9 +255,15 @@ $previous_date = $date->format('Y-m-d');
         
                             <div class="page-title-box">
                                 <h4 class="page-title">Daily Report</h4>
-                                <form method="POST"> <!-- Add the form tag -->
-                                    <input type="date" id="dateInput" class="col-2 form-control" max="<?php echo date('Y-m-d'); ?>" name="selectedDate" value="<?php echo isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d'); ?>" onchange="this.form.submit()">
-                                </form>
+                                <form method="POST" class="d-flex justify-content-center"> 
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <input type="date" id="dateInput" class="form-control" 
+                                max="<?php echo date('Y-m-d'); ?>" 
+                                name="selectedDate" 
+                                value="<?php echo isset($_POST['selectedDate']) ? $_POST['selectedDate'] : date('Y-m-d'); ?>" 
+                                onchange="this.form.submit()">
+                        </div>
+                    </form>
                             </div>
                         </div>
                     </div>
@@ -278,7 +284,7 @@ $previous_date = $date->format('Y-m-d');
                         </tbody>
                     </table> -->
                 </div>
-             
+                <div class="table-responsive">  
       <table id="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr class="bg-light">
@@ -367,6 +373,7 @@ $previous_date = $date->format('Y-m-d');
         </tr>
     </tfoot>    
 </table>
+</div>
 
 
                 </div> <!-- container -->

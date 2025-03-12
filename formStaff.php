@@ -181,7 +181,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="quitDate" class="form-label"><b>Quit Date</b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Enter Quit Date" name="quitDate" id="quitDate" required="required">
+                                    <input type="date" class="form-control" placeholder="Enter Quit Date" name="quitDate" id="quitDate">
                                 </div>
                             </div>
                             <div class="col-sm-6">

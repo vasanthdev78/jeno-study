@@ -45,7 +45,7 @@ if (isset($_POST['university']) && $_POST['university'] != '') {
     }
     
     // Construct the SQL query
-    $selQuery = "SELECT 
+    $selQuery = "SELECT DISTINCT
         a.pay_university_fees,
         a.pay_study_fees, 
         a.pay_total_amount,

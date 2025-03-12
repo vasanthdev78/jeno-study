@@ -32,6 +32,12 @@ session_start();
         <!-- ============================================================== -->
         
         <div class="content-page">
+
+        <div id="loader" class="d-none">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
             <div class="content">
                 
             <?php include "addAdmission.php"; ?>
@@ -113,11 +119,11 @@ session_start();
 </div>
 
             <div class="table-responsive">
-             <table id="addmission_table" class="table table-striped w-100 nowrap">
+            <table id="addmission_table" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
                                     <th scope="col-1">S.No.</th>
-                                    <th class="d-none" scope="col">Date</th>
+                                    <th scope="col">Date</th>
                                     <th scope="col">Application No</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">University</th>
@@ -129,62 +135,10 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                    <?php 
-                    $i=1; while($row = mysqli_fetch_array($admission_result , MYSQLI_ASSOC)) { 
-                        $id = $row['stu_id'];  
-                        $name = $row['stu_name']; 
-                        $phone = $row['stu_phone'];  
-                        $university=$row['uni_name'];  
-                        $course = $row['cou_name']; 
-                        $enroll = $row['stu_enroll']; 
-                        $apply = $row['stu_addmision_new'];
-                        $stu_created_at = $row['stu_created_at'];
-                        $dateOnly = date('Y-m-d', strtotime($stu_created_at));
-
-                        
-                        ?>
-                     <tr>
-                        <td><?php echo $i; $i++; ?></td>
-                        <td class="d-none"><?php echo $dateOnly; ?></td>
-                        <td><?php echo !empty($apply) ? $apply : '---'; ?></td>
-                        <td><?php echo $name; ?></td>
-                        <td><?php echo $university; ?></td>
-                        <td><?php echo $course; ?></td>
-                        <td><?php echo $phone; ?></td>
-                        <td><?php echo !empty($enroll) ? $enroll : 'Pending'; ?></td>
-                    
-                        <td>
-                            <button type="button" class="btn btn-circle btn-warning text-white modalBtn" 
-                                    id="editAdmissionBtn" 
-                                    onclick="goEditAdmission(<?php echo $id; ?>);" 
-                                    data-bs-toggle="tooltip" title="Edit Admission">
-                                <i class='bi bi-pencil-square'></i>
-                            </button>
-                            <button class="btn btn-circle btn-success text-white" 
-                                    id="viewAdmissionBtn" 
-                                    onclick="goViewAdmission(<?php echo $id; ?>);" 
-                                    data-bs-toggle="tooltip" title="View Admission">
-                                <i class="bi bi-eye-fill"></i>
-                            </button>
-                            <button class="btn btn-circle btn-danger text-white" 
-                                    onclick="goDeleteAdmission(<?php echo $id; ?>);" 
-                                    data-bs-toggle="tooltip" title="Delete Admission">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <?php 
-                            if($row['stu_enroll']){
-                            ?>
-                            <a href="courseDoing.php?payment_id=<?php echo $id; ?>" target="_blank">
-                            <button class="btn btn-circle btn-primary text-white" ><i class="bi bi-download"></i> </button></a>
-                            <?php } ?>
-                        </td>
-                      </tr>
-                      <?php 
-                    }
-                     ?>
+                 
                         
                     </tbody>
-                  </table>
+            </table>
                   </div>
 
                             </div> <!-- end card -->
@@ -243,6 +197,54 @@ session_start();
     <script src="assets/js/app.min.js"></script>
 
     <script>
+
+        var table;
+$(document).ready(function () {
+var location = "<?php echo $_SESSION['centerId']; ?>";
+
+        table = $('#addmission_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: 'action/actAdmission.php',
+            type: 'GET',
+            data: function (d) {
+                d.university = $('#universityFilter').val();
+                d.course = $('#courseFilter').val();
+                d.year = $('#yearFilter').val();                
+            d.admissionTable = 'AdmissionTable';
+            d.location = location;
+            }
+        },
+        columns: [
+            { data: 0 }, // S.No.
+            { data: 1 }, // Date
+            { data: 2 }, // Application No
+            { data: 3 }, // Student Name
+            { data: 4 }, // University
+            { data: 5 }, // Course
+            { data: 6 }, // Contact No
+            { data: 7 }, // Roll No
+            { data: 8 }  // Actions
+        ],
+        responsive: true,
+    });
+
+          // Trigger reload on filter change
+          $('#universityFilter, #courseFilter').on('change', function () {
+            table.ajax.reload(null, false);
+    });
+
+    $('#yearFilter').on('input', function () {
+        table.ajax.reload(null, false);
+    });
+
+
+
+
+
+});
+
     function validateYearFilter() {
         const input = document.getElementById('yearFilter');
         const error = document.getElementById('yearFilterError');
@@ -279,32 +281,40 @@ document.addEventListener('DOMContentLoaded', function () {
     <script>
         
         $(document).ready(function() {
+            
     // Initialize DataTable
-    var table = $('#addmission_table').DataTable({
-        "searching": true, // Enable global searching
-        "paging": true // Enable pagination
-    });
+    // var table = $('#addmission_table').DataTable({
+        // "searching": true, // Enable global searching
+        // "paging": true // Enable pagination
+    // });
+
+   
+
+    
+
+
+
 // Attach event listeners to the filters
-$('#universityFilter, #courseFilter, #yearFilter').on('change keyup', function() {
-        filterTable();
-    });
+// $('#universityFilter, #courseFilter, #yearFilter').on('change keyup', function() {
+//         filterTable();
+//     });
 
-    function filterTable() {
-        // Get values from the filters
-        var university = $('#universityFilter').val().trim();
-        var course = $('#courseFilter').val().trim();
-        var year = $('#yearFilter').val().trim();
-        // var date = $('#dateFilter').val().trim();
+    // function filterTable() {
+    //     // Get values from the filters
+    //     var university = $('#universityFilter').val().trim();
+    //     var course = $('#courseFilter').val().trim();
+    //     var year = $('#yearFilter').val().trim();
+    //     // var date = $('#dateFilter').val().trim();
 
-        // Apply filters to specific columns
-        table.column(4).search(university, true, false); // University column
-        table.column(5).search(course, true, false);     // Course column
-        var yearRegex = year ? '^' + year : ''; // Match only at the start of the string
-        table.column(2).search(yearRegex, true, false);
+    //     // Apply filters to specific columns
+    //     table.column(4).search(university, true, false); // University column
+    //     table.column(5).search(course, true, false);     // Course column
+    //     var yearRegex = year ? '^' + year : ''; // Match only at the start of the string
+    //     table.column(2).search(yearRegex, true, false);
 
-        // Redraw the table with the new filter
-        table.draw();
-    }
+    //     // Redraw the table with the new filter
+    //     table.draw();
+    // }
 });
 
 
@@ -657,15 +667,7 @@ $('#addAdmission').off('submit').on('submit', function(e) {
                     $('#StuContent').removeClass('d-none');
                     $('#addAdmissionModal').addClass('d-none');
                     
-                    // Reload the datatable to show updated data
-                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                        $('#scroll-horizontal-datatable').DataTable().destroy();
-                        $('#scroll-horizontal-datatable').DataTable({
-                            "paging": true, // Enable pagination
-                            "ordering": true, // Enable sorting
-                            "searching": true // Enable searching
-                        });
-                    });
+                    table.ajax.reload(null, false);
                 });
             } else {
                 Swal.fire({
@@ -693,12 +695,16 @@ $('#addAdmission').off('submit').on('submit', function(e) {
 
 //edit click get data -------------------------------------
 function goEditAdmission(editId) {
+    // Show the loader
+    $('#loader').removeClass('d-none');
+
     $.ajax({
         url: 'action/actAdmission.php',
         method: 'POST',
         data: { editId: editId },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+            $('#editAdmission')[0].reset(); // Reset the form
             // Set the values for the fields
             $('#admissionId').val(response.stuId);
             $('#stuNameEdit').val(response.name);
@@ -740,10 +746,23 @@ function goEditAdmission(editId) {
                     $('#applicationNoEdit').val(response.stu_addmision_new);
                 }, 500); // Adjust timeout if necessary
             }, 500); // Adjust timeout if necessary
+
+            $('#editAdmission').removeClass('was-validated');
+        $('#editAdmission').addClass('needs-validation');
+        $('#applicationNoEdit').removeClass('is-invalid is-valid');
+        $('#languageEdit').attr('required', 'required');
+        
+        $('#StuContent').addClass('d-none');
+        $('#editAdmissionModal').removeClass('d-none');
+
+        // Hide the loader after successful request
+        $('#loader').addClass('d-none');
         },
         error: function(xhr, status, error) {
             // Handle errors here
             console.error('AJAX request failed:', status, error);
+             // Hide the loader in case of error
+             $('#loader').addClass('d-none');
         }
     });
 }
@@ -759,6 +778,9 @@ function goViewAdmission(id)
         },
         dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
+
+            $('#StuContent').addClass('d-none');
+            $('#viewAdmissionModal').removeClass('d-none');
 
                     $('#studentImage').attr('src', response.photo ? 'assets/images/student/' + response.photo : 'assets/images/default.png');
                     $('#nameView').text(response.name);
@@ -865,16 +887,7 @@ function goDeleteAdmission(id)
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                                });
-                            });
+            table.ajax.reload(null, false);
          
 
         },
@@ -923,15 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('#StuContent').removeClass('d-none');
                         $('#editAdmissionModal').addClass('d-none');
                         
-                        // Reload the datatable to show updated data
-                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                            $('#scroll-horizontal-datatable').DataTable().destroy();
-                            $('#scroll-horizontal-datatable').DataTable({
-                                "paging": true, // Enable pagination
-                                "ordering": true, // Enable sorting
-                                "searching": true // Enable searching
-                            });
-                        });
+                        table.ajax.reload(null, false);
                     });
                 } else {
                     Swal.fire({

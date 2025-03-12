@@ -4,7 +4,7 @@ include "class.php"; // function page
 include "db/dbConnection.php"; //database connection
     $centerId = $_SESSION['centerId'];
     $ledgerTable = ledgerTable($centerId);
-    $transactionResult = transactionTable($centerId);
+    // $transactionResult = transactionTable($centerId);
     $current_date = date('Y-m-d');
     // Create a DateTime object for the current date
     $date = new DateTime($current_date);
@@ -80,72 +80,19 @@ include "db/dbConnection.php"; //database connection
 
              
                     <div class="table-responsive">
-             <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+                    <table id="transationTable" class="table table-striped w-100 nowrap">
                     <thead>
                         <tr class="bg-light">
-                                    <th scope="col-1">S.No.</th>
-                                    <th scope="col">Transaction Type</th>
-                                    <th scope="col">Reason</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Payment Method</th>
-                                    <th scope="col">Action</th>
-                                    
-                      </tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Transaction Type</th>
+                            <th scope="col">Reason</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Action</th>
+                        </tr>
                     </thead>
-                    <tbody>
-                    <?php  
-
-                        $i =1;
-
-                        while ($row = $transactionResult->fetch_assoc()) {
-                            $id = $row['tran_id'];
-                            $date = new DateTime($row['tran_date']);
-                            $formattedDate = $date->format('d-m-Y');
-
-                        ?>
-
-                    
-                     <tr>
-                        <td><?php echo $i ; $i++ ?></td>
-                        <td><?php echo $row['tran_category'] ?></td>
-                        <td><?php echo $row['tran_description'] ?></td>
-                        <td><?php echo '₹ ' . number_format($row['tran_amount'], 2); ?></td>
-                        <td><?php echo $formattedDate ?></td>
-                        <td><?php echo $row['tran_method'] ?></td>
-                    
-                        <td>
-                <?php if ($user_role == 'Admin') { ?>
-                    <button class="btn btn-circle btn-warning text-white modalBtn" 
-                            onclick="editTran(<?php echo $id; ?>);" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editExpenseModal" 
-                            data-bs-toggle="tooltip" title="Edit Transaction">
-                        <i class='bi bi-pencil-square'></i>
-                    </button>
-                    <button onclick="goViewTransaction(<?php echo $id; ?>);" 
-                            class="btn btn-circle btn-success text-white modalBtn" 
-                            data-bs-toggle="tooltip" title="View Transaction">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-                    <button class="btn btn-circle btn-danger text-white" 
-                            onclick="goDeleteTransaction(<?php echo $id; ?>);" 
-                            data-bs-toggle="tooltip" title="Delete Transaction">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                <?php } else { ?>
-                    <button class="btn btn-circle btn-success text-white modalBtn" 
-                            onclick="goViewTransaction(<?php echo $id; ?>);" 
-                            data-bs-toggle="tooltip" title="View Transaction">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-                <?php } ?>
-            </td>
-                      </tr>   
-                     <?php } ?>
-                        
-                    </tbody>
-                  </table>
+                </table>
                   </div>
 
                             </div> <!-- end card -->
@@ -198,6 +145,39 @@ include "db/dbConnection.php"; //database connection
 
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
+
+<script>
+
+var transationTable; // Declare globally
+    $(document).ready(function () {
+
+        transationTable = $('#transationTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'action/actTransaction.php',
+                type: 'GET',
+                data: function (d) {
+                    d.location = <?= $centerId; ?>; // Pass centerId
+                    d.transationTable = 'transationTable'; // Pass year filter
+                },
+            },
+            columns: [
+                { data: 'serial_number' },
+                { data: 'tran_category' },
+                { data: 'tran_reason' },
+                { data: 'tran_amount' },
+                { data: 'tran_date' },
+                { data: 'tran_method' },
+                { data: 'action', orderable: false, searchable: false },
+            ],
+            order: [[0, 'asc']],
+            responsive: true,
+        });
+    });
+    
+</script>
+
 <script>
         // Enable Bootstrap tooltips
 document.addEventListener('DOMContentLoaded', function () {
@@ -229,6 +209,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
             // Function to handle editing a transaction
             function editTran(editId) {
+
+                $('#editTransaction').removeClass('was-validated');
+                $('#editTransaction').addClass('needs-validation');
+
                 $.ajax({
                     url: 'action/actTransaction.php',
                     method: 'POST',
@@ -271,6 +255,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         $('#editTranId').val(response.tran_transaction_id);
                         $('#editDescription').val(response.tran_description);
                         $('#editPaymentType').val(response.tran_pay_type);
+
+                    // Parse transaction date
+                    const transactionDate = new Date(response.tran_date);
+                    const today = new Date();
+
+                    // Reset time components to midnight for accurate date-only comparison
+                    transactionDate.setHours(0, 0, 0, 0);
+                    today.setHours(0, 0, 0, 0);
+
+                    // Toggle readonly property based on date comparison
+                    if (transactionDate.getTime() === today.getTime()) {
+                        $('#editAmount').prop('readonly', false); // Make editable
+                    } else {
+                        $('#editAmount').prop('readonly', true); // Make read-only
+                    }
 
 
             //             if (response.tran_reason) {
@@ -328,14 +327,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }).then(function() {
                         $('#editExpenseModal').modal('hide'); // Close the modal
                         $('.modal-backdrop').remove(); // Remove the backdrop   
-                        $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                            $('#scroll-horizontal-datatable').DataTable().destroy();
-                            $('#scroll-horizontal-datatable').DataTable({
-                                "paging": true, // Enable pagination
-                                "ordering": true, // Enable sorting
-                                "searching": true // Enable searching
-                            });
-                        });
+                        transationTable.ajax.reload(null, false);
+                        
                     });
                 } else {
                     Swal.fire({
@@ -484,14 +477,7 @@ $('#addTransaction').submit(function(event) {
                     timer: 2000
                 }).then(function() {
                     $('#addaddTransactionModal').modal('hide');
-                    $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                        $('#scroll-horizontal-datatable').DataTable().destroy();
-                        $('#scroll-horizontal-datatable').DataTable({
-                            "paging": true, // Enable pagination
-                            "ordering": true, // Enable sorting
-                            "searching": true // Enable searching
-                        });
-                    });
+                    transationTable.ajax.reload(null, false);
                 });
             } else {
                 Swal.fire({
@@ -531,16 +517,7 @@ $('#addTransaction').submit(function(event) {
         },
         //dataType: 'json', // Specify the expected data type as JSON
         success: function(response) {
-          $('#scroll-horizontal-datatable').load(location.href + ' #scroll-horizontal-datatable > *', function() {
-                               
-                               $('#scroll-horizontal-datatable').DataTable().destroy();
-                               
-                                $('#scroll-horizontal-datatable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "ordering": true, // Enable sorting
-                                    "searching": true // Enable searching
-                                });
-                            });
+            transationTable.ajax.reload(null, false);
          
 
         },

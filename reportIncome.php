@@ -8,7 +8,7 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include "head2.php"; ?>
+<?php include "head.php"; ?>
 <body>
     <!-- Begin page -->
     <div class="wrapper">
@@ -31,7 +31,7 @@ session_start();
         
         <div class="content-page">
             <div class="content">
-            <div id="studentDetail"></div>
+            
 
                 <!-- Start Content-->
                 <div class="container-fluid" id="StuContent">
@@ -152,6 +152,9 @@ session_start();
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
 
+        <!-- Wizard Form Demo js -->
+        <script src="assets/js/pages/demo.form-wizard.js"></script>
+
     <!-- Datatables js -->
     <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -166,35 +169,17 @@ session_start();
     <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     
   <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
   <script src="assets/addlink/sweetalert.js"></script>
-
-    <!--   pdf and excel print  -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
-
-    <script src="assets/addlink/jquery.3.6.0.js"></script>
-    <script src="assets/addlink/datatable.1.11.5.js"></script>
-    <script src="assets/addlink/datatablebutton.2.2.2.js"></script>
-    <script src="assets/addlink/jszip.js"></script>
-    <script src="assets/addlink/pdf.js"></script>
-    <script src="assets/addlink/pdffount.js"></script>
-    <script src="assets/addlink/datatablehtml.js"></script>
-    <script src="assets/addlink/print.js"></script>
-
 
     <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
 
     <!-------Start Add Student--->
     <script>
@@ -248,22 +233,7 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'copy',
-                footer: true
-            },
-            {
-                extend: 'csv',
-                footer: true
-            },
-            {
-                extend: 'excel',
-                footer: true
-            },
-            {
-                extend: 'pdf',
-                footer: true
-            },
+          
             {
                 extend: 'print',
                 footer: true

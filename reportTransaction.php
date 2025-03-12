@@ -175,7 +175,7 @@ session_start();
                     <tbody>
                         <tr>
                         <td></td>
-                        <td>Opening Banalnce Cash</td>
+                        <td>Opening Balance Cash</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -186,7 +186,7 @@ session_start();
                         </tr>
                         <tr>
                         <td></td>
-                        <td>Opening Banalnce Online</td>
+                        <td>Opening Balance Online</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -208,7 +208,7 @@ session_start();
 
     <tr>
                         <td></td>
-                        <td>Closing Banalnce Cash</td>
+                        <td>Closing Balance Cash</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -219,7 +219,7 @@ session_start();
                         </tr>
                         <tr>
                         <td></td>
-                        <td>Closing Banalnce Online</td>
+                        <td>Closing Balance Online</td>
                         <td></td>
                         <td></td>
                         <td></td>

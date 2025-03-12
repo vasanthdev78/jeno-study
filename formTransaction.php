@@ -153,14 +153,14 @@
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="editDate" class="form-label"><b>Date </b><span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control"  name="editDate" id="editDate" required="required" value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">
+                                    <input type="date" class="form-control"  name="editDate" id="editDate" required="required" readonly>
                                 </div>
                             </div>
 
                         <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="editAmount" class="form-label"><b>Amount</b><span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" placeholder="Enter Amount" name="editAmount" id="editAmount" required="required">
+                                    <input type="number" class="form-control" placeholder="Enter Amount" name="editAmount" id="editAmount" required="required" readonly>
                                 </div>
                             </div>
 
