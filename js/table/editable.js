@@ -1,6 +1,6 @@
-
-    $(function () {
-        'use strict';
-        
-        $('#mainTable').editableTableWidget();
+
+    $(function () {
+        'use strict';
+        
+        $('#mainTable').editableTableWidget();
     });
