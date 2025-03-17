@@ -76,6 +76,7 @@
     , a.fee_sdy_fee_total 
     , a.fee_sty_fee
     ,b.stu_cou_id 
+    ,b.stu_addmision_new 
     ,c.uni_name
     FROM `jeno_fees` AS a
     LEFT JOIN jeno_student AS b
@@ -94,6 +95,7 @@
     $fee = $fees_result->fetch_assoc();
         $fee_id = $fee['fee_id'];
         $fee_admision_id = $fee['fee_admision_id'];
+        $stu_addmision_new = $fee['stu_addmision_new'];
         $Student_course = courseNameOnly($fee['stu_cou_id']);
         $fee_sdy_fee_total = $fee['fee_sdy_fee_total'];
         $fee_uni_fee_total = $fee['fee_uni_fee_total'];
@@ -286,7 +288,7 @@
         if (!empty($stu_enroll)) {
             $pdf->Cell(0, 8, 'EnRoll No:'.$stu_enroll, 0, 1,'R');
         } else {
-            $pdf->Cell(0, 8, 'Admission No:'.$admisionId, 0, 1,'R');
+            $pdf->Cell(0, 8, 'Application No:'.$stu_addmision_new, 0, 1,'R');
         }
 
     $pdf->Cell(0, 8, 'Student Course :'.$Student_course. ' (' .$pay_year. ')' , 0, 0,'L');

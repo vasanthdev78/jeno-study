@@ -156,6 +156,7 @@ session_start();
                     <tr class="bg-light">
                                    <th scope="col-1">S.No.</th>
                                    <th scope="col">Addmission Id</th>
+                                   <th scope="col">Application No</th>
                                    <th scope="col">University</th>
                                    <th scope="col">Course</th>
                                     <th scope="col">Student Name</th>
@@ -247,6 +248,7 @@ session_start();
         columns: [
             { data: 'serial_number' },
             { data: 'stu_apply_no' },
+            { data: 'stu_addmision_new' },
             { data: 'uni_name' },
             { data: 'cou_name' },
             { data: 'stu_name' },

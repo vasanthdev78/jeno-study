@@ -115,6 +115,7 @@ if (isset($_GET['book_centerId'])) {
             'uni_name' => $row['uni_name'],
             'cou_name' => $row['cou_name'],
             'stu_name' => $row['stu_name'],
+            'stu_addmision_new' => $row['stu_addmision_new'],
             'book_received' => $row['book_received'],
             'book_id_card' => $row['book_id_card'],
             'stu_phone' => $row['stu_phone'],

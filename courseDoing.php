@@ -85,8 +85,8 @@ $pdf->SetLineWidth(0.5);
 $pdf->Rect(10, 10, $pdf->getPageWidth() - 20, $pdf->getPageHeight() - 20);
 
 // Center the logo and title
-$logoPath = 'image/jenoLogopng.png'; 
-$pdf->Image($logoPath, 85, 20, 50, '', 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
+// $logoPath = 'image/jenoLogopng.png'; 
+// $pdf->Image($logoPath, 85, 20, 50, '', 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 
 // Title
 $pdf->SetFont('times', 'B', 24);
