@@ -399,6 +399,21 @@ window.location.href = "fees.php";
 
 });
 
+function downloadBills(paymentId) {
+
+      // Open the first bill in a new tab
+      let firstWindow = window.open('action/actDownload.php?payment_id=' + paymentId, '_blank');
+
+// Check if the first window is closed, then redirect to the second page
+let checkWindow = setInterval(function () {
+    if (firstWindow.closed) {
+        clearInterval(checkWindow);
+        window.location.href = 'action/actStudentReceipt.php?payment_id=' + paymentId;
+    }
+}, 500); // Check every 500ms if the first window is closed
+      
+    }
+
 //----view page get data ---------------------------------
 function goViewPayment(studentId) {
     $('#feesContent').hide();
@@ -450,8 +465,8 @@ response.hostory_table.forEach(function(payment, index) {
     html += '<td>' + formatNumber(payment.pay_total_amount) + '</td>'; // Amount Received
     html += '<td>' + payment.pay_paid_method + '</td>'; // Payment Method
     html += '<td>';
-    html += '<a href="action/actDownload.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Jeno Bill</button></a> &nbsp;';
-    html += '<a href="action/actStudentReceipt.php?payment_id=' + payment.pay_id + '"><button type="button" class="btn btn-primary">Student Bill</button></a> &nbsp;';
+    html += '<button type="button" class="btn btn-primary" onclick="downloadBills(' + payment.pay_id + ')">Bill</button> &nbsp;';
+   
 
     <?php if ($user_role == 'Admin') { ?>
         // Add delete button conditionally based on the student's current year

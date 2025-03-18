@@ -123,6 +123,7 @@ if (isset($_GET['book_centerId'])) {
                 <button type="button" onclick="goAddBook(\'' . $row['stu_apply_no'] . '\');" class="btn btn-circle btn-warning text-white modalBtn" data-bs-toggle="modal" data-bs-target="#addBookIssueModal" data-bs-toggle="tooltip" title="Add Book Issue">
                     <i class="bi bi-journal-plus"></i>
                 </button>
+                
                 <button class="btn btn-circle btn-success text-white modalBtn" onclick="goViewBook(' . $row['book_stu_id'] . ');" data-bs-toggle="tooltip" title="View Book">
                     <i class="bi bi-eye-fill"></i>
                 </button>
@@ -254,10 +255,12 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
         , b.cou_duration
         , c.fee_sdy_fee_total
         , c.fee_sty_fee
+        , d.add_language
         FROM `jeno_student` AS a 
         LEFT JOIN jeno_course AS b 
         ON a.stu_cou_id = b.cou_id
         LEFT JOIN jeno_fees AS c ON a.stu_id = c.fee_stu_id
+        LEFT JOIN jeno_stu_additional as d on a.stu_id =add_stu_id
         WHERE a.stu_apply_no ='$addGetId' 
         AND a.stu_status ='Active';";
 
@@ -300,6 +303,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
             'fee_sty_fee' => $row['fee_sty_fee'],
             'book_received' => $pay['book_received'],
             'book_id_card' => $pay['book_id_card'],
+            'add_language' => $row['add_language']
         
         ];
 
@@ -323,6 +327,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
     $year = $_POST['year'];
     $admissionId = $_POST['admissionId'];
     $typeExam = $_POST['typeExam'];
+    $add_language = $_POST['add_language'];
 
 
 
@@ -351,7 +356,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         LEFT JOIN jeno_stu_additional AS d ON a.stu_id = d.add_stu_id
         WHERE a.stu_apply_no='$admissionId'
             AND c.cou_exam_type = '$typeExam'
-            AND b.sub_exam_patten = '$year'";
+            AND b.sub_ele_id  = '$add_language' AND d.add_language = '$add_language'";
 
     $result = mysqli_query($conn, $selQuery);
 

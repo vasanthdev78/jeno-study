@@ -172,6 +172,12 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-2">
+                        <div class="card p-3">
+                           i want edit button
+                        </div>
+                    </div>
+
                 
 
                     <div class="col-sm-5">

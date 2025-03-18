@@ -421,7 +421,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 data: {
                     year: response.stu_aca_year, // Corrected the parameter name to match what you want to send
                     admissionId: response.stu_apply_no,
-                    typeExam: response.cou_exam_type
+                    typeExam: response.cou_exam_type,
+                    add_language: response.add_language
                 },
                 dataType: 'json',
                 success: function(response) {
