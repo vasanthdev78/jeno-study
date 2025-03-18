@@ -156,6 +156,9 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
     $bookId = htmlspecialchars($_POST['bookId'], ENT_QUOTES, 'UTF-8');
     $courseyear = htmlspecialchars($_POST['courseyear'], ENT_QUOTES, 'UTF-8');
 
+    $bookIssueUni = json_encode($bookUniReceived);
+    $bookIssueAll = json_encode($bookIssue);
+
     $createdBy = $_SESSION['userId'];
 
     // Validate inputs (basic validation, more checks may be needed)
@@ -166,39 +169,7 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
         exit();
     }
 
-    
-    // Fetch current book issue data
-    $select_book = "SELECT 
-    `book_id`
-    , `book_issued`
-    , `book_uni_received` 
-    FROM `jeno_book` 
-    WHERE book_stu_id = '$studentId' 
-    AND book_year = '$courseyear'"; //select book issue list
-    $result_select_book = mysqli_query($conn, $select_book);
-    
-    if ($result_select_book) {
-        $book_count = mysqli_fetch_assoc($result_select_book);
-
-        if ($book_count) {
-             // Decode JSON values, or initialize as empty arrays if null
-             $book_uni_received = json_decode($book_count['book_uni_received'], true) ?? [];
-             $book_issued = json_decode($book_count['book_issued'], true) ?? [];
- 
-             // Ensure POST data is also an array
-             $bookUniReceived = is_array($bookUniReceived) ? $bookUniReceived : [];
-             $bookIssue = is_array($bookIssue) ? $bookIssue : [];
- 
-             // Merge arrays
-             $book_count_uni_received = array_merge($book_uni_received, $bookUniReceived);
-             $book_count_book_received = array_merge($book_issued, $bookIssue);
- 
-             // Encode back to JSON
-             $bookIssueUni = json_encode($book_count_uni_received);
-             $bookIssueAll = json_encode($book_count_book_received);
-
-            // Update record
-            $history_sql = "UPDATE `jeno_book`
+    $history_sql = "UPDATE `jeno_book`
                             SET `book_received` = '$bookReceived',
                                 `book_uni_received` = '$bookIssueUni',
                                 `book_issued` = '$bookIssueAll',
@@ -213,14 +184,61 @@ if (isset($_POST['hdnAction']) && $_POST['hdnAction'] == 'addBookissue') {
                 $response['success'] = false;
                 $response['message'] = "Error adding/updating Book Issue: " . mysqli_error($conn);
             }
-        } else {
-            $response['success'] = false;
-            $response['message'] = "No record found for the given student and year.";
-        }
-    } else {
-        $response['success'] = false;
-        $response['message'] = "Error fetching book data: " . mysqli_error($conn);
-    }
+    
+    // // Fetch current book issue data
+    // $select_book = "SELECT 
+    // `book_id`
+    // , `book_issued`
+    // , `book_uni_received` 
+    // FROM `jeno_book` 
+    // WHERE book_stu_id = '$studentId' 
+    // AND book_year = '$courseyear'"; //select book issue list
+    // $result_select_book = mysqli_query($conn, $select_book);
+    
+    // if ($result_select_book) {
+    //     $book_count = mysqli_fetch_assoc($result_select_book);
+
+    //     if ($book_count) {
+    //          // Decode JSON values, or initialize as empty arrays if null
+    //          $book_uni_received = json_decode($book_count['book_uni_received'], true) ?? [];
+    //          $book_issued = json_decode($book_count['book_issued'], true) ?? [];
+ 
+    //          // Ensure POST data is also an array
+    //          $bookUniReceived = is_array($bookUniReceived) ? $bookUniReceived : [];
+    //          $bookIssue = is_array($bookIssue) ? $bookIssue : [];
+ 
+    //          // Merge arrays
+    //          $book_count_uni_received = array_merge($book_uni_received, $bookUniReceived);
+    //          $book_count_book_received = array_merge($book_issued, $bookIssue);
+ 
+    //          // Encode back to JSON
+    //          $bookIssueUni = json_encode($book_count_uni_received);
+    //          $bookIssueAll = json_encode($book_count_book_received);
+
+    //         // Update record
+    //         $history_sql = "UPDATE `jeno_book`
+    //                         SET `book_received` = '$bookReceived',
+    //                             `book_uni_received` = '$bookIssueUni',
+    //                             `book_issued` = '$bookIssueAll',
+    //                             `book_id_card` = '$idCard',
+    //                             `book_updated_by` = '$createdBy'
+    //                         WHERE `book_stu_id` = '$studentId' AND `book_year` = '$courseyear'";
+
+    //         if (mysqli_query($conn, $history_sql)) {
+    //             $response['success'] = true;
+    //             $response['message'] = "Book Issue added/updated successfully!";
+    //         } else {
+    //             $response['success'] = false;
+    //             $response['message'] = "Error adding/updating Book Issue: " . mysqli_error($conn);
+    //         }
+    //     } else {
+    //         $response['success'] = false;
+    //         $response['message'] = "No record found for the given student and year.";
+    //     }
+    // } else {
+    //     $response['success'] = false;
+    //     $response['message'] = "Error fetching book data: " . mysqli_error($conn);
+    // }
 
     // Close connection
     mysqli_close($conn);
@@ -364,7 +382,7 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
         $row = mysqli_fetch_assoc($result);
 
         $student = $row['stu_id'];
-        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student'";
+        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student' AND book_year = '$year'";
         $result1 = mysqli_query($conn, $payId_sql);
         $pay = mysqli_fetch_assoc($result1);
         $total_books = json_decode($pay['book_issued'], true);
@@ -408,24 +426,24 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
 
         // Prepare final subject array excluding books already issued
         foreach ($sub_subject_name as $index => $subjectName) {
-            if (!in_array($subjectName, $total_books)) {
+            //if (!in_array($subjectName, $total_books)) {
                 $final_subjects[] = $subjectName;
-            }
+            //}
         }
 
         // Add filtered addition subjects to the final subjects array
         foreach ($sub_addition_sub_name_filtered as $additionalSubject) {
-            if (!in_array($additionalSubject, $total_books)) {
+            //if (!in_array($additionalSubject, $total_books)) {
                 $final_subjects[] = $additionalSubject;
-            }
+            //}
         }
 
         // Include sub_addition_sub_name and sub_addition_lag_name in the final subjects array if sub_ele_id is present
         if (!empty($sub_ele_id)) {
             foreach ($sub_addition_sub_name as $index => $additionalSubject) {
-                if (!in_array($additionalSubject, $total_books)) {
+                //if (!in_array($additionalSubject, $total_books)) {
                     $final_subjects[] = $additionalSubject;
-                }
+                //}
             }
         }
 
@@ -465,24 +483,24 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
  
          // Prepare final subject array excluding books already issued
          foreach ($uni_sub_subject_name as $index => $subjectName) {
-             if (!in_array($subjectName, $total_Uni_books)) {
+             //if (!in_array($subjectName, $total_Uni_books)) {
                  $Uni_final_subjects[] = $subjectName;
-             }
+             //}
          }
  
          // Add filtered addition subjects to the final subjects array
          foreach ($Uni_sub_addition_sub_name_filtered as $additionalSubject) {
-             if (!in_array($additionalSubject, $total_Uni_books)) {
+             //if (!in_array($additionalSubject, $total_Uni_books)) {
                  $Uni_final_subjects[] = $additionalSubject;
-             }
+             //}
          }
  
          // Include sub_addition_sub_name and sub_addition_lag_name in the final subjects array if sub_ele_id is present
          if (!empty($uni_sub_ele_id)) {
              foreach ($uni_sub_addition_sub_name as $index => $additionalSubject) {
-                 if (!in_array($additionalSubject, $total_Uni_books)) {
+                // if (!in_array($additionalSubject, $total_Uni_books)) {
                      $Uni_final_subjects[] = $additionalSubject;
-                 }
+                 //}
              }
          }
 
@@ -503,7 +521,9 @@ if (isset($_POST['year']) && $_POST['year'] != '' &&
             'cou_duration' => $row['cou_duration'],
             'add_language' => $row['add_language'],
             'final_subjects' => $final_subjects,
-            'Uni_final_subjects' => $Uni_final_subjects
+            'Uni_final_subjects' => $Uni_final_subjects,
+            'total_books_issue' => $total_books,
+            'total_books_receive' => $total_Uni_books
         ];
 
         echo json_encode($courseDetails);
@@ -608,8 +628,14 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
     if ($result) {
         $row = mysqli_fetch_assoc($result);
 
+        if (!$row) {
+            $response = ['message' => "No data found for the selected year."];
+            echo json_encode($response);
+            exit();
+        }
+
         $student = $row['stu_id'];
-        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student'";
+        $payId_sql = "SELECT `book_id`, `book_issued` ,`book_uni_received` FROM `jeno_book` WHERE book_stu_id = '$student' AND book_year = '$year'";
         $result1 = mysqli_query($conn, $payId_sql);
         $pay = mysqli_fetch_assoc($result1);
         $total_books = json_decode($pay['book_issued'], true);
@@ -648,24 +674,24 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
 
         // Prepare final subject array excluding books already issued
         foreach ($sub_subject_name as $index => $subjectName) {
-            if (!in_array($subjectName, $total_books)) {
+            //if (!in_array($subjectName, $total_books)) {
                 $final_subjects[] = $subjectName;
-            }
+            //}
         }
 
         // Add filtered addition subjects to the final subjects array
         foreach ($sub_addition_sub_name_filtered as $additionalSubject) {
-            if (!in_array($additionalSubject, $total_books)) {
+            //if (!in_array($additionalSubject, $total_books)) {
                 $final_subjects[] = $additionalSubject;
-            }
+           // }
         }
 
         // Include sub_addition_sub_name and sub_addition_lag_name in the final subjects array if sub_ele_id is present
         if (!empty($sub_ele_id)) {
             foreach ($sub_addition_sub_name as $index => $additionalSubject) {
-                if (!in_array($additionalSubject, $total_books)) {
+                //if (!in_array($additionalSubject, $total_books)) {
                     $final_subjects[] = $additionalSubject;
-                }
+               // }
             }
         }
 
@@ -697,24 +723,24 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
  
          // Prepare final subject array excluding books already issued
          foreach ($uni_sub_subject_name as $index => $subjectName) {
-             if (!in_array($subjectName, $total_Uni_books)) {
+             //if (!in_array($subjectName, $total_Uni_books)) {
                  $Uni_final_subjects[] = $subjectName;
-             }
+             //}
          }
  
          // Add filtered addition subjects to the final subjects array
          foreach ($Uni_sub_addition_sub_name_filtered as $additionalSubject) {
-             if (!in_array($additionalSubject, $total_Uni_books)) {
+             //if (!in_array($additionalSubject, $total_Uni_books)) {
                  $Uni_final_subjects[] = $additionalSubject;
-             }
+             //}
          }
  
          // Include sub_addition_sub_name and sub_addition_lag_name in the final subjects array if sub_ele_id is present
          if (!empty($uni_sub_ele_id)) {
              foreach ($uni_sub_addition_sub_name as $index => $additionalSubject) {
-                 if (!in_array($additionalSubject, $total_Uni_books)) {
+                 //if (!in_array($additionalSubject, $total_Uni_books)) {
                      $Uni_final_subjects[] = $additionalSubject;
-                 }
+                 //}
              }
          }
 
@@ -737,7 +763,9 @@ if (isset($_POST['addyear']) && $_POST['addyear'] != '' &&
             'cou_duration' => $row['cou_duration'],
             'add_language' => $row['add_language'],
             'final_subjects' => $final_subjects,
-            'Uni_final_subjects' => $Uni_final_subjects
+            'Uni_final_subjects' => $Uni_final_subjects,
+            'total_books_issue' => $total_books,
+            'total_books_receive' => $total_Uni_books
         ];
 
         echo json_encode($courseDetails);

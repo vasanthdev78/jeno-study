@@ -20,7 +20,8 @@ $select_sql = "SELECT
                     b.cou_name,
                     c.uni_name,
                     d.add_father_name,
-                    d.add_admit_date
+                    d.add_admit_date,
+                    d.add_gender
                 FROM
                     `jeno_student` AS a
                 LEFT JOIN jeno_course AS b
@@ -49,8 +50,9 @@ $row = $result->fetch_assoc();
     $uni_name = $row['uni_name'];
     $add_father_name = $row['add_father_name'];
     $add_admit_date = date('Y', strtotime($row['add_admit_date']));
-    
-    
+    $add_gender = $row['add_gender'];
+    $relation = ($add_gender == "Male") ? "S/O" : (($add_gender == "Female") ? "D/O" : "C/O");
+    $pronoun = ($add_gender == "Male") ? "his" : (($add_gender == "Female") ? "her" : "their");
 
 } 
 else {
@@ -110,13 +112,13 @@ $enrollmentNo = $stu_enroll;
 $courseName = $cou_name;
 $year = $add_admit_date;
 $uniName = $uni_name;
-$yearInCourse = "{$stu_aca_year}nd";
+$yearInCourse = "$stu_aca_year";
 // $yearInCourse = $stu_aca_year."nd";
 
 // Main content with bold names and center alignment
 $content = <<<EOD
                         <p style="padding: 10px; line-height: 1.5;">
-                              This is to certify that <b>$studentName</b>, S/O or D/O <b>$fatherName</b>, Enrollment No: <b>$enrollmentNo</b>, is doing his/her <b>$courseName</b> - <b>$yearInCourse</b> year Course at <b>$uniName</b> through our Study Center in the year <b>$year</b>.
+                              This is to certify that <b>$studentName</b>, ' . $relation . ' <b>$fatherName</b>, Enrollment No: <b>$enrollmentNo</b>, is doing ' . $pronoun . ' <b>$courseName</b> - <b>$yearInCourse</b> year Course at <b>$uniName</b> through our Study Center in the year <b>$year</b>.
                           </p>
 EOD;
 $pdf->writeHTMLCell(0, 0, '', '', $content, 0, 1, 0, true, 'J', true);

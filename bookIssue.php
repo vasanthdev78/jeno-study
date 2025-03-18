@@ -442,15 +442,21 @@ document.addEventListener("DOMContentLoaded", function () {
      
                          // Add filtered subjects to the select element
                          response.final_subjects.forEach(function(subject) {
-                             var $option = $('<option>').val(subject).text(subject);
-                             $select.append($option);
-                         });
-     
-                            // Add filtered subjects to the select element
-                            response.Uni_final_subjects.forEach(function(subject) {
-                             var $option = $('<option>').val(subject).text(subject);
-                             $select1.append($option);
-                         });
+                            var $option = $('<option>').val(subject).text(subject);
+                            if (response.total_books_issue.includes(subject)) {
+                                $option.attr('selected', 'selected'); // Pre-select if in total_books_issue
+                            }
+                            $select.append($option);
+                        });
+
+                        // Add filtered subjects to the select1 element
+                        response.Uni_final_subjects.forEach(function(subject) {
+                            var $option = $('<option>').val(subject).text(subject);
+                            if (response.total_books_receive.includes(subject)) {
+                                $option.attr('selected', 'selected'); // Pre-select if in total_books_receive
+                            }
+                            $select1.append($option);
+                        });
      
                          // Initialize Select2 on the select element
                          $select.select2();
@@ -507,12 +513,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Add filtered subjects to the select element
                     response.final_subjects.forEach(function(subject) {
                         var $option = $('<option>').val(subject).text(subject);
+                        if (response.total_books_issue.includes(subject)) {
+                            $option.attr('selected', 'selected'); // Pre-select if in total_books_issue
+                        }
                         $select.append($option);
                     });
 
-                       // Add filtered subjects to the select element
-                       response.Uni_final_subjects.forEach(function(subject) {
+                    // Add filtered subjects to the select1 element
+                    response.Uni_final_subjects.forEach(function(subject) {
                         var $option = $('<option>').val(subject).text(subject);
+                        if (response.total_books_receive.includes(subject)) {
+                            $option.attr('selected', 'selected'); // Pre-select if in total_books_receive
+                        }
                         $select1.append($option);
                     });
 

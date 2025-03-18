@@ -74,7 +74,7 @@ if (isset($_GET['admissionTable']) && $_GET['admissionTable'] === 'AdmissionTabl
             <button class='btn btn-success text-white' onclick='goViewAdmission($id);'><i class='bi bi-eye-fill'></i></button>
             <button class='btn btn-danger text-white' onclick='goDeleteAdmission($id);'><i class='bi bi-trash'></i></button>";
         if ($row['stu_enroll']) {
-            $actions .= "<a href='courseDoing.php?payment_id=$id' target='_blank'><button class='btn btn-primary text-white'><i class='bi bi-download'></i></button></a>";
+            $actions .= "<a href='courseDoing.php?payment_id=$id' target='_blank'><button class='btn btn-primary text-white ms-1'><i class='bi bi-download'></i></button></a>";
         }
 
         $data[] = [
